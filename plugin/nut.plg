@@ -323,7 +323,6 @@ rm -f &plgPATH;/*.txz \
 rm -rf /etc/nut
 rm -rf /etc/ups
 rm -rf /var/run/nut
-rm -rf /var/state/ups
 
 echo ""
 echo "-----------------------------------------------------------"
