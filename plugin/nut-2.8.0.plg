@@ -189,9 +189,9 @@ dependency files
 <!--
 The 'nut-package' file.
 -->
-<FILE Name="&plgPATH;/nut-2.8.0-x86_64-1.txz" Min="6.10" Run="upgradepkg --install-new">
-<URL>&pkgURL;/nut-2.8.0-x86_64-1.txz</URL>
-<MD5>2c7a37ac49a3c752536b7f4f43777cc2</MD5>
+<FILE Name="&plgPATH;/nut-2.8.0-x86_64-2.txz" Min="6.10" Run="upgradepkg --install-new">
+<URL>https://raw.githubusercontent.com/desertwitch/NUT-unRAID/stale-testing/packages/nut-2.8.0-x86_64-2.txz</URL>
+<MD5>df0eed59570e4e55126de63d3285b013</MD5>
 </FILE>
 
 <FILE Name="&plgPATH;/nut-2.7.4.20200318-x86_64-1.txz" Min="6.8" Run="upgradepkg --install-new">
