@@ -2,10 +2,10 @@
 
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "nut">
-<!ENTITY author    "SimonFair">
+<!ENTITY author    "desertwitch">
 <!ENTITY version   "2023.07.26">
 <!ENTITY launch    "Settings/NUTsettings">
-<!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/master">
+<!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/stale-testing">
 <!ENTITY pluginURL "&gitURL;/plugin/&name;-2.8.0.plg">
 <!ENTITY pkgURL    "&gitURL;/packages">
 <!ENTITY plgPATH   "/boot/config/plugins/&name;">
@@ -190,7 +190,7 @@ dependency files
 The 'nut-package' file.
 -->
 <FILE Name="&plgPATH;/nut-2.8.0-x86_64-2.txz" Min="6.10" Run="upgradepkg --install-new">
-<URL>https://raw.githubusercontent.com/desertwitch/NUT-unRAID/stale-testing/packages/nut-2.8.0-x86_64-2.txz</URL>
+<URL>&pkgURL;/nut-2.8.0-x86_64-2.txz</URL>
 <MD5>df0eed59570e4e55126de63d3285b013</MD5>
 </FILE>
 
