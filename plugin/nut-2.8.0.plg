@@ -17,7 +17,13 @@
 
 <CHANGES>
 ##&name;
-###2023.07.26
+###2023.08.24
+- new: compiled backend NUT package from current master branch (as of 24.08.2023)
+-
+- !!! this is an experimental bug-fixing plugin version and will not receive updates
+- !!! if you want future updates, please uninstall this experimental plugin version
+- !!! and go back to the main NUT plugin by the UNRAID repository maintainer SimonF.
+-
 ###2023.07.26
 - fix: reduce console spam of copy operations by redirecting output to /dev/null, as requested in 2023.07.21 #3 (comment)
 - fix: stop services before a plugin upgrade on the live system to remove any file locks preventing files from getting patched on the running instance. a reboot should now no longer be required for all changes>
