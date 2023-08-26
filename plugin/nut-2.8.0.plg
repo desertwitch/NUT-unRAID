@@ -9,7 +9,7 @@
 <!ENTITY pluginURL "&gitURL;/plugin/&name;-2.8.0.plg">
 <!ENTITY pkgURL    "&gitURL;/packages">
 <!ENTITY plgPATH   "/boot/config/plugins/&name;">
-<!ENTITY plgNAME   "&name;-plugin-&version;-x86_64-1">
+<!ENTITY plgNAME   "nut-plugin-2023.07.26-x86_64-1">
 <!ENTITY emhttp    "/usr/local/emhttp/plugins/&name;">
 ]>
 
@@ -18,12 +18,9 @@
 <CHANGES>
 ##&name;
 ###2023.08.26
+- new: compiled backend NUT package from current master branch (as of 26.08.2023)
+###2023.08.24
 - new: compiled backend NUT package from current master branch (as of 24.08.2023)
--
-- !!! this is an experimental bug-fixing plugin version and will not receive updates !!!
-- !!! if you want future updates, please uninstall this experimental plugin version  !!!
-- !!! and go back to the main NUT plugin by the UNRAID repository maintainer SimonF. !!!
-- 
 ###2023.07.26
 - fix: reduce console spam of copy operations by redirecting output to /dev/null, as requested in 2023.07.21 #3 (comment)
 - fix: stop services before a plugin upgrade on the live system to remove any file locks preventing files from getting patched on the running instance. a reboot should now no longer be required for all changes>
@@ -195,12 +192,12 @@ dependency files
 <!--
 The 'nut-package' file.
 -->
-<FILE Name="&plgPATH;/nut-2.8.0-x86_64-3.txz" Min="6.10" Run="upgradepkg --install-new">
-<URL>&pkgURL;/nut-2.8.0-x86_64-3.txz</URL>
-<MD5>13285765b8a4077bd6b3cb3144be5507</MD5>
+<FILE Name="&plgPATH;/nut-2.8.0-x86_64-4.txz" Min="6.10" Run="upgradepkg --install-new">
+<URL>&pkgURL;/nut-2.8.0-x86_64-4.txz</URL>
+<MD5>d685171bd5b975adbdc39b4667c6ad70</MD5>
 </FILE>
 
-<FILE Name="&plgPATH;/nut-2.7.4.20200318-x86_64-1.txz" Min="6.8" Run="upgradepkg --install-new">
+<FILE Name="&plgPATH;/nut-2.7.4.20200318-x86_64-1.txz" Min="6.8" Max="6.9.99" Run="upgradepkg --install-new">
 <URL>&pkgURL;/nut-2.7.4.20200318-x86_64-1.txz</URL>
 <MD5>52de2867d6b8f6bc1a98a45870b05420</MD5>
 </FILE>
@@ -220,7 +217,7 @@ The 'nut-package' file.
 <MD5>5beebc819894c94bedbc531d47cfe497</MD5>
 </FILE>
 
-<FILE Name="&plgPATH;/net-snmp-5.7.3-x86_64-4.txz" Min="6.1" Run="upgradepkg --install-new">
+<FILE Name="&plgPATH;/net-snmp-5.7.3-x86_64-4.txz" Min="6.1" Max="6.9.99" Run="upgradepkg --install-new">
 <URL>&pkgURL;/net-snmp-5.7.3-x86_64-4.txz</URL>
 <MD5>b9ef68216b97cb5f0bcd9f3312e5941e</MD5>
 </FILE>
@@ -319,15 +316,16 @@ else
     rm -f /tmp/start_&name;
 
     # Cleaning old plugin source files
-    find &plgPATH;/ -type f -iname "&name;-plugin*.txz" ! -iname "*&version;*" -delete
-    find &plgPATH;/ -type f -iname "&name;-plugin*.md5" ! -iname "*&version;*" -delete
+    find &plgPATH;/ -type f -iname "&name;-plugin*.txz" ! -iname "*&plgNAME;*" -delete
+    find &plgPATH;/ -type f -iname "&name;-plugin*.md5" ! -iname "*&plgNAME;*" -delete
 
     echo ""
     echo "-----------------------------------------------------------"
     echo " &name; has been installed."
     echo " Copyright 2015, macester"
     echo " Copyright 2020, gfjardim"
-    echo " Copyright 2015-2022, &author;"
+    echo " Copyright 2015-2023, SimonF"
+    echo " Copyright 2023, &author;"
     echo " Version: &version;"
     echo "-----------------------------------------------------------"
     echo ""
@@ -372,7 +370,8 @@ echo "-----------------------------------------------------------"
 echo " &name; has been removed."
 echo " Copyright 2015, macester"
 echo " Copyright 2020, gfjardim"
-echo " Copyright 2017-2022, &author;"
+echo " Copyright 2015-2023, SimonF"
+echo " Copyright 2023, &author;"
 echo " Version: &version;"
 echo "-----------------------------------------------------------"
 echo ""
