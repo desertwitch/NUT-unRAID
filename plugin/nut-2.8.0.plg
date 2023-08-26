@@ -17,13 +17,13 @@
 
 <CHANGES>
 ##&name;
-###2023.08.24
+###2023.08.26
 - new: compiled backend NUT package from current master branch (as of 24.08.2023)
--
-- !!! this is an experimental bug-fixing plugin version and will not receive updates
-- !!! if you want future updates, please uninstall this experimental plugin version
-- !!! and go back to the main NUT plugin by the UNRAID repository maintainer SimonF.
--
+
+!!! this is an experimental bug-fixing plugin version and will not receive updates !!!
+!!! if you want future updates, please uninstall this experimental plugin version  !!!
+!!! and go back to the main NUT plugin by the UNRAID repository maintainer SimonF. !!!
+
 ###2023.07.26
 - fix: reduce console spam of copy operations by redirecting output to /dev/null, as requested in 2023.07.21 #3 (comment)
 - fix: stop services before a plugin upgrade on the live system to remove any file locks preventing files from getting patched on the running instance. a reboot should now no longer be required for all changes>
@@ -195,9 +195,9 @@ dependency files
 <!--
 The 'nut-package' file.
 -->
-<FILE Name="&plgPATH;/nut-2.8.0-x86_64-2.txz" Min="6.10" Run="upgradepkg --install-new">
-<URL>&pkgURL;/nut-2.8.0-x86_64-2.txz</URL>
-<MD5>df0eed59570e4e55126de63d3285b013</MD5>
+<FILE Name="&plgPATH;/nut-2.8.0-x86_64-3.txz" Min="6.10" Run="upgradepkg --install-new">
+<URL>&pkgURL;/nut-2.8.0-x86_64-3.txz</URL>
+<MD5>13285765b8a4077bd6b3cb3144be5507</MD5>
 </FILE>
 
 <FILE Name="&plgPATH;/nut-2.7.4.20200318-x86_64-1.txz" Min="6.8" Run="upgradepkg --install-new">
