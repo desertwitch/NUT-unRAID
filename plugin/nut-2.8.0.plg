@@ -3,7 +3,7 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "nut">
 <!ENTITY author    "desertwitch">
-<!ENTITY version   "2023.08.26">
+<!ENTITY version   "2023.08.27">
 <!ENTITY launch    "Settings/NUTsettings">
 <!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/stale-testing">
 <!ENTITY pluginURL "&gitURL;/plugin/&name;-2.8.0.plg">
@@ -17,6 +17,8 @@
 
 <CHANGES>
 ##&name;
+###2023.08.27
+- new: compiled optimized backend NUT package using folder structure of earlier releases
 ###2023.08.26
 - new: compiled backend NUT package from current master branch (as of 26.08.2023)
 ###2023.08.24
@@ -192,9 +194,9 @@ dependency files
 <!--
 The 'nut-package' file.
 -->
-<FILE Name="&plgPATH;/nut-2.8.0-x86_64-4.txz" Min="6.10" Run="upgradepkg --install-new">
-<URL>&pkgURL;/nut-2.8.0-x86_64-4.txz</URL>
-<MD5>d685171bd5b975adbdc39b4667c6ad70</MD5>
+<FILE Name="&plgPATH;/nut-2.8.0-x86_64-5.ssl11.txz" Min="6.10" Max="6.12.99" Run="upgradepkg --install-new">
+<URL>&pkgURL;/nut-2.8.0-x86_64-5.ssl11.txz</URL>
+<MD5>02e32099f43b31a39250538b600ad7c7</MD5>
 </FILE>
 
 <FILE Name="&plgPATH;/nut-2.7.4.20200318-x86_64-1.txz" Min="6.8" Max="6.9.99" Run="upgradepkg --install-new">
