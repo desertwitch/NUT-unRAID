@@ -19,6 +19,7 @@
 ##&name;
 ###2023.08.27
 - new: compiled optimized backend NUT package using folder structure of earlier releases
+- new: added official Slackware Net-SNMP package with OpenSSL 3.1.2 for UNRAID versions 6.13+
 ###2023.08.26
 - new: compiled backend NUT package from current master branch (as of 26.08.2023)
 ###2023.08.24
@@ -214,7 +215,12 @@ The 'nut-package' file.
 <MD5>24702ef930855db3432ed9ee73e93d42</MD5>
 </FILE>
 
-<FILE Name="&plgPATH;/net-snmp-5.9.3-x86_64-1.txz" Min="6.10" Run="upgradepkg --install-new">
+<FILE Name="&plgPATH;/net-snmp-5.9.4-x86_64-1.txz" Min="6.13" Run="upgradepkg --install-new">
+<URL>&pkgURL;/net-snmp-5.9.4-x86_64-1.txz</URL>
+<MD5>df3f30cdb8680f79ca8f2d1ecf77a156</MD5>
+</FILE>
+
+<FILE Name="&plgPATH;/net-snmp-5.9.3-x86_64-1.txz" Min="6.10" Max="6.12.99" Run="upgradepkg --install-new">
 <URL>&pkgURL;/net-snmp-5.9.3-x86_64-1.txz</URL>
 <MD5>5beebc819894c94bedbc531d47cfe497</MD5>
 </FILE>
