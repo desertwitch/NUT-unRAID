@@ -3,7 +3,7 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "nut">
 <!ENTITY author    "desertwitch">
-<!ENTITY version   "2023.08.28b">
+<!ENTITY version   "2023.08.28">
 <!ENTITY launch    "Settings/NUTsettings">
 <!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/stale-testing">
 <!ENTITY pluginURL "&gitURL;/plugin/&name;-2.8.0.plg">
@@ -18,7 +18,6 @@
 <CHANGES>
 ##&name;
 ###2023.08.28
-- new: improved upgrade function to make sure services are stoppped before upgrade (thanks to SimonF)
 - new: compiled backend NUT package from current GitHub master branch (as of 26.08.2023)
 - new: optimized backend NUT package to use folder structure of earlier releases
 - new: added official Slackware Net-SNMP package with OpenSSL 3.1.2 for future UNRAID versions 6.13+
@@ -197,12 +196,12 @@ dependency files
 The 'nut-package' file.
 -->
 
-<FILE Name="&plgPATH;/nut-2.8.0-x86_64-6.txz" Min="6.13">
+<FILE Name="&plgPATH;/nut-2.8.0-x86_64-6.ssl31.txz" Min="6.13" Run="upgradepkg --install-new">
 <URL>&pkgURL;/nut-2.8.0-x86_64-6.ssl31.txz</URL>
 <MD5>e69f6cff89191aa63fa6914f84da14a0</MD5>
 </FILE>
 
-<FILE Name="&plgPATH;/nut-2.8.0-x86_64-6.txz" Min="6.10" Max="6.12.99">
+<FILE Name="&plgPATH;/nut-2.8.0-x86_64-6.ssl11.txz" Min="6.10" Max="6.12.99" Run="upgradepkg --install-new">
 <URL>&pkgURL;/nut-2.8.0-x86_64-6.ssl11.txz</URL>
 <MD5>ab44f48e65b4c6bd5c4564ccd4ca2782</MD5>
 </FILE>
@@ -296,9 +295,6 @@ else
         /etc/rc.d/rc.nut stop 2>/dev/null
     fi
 
-    # upgrade backend package
-    upgradepkg --install-new &plgPATH;/nut-2.8.0-x86_64-6.txz
-
     # nut-2.7.4 and nut plugin expects:
     #   Config: /etc/nut
     #   Pid   : /var/run/nut/upsmon.pid
@@ -320,6 +316,10 @@ else
 
     # upgrade plugin package
     upgradepkg --install-new &plgPATH;/&plgNAME;.txz
+
+    # Stop service
+    echo "stopping services..."
+    /etc/rc.d/rc.nut stop 2>/dev/null
 
     # start network ups tools
     echo "checking network ups tools configuration..."
