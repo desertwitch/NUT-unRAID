@@ -3,7 +3,7 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "nut">
 <!ENTITY author    "desertwitch">
-<!ENTITY version   "2023.08.27b">
+<!ENTITY version   "2023.08.28">
 <!ENTITY launch    "Settings/NUTsettings">
 <!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/stale-testing">
 <!ENTITY pluginURL "&gitURL;/plugin/&name;-2.8.0.plg">
@@ -17,11 +17,11 @@
 
 <CHANGES>
 ##&name;
-###2023.08.27
-- new: compiled optimized backend NUT package using folder structure of earlier releases
-- new: added official Slackware Net-SNMP package with OpenSSL 3.1.2 for UNRAID versions 6.13+
-###2023.08.26
-- new: compiled backend NUT package from current master branch (as of 26.08.2023)
+###2023.08.28
+- new: compiled backend NUT package from current GitHub master branch (as of 26.08.2023)
+- new: optimized backend NUT package to use folder structure of earlier releases
+- new: added official Slackware Net-SNMP package with OpenSSL 3.1.2 for future UNRAID versions 6.13+
+- new: added backend NUT package compiled with OpenSSL 3.1.2 for future UNRAID versions 6.13+
 ###2023.08.24
 - new: compiled backend NUT package from current master branch (as of 24.08.2023)
 ###2023.07.26
@@ -195,9 +195,15 @@ dependency files
 <!--
 The 'nut-package' file.
 -->
-<FILE Name="&plgPATH;/nut-2.8.0-x86_64-5.ssl11.txz" Min="6.10" Max="6.12.99" Run="upgradepkg --install-new">
-<URL>&pkgURL;/nut-2.8.0-x86_64-5.ssl11.txz</URL>
-<MD5>02e32099f43b31a39250538b600ad7c7</MD5>
+
+<FILE Name="&plgPATH;/nut-2.8.0-x86_64-6.ssl31.txz" Min="6.13" Run="upgradepkg --install-new">
+<URL>&pkgURL;/nut-2.8.0-x86_64-6.ssl31.txz</URL>
+<MD5>e69f6cff89191aa63fa6914f84da14a0</MD5>
+</FILE>
+
+<FILE Name="&plgPATH;/nut-2.8.0-x86_64-6.ssl11.txz" Min="6.10" Max="6.12.99" Run="upgradepkg --install-new">
+<URL>&pkgURL;/nut-2.8.0-x86_64-6.ssl11.txz</URL>
+<MD5>ab44f48e65b4c6bd5c4564ccd4ca2782</MD5>
 </FILE>
 
 <FILE Name="&plgPATH;/nut-2.7.4.20200318-x86_64-1.txz" Min="6.8" Max="6.9.99" Run="upgradepkg --install-new">
