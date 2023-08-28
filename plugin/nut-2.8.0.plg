@@ -3,7 +3,7 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "nut">
 <!ENTITY author    "desertwitch">
-<!ENTITY version   "2023.08.28">
+<!ENTITY version   "2023.08.28c">
 <!ENTITY launch    "Settings/NUTsettings">
 <!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/stale-testing">
 <!ENTITY pluginURL "&gitURL;/plugin/&name;-2.8.0.plg">
@@ -188,6 +188,17 @@
 - Test Version (plg)
 </CHANGES>
 
+<FILE Run="/bin/bash">
+<INLINE>
+# if upgrading on live system, stop the services first
+# to release any remaining file locks before patching
+echo "Making sure all NUT services are stopped..."
+if [ -x /etc/rc.d/rc.nut ]; then
+    /etc/rc.d/rc.nut stop 2>/dev/null
+fi
+</INLINE>
+</FILE>
+
 <!--
 dependency files
 -->
@@ -289,12 +300,6 @@ if [ "${sum1:0:32}" != "${sum2:0:32}" ]; then
     rm -f &plgPATH;/&plgNAME;.md5
     exit 1
 else
-    # if upgrading on live system, stop the services here
-    # to release any remaining file locks before patching
-    if [ -x /etc/rc.d/rc.nut ]; then
-        /etc/rc.d/rc.nut stop 2>/dev/null
-    fi
-
     # nut-2.7.4 and nut plugin expects:
     #   Config: /etc/nut
     #   Pid   : /var/run/nut/upsmon.pid
@@ -316,10 +321,6 @@ else
 
     # upgrade plugin package
     upgradepkg --install-new &plgPATH;/&plgNAME;.txz
-
-    # Stop service
-    echo "stopping services..."
-    /etc/rc.d/rc.nut stop 2>/dev/null
 
     # start network ups tools
     echo "checking network ups tools configuration..."
