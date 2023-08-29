@@ -1,0 +1,35 @@
+#!/bin/sh
+BOOT="/boot/config/plugins/nut"
+DOCROOT="/usr/local/emhttp/plugins/nut"
+
+echo "Making sure all existing NUT services are stopped (before config reset)..."
+if [ -x /etc/rc.d/rc.nut ]; then
+    /etc/rc.d/rc.nut stop
+fi
+
+echo "Deleting existing configuration files and folders..."
+rm -f $BOOT/nut.cfg
+rm -rf /etc/nut
+rm -rf $BOOT/ups
+
+echo "Recreating configuration folders..."
+if [ ! -d /etc/nut ]; then
+    mkdir /etc/nut
+fi
+
+if [ ! -d $BOOT/ups ]; then
+    mkdir $BOOT/ups
+fi
+
+echo "Pulling default configuration files from package..."
+cp -f $DOCROOT/default.cfg $BOOT/nut.cfg
+cp -rf $DOCROOT/nut/* $BOOT/ups
+cp -rf $BOOT/ups/* /etc/nut
+
+echo "Setting up permissions on configuration locations..."
+chown root:nut /etc/nut
+chmod 750 /etc/nut
+chown root:nut /etc/nut/*
+chmod 640 /etc/nut/*
+
+echo "NUT configuration is now reset to defaults, reboot or reinstall plugin in case of any problems."

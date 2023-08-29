@@ -344,9 +344,10 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
         <dt>
             <input id="DEFAULT" class="nut-run" type="submit" name="#default" value="Default">
             <input id="SCAN" class="nut-run" type="button" value="Autodetect">
+            <input id="RESETCONF" class="nut-run" type="button" value="Reset Config">
         </dt>
         <dd>
-            <input type="submit" id="btnApply" name="#apply" value="Apply"><input type="button" value="Done" onclick="done()"><input id="RELOAD" type="submit" value="Reload" style="margin-bottom:8px;">
+            <input type="submit" id="btnApply" name="#apply" value="Apply"><input type="button" value="Done" onclick="done()"><input id="RELOAD" type="submit" value="Reload Nut" style="margin-bottom:8px;">
         </dd>
     </dl>
 </form>
@@ -487,8 +488,17 @@ $(function() {
     $('.nut-power').mask('ZZZZZ', {translation:  {'Z': {pattern: /[0-9]/, optional: true}}});
 
     $('#SCAN').click(function() {
+        // do not run any additional commands in case browser wrongly triggers submit
+        $('#command').val('');
         // open shadowbox window (run in foreground)
-        openBox('/plugins/nut/scripts/nutscan', 'Nut Scanner', 600, 600, true);
+        openBox('/plugins/nut/scripts/nutscan', 'NUT Scanner', 600, 600, true);
+    });
+
+    $('#RESETCONF').click(function() {
+        // do not run any additional commands in case browser wrongly triggers submit
+        $('#command').val('');
+        // open shadowbox window (run in foreground)
+        openBox('/plugins/nut/scripts/resetconf', 'NUT Configuration Reset', 600, 600, true);
     });
 
     $('form input:not([type="submit"])').keydown(function(e) {

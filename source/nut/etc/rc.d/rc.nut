@@ -20,7 +20,7 @@ start_driver() {
 
 start_upsd() {
     if pgrep -x upsd 2>&1 >/dev/null; then
-        echo "$PROG upsd is running..."
+        echo "$PROG NUT upsd is running..."
     else
         /usr/sbin/upsd -u root || exit 1
     fi
@@ -28,14 +28,14 @@ start_upsd() {
 
 start_upsmon() {
     if pgrep upsmon 2>&1 >/dev/null; then
-        echo "$PROG upsmon is running..."
+        echo "$PROG NUT upsmon is running..."
     else
         /usr/sbin/upsmon -u root || exit 1
     fi
 }
 
 stop() {
-    echo "Stopping the UPS services... "
+    echo "Stopping the NUT services... "
     if pgrep -x upsd 2>&1 >/dev/null; then
         /usr/sbin/upsd -c stop
 
@@ -84,7 +84,7 @@ stop() {
 }
 
 write_config() {
-    echo "Writing $PROG config"
+    echo "Writing NUT configuration..."
 
     if [ $MANUAL == "disable" ]; then
 
@@ -205,29 +205,29 @@ write_config() {
         mkdir $PLGPATH/ups
     fi
 	
-    cp -f /etc/nut/* $PLGPATH/ups >/dev/null 2>&1
+    cp -rf /etc/nut/* $PLGPATH/ups >/dev/null 2>&1
  
     # update permissions
     if [ -d /etc/nut ]; then
-        echo "Updating permissions..."
+        echo "Updating permissions for NUT..."
+        chown root:nut /etc/nut
+        chmod 750 /etc/nut
         chown root:nut /etc/nut/*
         chmod 640 /etc/nut/*
         chown root:nut /var/run/nut
         chmod 0770 /var/run/nut
         chown root:nut /var/state/ups
         chmod 0770 /var/state/ups
-        #chown -R 218:218 /etc/nut
-        #chmod -R 0644 /etc/nut
     fi
 
     # Link shutdown scripts for poweroff in rc.6
     if [ $( grep -ic "/etc/rc.d/rc.nut restart_udev" /etc/rc.d/rc.6 ) -eq 0 ]; then
-        echo "Adding UDEV lines to rc.6"
+        echo "Adding UDEV lines to rc.6 for NUT"
         sed -i '/\/bin\/mount -v -n -o remount,ro \//a [ -x /etc/rc.d/rc.nut ] && /etc/rc.d/rc.nut restart_udev' /etc/rc.d/rc.6
     fi
 
     if [ $( grep -ic "/etc/rc.d/rc.nut shutdown" /etc/rc.d/rc.6 ) -eq 0 ]; then
-        echo "Adding UPS shutdown lines to rc.6"
+        echo "Adding UPS shutdown lines to rc.6 for NUT"
          sed -i -e '/# Now halt /a [ -x /etc/rc.d/rc.nut ] && /etc/rc.d/rc.nut shutdown' -e //N /etc/rc.d/rc.6
     fi
 
@@ -236,7 +236,7 @@ write_config() {
 case "$1" in
     shutdown) # shuts down the UPS driver
         if [ -f /etc/nut/killpower ]; then
-            echo "Shutting down UPS driver..."
+            echo "Shutting down NUTs UPS driver..."
             /usr/sbin/upsdrvctl shutdown
         fi
         ;;
@@ -273,7 +273,7 @@ case "$1" in
         ;;
     restart_udev)
         if [ -f /etc/nut/killpower ]; then
-            echo "Restarting udev to be able to shut the UPS inverter off..."
+            echo "Restarting udev for NUT to be able to shut the UPS inverter off..."
             /etc/rc.d/rc.udev start
             sleep 10
         fi

@@ -3,14 +3,14 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "nut">
 <!ENTITY author    "desertwitch">
-<!ENTITY version   "2023.08.29">
+<!ENTITY version   "2023.08.29f">
 <!ENTITY launch    "Settings/NUTsettings">
-<!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/stale-testing">
+<!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/refactor">
 <!ENTITY pluginURL "&gitURL;/plugin/&name;-2.8.0.plg">
 <!ENTITY pkgURL    "&gitURL;/packages">
 <!ENTITY plgPATH   "/boot/config/plugins/&name;">
-<!ENTITY plgNAME   "nut-plugin-2023.07.26-x86_64-1">
-<!ENTITY plgMD5    "45f97260b38ec38b27185690efcf5759">
+<!ENTITY plgNAME   "nut-plugin-2023.08.29-x86_64-3">
+<!ENTITY plgMD5    "f50a5c465264b3926297d22939728333">
 <!ENTITY emhttp    "/usr/local/emhttp/plugins/&name;">
 ]>
 
@@ -18,7 +18,15 @@
 
 <CHANGES>
 ##&name;
+###2023.08.29
+- new: user configuration now persists between reinstalls of the plugin
+- new: added a button to GUI to reset all configuration files to their defaults
+- new: defined safe zones for additional settings in the configuration files
+- fix: clarified reload button in GUI some more for understanding what it does
+- fix: minor changes in how copy operations of configuration files are handled
+- fix: nutscan breaking configuration files
 ###2023.08.28
+- new: refactored handling of permissions and wording of log messages
 - new: refactored and decluttered installation, upgrading and removal processes
 - new: improved upgrading process making sure all existing NUT services are stopped first
 - new: compiled backend NUT package from current GitHub master branch (as of 26.08.2023)
@@ -268,15 +276,15 @@ run the post-installation scripts
 CONFIG=&plgPATH;/&name;.cfg
 
 # reading our configuration
-echo "reading NUT configuration..."
+echo "Reading NUT configuration..."
 if [ -e "$CONFIG" ]; then
     source "$CONFIG"
 fi
 
 # determine if config wants NUT services to start
-echo "determining if NUT services should be started..."
+echo "Determining if NUT services should be started..."
 if [ "$SERVICE" == "enable" ]; then
-    /etc/rc.d/rc.nut start 2>/dev/null
+    /etc/rc.d/rc.nut start
 fi
  
 # Cleaning old plugin source files
@@ -313,7 +321,7 @@ fi
 
 # check if net-snmp is used by another plugin
 if [ `find /boot/config/plugins/*.plg -type f ! -iname "*&name;.plg*" | xargs grep "net-snmp" -sl` ]; then
-    echo "net-snmp inuse by another plugin"
+    echo "Net-SNMP in use by another plugin, will not be removed with NUT."
     rm -f &plgPATH;/net-snmp*.txz
 fi
 
@@ -323,7 +331,6 @@ removepkg &plgPATH;/*.txz
 # in case of re-installation of package on live system
 
 rm -rf &emhttp;
-rm -rf &plgPATH;/ups
 rm -f &plgPATH;/*.txz \
     &plgPATH;/*.md5
 
