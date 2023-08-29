@@ -15,7 +15,7 @@ export PATH=$DPATH:$PATH
 [ -e "$CONFIG" ] && source $CONFIG
 
 start_driver() {
-    /usr/sbin/upsdrvctl -u root start || exit 1
+    /usr/sbin/upsdrvctl -u root start 2>&1 || exit 1
 }
 
 start_upsd() {
