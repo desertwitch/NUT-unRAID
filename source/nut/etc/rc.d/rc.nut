@@ -236,8 +236,8 @@ write_config() {
 case "$1" in
     shutdown) # shuts down the UPS driver
         if [ -f /etc/nut/killpower ]; then
-            echo "Shutting down NUTs UPS driver..."
-            /usr/sbin/upsdrvctl shutdown
+            echo "NUT is shutting down the UPS inverter..."
+            /usr/sbin/upsdrvctl -u root shutdown
         fi
         ;;
     start)  # starts everything (for a ups server box)
