@@ -3,9 +3,9 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "nut">
 <!ENTITY author    "desertwitch">
-<!ENTITY version   "2023.08.29f">
+<!ENTITY version   "2023.08.29a">
 <!ENTITY launch    "Settings/NUTsettings">
-<!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/refactor">
+<!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/stale-testing">
 <!ENTITY pluginURL "&gitURL;/plugin/&name;-2.8.0.plg">
 <!ENTITY pkgURL    "&gitURL;/packages">
 <!ENTITY plgPATH   "/boot/config/plugins/&name;">
