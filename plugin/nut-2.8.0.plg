@@ -3,14 +3,14 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "nut">
 <!ENTITY author    "desertwitch">
-<!ENTITY version   "2023.08.29b">
+<!ENTITY version   "2023.09.02">
 <!ENTITY launch    "Settings/NUTsettings">
 <!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/stale-testing">
 <!ENTITY pluginURL "&gitURL;/plugin/&name;-2.8.0.plg">
 <!ENTITY pkgURL    "&gitURL;/packages">
 <!ENTITY plgPATH   "/boot/config/plugins/&name;">
-<!ENTITY plgNAME   "nut-plugin-2023.08.29-x86_64-4">
-<!ENTITY plgMD5    "966a455ec7e5c4439144772188c43aa1">
+<!ENTITY plgNAME   "nut-plugin-2023.09.02-x86_64-1">
+<!ENTITY plgMD5    "df6cd25b091486519dc8a77f322e2239">
 <!ENTITY emhttp    "/usr/local/emhttp/plugins/&name;">
 ]>
 
@@ -18,6 +18,9 @@
 
 <CHANGES>
 ##&name;
+###2023.09.02
+- new: act on user configured notification triggers
+- fix: improve logging for GUI actions
 ###2023.08.29
 - new: user configuration now persists between reinstalls of the plugin
 - new: added a button to GUI to reset all configuration files to their defaults
