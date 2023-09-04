@@ -1,12 +1,4 @@
-# HOW TO EDIT THIS FILE:
-# The "handy ruler" below makes it easier to edit a package description.
-# Line up the first '|' above the ':' following the base package name, and
-# the '|' on the right side marks the last column you can put a character in.
-# You must make exactly 11 lines for the formatting to be correct.  It's also
-# customary to leave one space after the ':' except on otherwise blank lines.
-
-                  |-----handy-ruler------------------------------------------------------|
-nut-plugin: NUT - Network UPS Tools (a collection of ups tools) unRAID Plugin
+nut-plugin: NUT - Network UPS Tools (a collection of ups tools) UNRAID Plugin
 nut-plugin:
 nut-plugin: The Network UPS Tools is a collection of programs which provide a
 nut-plugin: common interface for monitoring and administering UPS hardware. It
@@ -17,4 +9,5 @@ nut-plugin: and ensure safe shutdowns of the systems which are connected.
 nut-plugin: This package includes the tools needed to monitor your UPS over the
 nut-plugin: web and it also includes the upsclient library.
 nut-plugin:
-nut-plugin: https://github.com/dmacias72/unRAID-plugins
+nut-plugin: packaged by desertwitch on Slackware 15.0 for use on UNRAID systems
+nut-plugin:

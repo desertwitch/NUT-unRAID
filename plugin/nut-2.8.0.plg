@@ -2,14 +2,15 @@
 
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "nut">
-<!ENTITY author    "SimonFair">
-<!ENTITY version   "2023.07.26">
+<!ENTITY author    "desertwitch">
+<!ENTITY version   "2023.09.02">
 <!ENTITY launch    "Settings/NUTsettings">
-<!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/master">
+<!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/stale-testing">
 <!ENTITY pluginURL "&gitURL;/plugin/&name;-2.8.0.plg">
 <!ENTITY pkgURL    "&gitURL;/packages">
 <!ENTITY plgPATH   "/boot/config/plugins/&name;">
-<!ENTITY plgNAME   "&name;-plugin-&version;-x86_64-1">
+<!ENTITY plgNAME   "nut-plugin-2023.09.02-x86_64-1">
+<!ENTITY plgMD5    "df6cd25b091486519dc8a77f322e2239">
 <!ENTITY emhttp    "/usr/local/emhttp/plugins/&name;">
 ]>
 
@@ -17,7 +18,27 @@
 
 <CHANGES>
 ##&name;
-###2023.07.26
+###2023.09.02
+- new: act on user configured notification triggers
+- fix: improve logging for GUI actions
+###2023.08.29
+- new: user configuration now persists between reinstalls of the plugin
+- new: added a button to GUI to reset all configuration files to their defaults
+- new: defined safe zones for additional settings in the configuration files
+- fix: clarified reload button in GUI some more for understanding what it does
+- fix: minor changes in how copy operations of configuration files are handled
+- fix: run UPS inverter poweroff also as root to avoid driver permission issues
+- fix: nut scanner is now no longer breaking user configuration files
+###2023.08.28
+- new: refactored handling of permissions and wording of log messages
+- new: refactored and decluttered installation, upgrading and removal processes
+- new: improved upgrading process making sure all existing NUT services are stopped first
+- new: compiled backend NUT package from current GitHub master branch (as of 26.08.2023)
+- new: optimized backend NUT package to use folder structure of earlier releases
+- new: added official Slackware Net-SNMP package with OpenSSL 3.1.2 for future UNRAID versions 6.13+
+- new: added backend NUT package compiled with OpenSSL 3.1.2 for future UNRAID versions 6.13+
+###2023.08.24
+- new: compiled backend NUT package from current master branch (as of 24.08.2023)
 ###2023.07.26
 - fix: reduce console spam of copy operations by redirecting output to /dev/null, as requested in 2023.07.21 #3 (comment)
 - fix: stop services before a plugin upgrade on the live system to remove any file locks preventing files from getting patched on the running instance. a reboot should now no longer be required for all changes>
@@ -183,18 +204,37 @@
 </CHANGES>
 
 <!--
-dependency files
+stop already existing services before doing anything
 -->
-
-<!--
-The 'nut-package' file.
--->
-<FILE Name="&plgPATH;/nut-2.8.0-x86_64-1.txz" Min="6.10" Run="upgradepkg --install-new">
-<URL>&pkgURL;/nut-2.8.0-x86_64-1.txz</URL>
-<MD5>2c7a37ac49a3c752536b7f4f43777cc2</MD5>
+<FILE Run="/bin/bash">
+<INLINE>
+echo "Making sure all existing NUT services are stopped (before install/upgrade)..."
+if [ -x /etc/rc.d/rc.nut ]; then
+    if ! /etc/rc.d/rc.nut stop >/dev/null 2>&amp;1; then
+        echo "WARNING:"
+        echo "WARNING: The NUT installation script was not able to stop all services gracefully."
+        echo "WARNING: IN CASE OF PROBLEMS, please REBOOT YOUR SYSTEM to complete any upgrades."
+        echo "WARNING:"
+    fi 
+fi
+exit 0
+</INLINE>
 </FILE>
 
-<FILE Name="&plgPATH;/nut-2.7.4.20200318-x86_64-1.txz" Min="6.8" Run="upgradepkg --install-new">
+<!--
+install or upgrade dependency files
+-->
+<FILE Name="&plgPATH;/nut-2.8.0-x86_64-6.ssl31.txz" Min="6.13" Run="upgradepkg --install-new">
+<URL>&pkgURL;/nut-2.8.0-x86_64-6.ssl31.txz</URL>
+<MD5>e69f6cff89191aa63fa6914f84da14a0</MD5>
+</FILE>
+
+<FILE Name="&plgPATH;/nut-2.8.0-x86_64-6.ssl11.txz" Min="6.10" Max="6.12.99" Run="upgradepkg --install-new">
+<URL>&pkgURL;/nut-2.8.0-x86_64-6.ssl11.txz</URL>
+<MD5>ab44f48e65b4c6bd5c4564ccd4ca2782</MD5>
+</FILE>
+
+<FILE Name="&plgPATH;/nut-2.7.4.20200318-x86_64-1.txz" Min="6.8" Max="6.9.99" Run="upgradepkg --install-new">
 <URL>&pkgURL;/nut-2.7.4.20200318-x86_64-1.txz</URL>
 <MD5>52de2867d6b8f6bc1a98a45870b05420</MD5>
 </FILE>
@@ -209,164 +249,107 @@ The 'nut-package' file.
 <MD5>24702ef930855db3432ed9ee73e93d42</MD5>
 </FILE>
 
-<FILE Name="&plgPATH;/net-snmp-5.9.3-x86_64-1.txz" Min="6.10" Run="upgradepkg --install-new">
+<FILE Name="&plgPATH;/net-snmp-5.9.4-x86_64-1.txz" Min="6.13" Run="upgradepkg --install-new">
+<URL>&pkgURL;/net-snmp-5.9.4-x86_64-1.txz</URL>
+<MD5>df3f30cdb8680f79ca8f2d1ecf77a156</MD5>
+</FILE>
+
+<FILE Name="&plgPATH;/net-snmp-5.9.3-x86_64-1.txz" Min="6.10" Max="6.12.99" Run="upgradepkg --install-new">
 <URL>&pkgURL;/net-snmp-5.9.3-x86_64-1.txz</URL>
 <MD5>5beebc819894c94bedbc531d47cfe497</MD5>
 </FILE>
 
-<FILE Name="&plgPATH;/net-snmp-5.7.3-x86_64-4.txz" Min="6.1" Run="upgradepkg --install-new">
+<FILE Name="&plgPATH;/net-snmp-5.7.3-x86_64-4.txz" Min="6.1" Max="6.9.99" Run="upgradepkg --install-new">
 <URL>&pkgURL;/net-snmp-5.7.3-x86_64-4.txz</URL>
 <MD5>b9ef68216b97cb5f0bcd9f3312e5941e</MD5>
 </FILE>
 
-
-
 <!--
-The 'plugin' package file.
+install or upgrade the plugin itself
 -->
-<FILE Name="&plgPATH;/&plgNAME;.txz">
+<FILE Name="&plgPATH;/&plgNAME;.txz" Min="6.1" Run="upgradepkg --install-new">
 <URL>&gitURL;/archive/&plgNAME;.txz</URL>
+<MD5>&plgMD5;</MD5>
 </FILE>
 
 <!--
-The 'plugin' package MD5 hash.
--->
-<FILE Name="&plgPATH;/&plgNAME;.md5">
-<URL>&gitURL;/archive/&plgNAME;.md5</URL>
-</FILE>
-
-<!-- WORKAROUND -->
-<FILE Name="/tmp/start_&name;" Mode="0770">
-<INLINE>
-#!/bin/bash
-CONFIG=&plgPATH;/&name;.cfg
-
-# read our configuration
-if [ -e "$CONFIG" ]; then
-    source "$CONFIG"
-fi
-if [ "$SERVICE" == "enable" ]; then
-    /etc/rc.d/rc.nut start
-fi
-</INLINE>
-</FILE>
-
-<!--
-The 'install' script.
+run the post-installation scripts
 -->
 <FILE Run="/bin/bash">
 <INLINE>
-#Verify Unraid Version
-source /etc/unraid-version
-if [[ ${version:0:3} == 6.0 ]]; then
-    echo "Unraid version 6.1 or higher is required"
-    exit 1
+CONFIG=&plgPATH;/&name;.cfg
+
+# reading our configuration
+echo "Reading NUT configuration..."
+if [ -e "$CONFIG" ]; then
+    source "$CONFIG"
 fi
 
-# Verify and install plugin package
-sum1=$(/usr/bin/md5sum &plgPATH;/&plgNAME;.txz)
-sum2=$(/usr/bin/cat &plgPATH;/&plgNAME;.md5)
-if [ "${sum1:0:32}" != "${sum2:0:32}" ]; then
-    echo "Wrong 'plugin' package md5 hash."
-    rm -f &plgPATH;/&plgNAME;.txz
-    rm -f &plgPATH;/&plgNAME;.md5
-    exit 1
-else
-    # if upgrading on live system, stop the services here
-    # to release any remaining file locks before patching
-    if [ -x /etc/rc.d/rc.nut ]; then
-        /etc/rc.d/rc.nut stop 2>/dev/null
-    fi
-
-    # nut-2.7.4 and nut plugin expects:
-    #   Config: /etc/nut
-    #   Pid   : /var/run/nut/upsmon.pid
-
-    # nut-2.8.0 expects
-    #   Config: /etc/ups
-    #   Pid   : /var/run/upsmon.pid
-
-    if [ ! -d /etc/nut ]; then
-        # Link nut-2.8.0 config to nut-2.7.4 config
-        mkdir /etc/nut
-        cp -f /etc/ups/* /etc/nut
-        rm -rf /etc/ups
-        ln -sf /etc/nut /etc/ups
-        # Link nut-2.7.4 pid to nut-2.8.0 pid
-        mkdir /var/run/nut
-        ln -sf /var/run/upsmon.pid /var/run/nut/upsmon.pid
-    fi
-
-    # upgrade plugin package
-    upgradepkg --install-new &plgPATH;/&plgNAME;.txz
-
-    # Stop service
-    echo "stopping services..."
-    /etc/rc.d/rc.nut stop 2>/dev/null
-
-    # start network ups tools
-    echo "checking network ups tools configuration..."
-    at -M -f /tmp/start_&name; now 2>/dev/null
-
-    sleep 1
-
-    rm -f /tmp/start_&name;
-
-    # Cleaning old plugin source files
-    find &plgPATH;/ -type f -iname "&name;-plugin*.txz" ! -iname "*&version;*" -delete
-    find &plgPATH;/ -type f -iname "&name;-plugin*.md5" ! -iname "*&version;*" -delete
-
-    echo ""
-    echo "-----------------------------------------------------------"
-    echo " &name; has been installed."
-    echo " Copyright 2015, macester"
-    echo " Copyright 2020, gfjardim"
-    echo " Copyright 2015-2022, &author;"
-    echo " Version: &version;"
-    echo "-----------------------------------------------------------"
-    echo ""
-
+# determine if config wants NUT services to start
+echo "Determining if NUT services should be started..."
+if [ "$SERVICE" == "enable" ]; then
+    /etc/rc.d/rc.nut start
 fi
+ 
+# Cleaning old plugin source files
+find &plgPATH;/ -type f -iname "&name;-plugin*.txz" ! -iname "*&plgNAME;*" -delete
+find &plgPATH;/ -type f -iname "&name;-plugin*.md5" ! -iname "*&plgNAME;*" -delete
+
+echo ""
+echo "-----------------------------------------------------------"
+echo " &name; has been installed."
+echo " Copyright 2015, macester"
+echo " Copyright 2020, gfjardim"
+echo " Copyright 2015-2023, dmacias72"
+echo " Copyright 2023, SimonF, &author;"
+echo " Version: &version;"
+echo "-----------------------------------------------------------"
+echo ""
 </INLINE>
 </FILE>
 
 <!--
-The 'remove' script.
+definition for uninstallation of the plugin
 -->
 <FILE Run="/bin/bash" Method="remove">
 <INLINE>
-# Stop service
-/etc/rc.d/rc.nut stop 2>/dev/null
+echo "Making sure all existing NUT services are stopped (before uninstall)..."
+if [ -x /etc/rc.d/rc.nut ]; then
+    if ! /etc/rc.d/rc.nut stop >/dev/null 2>&amp;1; then
+        echo "WARNING:"
+        echo "WARNING: The NUT uninstallation script was not able to stop all services gracefully."
+        echo "WARNING: IN CASE OF PROBLEMS, please REBOOT YOUR SYSTEM to remove any remaining packages."
+        echo "WARNING:"
+    fi 
+fi
 
 # check if net-snmp is used by another plugin
 if [ `find /boot/config/plugins/*.plg -type f ! -iname "*&name;.plg*" | xargs grep "net-snmp" -sl` ]; then
-    echo "net-snmp inuse by another plugin"
+    echo "Net-SNMP in use by another plugin, will not be removed with NUT."
     rm -f &plgPATH;/net-snmp*.txz
 fi
 
 removepkg &plgPATH;/*.txz
-rm -rf &emhttp;
-rm -rf &plgPATH;/ups
-rm -f &plgPATH;/*.txz \
-    &plgPATH;/*.md5
-
-# Remove links for nut-2.8.0 vs nut-2.7.4
-rm -rf /etc/nut
-rm -f /etc/ups
-rm -rf /var/run/nut
 
 # clean up folders after the removed installation
 # in case of re-installation of package on live system
+
+rm -rf &emhttp;
+rm -f &plgPATH;/*.txz \
+    &plgPATH;/*.md5
+
 rm -rf /etc/nut
 rm -rf /etc/ups
 rm -rf /var/run/nut
+rf -rf /var/state/ups
 
 echo ""
 echo "-----------------------------------------------------------"
 echo " &name; has been removed."
 echo " Copyright 2015, macester"
 echo " Copyright 2020, gfjardim"
-echo " Copyright 2017-2022, &author;"
+echo " Copyright 2015-2023, dmacias72"
+echo " Copyright 2023, SimonF, &author;"
 echo " Version: &version;"
 echo "-----------------------------------------------------------"
 echo ""

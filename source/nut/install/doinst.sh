@@ -2,7 +2,7 @@
 BOOT="/boot/config/plugins/nut"
 DOCROOT="/usr/local/emhttp/plugins/nut"
 
-# Add nut user and group for udev at shutdown
+# Add nut user and group (for legacy packages)
 if [ $( grep -ic "218" /etc/group ) -eq 0 ]; then
     groupadd -g 218 nut
 fi
@@ -17,9 +17,9 @@ chmod +0755 $DOCROOT/scripts/* \
         /usr/sbin/nut-notify
 
 # copy the default
-cp -nr $DOCROOT/default.cfg $BOOT/nut.cfg >/dev/null 2>&1
+cp -n $DOCROOT/default.cfg $BOOT/nut.cfg >/dev/null 2>&1
 
-# remove nut symlink
+# remove nut symlink (for legacy packages)
 if [ -L /etc/nut ]; then
     rm -f /etc/nut
     mkdir /etc/nut
@@ -39,10 +39,17 @@ fi
 cp -nr $DOCROOT/nut/* $BOOT/ups >/dev/null 2>&1
 
 # copy conf files from flash drive to local system, for our services to use
-cp -f $BOOT/ups/* /etc/nut >/dev/null 2>&1
+cp -rf $BOOT/ups/* /etc/nut >/dev/null 2>&1
 
-# update permissions
+# set up permissions
 if [ -d /etc/nut ]; then
-    chown -R 218:218 /etc/nut
-    chmod -R -r /etc/nut
+    echo "Updating permissions for NUT..."
+    chown root:nut /etc/nut
+    chmod 750 /etc/nut
+    chown root:nut /etc/nut/*
+    chmod 640 /etc/nut/*
+    chown root:nut /var/run/nut
+    chmod 0770 /var/run/nut
+    chown root:nut /var/state/ups
+    chmod 0770 /var/state/ups
 fi

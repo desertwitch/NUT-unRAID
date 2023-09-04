@@ -41,9 +41,8 @@ then
 
         # Cause all instances of this script to exit.
         killall -s SIGTERM `basename $0`
-fi
 
-if [ "$NOTIFYTYPE" = "ONBATT" ]
+elif [ "$NOTIFYTYPE" = "ONBATT" ]
 then
         echo $0: $MESSAGE | wall
         $NOTIFY -e "$EVENT" -s "Alert $SUBJECT On battery" -d "The UPS is on battery." -i "alert"
@@ -69,10 +68,16 @@ then
         echo $0: commencing shutdown | wall
         $NOTIFY -e "$EVENT" -s "Alert $SUBJECT Shutdown" -d "unRAID is being shut down." -i "alert"
         upsmon -c fsd
-fi
 
-if [ "$NOTIFYTYPE" = "REPLBATT" ] && [ $REPLBATTMSG == "enable" ]
+elif [ "$NOTIFYTYPE" = "REPLBATT" ] 
 then
-        echo $0: batteries need replacement | wall
-        $NOTIFY -e "$EVENT" -s "Alert $SUBJECT Battery Replacement Notification" -d "The UPS reports that the batteries need replacement." -i "alert"
+        if [ $REPLBATTMSG == "enable" ]; then
+            echo $0: batteries need replacement | wall
+            $NOTIFY -e "$EVENT" -s "Alert $SUBJECT Battery Replacement Notification" -d "The UPS reports that the batteries need replacement." -i "alert"
+        fi
+
+# for any other status messages the user has configured to be reported
+else
+        echo $0: $1 | wall
+        $NOTIFY -e "$EVENT" -s "Alert $SUBJECT" -d "$1" -i "alert"
 fi

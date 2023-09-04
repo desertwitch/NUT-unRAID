@@ -9,3 +9,4 @@ upsmon master
 [slaveuser]
 password=slavepass
 upsmon slave
+# If not in manual mode, put any additional settings below this line

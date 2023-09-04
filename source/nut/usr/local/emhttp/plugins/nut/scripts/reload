@@ -1,2 +1,3 @@
 #!/bin/sh
-/etc/rc.d/rc.nut reload
+echo "Reloading NUT services..."
+/etc/rc.d/rc.nut reload | logger
