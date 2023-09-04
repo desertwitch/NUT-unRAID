@@ -16,7 +16,7 @@ My vision for this plugin, which basically acts as a frontend to NUT, can be sum
 
 Copyrights NUT (backend): Jim Klimov et. al. (see https://github.com/networkupstools/)
 
-Copyrights NUT Plugin (frontend): macester, gfjardim, dmacias72, SimonF
+Copyrights NUT for UNRAID (frontend): macester, gfjardim, dmacias72, SimonF
 
 Copyrights UNRAID Plugin System: Dan Landon, Bergware International, Lime Technology 
 
