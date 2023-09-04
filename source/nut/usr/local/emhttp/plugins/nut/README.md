@@ -1,3 +1,3 @@
 **Network UPS Tools (NUT) - CI**
 
-A fast-paced fork of the NUT plugin, offering additional features and frequent backend updates for your UPS.
+A fast-paced fork (alternative) of the NUT plugin, offering new features and frequent backend updates for your UPS.

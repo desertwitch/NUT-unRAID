@@ -1,6 +1,6 @@
 Network UPS Tools (NUT) - CI for UNRAID
 ================
-_A fast-paced fork of the NUT plugin, offering additional features and frequent backend updates for your UPS._
+_A fast-paced fork (alternative) of the NUT plugin, offering new features and frequent backend updates for your UPS._
 
 The NUT plugin for UNRAID has been developed by various people since 2015.
 
