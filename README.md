@@ -11,7 +11,7 @@ My vision for this plugin, which basically acts as a frontend to NUT, can be sum
 
 * Frequent updates of the NUT backend with fresh builds from the official master branch for the lastest changes.
 
-* Frequent updates of the NUT frontend with meaningful changes improving both long term stability and ease of use.
+* Frequent updates of the NUT frontend with meaningful changes improving long term stability and ease of use.
 
 Copyrights NUT (backend): Jim Klimov et. al. (see https://github.com/networkupstools/)
 
