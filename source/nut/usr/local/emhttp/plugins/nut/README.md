@@ -1,3 +1,3 @@
-**Network UPS Tools (NUT)**
+**Network UPS Tools (NUT) - CI**
 
-A Plugin that supports a wide variety of UPS brands and models.
+A faster-paced fork of NUT, maximizing UPS compatibility and stability with frequent updates of the NUT backend.
