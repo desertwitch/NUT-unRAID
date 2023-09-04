@@ -210,7 +210,7 @@ stop already existing services before doing anything
 <INLINE>
 echo "Checking for other installed NUT versions first..."
 if [ -f /boot/config/plugins/nut.plg ]; then
-    echo "ERROR: Please uninstall any existing (other) NUT versions first!"
+    echo "ERROR: Please uninstall any existing (other) NUT versions first (and make note of your existing configuration)!"
     exit 1
 fi
 
