@@ -212,7 +212,8 @@ echo "Checking for other installed NUT versions..."
 if [ -f /boot/config/plugins/nut.plg ]; then
     echo ""
     echo "-----------------------------------------------------------"
-    echo "ERROR: Please uninstall any existing (other) NUT versions first (and make note of your existing configuration)!"
+    echo "ERROR: NUT (CI FORK) WILL NOT FUNCTION WITH ANY OTHER NUT PLUGINS INSTALLED."
+    echo "Please make note of your configuration and uninstall any existing NUT packages."
     echo "-----------------------------------------------------------"
     echo ""
     exit 1
