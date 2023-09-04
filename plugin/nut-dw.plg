@@ -6,7 +6,7 @@
 <!ENTITY version   "2023.09.04">
 <!ENTITY launch    "Settings/NUTsettings">
 <!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/master">
-<!ENTITY pluginURL "&gitURL;/plugin/&name;-ci.plg">
+<!ENTITY pluginURL "&gitURL;/plugin/&name;-dw.plg">
 <!ENTITY pkgURL    "&gitURL;/packages">
 <!ENTITY plgPATH   "/boot/config/plugins/&name;">
 <!ENTITY plgNAME   "nut-plugin-2023.09.04a-x86_64-1">
@@ -17,7 +17,7 @@
 <PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" support="https://forums.unraid.net/topic/60217-plugin-nut-v2-network-ups-tools/">
 
 <CHANGES>
-## Network UPS Tools (NUT) - CI
+## Network UPS Tools (NUT) for UNRAID
 ###2023.09.02
 - new: act on user configured notification triggers
 - fix: improve logging for GUI actions
@@ -212,7 +212,7 @@ echo "Checking for other installed NUT versions..."
 if [ -f /boot/config/plugins/nut.plg ] || [ -f /boot/config/plugins/nut-2.8.0.plg ]; then
     echo ""
     echo "-----------------------------------------------------------"
-    echo "ERROR: NUT (CI FORK) WILL NOT FUNCTION WITH ANY OTHER NUT PLUGINS INSTALLED."
+    echo "ERROR: YOU ALREADY HAVE ANOTHER VERSION OF NUT INSTALLED."
     echo "Please make note of your configuration and uninstall any existing NUT packages."
     echo "-----------------------------------------------------------"
     echo ""

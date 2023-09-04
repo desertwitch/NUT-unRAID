@@ -17,7 +17,7 @@
 <PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" support="https://forums.unraid.net/topic/60217-plugin-nut-v2-network-ups-tools/">
 
 <CHANGES>
-## Network UPS Tools (NUT) - CI
+## Network UPS Tools (NUT) for UNRAID
 ###2023.09.02
 - new: act on user configured notification triggers
 - fix: improve logging for GUI actions
@@ -212,7 +212,7 @@ echo "Checking for other installed NUT versions..."
 if [ -f /boot/config/plugins/nut.plg ]; then
     echo ""
     echo "-----------------------------------------------------------"
-    echo "ERROR: NUT (CI FORK) WILL NOT FUNCTION WITH ANY OTHER NUT PLUGINS INSTALLED."
+    echo "ERROR: YOU ALREADY HAVE ANOTHER VERSION OF NUT INSTALLED."
     echo "Please make note of your configuration and uninstall any existing NUT packages."
     echo "-----------------------------------------------------------"
     echo ""
