@@ -1,27 +1,22 @@
-unRAID Nut Plugin
+Network UPS Tools (NUT) for UNRAID
 ================
 
-These are notes more for my memory or for anyone who wants to make unRAID plugins using this structure
+The NUT plugin for UNRAID has been developed by various people since 2015.
 
-I manage this on my laptop running Linux Mint Mate
+This fork is my personal interest to modernize and streamline the existing code base and its dependencies.
 
-I use Sublime Text as an editor and SmarGit to upload to github
+My vision for this plugin, which basically acts as a frontend to NUT, can be summed up as follows:
 
-copy tar-1.13 from unRAID to /bin/tar-1.13 on laptop
+* Debloated code with a consistent structure, permissioning and packaging throughout the project.
 
-copy makepkg from unRAID to /sbin/makepkg on laptop
+* Frequent updates of the NUT backend with fresh builds from the official master branch for the lastest changes.
 
-I modified gfjardim's pkg_build.sh to take an argument, add -plugin to name and add arch type, plus modified the lettering function
+* Frequent updates of the NUT frontend with meaningful changes improving both long term stability and ease of use.
 
-To compile the packages for unRAID plugin run from the source directory
+Copyrights NUT (backend): Jim Klimov et. al. (see https://github.com/networkupstools/)
 
-sudo ./mkpkg nut
+Copyrights NUT Plugin (frontend): macester, gfjardim, dmacias72, SimonF
 
-This creates a slackware compliant package and md5 in the archive directory with the date as the version number
+Copyrights UNRAID Plugin System: Dan Landon, Bergware International, Lime Technology 
 
-And adds the date to the plugin file in plugins directory.
-
-e.g. nut-plugin-2017.06.09-x86_64-1.txz and nut-plugin-2016.06.09-x86_64-1.md5
-
-
-[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=BKQJF5NVA5E3S)
+This project continues to be licensed under GPL2 and/or GPL3 - see LICENSE files for information!
