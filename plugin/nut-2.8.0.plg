@@ -9,8 +9,8 @@
 <!ENTITY pluginURL "&gitURL;/plugin/&name;-2.8.0.plg">
 <!ENTITY pkgURL    "&gitURL;/packages">
 <!ENTITY plgPATH   "/boot/config/plugins/&name;">
-<!ENTITY plgNAME   "nut-plugin-2023.09.04-x86_64-1">
-<!ENTITY plgMD5    "ddc54e165d13daf89144eb0698bb15b7">
+<!ENTITY plgNAME   "nut-plugin-2023.09.04a-x86_64-1">
+<!ENTITY plgMD5    "417f53b3dad0a7bbc0e8e633a134fbf7">
 <!ENTITY emhttp    "/usr/local/emhttp/plugins/&name;">
 ]>
 
