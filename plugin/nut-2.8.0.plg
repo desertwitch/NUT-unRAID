@@ -17,7 +17,7 @@
 <PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" support="https://forums.unraid.net/topic/60217-plugin-nut-v2-network-ups-tools/">
 
 <CHANGES>
-##&name;
+## Network UPS Tools (NUT) - CI
 ###2023.09.02
 - new: act on user configured notification triggers
 - fix: improve logging for GUI actions
