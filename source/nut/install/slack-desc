@@ -1,4 +1,4 @@
-nut-plugin: NUT - Network UPS Tools (a collection of ups tools) CI for UNRAID
+nut-plugin: NUT - Network UPS Tools (a collection of ups tools) for UNRAID
 nut-plugin:
 nut-plugin: The Network UPS Tools is a collection of programs which provide a
 nut-plugin: common interface for monitoring and administering UPS hardware. It
