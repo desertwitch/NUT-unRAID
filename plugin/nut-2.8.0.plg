@@ -208,7 +208,7 @@ stop already existing services before doing anything
 -->
 <FILE Run="/bin/bash">
 <INLINE>
-echo "Checking for other installed NUT versions first..."
+echo "Checking for other installed NUT versions..."
 if [ -f /boot/config/plugins/nut.plg ]; then
     echo ""
     echo "-----------------------------------------------------------"
