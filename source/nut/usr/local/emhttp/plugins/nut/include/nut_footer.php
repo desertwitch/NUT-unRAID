@@ -57,7 +57,7 @@ if (count($ups_status)) {
   $online           = ( array_key_exists("ups.status", $ups_status) ? nut_ups_status([$ups_status["ups.status"]], true) : false );
   $battery          = (array_key_exists("battery.charge",$ups_status)) ? intval(strtok($ups_status['battery.charge'],' ')) : false;
   $load             = (array_key_exists("ups.load", $ups_status)) ? intval(strtok($ups_status['ups.load'],' ')) : 0;
-  $apparentPower        = (array_key_exists("ups.power", $ups_status)) ? intval(strtok($ups_status['ups.power'],' ')) : NULL;
+  $apparentPower    = (array_key_exists("ups.power", $ups_status)) ? intval(strtok($ups_status['ups.power'],' ')) : NULL;
   $realPower        = (array_key_exists("ups.realpower", $ups_status)) ? intval(strtok($ups_status['ups.realpower'],' ')) : NULL;
   $realPowerNominal = (array_key_exists("ups.realpower.nominal", $ups_status)) ? intval(strtok($ups_status['ups.realpower.nominal'],' ')) : NULL;
   $powerNominal     = (array_key_exists("ups.power.nominal", $ups_status)) ? intval(strtok($ups_status['ups.power.nominal'],' ')) : NULL;
