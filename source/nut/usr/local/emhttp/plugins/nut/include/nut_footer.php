@@ -57,6 +57,7 @@ if (count($ups_status)) {
   $online           = ( array_key_exists("ups.status", $ups_status) ? nut_ups_status([$ups_status["ups.status"]], true) : false );
   $battery          = (array_key_exists("battery.charge",$ups_status)) ? intval(strtok($ups_status['battery.charge'],' ')) : false;
   $load             = (array_key_exists("ups.load", $ups_status)) ? intval(strtok($ups_status['ups.load'],' ')) : 0;
+  $apparentPower        = (array_key_exists("ups.power", $ups_status)) ? intval(strtok($ups_status['ups.power'],' ')) : NULL;
   $realPower        = (array_key_exists("ups.realpower", $ups_status)) ? intval(strtok($ups_status['ups.realpower'],' ')) : NULL;
   $realPowerNominal = (array_key_exists("ups.realpower.nominal", $ups_status)) ? intval(strtok($ups_status['ups.realpower.nominal'],' ')) : NULL;
   $powerNominal     = (array_key_exists("ups.power.nominal", $ups_status)) ? intval(strtok($ups_status['ups.power.nominal'],' ')) : NULL;
@@ -113,7 +114,8 @@ if (count($ups_status)) {
   $status[0] = "<span id='" . ($config['FOOTER_STYLE'] == 0 ? "nut_battery" : "") . "' class='tooltip-nut " . $css_class . "'" . $statusTooltipData . "><i class='fa " . $fa_icon . "' style='vertical-align: baseline;'></i>&thinsp;" . $batteryText . "</span>";
 
   # ups.power.nominal (in VA) or compute from load and ups.power.nominal
-  $apparentPower = $powerNominal > 0 && $load ? round($powerNominal * $load * 0.01) : -1;
+  if ($apparentPower < 0)
+   $apparentPower = $powerNominal > 0 && $load ? round($powerNominal * $load * 0.01) : -1;
 
   # ups.realpower (in W)
   $realPower = $realPower > 1 && $load ? $realPower : -1;

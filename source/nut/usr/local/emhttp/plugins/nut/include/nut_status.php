@@ -66,6 +66,9 @@ if (file_exists('/var/run/nut/upsmon.pid')) {
     case 'ups.realpower':
       $realPower = strtok($val, ' ');
       break;
+    case 'ups.power':
+      $apparentPower = strtok($val, ' ');
+      break;
     case 'ups.realpower.nominal':
       $realPowerNominal = strtok($val,' ');
       break;
@@ -93,7 +96,8 @@ if (file_exists('/var/run/nut/upsmon.pid')) {
   }
 
   # ups.power.nominal (in VA) or compute from load and ups.power.nominal
-  $apparentPower = $powerNominal && $load ? round($powerNominal * $load * 0.01) : -1;
+  if ($apparentPower < 0)
+   $apparentPower = $powerNominal && $load ? round($powerNominal * $load * 0.01) : -1;
 
   # ups.realpower (in W)
   $realPower = $realPower > 1 && $load ? $realPower : -1;
