@@ -57,9 +57,9 @@ if (count($ups_status)) {
   $online           = ( array_key_exists("ups.status", $ups_status) ? nut_ups_status([$ups_status["ups.status"]], true) : false );
   $battery          = (array_key_exists("battery.charge",$ups_status)) ? intval(strtok($ups_status['battery.charge'],' ')) : false;
   $load             = (array_key_exists("ups.load", $ups_status)) ? intval(strtok($ups_status['ups.load'],' ')) : 0;
-  $apparentPower    = (array_key_exists("ups.power", $ups_status)) ? intval(strtok($ups_status['ups.power'],' ')) : NULL;
   $realPower        = (array_key_exists("ups.realpower", $ups_status)) ? intval(strtok($ups_status['ups.realpower'],' ')) : NULL;
   $realPowerNominal = (array_key_exists("ups.realpower.nominal", $ups_status)) ? intval(strtok($ups_status['ups.realpower.nominal'],' ')) : NULL;
+  $apparentPower    = (array_key_exists("ups.power", $ups_status)) ? intval(strtok($ups_status['ups.power'],' ')) : NULL;
   $powerNominal     = (array_key_exists("ups.power.nominal", $ups_status)) ? intval(strtok($ups_status['ups.power.nominal'],' ')) : NULL;
 
   if ($nut_power == 'manual') {
@@ -67,6 +67,7 @@ if (count($ups_status)) {
     $realPowerNominal = intval($nut_powerw);
     if ($realPowerNominal >= 0)
       $realPower = -1;
+      $apparentPower = -1;
   }
 
   $ups_alarm = array_key_exists_wildcard($ups_status, 'ups.alarm*');
@@ -123,7 +124,7 @@ if (count($ups_status)) {
   $realPower = $realPower > 1 && $load ? $realPower : -1;
   # if no ups.realpower compute from load and ups.realpower.nominal (in W)
   if ($realPower < 0)
-    $realPower = $realPowerNominal && $load ? round($realPowerNominal * $load * 0.01) : -1;
+    $realPower = $realPowerNominal > 0 && $load ? round($realPowerNominal * $load * 0.01) : -1;
 
   $powerText = '';
   $powerTooltipData = '';

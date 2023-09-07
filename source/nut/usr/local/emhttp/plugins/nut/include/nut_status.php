@@ -66,11 +66,11 @@ if (file_exists('/var/run/nut/upsmon.pid')) {
     case 'ups.realpower':
       $realPower = strtok($val, ' ');
       break;
-    case 'ups.power':
-      $apparentPower = strtok($val, ' ');
-      break;
     case 'ups.realpower.nominal':
       $realPowerNominal = strtok($val,' ');
+      break;
+    case 'ups.power':
+      $apparentPower = strtok($val, ' ');
       break;
     case 'ups.power.nominal':
       $powerNominal = strtok($val,' ');
@@ -93,19 +93,20 @@ if (file_exists('/var/run/nut/upsmon.pid')) {
     $realPowerNominal = intval($nut_powerw);
     if ($realPowerNominal >= 0)
       $realPower = -1;
+      $apparentPower = -1;
   }
 
   # ups.power (in VA)
   $apparentPower = $apparentPower > 1 && $load ? $apparentPower : -1;
   # if no ups.power compute from load and ups.power.nominal
   if ($apparentPower < 0)
-   $apparentPower = $powerNominal && $load ? round($powerNominal * $load * 0.01) : -1;
+   $apparentPower = $powerNominal > 0 && $load ? round($powerNominal * $load * 0.01) : -1;
 
   # ups.realpower (in W)
   $realPower = $realPower > 1 && $load ? $realPower : -1;
   # if no ups.realpower compute from load and ups.realpower.nominal (in W)
   if ($realPower < 0)
-    $realPower = $realPowerNominal && $load ? round($realPowerNominal * $load * 0.01) : -1;
+    $realPower = $realPowerNominal > 0 && $load ? round($realPowerNominal * $load * 0.01) : -1;
 
   if ($powerNominal > 0 && $realPowerNominal > 0)
     $status[3] = "<td " . ($load >= 90 ? $red : $green) . ">$realPowerNominal&thinsp;W ($powerNominal&thinsp;VA)</td>";
