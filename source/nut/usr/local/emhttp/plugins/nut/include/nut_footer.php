@@ -65,9 +65,12 @@ if (count($ups_status)) {
   if ($nut_power == 'manual') {
     $powerNominal = intval($nut_powerva);
     $realPowerNominal = intval($nut_powerw);
+
+    if ($powerNominal >= 0)
+      $apparentPower = -1;
+
     if ($realPowerNominal >= 0)
       $realPower = -1;
-      $apparentPower = -1;
   }
 
   $ups_alarm = array_key_exists_wildcard($ups_status, 'ups.alarm*');
