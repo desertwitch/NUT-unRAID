@@ -95,7 +95,9 @@ if (file_exists('/var/run/nut/upsmon.pid')) {
       $realPower = -1;
   }
 
-  # ups.power.nominal (in VA) or compute from load and ups.power.nominal
+  # ups.power (in VA)
+  $apparentPower = $apparentPower > 1 && $load ? $apparentPower : -1;
+  # if no ups.power compute from load and ups.power.nominal
   if ($apparentPower < 0)
    $apparentPower = $powerNominal && $load ? round($powerNominal * $load * 0.01) : -1;
 

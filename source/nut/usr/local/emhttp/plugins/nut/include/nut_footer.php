@@ -113,7 +113,9 @@ if (count($ups_status)) {
 
   $status[0] = "<span id='" . ($config['FOOTER_STYLE'] == 0 ? "nut_battery" : "") . "' class='tooltip-nut " . $css_class . "'" . $statusTooltipData . "><i class='fa " . $fa_icon . "' style='vertical-align: baseline;'></i>&thinsp;" . $batteryText . "</span>";
 
-  # ups.power.nominal (in VA) or compute from load and ups.power.nominal
+  # ups.power (in VA)
+  $apparentPower = $apparentPower > 1 && $load ? $apparentPower : -1;
+  # if no ups.power compute from load and ups.power.nominal
   if ($apparentPower < 0)
    $apparentPower = $powerNominal > 0 && $load ? round($powerNominal * $load * 0.01) : -1;
 
