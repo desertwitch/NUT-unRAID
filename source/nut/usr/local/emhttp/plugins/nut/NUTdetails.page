@@ -43,7 +43,7 @@ function getNUTstatus() {
       $('#nut_status').html(data[1]);
     }
 <?if ($update):?>
-    setTimeout(getNUTstatus,<?=max(abs($display['refresh']),(1000 * $nut_interval))?>);
+    setTimeout(getNUTstatus,<?=max(abs(isset($display['refresh']) ? $display['refresh'] : 0),(1000 * $nut_interval))?>);
 <?endif;?>
   });
 }
