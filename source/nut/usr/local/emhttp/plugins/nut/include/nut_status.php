@@ -19,9 +19,10 @@ $orange = "class='orange-text'";
 $status = array_fill(0,7,"<td>-</td>");
 $all    = $_GET['all']=='true';
 $result = [];
+$rows = [];
 
 if (file_exists('/var/run/nut/upsmon.pid')) {
-  
+
   exec("/usr/bin/upsc ".escapeshellarg($nut_name)."@$nut_ip 2>/dev/null", $rows);
   
   if ($_GET['diagsave'] == "true") {
