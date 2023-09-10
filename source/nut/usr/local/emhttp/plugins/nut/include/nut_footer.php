@@ -66,10 +66,10 @@ if (count($ups_status)) {
     $realPowerNominal = intval($nut_powerw);
 
     if ($powerNominal > 0)
-      $apparentPower = -1;
+      $apparentPower = 0;
 
     if ($realPowerNominal > 0)
-      $realPower = -1;
+      $realPower = 0;
   }
 
   $ups_alarm = array_key_exists_wildcard($ups_status, 'ups.alarm*');
@@ -116,17 +116,13 @@ if (count($ups_status)) {
 
   $status[0] = "<span id='" . ($nut_footer_style == 0 ? "nut_battery" : "") . "' class='tooltip-nut " . $css_class . "'" . $statusTooltipData . "><i class='fa " . $fa_icon . "' style='vertical-align: baseline;'></i>&thinsp;" . $batteryText . "</span>";
 
-  # ups.power (in VA)
-  $apparentPower = $apparentPower > 1 && $load ? $apparentPower : -1;
   # if no ups.power compute from load and ups.power.nominal
-  if ($apparentPower < 0)
-   $apparentPower = $powerNominal > 0 && $load ? round($powerNominal * $load * 0.01) : -1;
+  if ($apparentPower <= 0)
+   $apparentPower = $powerNominal > 0 && $load ? round($powerNominal * $load * 0.01) : 0;
 
-  # ups.realpower (in W)
-  $realPower = $realPower > 1 && $load ? $realPower : -1;
   # if no ups.realpower compute from load and ups.realpower.nominal (in W)
-  if ($realPower < 0)
-    $realPower = $realPowerNominal > 0 && $load ? round($realPowerNominal * $load * 0.01) : -1;
+  if ($realPower <= 0)
+    $realPower = $realPowerNominal > 0 && $load ? round($realPowerNominal * $load * 0.01) : 0;
 
   $powerText = '';
   $powerTooltipData = '';
