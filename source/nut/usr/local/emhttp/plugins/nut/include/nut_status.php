@@ -25,7 +25,7 @@ if (file_exists('/var/run/nut/upsmon.pid')) {
 
   exec("/usr/bin/upsc ".escapeshellarg($nut_name)."@$nut_ip 2>/dev/null", $rows);
   
-  if ($_GET['diagsave'] == "true") {
+  if (isset($_GET['diagsave']) && $_GET['diagsave'] == "true") { 
 
   $diagarray = $rows;
   
@@ -45,6 +45,13 @@ if (file_exists('/var/run/nut/upsmon.pid')) {
   }
   
   $upsStatus = nut_ups_status($rows);
+
+  $runtime = -1;
+  $realPower = -1;
+  $realPowerNominal = -1;
+  $apparentPower = -1;
+  $powerNominal = -1;
+  $load = -1;
 
   for ($i=0; $i<count($rows); $i++) {
     $row = array_map('trim', explode(':', $rows[$i], 2));
