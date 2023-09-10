@@ -128,7 +128,7 @@ EOT;
         $.each(hovered, function(k,v){ if(v.length) { $("#"+v).trigger("mouseenter");} });
       }
       <?if ($update):?>
-      timers.getNUTfooter = setTimeout(getNUTfooter, <?=max(abs($display['refresh']),($nut_interval * 1000))?>);
+      timers.getNUTfooter = setTimeout(getNUTfooter, <?=max(abs(isset($display['refresh']) ? $display['refresh'] : 0),($nut_interval * 1000))?>);
       <?endif;?>
     });
   }
@@ -202,7 +202,7 @@ $(function(){
       $("#db-box1").find('.nut_loadpct').html(data[5]+' - '+data[4]);
       <?if ($update):?>
       clearTimeout(timers.getNUTDashboard);
-      timers.getNUTDashboard = setTimeout(getNUTDashboard, <?=max(abs($display['refresh']),($nut_interval * 1000))?>);
+      timers.getNUTDashboard = setTimeout(getNUTDashboard, <?=max(abs(isset($display['refresh']) ? $display['refresh'] : 0),($nut_interval * 1000))?>);
       <?endif;?>
     });
   }
