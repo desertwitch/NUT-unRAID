@@ -40,7 +40,6 @@ EOT;
 ?>
 
 <?require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php';?>
-<?$config = parse_ini_file('/boot/config/plugins/nut/nut.cfg');?>
 <?if ($nut_footer == "enable" && $nut_running):?>
 <?$update= $nut_refresh == "enable" ? true : false;?>
 <style type="text/css">
@@ -137,7 +136,7 @@ EOT;
   $(function()
     {
       var footer = $("<span id='nut_footer'></span>").insertAfter("div#footer > span#copyright");
-      <?if ($config['FOOTER_STYLE'] == 1): ?>
+      <?if ($nut_footer_style == 1): ?>
         footer.addClass('minimal');
       <?endif;?>
       getNUTfooter();

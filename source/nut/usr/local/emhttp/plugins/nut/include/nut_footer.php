@@ -12,7 +12,6 @@
  * all copies or substantial portions of the Software.
  */
 require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php';
-$config = parse_ini_file('/boot/config/plugins/nut/nut.cfg');
 
 //  exit if NUT daemon isn't working
 if (! file_exists('/var/run/nut/upsmon.pid')) {
@@ -83,7 +82,7 @@ if (count($ups_status)) {
   }
 
   $battery_runtime = array_key_exists($nut_runtime, $ups_status) ? format_time($ups_status[$nut_runtime]) : "n/a";
-  $css_class = $online['severity'] > 0 ? $nut_msgSeverity[$online['severity']]['css_class'] : ($config['FOOTER_STYLE'] == 1 ? $black : $green);
+  $css_class = $online['severity'] > 0 ? $nut_msgSeverity[$online['severity']]['css_class'] : ($nut_footer_style == 1 ? $black : $green);
   $fa_icon = '';
   $statusTooltipData = '';
   $batteryText = $battery . "&thinsp;%";
@@ -112,10 +111,10 @@ if (count($ups_status)) {
   }
 
   # enable tooltip on Default footer style
-  if ($config['FOOTER_STYLE'] == 0)
+  if ($nut_footer_style == 0)
     $statusTooltipData = ' data="[' . $nut_name . '] ' . implode(' - ', $online['fulltext']) . '"';
 
-  $status[0] = "<span id='" . ($config['FOOTER_STYLE'] == 0 ? "nut_battery" : "") . "' class='tooltip-nut " . $css_class . "'" . $statusTooltipData . "><i class='fa " . $fa_icon . "' style='vertical-align: baseline;'></i>&thinsp;" . $batteryText . "</span>";
+  $status[0] = "<span id='" . ($nut_footer_style == 0 ? "nut_battery" : "") . "' class='tooltip-nut " . $css_class . "'" . $statusTooltipData . "><i class='fa " . $fa_icon . "' style='vertical-align: baseline;'></i>&thinsp;" . $batteryText . "</span>";
 
   # ups.power (in VA)
   $apparentPower = $apparentPower > 1 && $load ? $apparentPower : -1;
@@ -146,10 +145,10 @@ if (count($ups_status)) {
   }
 
   # enable tooltip on Default footer style
-  if ($config['FOOTER_STYLE'] == 0)
+  if ($nut_footer_style == 0)
     $powerTooltipData = " data='[{$nut_name}] " . $powerTooltipData . "'";
 
-  $status[1] = "<span id='".($config['FOOTER_STYLE'] == 0 ? "nut_power" : "")."' class='tooltip-nut " . ($load >= 90 ? $red : ($config['FOOTER_STYLE'] == 1 ? $black : $green)) . "'" . $powerTooltipData . "><i class='fa fa-plug'></i>&thinsp;" . $powerText . "</span>";
+  $status[1] = "<span id='".($nut_footer_style == 0 ? "nut_power" : "")."' class='tooltip-nut " . ($load >= 90 ? $red : ($nut_footer_style == 1 ? $black : $green)) . "'" . $powerTooltipData . "><i class='fa fa-plug'></i>&thinsp;" . $powerText . "</span>";
 
   echo "<span style='margin:0 6px 0 12px'>".implode('</span><span style="margin:0 6px 0 6px">', $status)."</span>";
 } else {
