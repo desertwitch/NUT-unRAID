@@ -46,12 +46,12 @@ if (file_exists('/var/run/nut/upsmon.pid')) {
   
   $upsStatus = nut_ups_status($rows);
 
-  $runtime = -1;
-  $realPower = -1;
-  $realPowerNominal = -1;
-  $apparentPower = -1;
-  $powerNominal = -1;
-  $load = -1;
+  $runtime = 0;
+  $realPower = 0;
+  $realPowerNominal = 0;
+  $apparentPower = 0;
+  $powerNominal = 0;
+  $load = 0;
 
   for ($i=0; $i<count($rows); $i++) {
     $row = array_map('trim', explode(':', $rows[$i], 2));
