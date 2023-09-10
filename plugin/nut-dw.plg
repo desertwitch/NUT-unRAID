@@ -3,14 +3,14 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "nut">
 <!ENTITY author    "desertwitch">
-<!ENTITY version   "2023.09.07">
+<!ENTITY version   "2023.09.10">
 <!ENTITY launch    "Settings/NUTsettings">
 <!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/master">
 <!ENTITY pluginURL "&gitURL;/plugin/&name;-dw.plg">
 <!ENTITY pkgURL    "&gitURL;/packages">
 <!ENTITY plgPATH   "/boot/config/plugins/&name;">
-<!ENTITY plgNAME   "nut-plugin-2023.09.07-x86_64-1">
-<!ENTITY plgMD5    "364a34022f91431bfcf482a672570367">
+<!ENTITY plgNAME   "nut-plugin-2023.09.10-x86_64-1">
+<!ENTITY plgMD5    "12b2397b20d1bdc3afc36f6a7096da52">
 <!ENTITY emhttp    "/usr/local/emhttp/plugins/&name;">
 ]>
 
@@ -18,6 +18,9 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
+###2023.09.10
+- fix: refactored old code for PHP8 to minimize PHP warnings
+- fix: minor bugfixes across the GUI/frontend
 ###2023.09.07
 - fix: do not approximate current VA when it is reported correctly by UPS
 ###2023.09.02
