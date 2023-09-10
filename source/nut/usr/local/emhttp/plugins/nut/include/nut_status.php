@@ -100,10 +100,10 @@ if (file_exists('/var/run/nut/upsmon.pid')) {
     $powerNominal = intval($nut_powerva);
     $realPowerNominal = intval($nut_powerw);
 
-    if ($powerNominal >= 0)
+    if ($powerNominal > 0)
       $apparentPower = -1;
 
-    if ($realPowerNominal >= 0)
+    if ($realPowerNominal > 0)
       $realPower = -1;
   }
 
@@ -127,11 +127,11 @@ if (file_exists('/var/run/nut/upsmon.pid')) {
     $status[3] = "<td " . ($load >= 90 ? $red : $green) . ">$realPowerNominal&thinsp;W</td>";
 
   # display apparent power and real power if exists
-  if ($apparentPower >= 0 && $realPower >= 0)
+  if ($apparentPower > 0 && $realPower > 0)
     $status[4] = "<td " . ($realPower == 0 || $apparentPower == 0 ? $red : $green) . ">$realPower&thinsp;W ($apparentPower&thinsp;VA)</td>";
-  else if ($apparentPower >= 0)
+  else if ($apparentPower > 0)
     $status[4] = "<td " . ($apparentPower == 0 ? $red : $green) . ">$apparentPower&thinsp;VA</td>";
-  else if ($realPower >= 0)
+  else if ($realPower > 0)
     $status[4] = "<td " . ($realPower == 0 ? $red : $green) . ">$realPower&thinsp;W</td>";
 
   # compute power factor from ups.realpower.nominal and ups.power.nominal if available

@@ -65,10 +65,10 @@ if (count($ups_status)) {
     $powerNominal = intval($nut_powerva);
     $realPowerNominal = intval($nut_powerw);
 
-    if ($powerNominal >= 0)
+    if ($powerNominal > 0)
       $apparentPower = -1;
 
-    if ($realPowerNominal >= 0)
+    if ($realPowerNominal > 0)
       $realPower = -1;
   }
 
@@ -131,15 +131,15 @@ if (count($ups_status)) {
   $powerText = '';
   $powerTooltipData = '';
   # display load, real and apparent power
-  if ($realPower >= 0 && $apparentPower >= 0) {
+  if ($realPower > 0 && $apparentPower > 0) {
     $powerText = "{$realPower}&thinsp;W ({$apparentPower}&thinsp;VA)";
     $powerTooltipData = "Load: $load&thinsp;% - Real power: $realPower&thinsp;W - Apparent power: $apparentPower&thinsp;VA";
   # display load and real power
-  } else if ($realPower >= 0 && $load) {
+  } else if ($realPower > 0 && $load) {
     $powerText = "{$realPower}&thinsp;W";
     $powerTooltipData = "Load: $load&thinsp;% - Real power: $realPower&thinsp;W";
   # display load and apparent power
-  } else if ($apparentPower >= 0) {
+  } else if ($apparentPower > 0) {
     $powerText = "{$apparentPower}&thinsp;VA";
     $powerTooltipData = "Load: $load&thinsp;% - Apparent power: $apparentPower&thinsp;VA";
   }
