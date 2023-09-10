@@ -47,7 +47,7 @@ function array_key_exists_wildcard ( $arr, $nee ) {
 
 function format_time($seconds) {
   $t = round($seconds);
-  return sprintf('%02d:%02d:%02d', round($t/3600,0),round($t/60%60,0), round($t%60,0));
+  return gmdate("H:i:s" ,$t );
 }
 
 $status = [];
