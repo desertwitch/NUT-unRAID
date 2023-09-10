@@ -135,9 +135,13 @@ if (count($ups_status)) {
     $powerText = "{$realPower}&thinsp;W";
     $powerTooltipData = "Load: $load&thinsp;% - Real power: $realPower&thinsp;W";
   # display load and apparent power
-  } else if ($apparentPower > 0) {
+  } else if ($apparentPower > 0 && $load) {
     $powerText = "{$apparentPower}&thinsp;VA";
     $powerTooltipData = "Load: $load&thinsp;% - Apparent power: $apparentPower&thinsp;VA";
+  # display load
+  } else if ($load) {
+    $powerText = '';
+    $powerTooltipData = "Load: $load&thinsp;%";
   }
 
   # enable tooltip on Default footer style
