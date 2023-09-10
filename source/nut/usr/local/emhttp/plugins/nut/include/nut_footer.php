@@ -140,7 +140,7 @@ if (count($ups_status)) {
     $powerTooltipData = "Load: $load&thinsp;% - Apparent power: $apparentPower&thinsp;VA";
   # display load
   } else if ($load) {
-    $powerText = '';
+    $powerText = '{$load}&thinsp;%';
     $powerTooltipData = "Load: $load&thinsp;%";
   }
 
