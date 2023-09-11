@@ -35,6 +35,37 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
     <span style="float:right;margin-right:10px"><a href="http://www.networkupstools.org/docs/user-manual.chunked/" target="_blank" title="NUT UPS user manual"><i class="fa fa-file-text-o"></i> <u>Online Manual</u></a></span>
 
     <dl>
+        <dt>Network UPS Tools Active Backend:</dt>
+        <dd>
+	        <strong><?= isset($nut_installed_backend) && $nut_installed_backend ? $nut_installed_backend : "n/a" ?></strong>
+        </dd>
+    </dl>
+<dl>
+        <dt>Network UPS Tools Backend Switch:</dt>
+        <dd>
+            <select class="nut-run" id="BACKEND" name="BACKEND" size="1">
+                <?
+                $URversion = parse_ini_file('/etc/unraid-version')['version'];
+                if(isset($URversion) && $URversion) {
+                    if( version_compare($URversion, '6.10.0', '>') && version_compare($URversion, '6.12.99', '<') ) {
+                        echo(mk_option($nut_backend, "default", "default (recent master)"));
+                        echo(mk_option($nut_backend, "stable", "outdated (2.8.0 stable)"));
+                        echo(mk_option($nut_backend, "legacy", "outdated (2.7.4 stable)"));
+                    }
+                    else {
+                        echo(mk_option($nut_backend, "default", "default"));
+                    }
+                }
+                else {
+                    echo(mk_option($nut_backend, "default", "default"));
+                }
+                ?>
+            </select>
+            <em>requires reboot</em>
+	    </dd>
+    </dl>
+
+    <dl>
         <dt>Start Network UPS Tools service:</dt>
         <dd>
             <select id="SERVICE" name="SERVICE" size="1">

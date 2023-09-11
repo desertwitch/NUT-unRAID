@@ -31,7 +31,9 @@ $nut_footer_style = isset($nut_cfg['FOOTER_STYLE']) ? htmlspecialchars($nut_cfg 
 $nut_refresh      = isset($nut_cfg['REFRESH'])      ? htmlspecialchars($nut_cfg ['REFRESH'])      : 'disable';
 $nut_interval     = isset($nut_cfg['INTERVAL'])     ? intval($nut_cfg['INTERVAL'])                : 15 ;
 $nut_runtime      = isset($nut_cfg['RUNTIME'])      ? htmlspecialchars($nut_cfg ['RUNTIME'])      : 'battery.runtime';
+$nut_backend      = isset($nut_cfg['BACKEND'])      ? htmlspecialchars($nut_cfg['BACKEND'])       : 'default';
 $nut_running      = (intval(trim(shell_exec( "[ -f /proc/`cat /var/run/nut/upsmon.pid 2> /dev/null`/exe ] && echo 1 || echo 0 2> /dev/null" ))) === 1 );
+$nut_installed_backend = trim(shell_exec("find /var/log/packages/ -type f -iname 'nut*' ! -iname 'nut-plugin*' -printf '%f\n' 2> /dev/null"));
 
 # debug constant to overwrite ups.status
 // define('NUT_STATUS_DEBUG', 'OB DISCHRG BYPASS CAL');
