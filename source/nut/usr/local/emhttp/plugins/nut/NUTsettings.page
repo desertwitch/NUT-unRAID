@@ -71,7 +71,7 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
     </dl>
 
     <blockquote class="inline_help">
-    <p>In case of any problems with your UPS you can attempt to switch the NUT backend to an older version.</p>
+    <p>In case of any problems with your UPS you can attempt to switch the NUT backend to an older version (if available).</p>
     <p>This is <strong>NOT RECOMMENDED</strong> unless you are having problems - <strong>STAY ON DEFAULT</strong> for the latest NUT backend.</p>
     </blockquote>
 
