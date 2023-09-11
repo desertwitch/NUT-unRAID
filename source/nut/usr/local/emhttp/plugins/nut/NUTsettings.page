@@ -40,7 +40,12 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
 	        <strong><?= isset($nut_installed_backend) && $nut_installed_backend ? $nut_installed_backend : "n/a" ?></strong>
         </dd>
     </dl>
-<dl>
+
+    <blockquote class="inline_help">
+        <p>The currently installed NUT backend is shown here to make sure any backend changes were applied after a reboot.</p>
+    </blockquote>
+
+    <dl>
         <dt>Network UPS Tools Backend Switch:</dt>
         <dd>
             <select class="nut-run" id="BACKEND" name="BACKEND" size="1">
@@ -65,8 +70,13 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
 	    </dd>
     </dl>
 
+    <blockquote class="inline_help">
+    <p>In case of any problems with your UPS you can attempt to switch the NUT backend to an older version.</p>
+    <p>This is <strong>NOT RECOMMENDED</strong> unless you are having problems - <strong>STAY ON DEFAULT</strong> for the latest NUT backend.</p>
+    </blockquote>
+
     <dl>
-        <dt>Start Network UPS Tools service:</dt>
+        <dt><strong>Start Network UPS Tools service:</strong></dt>
         <dd>
             <select id="SERVICE" name="SERVICE" size="1">
                 <?=mk_option($nut_service, "disable", "No");?>
