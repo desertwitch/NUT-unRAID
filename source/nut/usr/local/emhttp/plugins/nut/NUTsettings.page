@@ -49,8 +49,8 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
                 if(isset($URversion) && $URversion) {
                     if( version_compare($URversion, '6.10.0', '>') && version_compare($URversion, '6.12.99', '<') ) {
                         echo(mk_option($nut_backend, "default", "default (recent master)"));
-                        echo(mk_option($nut_backend, "stable", "outdated (2.8.0 stable)"));
-                        echo(mk_option($nut_backend, "legacy", "outdated (2.7.4 stable)"));
+                        echo(mk_option($nut_backend, "stable", "release (2.8.0 stable)"));
+                        echo(mk_option($nut_backend, "legacy", "legacy (2.7.4 stable)"));
                     }
                     else {
                         echo(mk_option($nut_backend, "default", "default"));
