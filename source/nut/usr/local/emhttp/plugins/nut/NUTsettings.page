@@ -344,6 +344,24 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
         </blockquote>
     </div>
 
+    <div id="UPSKILL">
+        <dl>
+            <dt>Kill UPS Power:</dt>
+            <dd>
+                <select class="nut-run" name="UPSKILL" size="1">
+                    <?=mk_option($nut_upskill, 'disable', 'No');?>
+                    <?=mk_option($nut_upskill, 'enable', 'Yes');?>
+                </select>
+            </dd>
+        </dl>
+
+        <blockquote class="inline_help">
+            <p>Set to <strong><em>Yes</em></strong> to turn off the UPS power (to the protected devices) after a NUT intiated shutdown.</p>
+            <p>Enable <strong><em>Automatically power on after power loss</em></strong> in your BIOS if you want your computers to restart when the power (mains) recovers.</p>
+            <p><u>Warning:</u> Not all UPS devices support this setting, in the worst case it will have no effect.</p>
+        </blockquote>
+    </div>
+
     <div id="REPLBATTMSG">
         <dl>
             <dt>Battery Replacement Notification:</dt>
@@ -358,24 +376,6 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
         <blockquote class="inline_help">
             <p>Set to 'Yes' to receive a notification when the UPS reports the batteries as needing replacement.</p>
             <p>By default this notification will be sent every 12 hours until the batteries are replaced.</p>
-        </blockquote>
-    </div>
-
-    <div id="UPSKILL">
-        <dl>
-            <dt>Kill UPS power after NUT initiated shutdown:</dt>
-            <dd>
-                <select class="nut-run" name="UPSKILL" size="1">
-                    <?=mk_option($nut_upskill, 'disable', 'No');?>
-                    <?=mk_option($nut_upskill, 'enable', 'Yes');?>
-                </select>
-            </dd>
-        </dl>
-
-        <blockquote class="inline_help">
-            <p>Set to <strong><em>Yes</em></strong> to turn off the UPS power (to the protected devices) after a NUT intiated shutdown.</p>
-            <p>Enable <strong><em>Automatically power on after power loss</em></strong> in your BIOS if you want your computers to restart when the power (mains) recovers.</p>
-            <p><u>Warning:</u> Not all UPS devices support this setting, in the worst case it will have no effect.</p>
         </blockquote>
     </div>
 
