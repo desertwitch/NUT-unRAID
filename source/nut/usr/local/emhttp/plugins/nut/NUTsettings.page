@@ -140,19 +140,7 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
         </blockquote>
 
         <dl>
-            <dt>UPS Name:</dt>
-            <dd>
-                <input id="NAME" type="text" class="narrow nut-run nut-name" name="NAME" maxlength="30" value="<?=htmlspecialchars($nut_name);?>" title="nut ups name">
-            </dd>
-        </dl>
-
-        <blockquote class="inline_help">
-            <p>The name of the UPS configured in NUT (on the master server).</p>
-            <p>It is recommended to leave this setting as it is, unless connecting to a UPS with a different name in <strong><em>Slave</em></strong> mode.</p>
-        </blockquote>
-
-        <dl>
-            <dt>UPS Monitor Username:</dt>
+            <dt>NUT Monitor Username:</dt>
             <dd>
                 <input id="MONUSER" type="text" class="narrow nut-run nut-monuser" name="MONUSER" maxlength="30" value="<?=htmlspecialchars($nut_monuser);?>" title="nut ups monitor username" >
             </dd>
@@ -163,7 +151,7 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
         </blockquote>
 
         <dl>
-            <dt>UPS Monitor Password:</dt>
+            <dt>NUT Monitor Password:</dt>
             <dd>
                 <input id="MONPASS" type="password" class="narrow nut-run" name="MONPASS" maxlength="66" value="<?=htmlspecialchars($nut_monpass);?>" title="nut ups password" >
             </dd>
@@ -175,7 +163,7 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
 
         <div id="SLAVE">
             <dl>
-                <dt>UPS Slave Username:</dt>
+                <dt>NUT Slave Username:</dt>
                 <dd>
                     <input id="SLAVEUSER" type="text" class="narrow nut-run nut-slaveuser" name="SLAVEUSER" maxlength="30" value="<?=htmlspecialchars($nut_slaveuser);?>" title="nut ups slave username" >
                 </dd>
@@ -187,7 +175,7 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
             </blockquote>
 
             <dl>
-                <dt>UPS Slave Password:</dt>
+                <dt>NUT Slave Password:</dt>
                 <dd>
                     <input id="SLAVEPASS" type="password" class="narrow nut-run" name="SLAVEPASS" maxlength="66" value="<?=htmlspecialchars($nut_slavepass);?>" title="nut ups slave password" >
                 </dd>
@@ -198,6 +186,18 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
                 <p><u>Note:</u> NUT is configured to listen on all interfaces (<strong><em>0.0.0.0</em></strong>).</p>
             </blockquote>
         </div>
+
+        <dl>
+            <dt>UPS Name:</dt>
+            <dd>
+                <input id="NAME" type="text" class="narrow nut-run nut-name" name="NAME" maxlength="30" value="<?=htmlspecialchars($nut_name);?>" title="nut ups name">
+            </dd>
+        </dl>
+
+        <blockquote class="inline_help">
+            <p>The name of the UPS configured in NUT (on the master server).</p>
+            <p>It is recommended to leave this setting as it is, unless connecting to a UPS with a different name in <strong><em>Slave</em></strong> mode.</p>
+        </blockquote>
 
         <div id="DRIVERS">
             <dl>
