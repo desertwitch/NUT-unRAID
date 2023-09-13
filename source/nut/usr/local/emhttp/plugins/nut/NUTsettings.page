@@ -76,7 +76,7 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
     </blockquote>
 
     <dl>
-        <dt><strong><em>Start Network UPS Tools Service:</em></strong></dt>
+        <dt><strong>Start Network UPS Tools Service:</strong></dt>
         <dd>
             <select id="SERVICE" name="SERVICE" size="1">
                 <?=mk_option($nut_service, "disable", "No");?>
@@ -110,7 +110,7 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
 
     <div id="SETTINGS">
         <dl>
-            <dt>UPS Mode:</dt>
+            <dt>NUT Mode:</dt>
             <dd>
                 <select class="nut-run" id="MODE" name="MODE" size="1">
                     <?=mk_option($nut_mode, 'standalone', 'Standalone');?>
