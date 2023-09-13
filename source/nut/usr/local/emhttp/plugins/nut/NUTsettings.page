@@ -136,7 +136,7 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
 
         <blockquote class="inline_help">
             <p>The IP address of the NUT master server (the UPS is connected to) to monitor.</p>
-            <p>In <strong><em>Standalone</em></strong> and <strong><em>Netserver</em></strong> modes, this setting should be '127.0.0.1'.</p>
+            <p>In <strong><em>Standalone</em></strong> and <strong><em>Netserver</em></strong> modes, this setting should be <strong><em>127.0.0.1</em></strong>.</p>
         </blockquote>
 
         <dl>
@@ -374,7 +374,7 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
         </dl>
 
         <blockquote class="inline_help">
-            <p>Set to 'Yes' to receive a notification when the UPS reports the batteries as needing replacement.</p>
+            <p>Set to <strong><em>Yes</em></strong> to receive a notification when the UPS reports the batteries as needing replacement.</p>
             <p>By default this notification will be sent every 12 hours until the batteries are replaced.</p>
         </blockquote>
     </div>
