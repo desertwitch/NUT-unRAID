@@ -211,7 +211,7 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
                     <?=mk_option($nut_driver, 'tripplite_usb', 'tripplite_usb');?>
                     <?=mk_option($nut_driver, 'usbhid-ups', 'usbhid-ups');?>
                     <?=mk_option($nut_driver, 'snmp-ups', 'snmp-ups');?>
-                    <?=mk_option($nut_driver, 'custom', 'CUSTOM');?>
+                    <?=mk_option($nut_driver, 'custom', 'custom');?>
                     </select><input type="hidden" class="narrow serial nut-run" id="SERIAL" name="SERIAL" maxlength="40" value="<?=$nut_serial;?>">
                 </dd>
             </dl>
@@ -219,7 +219,7 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
             <blockquote class="inline_help">
                 <p>Please check the link below to find a driver matching for your UPS:</p>
                 <p><a href="http://www.networkupstools.org/stable-hcl.html" target="_blank">http://www.networkupstools.org/stable-hcl.html</a></p>
-                <p>For drivers not listed here, set to <strong><em>CUSTOM</em></strong> and insert the driver in the text field appearing to the right.</p>
+                <p>For drivers not listed here, set to <strong><em>custom</em></strong> and insert the driver in the text field appearing to the right.</p>
                 <p>Please do not forget to match your selected driver and the port configured below.</p>
             </blockquote>
 
