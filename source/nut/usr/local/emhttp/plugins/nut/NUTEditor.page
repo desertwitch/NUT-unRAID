@@ -15,7 +15,7 @@ Markdown="false"
 <link type="text/css" rel="stylesheet" href="<?=autov('/webGui/styles/jquery.filetree.css');?>">
 
 <blockquote class="inline_help">
-    <p>The NUT Configuration Editor allows to directly modify the NUT configuration files.</p>
+    <p>The <strong><em>NUT Configuration Editor</em></strong> allows to directly modify the NUT configuration files.</p>
 </blockquote>
 
 <form id="editform" method="POST">
