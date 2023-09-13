@@ -265,7 +265,7 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
     </div>
 
     <dl>
-        <dt>Battery Runtime Attribute:</dt>
+        <dt>UPS Battery Runtime Attribute:</dt>
         <dd>
             <select class="nut-run" id="RUNTIME" name="RUNTIME" size="1">
                 <?=mk_option($nut_runtime, 'battery.runtime', 'battery.runtime');?>
