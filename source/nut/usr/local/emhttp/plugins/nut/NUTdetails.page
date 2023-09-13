@@ -32,7 +32,7 @@ table.tablesorter tbody tr:nth-child(even) {
 <tbody id="nut_status"><tr><td colspan="4" style="text-align:center"><i class="fa fa-spinner fa-spin icon"></i><em>Please wait, retrieving UPS information...</em></td></tr></tbody>
 </table>
 
-<div style="font-size:x-small;font-weight:bold;"><a href="/plugins/nut/include/nut_status.php?diagsave=true&all=true">Save Diagnostics</a></div>
+<div><a href="/plugins/nut/include/nut_status.php?diagsave=true&all=true">Save Diagnostics</a></div>
 
 <script>
 function getNUTstatus() {
