@@ -536,7 +536,7 @@ $(function() {
         openBox('/plugins/nut/scripts/nutscan', 'NUT Scanner', 600, 600, true);
     });
 
-    $('#RESETCONF').click(function(){ swal({title:"Are you sure?",text:"This action will delete all existing configurations!",type:"warning",html:true,showCancelButton:true}, ResetConfig); });
+    $('#RESETCONF').click(function(){ swal({title:"Are you sure?",text:"This action will return any existing NUT configuration to their defaults!",type:"warning",html:true,showCancelButton:true}, ResetConfig); });
 
     $('form input:not([type="submit"])').keydown(function(e) {
         if (e.keyCode == 13) {
