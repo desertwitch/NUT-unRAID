@@ -1,5 +1,5 @@
 Menu="NUTsettings:2"
-Title="Config Editor"
+Title="NUT Configuration Editor"
 Tag="cogs"
 Markdown="false"
 ---
@@ -15,20 +15,7 @@ Markdown="false"
 <link type="text/css" rel="stylesheet" href="<?=autov('/webGui/styles/jquery.filetree.css');?>">
 
 <blockquote class="inline_help">
-    <p>NUT Config Editor is used to get and set configuration parameters.</p>
-    <p><b>Search Functions:</b></p>
-    <dl>
-    <dt>Ctrl-F / Cmd-F</dt>
-    <dd>Start searching</dd>
-    <dt>Ctrl-G / Cmd-G</dt>
-    <dd>Find next</dd>
-    <dt>Shift-Ctrl-G / Shift-Cmd-G</dt>
-    <dd>Find previous</dd>
-    <dt>Shift-Ctrl-F / Cmd-Option-F</dt>
-    <dd>Replace</dd>
-    <dt>Shift-Ctrl-R / Shift-Cmd-Option-F</dt>
-    <dd>Replace all</dd>
-    </dl>
+    <p>The NUT Configuration Editor allows to directly modify the NUT configuration files.</p>
 </blockquote>
 
 <form id="editform" method="POST">
@@ -37,20 +24,19 @@ Markdown="false"
 
 <input id="editfile" type="text" name="editfile" value="" readonly="" data-picktop="/etc/nut" data-pickcloseonfile="true" data-pickfilter="conf,users" data-pickroot="/etc/nut" data-pickfolders="false" required="required" >
 
-<textarea id="editdata" name="editdata" placeholder="Select Configuration File to Open." autofocus></textarea>
+<textarea id="editdata" name="editdata" placeholder="Select Configuration File" autofocus></textarea>
 <input type="hidden" name="commit" value="1" />
 <input type="hidden" name="manual" value="<?=$nut_manual?>" />
 <dl>
     <dt></dt>
-    <dd><input type="button" value="Save" id="btnSubmit" title="save configuration changes" />
+    <dd><input type="button" value="Save" id="btnSubmit" title="Save Configuration File" />
     <input type="button" value="Cancel" id="btnCancel" />
     </dd>
 </form>
 </dl>
 
 <blockquote class="inline_help">
-    <p>The Save button saves configuration changes.
-    </p>
+    <p>The 'Save' button saves the currently selected configuration file.</p>
 </blockquote>
 
 <script src="<?=autov('/plugins/nut/js/codemirror/codemirror.min.js');?>"></script>
@@ -99,13 +85,13 @@ $(function(){
     $('#btnSubmit').click(function () {
         editor.save();
         $.post('/plugins/nut/include/nut_save.php', $('#editform').serializeArray(), function (data) {
-            var Title = 'Config File ';
+            var Title = 'Configuration ';
 
             if(data.success)
-                swal({title: Title+'Saved', text: data.saved+'\n\nrestart nut to use new config.', timer: 2500, showConfirmButton: false, type:'success'
+                swal({title: Title+'Saved', text: data.saved+'\n\nChanges will be active on next NUT restart.', timer: 3500, showConfirmButton: false, type:'success'
                 });
             if(data.error)
-                swal({title:Title+'Error', text: data.error+'\n\nunable to save file', type:'error'});
+                swal({title:Title+'Error', text: data.error+'\n\nError saving configuration file.', type:'error'});
 
         }, 'json');
     });

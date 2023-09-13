@@ -87,11 +87,11 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
 
     <blockquote class="inline_help">
         <p>Set to 'Yes' to enable NUT and start the service, set to 'No' to disable NUT and stop the service.</p>
-        <p>Setting 'Yes' will also enable NUT on unRAID boot.</p>
+        <p>The setting 'Yes' will also cause NUT to start automatically on UNRAID boot.</p>
     </blockquote>
 
     <dl>
-        <dt>Enable Manual Config Only:</dt>
+        <dt>Enable Manual Configuration:</dt>
         <dd>
             <select class="nut-run" id="MANUAL" name="MANUAL" size="1">
                 <?=mk_option($nut_manual, "disable", "No");?>
@@ -101,11 +101,11 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
     </dl>
 
     <blockquote class="inline_help">
-        <p>Set to 'Yes' to enable NUT manual config, set to 'No' to disable NUT manual config.</p>
-        <p>Setting 'Yes' will ignore and hide all settings. The conf files will be used instead.</p>
-        <p>Setting 'No' will use the NUT settings page to configure the conf files.</p>
-        <p>You can still edit the conf files to add extras not included on the NUT Settings Page.</p>
-        <p>Some conf file settings may be overwritten by the NUT Settings Page though.</p>
+        <p>Set to 'Yes' to enable NUT manual configuration, set to 'No' to disable NUT manual configuration.</p>
+        <p>Setting 'Yes' will ignore and hide all NUT settings on this page. The NUT configuration files will be used instead.</p>
+        <p>Setting 'No' will use the NUT settings on this page to configure the NUT services and populate the configuration files.</p>
+        <p>Regardless of this setting, you can always edit the configuration files to add any extra settings not included on this page.</p>
+        <p>If not in manual configuration mode, beware the safe zones marked in the configuration files so your settings are not overwritten.</p>
     </blockquote>
 
     <div id="SETTINGS">
@@ -121,10 +121,10 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
         </dl>
 
         <blockquote class="inline_help">
-            <p>Select the *mode* which mode your UPS will run in.</p>
-            <p>**standalone** - When the ups is only used by the local host**</p>
-            <p>**netserver** - When nut clients/slaves need to connect to the ups**</p>
-            <p>**slave** - When nut is slave to another machine connected to the ups**</p>
+            <p>This setting defines the mode your NUT services will operate in and also the level of connectivity they will provide:</p>
+            <p>'Standalone' - Your UPS is connected to your UNRAID server and no external connections to NUT will be possible.</p>
+            <p>'Netserver' - Your UPS is connected to your UNRAID server and you want other computers with NUT to connect as NUT slaves.</p>
+            <p>'Slave' - Your UPS is connected to another machine and you want your UNRAID server to connect to it as NUT slave.</p>
         </blockquote>
 
         <dl>
@@ -135,7 +135,8 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
         </dl>
 
         <blockquote class="inline_help">
-            <p>IP address of master server connected to the ups**</p>
+            <p>The IP address of the NUT master server (the UPS is connected to) to monitor.</p>
+            <p>In 'Standalone' and 'Netserver' modes, this setting should be '127.0.0.1'.</p>
         </blockquote>
 
         <dl>
@@ -146,7 +147,8 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
         </dl>
 
         <blockquote class="inline_help">
-            <p>Name of ups**</p>
+            <p>The name of the UPS configured in NUT (on the master server).</p>
+            <p>It is recommended to leave this setting as it is, unless connecting to a UPS with a different name in 'Slave' mode.</p>
         </blockquote>
 
         <dl>
@@ -157,7 +159,7 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
         </dl>
 
         <blockquote class="inline_help">
-            <p>Username used to access of ups monitor**</p>
+            <p>The username to access the NUT master server.</p>
         </blockquote>
 
         <dl>
@@ -168,7 +170,7 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
         </dl>
 
         <blockquote class="inline_help">
-            <p>Password used to access of ups monitor**</p>
+            <p>The password to access the NUT master server.</p>
         </blockquote>
 
         <div id="SLAVE">
@@ -180,7 +182,8 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
             </dl>
 
             <blockquote class="inline_help">
-                <p>Username used by slave to access of ups monitor**</p>
+                <p>The username for NUT slaves to use connecting to the NUT master server.</p>
+                <p><u>Note:</u> NUT is configured to listen on all interfaces (0.0.0.0).</p>
             </blockquote>
 
             <dl>
@@ -191,7 +194,8 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
             </dl>
 
             <blockquote class="inline_help">
-                <p>Password used by slave to access of ups monitor**</p>
+                <p>The password for NUT slaves to use connecting to the NUT master server.</p>
+                <p><u>Note:</u> NUT is configured to listen on all interfaces (0.0.0.0).</p>
             </blockquote>
         </div>
 
@@ -200,24 +204,23 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
                 <dt>UPS Driver:</dt>
                 <dd>
                     <select class="nut-run" id="DRIVER" name="DRIVER" size="1" title="nut driver">
-                    <?=mk_option($nut_driver, 'blazer_usb', 'Blazer_usb');?>
-                    <?=mk_option($nut_driver, 'blazer_ser', 'Blazer_ser');?>
-                    <?=mk_option($nut_driver, 'bcmxcp_usb', 'Bcmxcp_usb');?>
-                    <?=mk_option($nut_driver, 'richcomm_usb', 'Richcomm_usb');?>
-                    <?=mk_option($nut_driver, 'tripplite_usb', 'Tripplite_usb');?>
-                    <?=mk_option($nut_driver, 'usbhid-ups', 'Usbhid-ups');?>
-                    <?=mk_option($nut_driver, 'snmp-ups', 'SNMP-UPS');?>
-                    <?=mk_option($nut_driver, 'custom', 'Custom');?>
+                    <?=mk_option($nut_driver, 'blazer_usb', 'blazer_usb');?>
+                    <?=mk_option($nut_driver, 'blazer_ser', 'blazer_ser');?>
+                    <?=mk_option($nut_driver, 'bcmxcp_usb', 'bcmxcp_usb');?>
+                    <?=mk_option($nut_driver, 'richcomm_usb', 'richcomm_usb');?>
+                    <?=mk_option($nut_driver, 'tripplite_usb', 'tripplite_usb');?>
+                    <?=mk_option($nut_driver, 'usbhid-ups', 'usbhid-ups');?>
+                    <?=mk_option($nut_driver, 'snmp-ups', 'snmp-ups');?>
+                    <?=mk_option($nut_driver, 'custom', 'custom');?>
                     </select><input type="hidden" class="narrow serial nut-run" id="SERIAL" name="SERIAL" maxlength="40" value="<?=$nut_serial;?>">
                 </dd>
             </dl>
 
             <blockquote class="inline_help">
-                <p>**Check the link below to find the driver matching your UPS**</p>
+                <p>Please check the link below to find a driver matching for your UPS:</p>
                 <p><a href="http://www.networkupstools.org/stable-hcl.html" target="_blank">http://www.networkupstools.org/stable-hcl.html</a></p>
-                <p>For other devices set **Custom** and enter the driver manually in the text input to the right.</p>
-                <p>Dont forget to match the port with your driver</p>
-                <p>Use the *Link* above to find which Driver to choose.</p>
+                <p>For drivers not listed here, set to 'custom' and insert the driver in the text field appearing to the right.</p>
+                <p>Please do not forget to match your selected driver and the port configured below.</p>
             </blockquote>
 
             <dl>
@@ -226,9 +229,10 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
             </dl>
 
             <blockquote class="inline_help">
-                <p>Enter the *port* which your UPS connects to.</p>
-                <p>**auto** - Set to "auto" if the ups is connected by usb.</p>
-                <p>**/dev/tty0** - Example, for serial devices**</p>
+                <p>Enter the device port your NUT driver will connect to:</p>
+                <p>- Set to 'auto' if the UPS is connected by USB.</p>
+                <p>- Set to a physical port, e.g. '/dev/tty0', for serial devices.</p>
+                <p>- Set to 'hostname[:port]' when connecting via SNMP using the driver 'snmp-ups'.</p>
             </blockquote>
         </div>
 
@@ -241,7 +245,7 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
             </dl>
 
             <blockquote class="inline_help">
-                <p>Enter your UPS SNMP Agent read community here.</p>
+                <p>The name of the read community of your UPS SNMP agent.</p>
             </blockquote>
 
             <dl>
@@ -252,7 +256,7 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
             </dl>
 
             <blockquote class="inline_help">
-                <p>Enter the desired polling frequency (in seconds).</p>
+                <p>The desired SNMP polling frequency (in seconds).</p>
             </blockquote>
         </div>
 
@@ -269,10 +273,10 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
     </dl>
 
     <blockquote class="inline_help">
-        <p>Select the *Battery Runtime* attribute that correctly reflects your UPS remaining battery runtime (check the "NUT Details" table).</p>
-        <p>**battery.runtime** - usually reflects the total remaining battery runtime of the UPS.</p>
-        <p>**battery.runtime.low** - usually reflects the remaining battery runtime after UPS switches to Low Battery.</p>
-        <p>This setting is used to display the correct runtime information and also when using shutdown mode "Runtime Left".</p>
+        <p>Select the battery runtime attribute that correctly reflects your UPS remaining battery runtime (see 'NUT Details' table).</p>
+        <p>- 'battery.runtime', this usually reflects the total remaining battery runtime of the UPS.</p>
+        <p>- 'battery.runtime.low', this usually reflects the remaining battery runtime after UPS switches to Low Battery.</p>
+        <p>This setting is used to display the correct runtime information and also when using the shutdown mode 'Runtime Left'.</p>
     </blockquote>
 
     <dl>
@@ -287,10 +291,10 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
     </dl>
 
     <blockquote class="inline_help">
-        <p>Select the *Shutdown mode* for NUT, this mode determines which "timer" to use for when the UPS will shutdown the system.</p>
-        <p>**Battery Level** - Shuts down the system when there is X percentage left on the battery **</p>
-        <p>**Runtime Left** - Shuts down the system when there is X runtime left on the battery (in minutes)**</p>
-        <p>**Time on Battery** - Shuts down the system when the user defined timer reaches zero (in minutes)**</p>
+        <p>Select the shutdown mode for NUT, this mode determines which UPS criteria to use when NUT should shutdown the system.</p>
+        <p>- 'Battery Level' shuts down the system when there is X percentage left on the battery.</p>
+        <p>- 'Runtime Left' shuts down the system when there is X runtime left on the battery (in minutes).</p>
+        <p>- 'Time on Battery' shuts down the system when the user defined timer reaches zero (in minutes).</p>
     </blockquote>
 
     <div id="SHUTDOWN0">
@@ -304,13 +308,13 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
         </dl>
 
         <blockquote class="inline_help">
-            <p>If during a power failure, the remaining battery percentage (as reported by the UPS) is below or equal to *Battery level*, NUT will initiate a system shutdown.</p>
+            <p>If during a power failure, the remaining battery percentage (as reported by the UPS) is below or equal to this setting, NUT will initiate a system shutdown.</p>
         </blockquote>
     </div>
 
     <div id="SHUTDOWN1">
         <dl>
-            <dt>Runtime left to initiate shutdown (minutes):</dt>
+            <dt>Battery runtime left to initiate shutdown (minutes):</dt>
             <dd>
                 <select class="nut-run" id="SECONDS" name="SECONDS" size="1">
                     <? echo get_minute_options($nut_seconds);?>
@@ -319,8 +323,8 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
         </dl>
 
         <blockquote class="inline_help">
-            <p>If during a power failure, the remaining runtime minutes (as calculated internally by the UPS) is below or equal to minutes, NUT will initiate a system shutdown.</p>
-            <p>**Note** depeding on your ups this value can "fluctuate" so be aware. if your ups has an old battery dont use this</p>
+            <p>If during a power failure, the remaining battery runtime minutes (as calculated by the UPS) are below or equal to this setting, NUT will initiate a system shutdown.</p>
+            <p><u>Warning:</u> Depending on your UPS this value can fluctuate, if your UPS has an old battery you shouldn't trust this shutdown mode.</p>
         </blockquote>
     </div>
 
@@ -335,7 +339,8 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
         </dl>
 
         <blockquote class="inline_help">
-            <p>The time in minutes before the system will power down if a power failure accours.</p>
+            <p>The time in minutes before NUT will initiate a system shutdown if a power failure occours (regardless of battery runtime/charge).</p>
+            <p>This value should always be lower than the total time you expect your UPS to last on battery in a maximum load scenario.</p>
         </blockquote>
     </div>
 
@@ -351,14 +356,14 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
         </dl>
 
         <blockquote class="inline_help">
-            <p>Set to *Yes* to receive a notification when the UPS batteries need replacement.</p>
+            <p>Set to 'Yes' to receive a notification when the UPS reports the batteries as needing replacement.</p>
             <p>By default this notification will be sent every 12 hours until the batteries are replaced.</p>
         </blockquote>
     </div>
 
     <div id="UPSKILL">
         <dl>
-            <dt>Turn off UPS after shutdown:</dt>
+            <dt>Turn off UPS power after shutdown:</dt>
             <dd>
                 <select class="nut-run" name="UPSKILL" size="1">
                     <?=mk_option($nut_upskill, 'disable', 'No');?>
@@ -368,19 +373,13 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
         </dl>
 
         <blockquote class="inline_help">
-            <p>Set to *Yes* to turn off the power to the UPS after a shutdown.</p>
-            <p>Check your bios and enable, "Automatically power on after power loss" so that the server starts again when powers is restored.</p>
+            <p>Set to 'Yes' to turn off the UPS power (to the protected devices) after a NUT intiated shutdown.</p>
+            <p>Enable 'Automatically power on after power loss' in your BIOS if you want your computers to restart when the power (mains) recovers.</p>
+            <p><u>Warning:</u> Not all UPS devices support this setting, in the worst case it will have no effect.</p>
         </blockquote>
     </div>
 
     <br>
-
-    <blockquote class="inline_help">
-        <p>**Additional Notes**</p>
-        <p>The usernames and passwords for *admin* and *slave* accounts in *upsd.users* file **</p>
-        <p>**Admin Account**: "admin / adminpass" - **Slave Account**: "slaveuser / slavepass"</p>
-        <p>NUT is set to listen on all interface in upsd.conf "LISTEN 0.0.0.0"</p>
-    </blockquote>
 
     <dl>
         <dt>
@@ -402,7 +401,7 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
     <input type="hidden" name="#file" value="<?=$sName?>/<?=$sName?>.cfg">
 
     <dl>
-        <dt>Display Page Footer:</dt>
+        <dt>NUT Page Footer:</dt>
         <dd>
             <select class="" name="FOOTER" size="1">
                 <?=mk_option($nut_footer, 'disable', 'No');?>
@@ -412,11 +411,11 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
     </dl>
 
     <blockquote class="inline_help">
-        <p>Display a small banner at the page footer with UPS battery and load status.</p>
+        <p>Display a small banner in the page's footer with available UPS statistics.</p>
     </blockquote>
 
     <dl>
-        <dt>Display Footer Style:</dt>
+        <dt>NUT Footer Style:</dt>
         <dd>
             <select class="" name="FOOTER_STYLE" size="1">
                 <?=mk_option($nut_footer_style, '0', 'Default');?>
@@ -426,11 +425,12 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
     </dl>
 
     <blockquote class="inline_help">
-        <p>Tooltip disabled on Minimal style.</p>
+        <p>Sets the style of the small banner in the page's footer.</p>
+        <p><u>Note:</u> There is no tooltip with additional UPS information when using the 'Minimal' style.</p>
     </blockquote>
 
     <dl>
-        <dt>Display Page Refresh:</dt>
+        <dt>NUT Dashboard Refresh:</dt>
         <dd>
             <select class="" name="REFRESH" size="1">
                 <?=mk_option($nut_refresh, 'disable', 'No');?>
@@ -440,18 +440,18 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
     </dl>
 
     <blockquote class="inline_help">
-        <p>Enable or disable page refreshes.</p>
+        <p>Enable or disable automatic refreshes for the NUT dashboards.</p>
     </blockquote>
 
     <dl>
-        <dt>Display Page Refresh Interval:</dt>
+        <dt>NUT Dashboard Refresh Interval:</dt>
         <dd>
             <input id="INTERVAL" type="text" class="narrow nut-power" name="INTERVAL" maxlength="5" value="<?=htmlspecialchars($nut_interval);?>" title="nut page refresh interval(Seconds)">
         </dd>
     </dl>
 
     <blockquote class="inline_help">
-        <p>Refresh interval is enable value in seconds.</p>
+        <p>Interval for the automatic NUT dashboard refreshes (in seconds).</p>
     </blockquote>
 
     <dl>
@@ -465,32 +465,32 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
     </dl>
 
     <blockquote class="inline_help">
-        <p>Enter your UPS Output Capacity Watts and Volt-Amperes</p>
-        <p>Used to calculate the Power Factor and Watts used</p>
-        <p>For UPS that do not present a real power nominal variable</p>
+        <p>Setting for UPS Output Capacity Watts and Volt-Amperes, used to calculate the Power Factor and Watts used:</p>
+        <p>- 'Auto' if the values reported by your UPS are correct (see 'NUT Details' table).</p>
+        <p>- 'Auto' if the values reported by your UPS are incorrect (see 'NUT Details' table).</p>
     </blockquote>
 
     <div id="POWER-SETTINGS">
         <dl>
-            <dt>UPS Output Volt Amp Capacity (VA):</dt>
+            <dt>UPS Output Volt Ampere Capacity (VA):</dt>
             <dd>
                 <input id="POWERVA" type="text" class="narrow nut-power" name="POWERVA" maxlength="5" value="<?=htmlspecialchars($nut_powerva);?>" title="nut ups capacity (VA)">
             </dd>
         </dl>
 
         <blockquote class="inline_help">
-            <p>Enter your UPS Output Capacity in Volt-Amperes</p>
+            <p>Enter your actual UPS Output Capacity in Volt-Amperes.</p>
         </blockquote>
 
         <dl>
-            <dt>UPS Output Watt Capacity (Watts):</dt>
+            <dt>UPS Output Watt Capacity (W):</dt>
             <dd>
                 <input id="POWERW" type="text" class="narrow nut-power" name="POWERW" maxlength="4" value="<?=htmlspecialchars($nut_powerw);?>" title="nut ups name">
             </dd>
         </dl>
 
         <blockquote class="inline_help">
-            <p>Enter your UPS Output Capacity Watts</p>
+            <p>Enter your actual UPS Output Capacity in Watts.</p>
         </blockquote>
 
     </div>
@@ -648,7 +648,7 @@ function checkMODE(){
         $('#DRIVERS').hide();
         $('#UPSKILL').hide();
     }
-    if ($('#MODE')[0].selectedIndex < 1)
+    if ($('#MODE')[0].selectedIndex != 1)
         $('#SLAVE').hide();
     else
         $('#SLAVE').show();

@@ -33,7 +33,7 @@ $mytiles[$pluginname]['column2'] =
 <tr><td><i class='icon-ups f32'></i>
 <div class='section'>_(UPS(NUT))_<br><span><i class='ups fa fa-line-chart'></i><span id='load'>Load: <span class='nut_loadpct' id='nut_loadpct'></span></span>
 <br><br></div>
-<a href="/Dashboard/NUTsettings" title="_(Go to UPS NUT settings)_"><i class="fa fa-fw fa-cog control"></i></a></td></tr>
+<a href="/Dashboard/NUTsettings" title="_(Go to NUT Settings)_"><i class="fa fa-fw fa-cog control"></i></a></td></tr>
 </tbody>
 EOT;
 }
@@ -172,10 +172,10 @@ EOT;
       $('#tblUPSNUTDash').find('tr.updated').remove();
 
       $('#tblUPSNUTDash').append('<tr class="updated"><td>'+
-        "<tr class='updated'><td style='display: flex;'><span class='w36 ups'>UPS status:</span><span class='nut_status' style='flex: 1; white-space: normal;'>"+data[0]+"</span></td></tr>" +
-        "<tr class='updated'><td><span class='w36 ups'>Battery charge:</span><span class='nut_bcharge'>"+data[1]+"</span></td></tr>" +
-        "<tr class='updated'><td><span class='w36 ups'>Runtime left:</span><span class='nut_timeleft'>"+data[2]+"</span></td></tr>" +
-        "<tr class='updated'><td><span class='w36 ups'>Nominal power:</span>"+data[3]+"</td></tr>");
+        "<tr class='updated'><td style='display: flex;'><span class='w36 ups'>UPS Status:</span><span class='nut_status' style='flex: 1; white-space: normal;'>"+data[0]+"</span></td></tr>" +
+        "<tr class='updated'><td><span class='w36 ups'>Battery Charge:</span><span class='nut_bcharge'>"+data[1]+"</span></td></tr>" +
+        "<tr class='updated'><td><span class='w36 ups'>Runtime Left:</span><span class='nut_timeleft'>"+data[2]+"</span></td></tr>" +
+        "<tr class='updated'><td><span class='w36 ups'>Nominal Power:</span>"+data[3]+"</td></tr>");
     $("#tblUPSNUTDash").find('.nut_loadpct').html(data[5]+' - '+data[4]);
     setTimeout(UPSNUTArray, <?=($nut_interval * 1000)?>);
   }) ;
@@ -233,13 +233,13 @@ $(function(){
 <tr><td></td><td colspan='3' class='next'><i class='icon-ups'></i><div class='section'>Power<br>
 <span>UPS Load: <span class='nut_loadpct'></span></span><br><br></div>
 <i class='fa fa-fw chevron' id='nut_view' onclick='toggleChevron("nut_view",0)'></i>
-<a href='/Dashboard/NUTsettings' title='Go to NUT settings'><i class='fa fa-fw fa-cog chevron'></i></a>
+<a href='/Dashboard/NUTsettings' title='Go to NUT Settings'><i class='fa fa-fw fa-cog chevron'></i></a>
 </td><td></td></tr>
 <tr class='nut_view' style="display:none"><td></td><td colspan='3'>
-<span class='ups'>UPS status:</span><span class='nut_status'></span><br>
-<span class='ups'>Battery charge:</span><span class='nut_bcharge'></span><br>
-<span class='ups'>Runtime left:</span><span class='nut_timeleft'></span><br>
-<span class='ups'>Nominal power:</span><span class='nut_nompower'></span><br>
+<span class='ups'>UPS Status:</span><span class='nut_status'></span><br>
+<span class='ups'>Battery Charge:</span><span class='nut_bcharge'></span><br>
+<span class='ups'>Runtime Left:</span><span class='nut_timeleft'></span><br>
+<span class='ups'>Nominal Power:</span><span class='nut_nompower'></span><br>
 </td><td></td></tr>
 </tbody>
 </table>
