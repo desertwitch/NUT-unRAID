@@ -259,19 +259,20 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
     </div>
 
     <dl>
-        <dt>Battery Runtime Left:</dt>
+        <dt>Battery Runtime Left Attribute:</dt>
         <dd>
             <select class="nut-run" id="RUNTIME" name="RUNTIME" size="1">
-                <?=mk_option($nut_runtime, 'battery.runtime', 'Battery Runtime');?>
-                <?=mk_option($nut_runtime, 'battery.runtime.low', 'Battery Runtime Low');?>
+                <?=mk_option($nut_runtime, 'battery.runtime', 'battery.runtime');?>
+                <?=mk_option($nut_runtime, 'battery.runtime.low', 'battery.runtime.low');?>
             </select>
         </dd>
     </dl>
 
     <blockquote class="inline_help">
-        <p>Select the *Runtime* attribute that correctly reflects your UPS remaining runtime.</p>
-        <p>**Battery Runtime** - usually reflects the remaining runtime of the UPS.</p>
-        <p>**Battery Runtime Low** - remaining battery runtime when UPS switches to Low Battery.</p>
+        <p>Select the *Battery Runtime* attribute that correctly reflects your UPS remaining battery runtime (check the "NUT Details" table).</p>
+        <p>**battery.runtime** - usually reflects the total remaining battery runtime of the UPS.</p>
+        <p>**battery.runtime.low** - usually reflects the remaining battery runtime after UPS switches to Low Battery.</p>
+        <p>This setting is used to display the correct runtime information and also when using shutdown mode "Runtime Left".</p>
     </blockquote>
 
     <dl>
