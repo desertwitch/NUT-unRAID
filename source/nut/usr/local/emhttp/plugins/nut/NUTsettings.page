@@ -35,7 +35,7 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
     <span style="float:right;margin-right:10px"><a href="http://www.networkupstools.org/docs/user-manual.chunked/" target="_blank" title="NUT UPS user manual"><i class="fa fa-file-text-o"></i> <u>Online Manual</u></a></span>
 
     <dl>
-        <dt>Network UPS Tools Active Backend:</dt>
+        <dt>Network UPS Tools Backend:</dt>
         <dd>
 	        <strong><?= isset($nut_installed_backend) && $nut_installed_backend ? $nut_installed_backend : "n/a" ?></strong>
         </dd>
