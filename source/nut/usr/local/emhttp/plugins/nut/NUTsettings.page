@@ -72,11 +72,11 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
 
     <blockquote class="inline_help">
     <p>In case of any problems with your UPS you can attempt to switch the NUT backend to an older version (if available).</p>
-    <p>This is <strong>NOT RECOMMENDED</strong> unless you are having problems - <strong>STAY ON DEFAULT</strong> for the latest NUT backend.</p>
+    <p>This is <strong><em>NOT RECOMMENDED</em></strong> unless you are having problems - <strong><em>STAY ON DEFAULT</em></strong> for the latest NUT backend.</p>
     </blockquote>
 
     <dl>
-        <dt><strong>Start Network UPS Tools Service:</strong></dt>
+        <dt><strong><em>Start Network UPS Tools Service:</em></strong></dt>
         <dd>
             <select id="SERVICE" name="SERVICE" size="1">
                 <?=mk_option($nut_service, "disable", "No");?>
@@ -86,8 +86,8 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
     </dl>
 
     <blockquote class="inline_help">
-        <p>Set to <strong>Yes</strong> to enable NUT and start the service, set to <strong>No</strong> to disable NUT and stop the service.</p>
-        <p>The setting <strong>Yes</strong> will also cause NUT to start automatically on UNRAID boot.</p>
+        <p>Set to <strong><em>Yes</em></strong> to enable NUT and start the service, set to <strong><em>No</em></strong> to disable NUT and stop the service.</p>
+        <p>The setting <strong><em>Yes</em></strong> will also cause NUT to start automatically on UNRAID boot.</p>
     </blockquote>
 
     <dl>
@@ -101,11 +101,11 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
     </dl>
 
     <blockquote class="inline_help">
-        <p>Set to <strong>Yes</strong> to enable NUT manual configuration, set to <strong>No</strong> to disable NUT manual configuration.</p>
-        <p>Setting <strong>Yes</strong> will ignore and hide all NUT settings on this page. The NUT configuration files will be used instead.</p>
-        <p>Setting <strong>No</strong> will use the NUT settings on this page to configure the NUT services and populate the configuration files.</p>
+        <p>Set to <strong><em>Yes</em></strong> to enable NUT manual configuration, set to <strong><em>No</em></strong> to disable NUT manual configuration.</p>
+        <p>Setting <strong><em>Yes</em></strong> will ignore and hide all NUT settings on this page. The NUT configuration files will be used instead.</p>
+        <p>Setting <strong><em>No</em></strong> will use the NUT settings on this page to configure the NUT services and populate the configuration files.</p>
         <p>Regardless of this setting, you can always edit the configuration files to add any extra settings not included on this page.</p>
-        <p>If not in manual configuration mode, beware the safe zones marked in the configuration files so your settings are not overwritten.</p>
+        <p>If not in manual configuration mode, beware the safe zones marked in the configuration files so your extra settings are not overwritten.</p>
     </blockquote>
 
     <div id="SETTINGS">
@@ -122,9 +122,9 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
 
         <blockquote class="inline_help">
             <p>This setting defines the mode your NUT services will operate in and also the level of connectivity they will provide:</p>
-            <p><strong>Standalone</strong> - Your UPS is connected to your UNRAID server and no external connections to NUT will be possible.</p>
-            <p><strong>Netserver</strong> - Your UPS is connected to your UNRAID server and you want other computers with NUT to connect as NUT slaves.</p>
-            <p><strong>Slave</strong> - Your UPS is connected to another machine and you want your UNRAID server to connect to it as NUT slave.</p>
+            <p><strong><em>Standalone</em></strong> - Your UPS is connected to your UNRAID server and no external connections to NUT will be possible.</p>
+            <p><strong><em>Netserver</em></strong> - Your UPS is connected to your UNRAID server and you want other computers with NUT to connect as NUT slaves.</p>
+            <p><strong><em>Slave</em></strong> - Your UPS is connected to another machine and you want your UNRAID server to connect to it as NUT slave.</p>
         </blockquote>
 
         <dl>
@@ -136,7 +136,7 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
 
         <blockquote class="inline_help">
             <p>The IP address of the NUT master server (the UPS is connected to) to monitor.</p>
-            <p>In <strong>Standalone</strong> and <strong>Netserver</strong> modes, this setting should be '127.0.0.1'.</p>
+            <p>In <strong><em>Standalone</em></strong> and <strong><em>Netserver</em></strong> modes, this setting should be '127.0.0.1'.</p>
         </blockquote>
 
         <dl>
@@ -148,7 +148,7 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
 
         <blockquote class="inline_help">
             <p>The name of the UPS configured in NUT (on the master server).</p>
-            <p>It is recommended to leave this setting as it is, unless connecting to a UPS with a different name in <strong>Slave</strong> mode.</p>
+            <p>It is recommended to leave this setting as it is, unless connecting to a UPS with a different name in <strong><em>Slave</em></strong> mode.</p>
         </blockquote>
 
         <dl>
@@ -183,7 +183,7 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
 
             <blockquote class="inline_help">
                 <p>The username for NUT slaves to use connecting to the NUT master server.</p>
-                <p><u>Note:</u> NUT is configured to listen on all interfaces (<strong>0.0.0.0</strong>).</p>
+                <p><u>Note:</u> NUT is configured to listen on all interfaces (<strong><em>0.0.0.0</em></strong>).</p>
             </blockquote>
 
             <dl>
@@ -195,7 +195,7 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
 
             <blockquote class="inline_help">
                 <p>The password for NUT slaves to use connecting to the NUT master server.</p>
-                <p><u>Note:</u> NUT is configured to listen on all interfaces (<strong>0.0.0.0</strong>).</p>
+                <p><u>Note:</u> NUT is configured to listen on all interfaces (<strong><em>0.0.0.0</em></strong>).</p>
             </blockquote>
         </div>
 
@@ -219,7 +219,7 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
             <blockquote class="inline_help">
                 <p>Please check the link below to find a driver matching for your UPS:</p>
                 <p><a href="http://www.networkupstools.org/stable-hcl.html" target="_blank">http://www.networkupstools.org/stable-hcl.html</a></p>
-                <p>For drivers not listed here, set to <strong>CUSTOM</strong> and insert the driver in the text field appearing to the right.</p>
+                <p>For drivers not listed here, set to <strong><em>CUSTOM</em></strong> and insert the driver in the text field appearing to the right.</p>
                 <p>Please do not forget to match your selected driver and the port configured below.</p>
             </blockquote>
 
@@ -230,9 +230,9 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
 
             <blockquote class="inline_help">
                 <p>Enter the device port your NUT driver will connect to:</p>
-                <p>- Set to <strong>auto</strong> if the UPS is connected by USB.</p>
-                <p>- Set to a physical port, e.g. <strong>/dev/tty0</strong>, for serial devices.</p>
-                <p>- Set to <strong>hostname[:port]</strong> when connecting via SNMP using the driver <strong>snmp-ups</strong>.</p>
+                <p>- Set to <strong><em>auto</em></strong> if the UPS is connected by USB.</p>
+                <p>- Set to a physical port, e.g. <strong><em>/dev/tty0</em></strong>, for serial devices.</p>
+                <p>- Set to <strong><em>hostname[:port]</em></strong> when connecting via SNMP using the driver <strong><em>snmp-ups</em></strong>.</p>
             </blockquote>
         </div>
 
@@ -273,10 +273,10 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
     </dl>
 
     <blockquote class="inline_help">
-        <p>Select the battery runtime attribute that correctly reflects your UPS remaining battery runtime (see <strong>NUT Details</strong> table).</p>
-        <p>- <strong>battery.runtime</strong> usually reflects the total remaining battery runtime of the UPS.</p>
-        <p>- <strong>battery.runtime.low</strong> usually reflects the remaining battery runtime after UPS switches to Low Battery.</p>
-        <p>This setting is used to display the correct runtime information and also when using the shutdown mode <strong>Runtime Left</strong>.</p>
+        <p>Select the battery runtime attribute that correctly reflects your UPS remaining battery runtime (see <strong><em>NUT Details</em></strong> table).</p>
+        <p>- <strong><em>battery.runtime</em></strong> usually reflects the total remaining battery runtime of the UPS.</p>
+        <p>- <strong><em>battery.runtime.low</em></strong> usually reflects the remaining battery runtime after UPS switches to Low Battery.</p>
+        <p>This setting is used to display the correct runtime information and also when using the shutdown mode <strong><em>Runtime Left</em></strong>.</p>
     </blockquote>
 
     <dl>
@@ -292,9 +292,9 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
 
     <blockquote class="inline_help">
         <p>Select the shutdown mode for NUT, this mode determines which UPS criteria to use when NUT should shutdown the system.</p>
-        <p>- <strong>Battery Level</strong> shuts down the system when there is X percentage left on the battery.</p>
-        <p>- <strong>Runtime Left</strong> shuts down the system when there is X runtime left on the battery (in minutes).</p>
-        <p>- <strong>Time on Battery</strong> shuts down the system when the user defined timer reaches zero (in minutes).</p>
+        <p>- <strong><em>Battery Level</em></strong> shuts down the system when there is X percentage left on the battery.</p>
+        <p>- <strong><em>Runtime Left</em></strong> shuts down the system when there is X runtime left on the battery (in minutes).</p>
+        <p>- <strong><em>Time on Battery</em></strong> shuts down the system when the user defined timer reaches zero (in minutes).</p>
     </blockquote>
 
     <div id="SHUTDOWN0">
@@ -373,8 +373,8 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
         </dl>
 
         <blockquote class="inline_help">
-            <p>Set to <strong>Yes</strong> to turn off the UPS power (to the protected devices) after a NUT intiated shutdown.</p>
-            <p>Enable <strong>Automatically power on after power loss</strong> in your BIOS if you want your computers to restart when the power (mains) recovers.</p>
+            <p>Set to <strong><em>Yes</em></strong> to turn off the UPS power (to the protected devices) after a NUT intiated shutdown.</p>
+            <p>Enable <strong><em>Automatically power on after power loss</em></strong> in your BIOS if you want your computers to restart when the power (mains) recovers.</p>
             <p><u>Warning:</u> Not all UPS devices support this setting, in the worst case it will have no effect.</p>
         </blockquote>
     </div>
@@ -426,7 +426,7 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
 
     <blockquote class="inline_help">
         <p>Sets the style of the small banner in the page's footer.</p>
-        <p><u>Note:</u> There is no tooltip with additional UPS information when using the <strong>Minimal</strong> style.</p>
+        <p><u>Note:</u> There is no tooltip with additional UPS information when using the <strong><em>Minimal</em></strong> style.</p>
     </blockquote>
 
     <dl>
@@ -466,8 +466,8 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
 
     <blockquote class="inline_help">
         <p>Setting for UPS Output Capacity Watts and Volt-Amperes, used to calculate the Power Factor and Watts used:</p>
-        <p>- <strong>Auto</strong> if the values reported by your UPS are correct (see <strong>NUT Details</strong> table).</p>
-        <p>- <strong>Manual</strong> if the values reported by your UPS are incorrect (see <strong>NUT Details</strong> table).</p>
+        <p>- <strong><em>Auto</em></strong> if the values reported by your UPS are correct (see <strong><em>NUT Details</em></strong> table).</p>
+        <p>- <strong><em>Manual</em></strong> if the values reported by your UPS are incorrect (see <strong><em>NUT Details</em></strong> table).</p>
     </blockquote>
 
     <div id="POWER-SETTINGS">
