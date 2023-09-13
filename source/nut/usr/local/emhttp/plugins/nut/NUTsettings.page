@@ -536,12 +536,7 @@ $(function() {
         openBox('/plugins/nut/scripts/nutscan', 'NUT Scanner', 600, 600, true);
     });
 
-    $('#RESETCONF').click(function() {
-        // do not run any additional commands in case browser wrongly triggers submit
-        $('#command').val('');
-        // open shadowbox window (run in foreground)
-        openBox('/plugins/nut/scripts/resetconf', 'NUT Configuration Reset', 600, 600, true);
-    });
+    $('#RESETCONF').click(function(){ swal({title:"Are you sure?",text:"This action will delete all existing configurations!",type:"warning",html:true,showCancelButton:true}, ResetConfig); });
 
     $('form input:not([type="submit"])').keydown(function(e) {
         if (e.keyCode == 13) {
@@ -656,5 +651,10 @@ function checkMODE(){
 
 function Reload(){
     $('#command').val('/usr/local/emhttp/plugins/nut/scripts/reload');
+}
+
+function ResetConfig(){
+    $('#command').val('');
+    openBox('/plugins/nut/scripts/resetconf', 'NUT Configuration Reset', 600, 600, true);
 }
 </script>
