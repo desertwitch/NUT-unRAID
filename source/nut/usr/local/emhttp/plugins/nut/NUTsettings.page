@@ -224,7 +224,7 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
             </blockquote>
 
             <dl>
-              <dt>UPS Port:</dt>
+              <dt>UPS Driver Port:</dt>
               <dd><input type="text" name="PORT" class="narrow nut-run nut-port" maxlength="15" value="<?=$nut_port;?>"></dd>
             </dl>
 
