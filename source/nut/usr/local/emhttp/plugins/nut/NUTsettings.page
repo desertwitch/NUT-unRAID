@@ -299,7 +299,7 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
 
     <div id="SHUTDOWN0">
         <dl>
-            <dt>Battery Level left to initiate Shutdown (%):</dt>
+            <dt>Battery Level to initiate Shutdown (%):</dt>
             <dd>
                 <select class="nut-run" id="BATTERYLEVEL" name="BATTERYLEVEL" size="1">
                     <? echo get_battery_options($nut_battery);?>
