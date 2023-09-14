@@ -87,7 +87,7 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
 
     <blockquote class="inline_help">
         <p>Set to <strong><em>Yes</em></strong> to enable NUT and start the service, set to <strong><em>No</em></strong> to disable NUT and stop the service.</p>
-        <p>The setting <strong><em>Yes</em></strong> will also cause NUT to start automatically on UNRAID boot.</p>
+        <p>The setting <strong><em>Yes</em></strong> will also enable NUT services to start automatically on UNRAID boot.</p>
     </blockquote>
 
     <dl>
@@ -105,7 +105,7 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
         <p>Setting <strong><em>Yes</em></strong> will ignore and hide all NUT settings on this page. The NUT configuration files will be used instead.</p>
         <p>Setting <strong><em>No</em></strong> will use the NUT settings on this page to configure the NUT services and populate the configuration files.</p>
         <p>Regardless of this setting, you can always edit the configuration files to add any extra settings not included on this page.</p>
-        <p>If not in manual configuration mode, beware the safe zones marked in the configuration files so your extra settings are not overwritten.</p>
+        <p>If not in manual configuration mode, mind the safe zones marked in the configuration files so your extra settings are not overwritten.</p>
     </blockquote>
 
     <div id="SETTINGS">
@@ -123,8 +123,8 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
         <blockquote class="inline_help">
             <p>This setting defines the mode your NUT services will operate in and also the level of connectivity they will provide:</p>
             <p><strong><em>Standalone</em></strong> - Your UPS is connected to your UNRAID server and no external (slave) connections to NUT will be possible.</p>
-            <p><strong><em>Netserver</em></strong> - Your UPS is connected to your UNRAID server and external (slave) connections to NUT will be possible..</p>
-            <p><strong><em>Slave</em></strong> - Your UPS is connected to another NUT server and you want your UNRAID server to connect to it as a NUT slave.</p>
+            <p><strong><em>Netserver</em></strong> - Your UPS is connected to your UNRAID server and external (slave) connections to NUT will be possible.</p>
+            <p><strong><em>Slave</em></strong> - Your UPS is connected to another NUT master server and you want your UNRAID server to connect to it as a NUT slave.</p>
         </blockquote>
 
         <dl>
@@ -136,7 +136,7 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
 
         <blockquote class="inline_help">
             <p>The IP address of the NUT master server (the UPS is connected to) to monitor.</p>
-            <p>In <strong><em>Standalone</em></strong> and <strong><em>Netserver</em></strong> modes, this setting should be <strong><em>127.0.0.1</em></strong>.</p>
+            <p>In <strong><em>Standalone</em></strong> and <strong><em>Netserver</em></strong> modes, this setting should be <strong><em>127.0.0.1</em></strong></p>
         </blockquote>
 
         <dl>
