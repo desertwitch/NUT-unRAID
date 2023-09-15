@@ -32,4 +32,8 @@ chmod 750 /etc/nut
 chown root:nut /etc/nut/*
 chmod 640 /etc/nut/*
 
+if [ -x /etc/rc.d/rc.nut ]; then
+    /etc/rc.d/rc.nut write_config
+fi
+
 echo "NUT configuration is now reset to defaults, reboot or reinstall plugin in case of any problems."
