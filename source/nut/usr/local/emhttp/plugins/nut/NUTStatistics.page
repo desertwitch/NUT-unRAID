@@ -7,6 +7,28 @@ Tag="file"
 <? $update = $nut_refresh == "enable" ? true : false; ?>
 <script src="<?autov('/webGui/javascript/jquery.apexcharts.js')?>"></script>
 
+<?
+/* Copyright 2005-2023, Lime Technology
+ * Copyright 2012-2023, Bergware International.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License version 2,
+ * as published by the Free Software Foundation.
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+*/
+
+if(isset($display['theme']) && $display['theme']) {
+switch ($display['theme']) {
+  case 'white': $theme = 'light'; break;
+  case 'black': $theme = 'dark'; break;
+  case 'azure': $theme = 'light'; break;
+  case 'gray' : $theme = 'dark'; break;
+  default     : $theme = 'light'; break;
+} } else { $theme = 'light'; }
+?>
+
 <p>For performance reasons the statistics are only preserved for the duration the module is loaded.<br>
 This means that a reboot will clear your statistics, the same applies for enabling and disabling the module via the settings.<br>
 Some values may be missing or erroneous depending on what your UPS reports - enabling and disabling the module might fix such problems.
@@ -69,7 +91,8 @@ var options_nut = {
   noData: {
     text: 'Waiting for Data...',
     align: 'center'
-  }
+  },
+  theme: { mode:'<?=$theme?>' }
 };
 
 var NCpowerdraw = new ApexCharts(document.querySelector('#NCpowerdraw'), options_nut);
