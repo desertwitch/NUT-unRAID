@@ -3,14 +3,14 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "nut">
 <!ENTITY author    "desertwitch">
-<!ENTITY version   "2023.09.15b">
+<!ENTITY version   "2023.09.15c">
 <!ENTITY launch    "Settings/NUTsettings">
 <!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/master">
 <!ENTITY pluginURL "&gitURL;/plugin/&name;-2.8.0.plg">
 <!ENTITY pkgURL    "&gitURL;/packages">
 <!ENTITY plgPATH   "/boot/config/plugins/&name;">
-<!ENTITY plgNAME   "nut-plugin-2023.09.15b-x86_64-1">
-<!ENTITY plgMD5    "3c9a665fef40c48fe4a01354bbc34ea5">
+<!ENTITY plgNAME   "nut-plugin-2023.09.15c-x86_64-1">
+<!ENTITY plgMD5    "bab68769b5dda2bf804274181ffcefca">
 <!ENTITY emhttp    "/usr/local/emhttp/plugins/&name;">
 ]>
 
@@ -20,6 +20,7 @@
 ## Network UPS Tools (NUT) for UNRAID
 ###2023.09.15
 - new: runtime statistics module introduces fancy charts for UPS variables in GUI (on 6.12.3+)
+- fix: configuration mismatch in rare cases when resetting configuration via GUI
 ###2023.09.14
 - new: major refactor of GUI setting ordering, descriptions and help-texts
 - new: default backend updated to most recent master branch as of 14.09.2023
