@@ -18,6 +18,8 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
+###2023.09.15
+- new: runtime statistics module introduces fancy charts for UPS variables in GUI (on 6.12.3+)
 ###2023.09.14
 - new: major refactor of GUI setting ordering, descriptions and help-texts
 - new: default backend updated to most recent master branch as of 14.09.2023
