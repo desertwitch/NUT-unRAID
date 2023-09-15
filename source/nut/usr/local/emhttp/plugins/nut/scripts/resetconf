@@ -4,7 +4,7 @@ DOCROOT="/usr/local/emhttp/plugins/nut"
 
 echo "Making sure all existing NUT services are stopped (before config reset)..."
 if [ -x /etc/rc.d/rc.nut ]; then
-    /etc/rc.d/rc.nut stop
+    /etc/rc.d/rc.nut stop 1>/dev/null
 fi
 
 echo "Deleting existing configuration files and folders..."
@@ -33,7 +33,7 @@ chown root:nut /etc/nut/*
 chmod 640 /etc/nut/*
 
 if [ -x /etc/rc.d/rc.nut ]; then
-    /etc/rc.d/rc.nut write_config
+    /etc/rc.d/rc.nut write_config 1>/dev/null
 fi
 
 echo "NUT configuration is now reset to defaults, reboot or reinstall plugin in case of any problems."
