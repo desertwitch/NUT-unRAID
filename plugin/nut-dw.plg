@@ -3,14 +3,14 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "nut">
 <!ENTITY author    "desertwitch">
-<!ENTITY version   "2023.09.15c">
+<!ENTITY version   "2023.09.15d">
 <!ENTITY launch    "Settings/NUTsettings">
 <!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/master">
 <!ENTITY pluginURL "&gitURL;/plugin/&name;-dw.plg">
 <!ENTITY pkgURL    "&gitURL;/packages">
 <!ENTITY plgPATH   "/boot/config/plugins/&name;">
-<!ENTITY plgNAME   "nut-plugin-2023.09.15c-x86_64-1">
-<!ENTITY plgMD5    "bab68769b5dda2bf804274181ffcefca">
+<!ENTITY plgNAME   "nut-plugin-2023.09.15d-x86_64-1">
+<!ENTITY plgMD5    "08f0125da140991531ec168448da93bd">
 <!ENTITY emhttp    "/usr/local/emhttp/plugins/&name;">
 ]>
 
@@ -21,6 +21,7 @@
 ###2023.09.15
 - new: runtime statistics module introduces fancy charts for UPS variables in GUI (on 6.12.3+)
 - fix: configuration mismatch in rare cases when resetting configuration via GUI
+- fix: security fixes and runtime statistic charts now respecting theme settings (thanks to Peuuuur Noel)
 ###2023.09.14
 - new: major refactor of GUI setting ordering, descriptions and help-texts
 - new: default backend updated to most recent master branch as of 14.09.2023
