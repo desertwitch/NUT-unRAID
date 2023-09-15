@@ -72,11 +72,11 @@ stop() {
 
     # remove pid from old package
     if [ -f /var/run/upsmon.pid ]; then
-        rm /var/run/upsmon.pid
+        rm -f /var/run/upsmon.pid
     fi
 
     if [ -f /var/run/nut/upsmon.pid ]; then
-        rm /var/run/nut/upsmon.pid
+        rm -f /var/run/nut/upsmon.pid
     fi
 
     /usr/sbin/upsdrvctl stop
@@ -231,6 +231,8 @@ write_config() {
          sed -i -e '/# Now halt /a [ -x /etc/rc.d/rc.nut ] && /etc/rc.d/rc.nut shutdown' -e //N /etc/rc.d/rc.6
     fi
 
+    # NUT Runtime Statistics Module
+    /etc/rc.d/rc.nutstats check
 }
 
 case "$1" in

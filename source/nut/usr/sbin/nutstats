@@ -1,0 +1,54 @@
+STATROOT="/etc/nutstats"
+
+if [ ! -d $STATROOT ]; then 
+      echo "CRON-NUTSTATS: NUT Statistics Folder does not exist (yet)... exiting"
+      /etc/rc.d/rc.nutstats check
+      exit 0
+fi
+
+CONFIG=$STATROOT/nut.cfg
+
+[ -e "$CONFIG" ] && source $CONFIG
+
+if [ "$STATISTICS" == "disable" ]; then
+      echo "CRON-NUTSTATS: NUT Runtime Statistics Module is disabled... exiting"
+      /etc/rc.d/rc.nutstats check
+      exit 0
+fi
+
+if [ "$SERVICE" == "disable" ]; then
+      echo "CRON-NUTSTATS: NUT Service is disabled... exiting"
+      exit 0
+fi
+
+if /usr/bin/pgrep upsmon 2>&1 >/dev/null; then
+      echo "CRON-NUTSTATS: Service checks finished, starting to collect statistics..."
+else
+      echo "CRON-NUTSTATS: NUT upsmon is not running (NUT configuration not sane?)... exiting"
+      exit 0
+fi
+
+epochMS=$( /usr/bin/date +%s%3N )
+
+monitorVars=("ups.realpower" "battery.charge" "battery.voltage" "input.voltage" "input.frequency" "output.voltage" "output.frequency")
+
+for monitorVar in "${monitorVars[@]}"
+do
+      upsVar=$( /usr/bin/upsc $NAME@$IPADDR $monitorVar 2>/dev/null )
+      if [ ! -z "$upsVar" ]; then
+            newJson=$(/usr/bin/jq --arg jq_upsVar "${upsVar}" --arg jq_epochMS "${epochMS}" '.data[.data| length] |= . + { "x": $jq_epochMS|tonumber, "y": $jq_upsVar|tonumber, }' $STATROOT/$monitorVar.json 2>/dev/null)
+            if [ ! -z "$newJson" ]; then
+                  echo $newJson > $STATROOT/$monitorVar.json.new
+                  rm -f $STATROOT/$monitorVar.json
+                  mv -f $STATROOT/$monitorVar.json.new $STATROOT/$monitorVar.json
+                  echo "CRON-NUTSTATS: Updated ${monitorVar}.json"
+            else
+                  echo "CRON-NUTSTATS: Error Updating ${monitorVar}.json - Malformed JSON or Value from UPS?"
+            fi
+      else
+            echo "CRON-NUTSTATS: Error Updating ${monitorVar}.json - UPS returned NULL value."
+      fi
+done
+
+
+

@@ -1,0 +1,166 @@
+Menu="NUTsettings:3"
+Title="NUT Runtime Statistics Module"
+Tag="file"
+---
+<? require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
+<?if(version_compare(parse_ini_file('/etc/unraid-version')['version'],'6.12.3', '>') && $nut_statistics == "enable"):?>
+<? $update = $nut_refresh == "enable" ? true : false; ?>
+<script src="<?autov('/webGui/javascript/jquery.apexcharts.js')?>"></script>
+
+<p>For performance reasons the statistics are only preserved for the duration the module is loaded.<br>
+This means that a reboot will clear your statistics, the same applies for enabling and disabling the module via the settings.<br>
+Some values may be missing or erroneous depending on what your UPS reports - enabling and disabling the module might fix such problems.
+</p>
+
+<div id='NCpowerdraw'></div>
+<div id='NCbattcharge'></div>
+<div id='NCbattvoltage'></div>
+<div id='NCinputvoltage'></div>
+<div id='NCinputfrequen'></div>
+<div id='NCoutputvoltage'></div>
+<div id='NCoutputfrequen'></div>
+
+<script>
+
+var options_nut = {
+  series: [{
+    data: []
+  }],
+  chart: {
+    height: 200,
+    width: '100%',
+    zoom: {
+      autoScaleXaxis: true,
+      autoScaleYaxis: true
+    },
+    type:'area',
+    fontFamily:'clear-sans',
+    animations: {
+      enabled:true,
+      easing:'linear',
+      dynamicAnimation:{speed:1000}}
+  },
+  dataLabels: {
+    enabled: false
+  },
+  stroke: {
+    curve:'smooth',
+    width:1
+  },
+  colors:['#ff8c2f'],
+  markers:{size:0},
+  xaxis: {
+    type: 'datetime',
+    labels: {
+      datetimeUTC: false
+    },
+    datetimeFormatter: {
+      year: 'yyyy',
+      month: 'MMM \'yy',
+      day: 'dd MMM',
+      hour: 'HH:MM'
+    }
+  },
+  tooltip: {
+    x: {
+      format: 'dd.MMM.yyyy HH:mm:ss'
+    }
+  },
+  noData: {
+    text: 'Waiting for Data...',
+    align: 'center'
+  }
+};
+
+var NCpowerdraw = new ApexCharts(document.querySelector('#NCpowerdraw'), options_nut);
+var NCbattcharge = new ApexCharts(document.querySelector('#NCbattcharge'), options_nut);
+var NCbattvoltage = new ApexCharts(document.querySelector('#NCbattvoltage'), options_nut);
+var NCinputvoltage = new ApexCharts(document.querySelector('#NCinputvoltage'), options_nut);
+var NCinputfrequen = new ApexCharts(document.querySelector('#NCinputfrequen'), options_nut);
+var NCoutputvoltage = new ApexCharts(document.querySelector('#NCoutputvoltage'), options_nut);
+var NCoutputfrequen = new ApexCharts(document.querySelector('#NCoutputfrequen'), options_nut);
+
+function updateNUTcharts() {
+  $.getJSON('/plugins/nut/nutstats/ups.realpower.json', function(response) {
+  NCpowerdraw.updateSeries([{
+    name: "UPS Power Draw (in W)",
+    data: response.data
+  }])
+});
+
+$.getJSON('/plugins/nut/nutstats/battery.charge.json', function(response) {
+  NCbattcharge.updateSeries([{
+    name: "Battery Charge (in %)",
+    data: response.data
+  }])
+});
+
+$.getJSON('/plugins/nut/nutstats/battery.voltage.json', function(response) {
+  NCbattvoltage.updateSeries([{
+    name: "Battery Voltage (in V)",
+    data: response.data
+  }])
+});
+
+$.getJSON('/plugins/nut/nutstats/input.voltage.json', function(response) {
+  NCinputvoltage.updateSeries([{
+    name: "Input Voltage (in V)",
+    data: response.data
+  }])
+});
+
+$.getJSON('/plugins/nut/nutstats/input.frequency.json', function(response) {
+  NCinputfrequen.updateSeries([{
+    name: "Input Frequency (in Hz)",
+    data: response.data
+  }])
+});
+
+$.getJSON('/plugins/nut/nutstats/output.voltage.json', function(response) {
+  NCoutputvoltage.updateSeries([{
+    name: "Output Voltage (in V)",
+    data: response.data
+  }])
+});
+
+$.getJSON('/plugins/nut/nutstats/output.frequency.json', function(response) {
+  NCoutputfrequen.updateSeries([{
+    name: "Output Frequency (in Hz)",
+    data: response.data
+  }])
+});
+
+<?if ($update):?>
+    setTimeout(updateNUTcharts,<?=max(abs(isset($display['refresh']) ? $display['refresh'] : 0),(1000 * $nut_interval))?>);
+<?endif;?>
+
+}
+
+$(function() {
+
+NCpowerdraw.render();
+NCpowerdraw.updateOptions({title: { text: 'Power Draw (in W)' }})
+
+NCbattcharge.render();
+NCbattcharge.updateOptions({title: { text: 'Battery Charge (in %)' }, yaxis: { min: 0, max: 100, tickAmount: 5 }})
+
+NCbattvoltage.render();
+NCbattvoltage.updateOptions({title: { text: 'Battery Voltage (in V)' }})
+
+NCinputvoltage.render();
+NCinputvoltage.updateOptions({title: { text: 'Input Voltage (in V)' }})
+
+NCinputfrequen.render();
+NCinputfrequen.updateOptions({title: { text: 'Input Frequency (in Hz)' }, yaxis: { min: 45, max: 65, tickAmount: 4 }})
+
+NCoutputvoltage.render();
+NCoutputvoltage.updateOptions({title: { text: 'Output Voltage (in V)' }})
+
+NCoutputfrequen.render();
+NCoutputfrequen.updateOptions({title: { text: 'Output Frequency (in Hz)' }, yaxis: { min: 45, max: 65, tickAmount: 4 }})
+
+updateNUTcharts();
+
+});
+</script>
+<?endif;?>

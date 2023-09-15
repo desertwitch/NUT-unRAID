@@ -399,7 +399,7 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
 
 <form markdown="0" id="nut-display" name="nut_display" method="POST" action="/update.php" target="progressFrame">
     <input type="hidden" name="#file" value="<?=$sName?>/<?=$sName?>.cfg">
-
+    <input type="hidden" id="command2" name="#command" value="" />
     <dl>
         <dt>NUT Page Footer:</dt>
         <dd>
@@ -453,6 +453,30 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
     <blockquote class="inline_help">
         <p>Interval for the automatic NUT dashboard refreshes (in seconds).</p>
     </blockquote>
+
+    <dl>
+        <dt>NUT Runtime Statistics Module:</dt>
+            <dd>
+                <select id="STATISTICS" name="STATISTICS" size="1">
+                    <?
+                    $URversion = parse_ini_file('/etc/unraid-version')['version'];
+                    if(isset($URversion) && $URversion && version_compare($URversion, '6.12.3', '>')) {
+                        echo(mk_option($nut_statistics, 'disable', 'No'));
+                        echo(mk_option($nut_statistics, 'enable', 'Yes'));
+                    }
+                    else {
+                        echo(mk_option($nut_statistics, 'disable', 'n/a'));
+                    }
+                ?>
+                </select>
+            </dd>
+        </dl>
+
+        <blockquote class="inline_help">
+            <p>Enable or disable the NUT Runtime Statistics Module (on UNRAID <strong><em>versions 6.12.3+</em></strong>).</p>
+            <p>The module will record UPS variables of interest and display them as useful charts at the end of this page.</p>
+            <p><u>Note:</u> For performance reasons the variables are only requested <strong><em>once per minute</em></strong> from the UPS service.</p>
+        </blockquote>
 
     <dl>
         <dt>UPS Power and Load Display Settings:</dt>
@@ -558,6 +582,7 @@ $(function() {
     $('#SERVICE').change(checkRUNNING);
     $('#SHUTDOWN').change(checkSHUTDOWN);
     $('#MODE').change(checkMODE);
+    $('#STATISTICS').change(checkSTATS);
 
     checkMODE();
     checkPOWER();
@@ -651,6 +676,10 @@ function checkMODE(){
 
 function Reload(){
     $('#command').val('/usr/local/emhttp/plugins/nut/scripts/reload');
+}
+
+function checkSTATS(){
+    $('#command2').val('/usr/local/emhttp/plugins/nut/scripts/write_config');
 }
 
 function ResetConfig(){

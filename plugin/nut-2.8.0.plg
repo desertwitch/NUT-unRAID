@@ -3,14 +3,14 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "nut">
 <!ENTITY author    "desertwitch">
-<!ENTITY version   "2023.09.14">
+<!ENTITY version   "2023.09.15a">
 <!ENTITY launch    "Settings/NUTsettings">
-<!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/master">
+<!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/feature-statistics">
 <!ENTITY pluginURL "&gitURL;/plugin/&name;-2.8.0.plg">
 <!ENTITY pkgURL    "&gitURL;/packages">
 <!ENTITY plgPATH   "/boot/config/plugins/&name;">
-<!ENTITY plgNAME   "nut-plugin-2023.09.14-x86_64-1">
-<!ENTITY plgMD5    "25afe9acd5c56839d7a742a2d643b3ca">
+<!ENTITY plgNAME   "nut-plugin-2023.09.15a-x86_64-1">
+<!ENTITY plgMD5    "195d7db0d9abcf6c01ab5c61e537aea1">
 <!ENTITY emhttp    "/usr/local/emhttp/plugins/&name;">
 ]>
 
@@ -345,6 +345,8 @@ fi
 echo "Determining if NUT services should be started..."
 if [ "$SERVICE" == "enable" ]; then
     /etc/rc.d/rc.nut start
+elif [ "$STATISTICS" == "enable" ]; then
+    /etc/rc.d/rc.nutstats check
 fi
  
 # Cleaning old plugin source files
@@ -373,14 +375,23 @@ echo "Making sure all existing NUT services are stopped (before uninstall)..."
 if [ -x /etc/rc.d/rc.nut ]; then
     if ! /etc/rc.d/rc.nut stop >/dev/null 2>&amp;1; then
         echo "WARNING:"
-        echo "WARNING: The NUT uninstallation script was not able to stop all services gracefully."
+        echo "WARNING: The NUT uninstallation script was not able to stop all NUT services gracefully."
+        echo "WARNING: IN CASE OF PROBLEMS, please REBOOT YOUR SYSTEM to remove any remaining packages."
+        echo "WARNING:"
+    fi 
+fi
+
+if [ -x /etc/rc.d/rc.nutstats ]; then
+    if ! /etc/rc.d/rc.nutstats disable >/dev/null 2>&amp;1; then
+        echo "WARNING:"
+        echo "WARNING: The NUT uninstallation script was not able to stop all NUT statistic services gracefully."
         echo "WARNING: IN CASE OF PROBLEMS, please REBOOT YOUR SYSTEM to remove any remaining packages."
         echo "WARNING:"
     fi 
 fi
 
 # check if net-snmp is used by another plugin
-if [ `find /boot/config/plugins/*.plg -type f ! -iname "*&name;.plg*" | xargs grep "net-snmp" -sl` ]; then
+if [ `find /boot/config/plugins/*.plg -type f ! -iname "*nut-2.8.0.plg*" | xargs grep "net-snmp" -sl` ]; then
     echo "Net-SNMP in use by another plugin, will not be removed with NUT."
     rm -f &plgPATH;/net-snmp*.txz
 fi
@@ -398,6 +409,14 @@ rm -rf /etc/nut
 rm -rf /etc/ups
 rm -rf /var/run/nut
 rf -rf /var/state/ups
+
+rm -rf /etc/nutstats
+if [ -f /boot/config/plugins/dynamix/nutstats.cron ]; then
+    rm -f /boot/config/plugins/dynamix/nutstats.cron
+    sleep 1
+    update_cron
+    sleep 1
+fi
 
 echo ""
 echo "-----------------------------------------------------------"

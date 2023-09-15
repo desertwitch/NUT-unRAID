@@ -1,0 +1,3 @@
+#!/bin/sh
+echo "Writing NUT configuration..."
+/etc/rc.d/rc.nut write_config | logger

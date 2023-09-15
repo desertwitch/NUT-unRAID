@@ -1,0 +1,71 @@
+#!/bin/sh
+
+PROG="nut"
+PLGPATH="/boot/config/plugins/$PROG"
+DOCROOT="/usr/local/emhttp/plugins/nut"
+CONFIG=$PLGPATH/$PROG.cfg
+DPATH=/usr/bin
+export PATH=$DPATH:$PATH
+
+# read our configuration
+[ -e "$CONFIG" ] && source $CONFIG
+
+enable_nutstats() {
+echo "Enabling the NUT Runtime Statistics Module..."
+    if [ ! -d /etc/nutstats ]; then
+        mkdir /etc/nutstats
+
+        cp -f $CONFIG /etc/nutstats/
+        cp -rf $DOCROOT/nutstats-defaults/* /etc/nutstats/
+
+        chmod 755 /etc/nutstats
+        chown root:root /etc/nutstats/*
+        chmod 644 /etc/nutstats/*
+        chown root:root /etc/nutstats/*
+
+        rm -rf $DOCROOT/nutstats
+        ln -sf /etc/nutstats $DOCROOT/nutstats
+        cp -f  $DOCROOT/nutstats.cron /boot/config/plugins/dynamix/nutstats.cron
+
+        sleep 1
+        update_cron
+        sleep 1
+    else
+        cp -f $CONFIG /etc/nutstats/
+    fi
+}
+
+disable_nutstats() {
+echo "Disabling the NUT Runtime Statistics Module..."
+    if [ -f /boot/config/plugins/dynamix/nutstats.cron ]; then
+        rm -f /boot/config/plugins/dynamix/nutstats.cron
+        sleep 1
+        update_cron
+        sleep 1
+    fi
+    rm -rf /etc/nutstats
+    rm -rf $DOCROOT/nutstats
+}
+
+check_nutstats() {
+    echo "Checking if the NUT Runtime Statistics Module should be enabled..."
+    if [ $STATISTICS == "enable" ]; then
+        enable_nutstats
+    else
+        disable_nutstats
+    fi
+}
+
+case "$1" in
+    check)
+        check_nutstats
+        ;;
+    enable)
+        enable_nutstats
+        ;;
+    disable)
+        disable_nutstats
+        ;;
+    *)
+    echo "Usage: $0 {enable|disable|check}"
+esac

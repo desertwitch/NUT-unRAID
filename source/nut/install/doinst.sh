@@ -14,7 +14,9 @@ fi
 # Update file permissions of scripts
 chmod +0755 $DOCROOT/scripts/* \
         /etc/rc.d/rc.nut \
-        /usr/sbin/nut-notify
+        /etc/rc.d/rc.nutstats \
+        /usr/sbin/nut-notify \
+        /usr/sbin/nutstats
 
 # copy the default
 cp -n $DOCROOT/default.cfg $BOOT/nut.cfg >/dev/null 2>&1

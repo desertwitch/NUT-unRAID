@@ -1,0 +1,2 @@
+# NUT Runtime Statistics Module
+* * * * * /usr/sbin/nutstats > /dev/null 2>&1
