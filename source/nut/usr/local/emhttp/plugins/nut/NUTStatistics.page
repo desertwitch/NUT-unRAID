@@ -5,6 +5,25 @@ Tag="file"
 <? require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
 <?if(version_compare(parse_ini_file('/etc/unraid-version')['version'],'6.12.3', '>') && $nut_statistics == "enable"):?>
 <? $update = $nut_refresh == "enable" ? true : false; ?>
+
+<? 
+// Copyright 2015, Dan Landon.
+// Copyright 2015, Bergware International.
+// Copyright 2015, Lime Technology
+
+if(isset($display['theme'] && $display['theme'])) {
+switch ($display['theme']) {
+  case 'white': $color = '#1c1b1b'; $grid = '#e3e3e3'; break;
+  case 'black': $color = '#f2f2f2'; $grid = '#2b2b2b'; break;
+  case 'azure': $color = '#606e7f'; $grid = '#f3f0f4'; break;
+  case 'gray' : $color = '#606e7f'; $grid = '#0c0f0b'; break;
+  default     : $color = '#1c1b1b'; $grid = '#e3e3e3'; break;
+} else {
+  $color = '#1c1b1b';
+  $grid = '#e3e3e3';
+}
+?>
+
 <script src="<?autov('/webGui/javascript/jquery.apexcharts.js')?>"></script>
 
 <p>For performance reasons the statistics are only preserved for the duration the module is loaded.<br>
@@ -69,7 +88,9 @@ var options_nut = {
   noData: {
     text: 'Waiting for Data...',
     align: 'center'
-  }
+  },
+  grid:{borderColor:'<?=$grid?>'}
+  yaxis:{style:{colors:'<?=$color?>'}}
 };
 
 var NCpowerdraw = new ApexCharts(document.querySelector('#NCpowerdraw'), options_nut);

@@ -24,7 +24,15 @@ echo "Enabling the NUT Runtime Statistics Module..."
         chown root:root /etc/nutstats/*
 
         rm -rf $DOCROOT/nutstats
-        ln -sf /etc/nutstats $DOCROOT/nutstats
+        mkdir $DOCROOT/nutstats
+
+        ln -sf /etc/nutstats/battery.charge.json $DOCROOT/nutstats/battery.charge.json
+        ln -sf /etc/nutstats/battery.voltage.json $DOCROOT/nutstats/battery.voltage.json
+        ln -sf /etc/nutstats/input.frequency.json $DOCROOT/nutstats/input.frequency.json
+        ln -sf /etc/nutstats/input.voltage.json $DOCROOT/nutstats/input.voltage.json
+        ln -sf /etc/nutstats/output.frequency.json $DOCROOT/nutstats/output.frequency.json
+        ln -sf /etc/nutstats/output.voltage.json $DOCROOT/nutstats/output.voltage.json
+
         cp -f  $DOCROOT/nutstats.cron /boot/config/plugins/dynamix/nutstats.cron
 
         sleep 1
