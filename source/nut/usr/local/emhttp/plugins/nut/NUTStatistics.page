@@ -16,6 +16,11 @@ Markdown="false"
 <? $update = $nut_refresh == "enable" ? true : false; ?>
 <script src="<?autov('/webGui/javascript/jquery.apexcharts.js')?>"></script>
 
+<p>For performance reasons the statistics are only preserved for the duration the module is loaded.<br>
+This means that a reboot will clear your statistics, the same applies for enabling and disabling the module via the settings.<br>
+Some values may be missing or erroneous depending on what your UPS reports - enabling and disabling the module might fix such problems.
+</p>
+
 <?
 /* Copyright 2005-2023, Lime Technology
  * Copyright 2012-2023, Bergware International.
@@ -37,35 +42,49 @@ switch ($display['theme']) {
   default     : $theme = 'light'; break;
 } } else { $theme = 'light'; }
 
-$def_c1_var = "ups.realpower";
-$def_c1_txt = "Power Draw (in W)";
-$def_c2_var = "battery.charge";
-$def_c2_txt = "Battery Charge (in %)";
-$def_c3_var = "battery.voltage";
-$def_c3_txt = "Battery Voltage (in V)";
-$def_c4_var = "input.voltage";
-$def_c4_txt = "Input Voltage (in V)";
-$def_c5_var = "input.frequency";
-$def_c5_txt = "Input Frequency (in Hz)";
-$def_c6_var = "output.voltage";
-$def_c6_txt = "Output Voltage (in V)";
-$def_c7_var = "output.frequency";
-$def_c7_txt = "Output Frequency (in Hz)";
+$c1_var = "ups.realpower"; $c1_txt = "Power Draw (in W)";
+$c2_var = "battery.charge"; $c2_txt = "Battery Charge (in %)";
+$c3_var = "battery.voltage"; $c3_txt = "Battery Voltage (in V)";
+$c4_var = "input.voltage"; $c4_txt = "Input Voltage (in V)";
+$c5_var = "input.frequency"; $c5_txt = "Input Frequency (in Hz)";
+$c6_var = "output.voltage"; $c6_txt = "Output Voltage (in V)";
+$c7_var = "output.frequency"; $c7_txt = "Output Frequency (in Hz)";
+
+if($nut_stats_override=="enable") {
+
+  $overrideTestPassed = true;
+
+  if(!isset($nut_stats_c1_var)||empty($nut_stats_c1_var)) { $overrideTestPassed = false; }
+  if(!isset($nut_stats_c2_var)||empty($nut_stats_c2_var)) { $overrideTestPassed = false; }
+  if(!isset($nut_stats_c3_var)||empty($nut_stats_c3_var)) { $overrideTestPassed = false; }
+  if(!isset($nut_stats_c4_var)||empty($nut_stats_c4_var)) { $overrideTestPassed = false; }
+  if(!isset($nut_stats_c5_var)||empty($nut_stats_c5_var)) { $overrideTestPassed = false; }
+  if(!isset($nut_stats_c6_var)||empty($nut_stats_c6_var)) { $overrideTestPassed = false; }
+  if(!isset($nut_stats_c7_var)||empty($nut_stats_c7_var)) { $overrideTestPassed = false; }
+
+  if($overrideTestPassed===true) {
+    $c1_var = $nut_stats_c1_var; $c1_txt = $nut_stats_c1_txt;
+    $c2_var = $nut_stats_c2_var; $c2_txt = $nut_stats_c2_txt;
+    $c3_var = $nut_stats_c3_var; $c3_txt = $nut_stats_c3_txt;
+    $c4_var = $nut_stats_c4_var; $c4_txt = $nut_stats_c4_txt;
+    $c5_var = $nut_stats_c5_var; $c5_txt = $nut_stats_c5_txt;
+    $c6_var = $nut_stats_c6_var; $c6_txt = $nut_stats_c6_txt;
+    $c7_var = $nut_stats_c7_var; $c7_txt = $nut_stats_c7_txt;
+    echo("<p style='color:green;'><strong>Notice: <u>Variable Override was enabled</u> in the user configuration and is <u>currently active on this page</u>.</strong></p>");
+  } else {
+    echo("<p style='color:red;'><strong>Warning: <u>Variable Override was automatically disabled</u> because of a user misconfiguration (<u>no empty UPS variables are allowed</u>).</strong></p>");
+  }
+}
 
 ?>
 
-<p>For performance reasons the statistics are only preserved for the duration the module is loaded.<br>
-This means that a reboot will clear your statistics, the same applies for enabling and disabling the module via the settings.<br>
-Some values may be missing or erroneous depending on what your UPS reports - enabling and disabling the module might fix such problems.
-</p>
-
-<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c1_var) != "disable")):?><div id='NCchart1'></div><?endif;?>
-<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c2_var) != "disable")):?><div id='NCchart2'></div><?endif;?>
-<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c3_var) != "disable")):?><div id='NCchart3'></div><?endif;?>
-<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c4_var) != "disable")):?><div id='NCchart4'></div><?endif;?>
-<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c5_var) != "disable")):?><div id='NCchart5'></div><?endif;?>
-<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c6_var) != "disable")):?><div id='NCchart6'></div><?endif;?>
-<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c7_var) != "disable")):?><div id='NCchart7'></div><?endif;?>
+<?if($c1_var != "disable"):?><div id='NCchart1'></div><?endif;?>
+<?if($c2_var != "disable"):?><div id='NCchart2'></div><?endif;?>
+<?if($c3_var != "disable"):?><div id='NCchart3'></div><?endif;?>
+<?if($c4_var != "disable"):?><div id='NCchart4'></div><?endif;?>
+<?if($c5_var != "disable"):?><div id='NCchart5'></div><?endif;?>
+<?if($c6_var != "disable"):?><div id='NCchart6'></div><?endif;?>
+<?if($c7_var != "disable"):?><div id='NCchart7'></div><?endif;?>
 
 <script>
 
@@ -120,94 +139,94 @@ var options_nut = {
   theme: { mode:'<?=$theme?>' }
 };
 
-<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c1_var) != "disable")):?>
+<?if($c1_var != "disable"):?>
 var NCchart1 = new ApexCharts(document.querySelector('#NCchart1'), options_nut);
 <?endif;?>
 
-<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c2_var) != "disable")):?>
+<?if($c2_var != "disable"):?>
 var NCchart2 = new ApexCharts(document.querySelector('#NCchart2'), options_nut);
 <?endif;?>
 
-<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c3_var) != "disable")):?>
+<?if($c3_var != "disable"):?>
 var NCchart3 = new ApexCharts(document.querySelector('#NCchart3'), options_nut);
 <?endif;?>
 
-<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c4_var) != "disable")):?>
+<?if($c4_var != "disable"):?>
 var NCchart4 = new ApexCharts(document.querySelector('#NCchart4'), options_nut);
 <?endif;?>
 
-<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c5_var) != "disable")):?>
+<?if($c5_var != "disable"):?>
 var NCchart5 = new ApexCharts(document.querySelector('#NCchart5'), options_nut);
 <?endif;?>
 
-<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c6_var) != "disable")):?>
+<?if($c6_var != "disable"):?>
 var NCchart6 = new ApexCharts(document.querySelector('#NCchart6'), options_nut);
 <?endif;?>
 
-<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c7_var) != "disable")):?>
+<?if($c7_var != "disable"):?>
 var NCchart7 = new ApexCharts(document.querySelector('#NCchart7'), options_nut);
 <?endif;?>
 
 function updateNUTcharts() {
   
-<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c1_var) != "disable")):?>
-$.getJSON('/plugins/nut/nutstats/<?=$nut_stats_override=="disable"||!isset($nut_stats_c1_var)||empty($nut_stats_c1_var)?$def_c1_var:htmlspecialchars($nut_stats_c1_var)?>.json', function(response) {
+<?if($c1_var != "disable"):?>
+$.getJSON('/plugins/nut/nutstats/<?=$c1_var?>.json', function(response) {
   NCchart1.updateSeries([{
-    name: "<?=$nut_stats_override=="disable"||!isset($nut_stats_c1_txt)||empty($nut_stats_c1_txt)?$def_c1_txt:htmlspecialchars($nut_stats_c1_txt)?>",
+    name: "<?=$c1_txt?>",
     data: response.data
   }])
 });
 <?endif;?>
 
-<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c2_var) != "disable")):?>
-$.getJSON('/plugins/nut/nutstats/<?=$nut_stats_override=="disable"||!isset($nut_stats_c2_var)||empty($nut_stats_c2_var)?$def_c2_var:htmlspecialchars($nut_stats_c2_var)?>.json', function(response) {
+<?if($c2_var != "disable"):?>
+$.getJSON('/plugins/nut/nutstats/<?=$c2_var?>.json', function(response) {
   NCchart2.updateSeries([{
-    name: "<?=$nut_stats_override=="disable"||!isset($nut_stats_c2_txt)||empty($nut_stats_c2_txt)?$def_c2_txt:htmlspecialchars($nut_stats_c2_txt)?>",
+    name: "<?=$c2_txt?>",
     data: response.data
   }])
 });
 <?endif;?>
 
-<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c3_var) != "disable")):?>
-$.getJSON('/plugins/nut/nutstats/<?=$nut_stats_override=="disable"||!isset($nut_stats_c3_var)||empty($nut_stats_c3_var)?$def_c3_var:htmlspecialchars($nut_stats_c3_var)?>.json', function(response) {
+<?if($c3_var != "disable"):?>
+$.getJSON('/plugins/nut/nutstats/<?=$c3_var?>.json', function(response) {
   NCchart3.updateSeries([{
-    name: "<?=$nut_stats_override=="disable"||!isset($nut_stats_c3_txt)||empty($nut_stats_c3_txt)?$def_c3_txt:htmlspecialchars($nut_stats_c3_txt)?>",
+    name: "<?=$c3_txt?>",
     data: response.data
   }])
 });
 <?endif;?>
 
-<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c4_var) != "disable")):?>
-$.getJSON('/plugins/nut/nutstats/<?=$nut_stats_override=="disable"||!isset($nut_stats_c4_var)||empty($nut_stats_c4_var)?$def_c4_var:htmlspecialchars($nut_stats_c4_var)?>.json', function(response) {
+<?if($c4_var != "disable"):?>
+$.getJSON('/plugins/nut/nutstats/<?=$c4_var?>.json', function(response) {
   NCchart4.updateSeries([{
-    name: "<?=$nut_stats_override=="disable"||!isset($nut_stats_c4_txt)||empty($nut_stats_c4_txt)?$def_c4_txt:htmlspecialchars($nut_stats_c4_txt)?>",
+    name: "<?=$c4_txt?>",
     data: response.data
   }])
 });
 <?endif;?>
 
-<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c5_var) != "disable")):?>
-$.getJSON('/plugins/nut/nutstats/<?=$nut_stats_override=="disable"||!isset($nut_stats_c5_var)||empty($nut_stats_c5_var)?$def_c5_var:htmlspecialchars($nut_stats_c5_var)?>.json', function(response) {
+<?if($c5_var != "disable"):?>
+$.getJSON('/plugins/nut/nutstats/<?=$c5_var?>.json', function(response) {
   NCchart5.updateSeries([{
-    name: "<?=$nut_stats_override=="disable"||!isset($nut_stats_c5_txt)||empty($nut_stats_c5_txt)?$def_c5_txt:htmlspecialchars($nut_stats_c5_txt)?>",
+    name: "<?=$c5_txt?>",
     data: response.data
   }])
 });
 <?endif;?>
 
-<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c6_var) != "disable")):?>
-$.getJSON('/plugins/nut/nutstats/<?=$nut_stats_override=="disable"||!isset($nut_stats_c6_var)||empty($nut_stats_c6_var)?$def_c6_var:htmlspecialchars($nut_stats_c6_var)?>.json', function(response) {
+<?if($c6_var != "disable"):?>
+$.getJSON('/plugins/nut/nutstats/<?=$c6_var?>.json', function(response) {
   NCchart6.updateSeries([{
-    name: "<?=$nut_stats_override=="disable"||!isset($nut_stats_c6_txt)||empty($nut_stats_c6_txt)?$def_c6_txt:htmlspecialchars($nut_stats_c6_txt)?>",
+    name: "<?=$c6_txt?>",
     data: response.data
   }])
 });
 <?endif;?>
 
-<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c7_var) != "disable")):?>
-$.getJSON('/plugins/nut/nutstats/<?=$nut_stats_override=="disable"||!isset($nut_stats_c7_var)||empty($nut_stats_c7_var)?$def_c7_var:htmlspecialchars($nut_stats_c7_var)?>.json', function(response) {
+<?if($c7_var != "disable"):?>
+$.getJSON('/plugins/nut/nutstats/<?=$c7_var?>.json', function(response) {
   NCchart7.updateSeries([{
-    name: "<?=$nut_stats_override=="disable"||!isset($nut_stats_c7_txt)||empty($nut_stats_c7_txt)?$def_c7_txt:htmlspecialchars($nut_stats_c7_txt)?>",
+    name: "<?=$c7_txt?>",
     data: response.data
   }])
 });
@@ -221,39 +240,39 @@ $.getJSON('/plugins/nut/nutstats/<?=$nut_stats_override=="disable"||!isset($nut_
 
 $(function() {
 
-<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c1_var) != "disable")):?>
+<?if($c1_var != "disable"):?>
 NCchart1.render();
-NCchart1.updateOptions({title: { text: '<?=$nut_stats_override=="disable"||!isset($nut_stats_c1_txt)||empty($nut_stats_c1_txt)?$def_c1_txt:htmlspecialchars($nut_stats_c1_txt)?>' }})
+NCchart1.updateOptions({title: { text: '<?=$c1_txt?>' }})
 <?endif;?>
 
-<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c2_var) != "disable")):?>
+<?if($c2_var != "disable"):?>
 NCchart2.render();
-NCchart2.updateOptions({title: { text: '<?=$nut_stats_override=="disable"||!isset($nut_stats_c2_txt)||empty($nut_stats_c2_txt)?$def_c2_txt:htmlspecialchars($nut_stats_c2_txt)?>' }})
+NCchart2.updateOptions({title: { text: '<?=$c2_txt?>' }})
 <?endif;?>
 
-<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c3_var) != "disable")):?>
+<?if($c3_var != "disable"):?>
 NCchart3.render();
-NCchart3.updateOptions({title: { text: '<?=$nut_stats_override=="disable"||!isset($nut_stats_c3_txt)||empty($nut_stats_c3_txt)?$def_c3_txt:htmlspecialchars($nut_stats_c3_txt)?>' }})
+NCchart3.updateOptions({title: { text: '<?=$c3_txt?>' }})
 <?endif;?>
 
-<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c4_var) != "disable")):?>
+<?if($c4_var != "disable"):?>
 NCchart4.render();
-NCchart4.updateOptions({title: { text: '<?=$nut_stats_override=="disable"||!isset($nut_stats_c4_txt)||empty($nut_stats_c4_txt)?$def_c4_txt:htmlspecialchars($nut_stats_c4_txt)?>' }})
+NCchart4.updateOptions({title: { text: '<?=$c4_txt?>' }})
 <?endif;?>
 
-<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c5_var) != "disable")):?>
+<?if($c5_var != "disable"):?>
 NCchart5.render();
-NCchart5.updateOptions({title: { text: '<?=$nut_stats_override=="disable"||!isset($nut_stats_c5_txt)||empty($nut_stats_c5_txt)?$def_c5_txt:htmlspecialchars($nut_stats_c5_txt)?>' }})
+NCchart5.updateOptions({title: { text: '<?=$c5_txt?>' }})
 <?endif;?>
 
-<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c6_var) != "disable")):?>
+<?if($c6_var != "disable"):?>
 NCchart6.render();
-NCchart6.updateOptions({title: { text: '<?=$nut_stats_override=="disable"||!isset($nut_stats_c6_txt)||empty($nut_stats_c6_txt)?$def_c6_txt:htmlspecialchars($nut_stats_c6_txt)?>' }})
+NCchart6.updateOptions({title: { text: '<?=$c6_txt?>' }})
 <?endif;?>
 
-<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c7_var) != "disable")):?>
+<?if($c7_var != "disable"):?>
 NCchart7.render();
-NCchart7.updateOptions({title: { text: '<?=$nut_stats_override=="disable"||!isset($nut_stats_c7_txt)||empty($nut_stats_c7_txt)?$def_c7_txt:htmlspecialchars($nut_stats_c7_txt)?>' }})
+NCchart7.updateOptions({title: { text: '<?=$c7_txt?>' }})
 <?endif;?>
 
 updateNUTcharts();

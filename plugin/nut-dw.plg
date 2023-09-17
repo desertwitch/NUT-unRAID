@@ -3,14 +3,14 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "nut">
 <!ENTITY author    "desertwitch">
-<!ENTITY version   "2023.09.17a">
+<!ENTITY version   "2023.09.17b">
 <!ENTITY launch    "Settings/NUTsettings">
-<!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/master">
+<!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/feature-statistics">
 <!ENTITY pluginURL "&gitURL;/plugin/&name;-dw.plg">
 <!ENTITY pkgURL    "&gitURL;/packages">
 <!ENTITY plgPATH   "/boot/config/plugins/&name;">
-<!ENTITY plgNAME   "nut-plugin-2023.09.17a-x86_64-1">
-<!ENTITY plgMD5    "86f33a11e9f89c6d37dd74c2a6aaea2f">
+<!ENTITY plgNAME   "nut-plugin-2023.09.17b-x86_64-1">
+<!ENTITY plgMD5    "54dc4c5850c14dc80059202998380181">
 <!ENTITY emhttp    "/usr/local/emhttp/plugins/&name;">
 ]>
 
@@ -18,8 +18,9 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
-###2023.09.17a
+###2023.09.17a/b
 - fix: stats module: updated override helptext with correct way to disable an unneeded chart (disable, not disabled)
+- fix: stats module: minor bugfixes for better handling of user misconfigurations
 ###2023.09.17
 - new: default backend updated to most recent master branch as of 17.09.2023 (upstream bugfixes)
 - new: stats module: off-loaded the charts to a seperate page for performance and preventing configuration dead-lock
