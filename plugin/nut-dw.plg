@@ -18,6 +18,8 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
+###2023.09.17a
+- fix: stats module: updated override helptext with correct way to disable an unneeded chart (disable, not disabled)
 ###2023.09.17
 - new: default backend updated to most recent master branch as of 17.09.2023 (upstream bugfixes)
 - new: stats module: off-loaded the charts to a seperate page for performance and preventing configuration dead-lock
