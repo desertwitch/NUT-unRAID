@@ -1,13 +1,13 @@
-#!/bin/sh
+#!/bin/bash
 BOOT="/boot/config/plugins/nut"
 DOCROOT="/usr/local/emhttp/plugins/nut"
 
 # Add nut user and group (for legacy packages)
-if [ $( grep -ic "218" /etc/group ) -eq 0 ]; then
+if [ "$( grep -ic "218" /etc/group )" -eq 0 ]; then
     groupadd -g 218 nut
 fi
 
-if [ $( grep -ic "218" /etc/passwd ) -eq 0 ]; then
+if [ "$( grep -ic "218" /etc/passwd )" -eq 0 ]; then
     useradd -u 218 -g nut -s /bin/false nut
 fi
 

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Slackware startup script for Network UPS Tools
 # Copyright 2010 V'yacheslav Stetskevych
 # Edited for unRAID by macester macecapri@gmail.com
@@ -19,7 +19,7 @@ start_driver() {
 }
 
 start_upsd() {
-    if pgrep -x upsd 2>&1 >/dev/null; then
+    if pgrep -x upsd >/dev/null 2>&1; then
         echo "$PROG NUT upsd is running..."
     else
         /usr/sbin/upsd -u root || exit 1
@@ -27,7 +27,7 @@ start_upsd() {
 }
 
 start_upsmon() {
-    if pgrep upsmon 2>&1 >/dev/null; then
+    if pgrep upsmon >/dev/null 2>&1; then
         echo "$PROG NUT upsmon is running..."
     else
         /usr/sbin/upsmon -u root || exit 1
@@ -36,11 +36,11 @@ start_upsmon() {
 
 stop() {
     echo "Stopping the NUT services... "
-    if pgrep -x upsd 2>&1 >/dev/null; then
+    if pgrep -x upsd >/dev/null 2>&1; then
         /usr/sbin/upsd -c stop
 
         TIMER=0
-        while `killall upsd 2>/dev/null`; do
+        while killall upsd 2>/dev/null; do
             sleep 1
             killall upsd
             TIMER=$((TIMER+1))
@@ -52,11 +52,11 @@ stop() {
         done
     fi
 
-    if pgrep upsmon 2>&1 >/dev/null; then
+    if pgrep upsmon >/dev/null 2>&1; then
         /usr/sbin/upsmon -c stop
 
         TIMER=0
-        while `killall upsmon 2>/dev/null`; do
+        while killall upsmon 2>/dev/null; do
             sleep 1
             killall upsmon
             TIMER=$((TIMER+1))
@@ -86,13 +86,13 @@ stop() {
 write_config() {
     echo "Writing NUT configuration..."
 
-    if [ $MANUAL == "disable" ]; then
+    if [ "$MANUAL" == "disable" ]; then
 
         # add the name
         sed -i "1 s~.*~[${NAME}]~" /etc/nut/ups.conf
 
         # Add the driver config
-        if [ $DRIVER == "custom" ]; then
+        if [ "$DRIVER" == "custom" ]; then
                 sed -i "2 s/.*/driver = ${SERIAL}/" /etc/nut/ups.conf
         else
                 sed -i "2 s/.*/driver = ${DRIVER}/" /etc/nut/ups.conf
@@ -109,7 +109,7 @@ write_config() {
         sed -i "1 s/.*/MODE=${MODE}/" /etc/nut/nut.conf
 
         # Add SNMP-specific config
-        if [ $DRIVER == "snmp-ups" ]; then
+        if [ "$DRIVER" == "snmp-ups" ]; then
             var10="pollfreq = ${POLL}"
             var11="community = ${COMMUNITY}"
             var12='snmp_version = v2c'
@@ -124,7 +124,7 @@ write_config() {
         sed -i "6 s/.*/$var12/" /etc/nut/ups.conf
 
         # Set monitor ip address, user, password and mode
-        if [ $MODE == "slave" ]; then
+        if [ "$MODE" == "slave" ]; then
             MONITOR="slave"
         else
             MONITOR="master"
@@ -143,7 +143,7 @@ write_config() {
         # check for old PASSWORD in the config then convert it
         if [ -v PASSWORD ]; then
             if [ ! -v MONPASS ]; then
-                MONPASS=$(echo $PASSWORD | base64)
+                MONPASS="$(echo "$PASSWORD" | base64)"
                 sed -i "/PASSWORD/c\MONPASS=\"${MONPASS}\"" $CONFIG
             else
                 sed -i "/PASSWORD/d" $CONFIG
@@ -151,8 +151,8 @@ write_config() {
         fi
 
         # decode monitor passwords
-        MONPASS=$(echo $MONPASS | base64 --decode)
-        SLAVEPASS=$(echo $SLAVEPASS | base64 --decode)
+        MONPASS="$(echo "$MONPASS" | base64 --decode)"
+        SLAVEPASS="$(echo "$SLAVEPASS" | base64 --decode)"
 
         var1="MONITOR ${NAME}@${IPADDR} 1 ${MONUSER} ${MONPASS} ${MONITOR}"
         sed -i "1 s,.*,$var1," /etc/nut/upsmon.conf
@@ -164,7 +164,7 @@ write_config() {
         sed -i "6 s,.*,NOTIFYCMD \"/usr/sbin/nut-notify\"," /etc/nut/upsmon.conf
 
         # Set if the ups should be turned off
-        if [ $UPSKILL == "enable" ]; then
+        if [ "$UPSKILL" == "enable" ]; then
             var8='POWERDOWNFLAG /etc/nut/killpower'
             sed -i "3 s,.*,$var8," /etc/nut/upsmon.conf
         else
@@ -221,12 +221,12 @@ write_config() {
     fi
 
     # Link shutdown scripts for poweroff in rc.6
-    if [ $( grep -ic "/etc/rc.d/rc.nut restart_udev" /etc/rc.d/rc.6 ) -eq 0 ]; then
+    if [ "$( grep -ic "/etc/rc.d/rc.nut restart_udev" /etc/rc.d/rc.6 )" -eq 0 ]; then
         echo "Adding UDEV lines to rc.6 for NUT"
         sed -i '/\/bin\/mount -v -n -o remount,ro \//a [ -x /etc/rc.d/rc.nut ] && /etc/rc.d/rc.nut restart_udev' /etc/rc.d/rc.6
     fi
 
-    if [ $( grep -ic "/etc/rc.d/rc.nut shutdown" /etc/rc.d/rc.6 ) -eq 0 ]; then
+    if [ "$( grep -ic "/etc/rc.d/rc.nut shutdown" /etc/rc.d/rc.6 )" -eq 0 ]; then
         echo "Adding UPS shutdown lines to rc.6 for NUT"
          sed -i -e '/# Now halt /a [ -x /etc/rc.d/rc.nut ] && /etc/rc.d/rc.nut shutdown' -e //N /etc/rc.d/rc.6
     fi

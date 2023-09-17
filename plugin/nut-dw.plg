@@ -3,14 +3,14 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "nut">
 <!ENTITY author    "desertwitch">
-<!ENTITY version   "2023.09.15d">
+<!ENTITY version   "2023.09.17">
 <!ENTITY launch    "Settings/NUTsettings">
-<!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/master">
+<!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/feature-statistics">
 <!ENTITY pluginURL "&gitURL;/plugin/&name;-dw.plg">
 <!ENTITY pkgURL    "&gitURL;/packages">
 <!ENTITY plgPATH   "/boot/config/plugins/&name;">
-<!ENTITY plgNAME   "nut-plugin-2023.09.15d-x86_64-1">
-<!ENTITY plgMD5    "08f0125da140991531ec168448da93bd">
+<!ENTITY plgNAME   "nut-plugin-2023.09.17-x86_64-1">
+<!ENTITY plgMD5    "5264e3f96bfd1bcfc8a9deef3377a40e">
 <!ENTITY emhttp    "/usr/local/emhttp/plugins/&name;">
 ]>
 
@@ -18,6 +18,13 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
+###2023.09.17
+- new: default backend updated to most recent master branch as of 17.09.2023 (upstream bugfixes)
+- new: stats module: off-loaded the charts to a seperate page for performance and preventing configuration dead-lock
+- new: stats module: users can now set their own variables and descriptions for charts via variable override
+- new: stats module: users can now disable individual unneeded charts via variable override
+- new: stats module: users can now set the polling/updating frequency (how often the charts update)
+- fix: reworked all bash scripts to better standards with more safety for strange configurational states
 ###2023.09.15
 - new: runtime statistics module introduces fancy charts for UPS variables in GUI (on 6.12.3+)
 - fix: configuration mismatch in rare cases when resetting configuration via GUI
@@ -254,9 +261,9 @@ install or upgrade dependency files
 <MD5>e69f6cff89191aa63fa6914f84da14a0</MD5>
 </FILE>
 
-<FILE Name="&plgPATH;/nut-2.8.0-x86_64-7master.ssl11.txz" Min="6.10" Max="6.12.99">
-<URL>&pkgURL;/nut-2.8.0-x86_64-7master.ssl11.txz</URL>
-<MD5>a899f1e6da8680d3e50e6704c79ec11c</MD5>
+<FILE Name="&plgPATH;/nut-2.8.0-x86_64-8master.ssl11.txz" Min="6.10" Max="6.12.99">
+<URL>&pkgURL;/nut-2.8.0-x86_64-8master.ssl11.txz</URL>
+<MD5>e35a31c7df95256f0fc51ccaee8e6777</MD5>
 </FILE>
 
 <FILE Name="&plgPATH;/nut-2.8.0-x86_64-1stable.ssl11.txz" Min="6.10" Max="6.12.99">
@@ -276,7 +283,7 @@ if [ -e "$CONFIG" ]; then
     source "$CONFIG"
     if [ "$BACKEND" == "default" ]; then
         echo "Installing DEFAULT backend for NUT..."
-        upgradepkg --install-new &plgPATH;/nut-2.8.0-x86_64-7master.ssl11.txz
+        upgradepkg --install-new &plgPATH;/nut-2.8.0-x86_64-8master.ssl11.txz
     elif [ "$BACKEND" == "stable" ]; then
         echo "Installing user-configured STABLE backend for NUT..."
         upgradepkg --install-new &plgPATH;/nut-2.8.0-x86_64-1stable.ssl11.txz
@@ -285,11 +292,11 @@ if [ -e "$CONFIG" ]; then
         upgradepkg --install-new &plgPATH;/nut-2.7.4.20200318-x86_64-1.txz
     else
         echo "Installing DEFAULT backend for NUT..."
-        upgradepkg --install-new &plgPATH;/nut-2.8.0-x86_64-7master.ssl11.txz
+        upgradepkg --install-new &plgPATH;/nut-2.8.0-x86_64-8master.ssl11.txz
     fi
 else
     echo "Installing DEFAULT backend for NUT..."
-    upgradepkg --install-new &plgPATH;/nut-2.8.0-x86_64-7master.ssl11.txz
+    upgradepkg --install-new &plgPATH;/nut-2.8.0-x86_64-8master.ssl11.txz
 fi
 </INLINE>
 </FILE>
@@ -395,7 +402,7 @@ if [ -x /etc/rc.d/rc.nutstats ]; then
 fi
 
 # check if net-snmp is used by another plugin
-if [ `find /boot/config/plugins/*.plg -type f ! -iname "*nut-dw.plg*" | xargs grep "net-snmp" -sl` ]; then
+if [ "$(find /boot/config/plugins/*.plg -type f ! -iname "*nut-dw.plg*" | xargs grep "net-snmp" -sl)" ]; then
     echo "Net-SNMP in use by another plugin, will not be removed with NUT."
     rm -f &plgPATH;/net-snmp*.txz
 fi

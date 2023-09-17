@@ -399,7 +399,7 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
 
 <form markdown="0" id="nut-display" name="nut_display" method="POST" action="/update.php" target="progressFrame">
     <input type="hidden" name="#file" value="<?=$sName?>/<?=$sName?>.cfg">
-    <input type="hidden" id="command2" name="#command" value="" />
+    <input type="hidden" id="command2" name="#command" value="/usr/local/emhttp/plugins/nut/scripts/write_config" />
     <dl>
         <dt>NUT Page Footer:</dt>
         <dd>
@@ -474,9 +474,132 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
 
         <blockquote class="inline_help">
             <p>Enable or disable the NUT Runtime Statistics Module (on UNRAID <strong><em>versions 6.12.3+</em></strong>).</p>
-            <p>The module will record UPS variables of interest and display them as useful charts at the end of this page.</p>
-            <p><u>Note:</u> For performance reasons the variables are only requested <strong><em>once per minute</em></strong> from the UPS service.</p>
+            <p>The module will record UPS variables of interest and display them as useful charts on a seperate <strong><em>NUT Statistics</em></strong> page.</p>
         </blockquote>
+
+    <div id="STATS-OR" style="display: none;">
+    <dl>
+        <dt>NUT Runtime Statistics Polling Frequency:</dt>
+            <dd>
+                <select id="STATSPOLL" name="STATSPOLL" size="1">
+                    <?=mk_option($nut_stats_poll, '01min', 'Every 01 Minute(s)');?>
+                    <?=mk_option($nut_stats_poll, '15min', 'Every 15 Minute(s)');?>
+                    <?=mk_option($nut_stats_poll, '30min', 'Every 30 Minute(s)');?>
+                    <?=mk_option($nut_stats_poll, '45min', 'Every 45 Minute(s)');?>
+                    <?=mk_option($nut_stats_poll, '60min', 'Every 60 Minute(s)');?>
+                </select>
+            </dd>
+    </dl>
+
+    <blockquote class="inline_help">
+    <p>Sets the updating frequency for the NUT Runtime Statistics.</p>
+    <p>This means how often the NUT Runtime Statistics service will request the UPS data from the NUT service.</p>
+    </blockquote>
+
+    <dl>
+        <dt>NUT Runtime Statistics Variable Override:</dt>
+            <dd>
+                <select id="STATSOVERRIDE" name="STATSOVERRIDE" size="1">
+                    <?=mk_option($nut_stats_override, 'disable', 'No');?>
+                    <?=mk_option($nut_stats_override, 'enable', 'Yes');?>
+                </select>
+            </dd>
+        </dl>
+
+    <blockquote class="inline_help">
+    <p>The NUT Runtime Statistics Variable Override lets you configure custom UPS values and descriptions for the statistics charts.</p>
+    <p><u>Note:</u> By setting a <u>UPS Variable</u> to <strong><em>disabled</em></strong> you can disable/hide an unneeded chart altogether.</p>
+    <p><strong><u>Warning:</u> You can only use <u>numeric (number) values</u>, which are also existent in the <u>NUT Details</u> table on this page!</strong></p>
+    </blockquote>
+
+    </div> 
+
+    <div id="STATS-OR-PREF" style="display: none;">
+        <dl>
+            <dt><em>Statistics Chart 1 - UPS Variable:</em></dt>
+            <dd>
+                <input id="STATSCHART1VAR" type="text" name="STATSCHART1VAR" value="<?=htmlspecialchars($nut_stats_c1_var);?>" title="Statistics Chart 1 - UPS Variable">
+            </dd>
+        </dl>
+        <dl>
+            <dt><em>Statistics Chart 1 - Description Text:</em></dt>
+            <dd>
+                <input id="STATSCHART1TXT" type="text" name="STATSCHART1TXT" value="<?=htmlspecialchars($nut_stats_c1_txt);?>" title="Statistics Chart 1 - Description Text">
+            </dd>
+        </dl>
+        <dl>
+            <dt><em>Statistics Chart 2 - UPS Variable:</em></dt>
+            <dd>
+                <input id="STATSCHART2VAR" type="text" name="STATSCHART2VAR" value="<?=htmlspecialchars($nut_stats_c2_var);?>" title="Statistics Chart 2 - UPS Variable">
+            </dd>
+        </dl>
+        <dl>
+            <dt><em>Statistics Chart 2 - Description Text:</em></dt>
+            <dd>
+                <input id="STATSCHART2TXT" type="text" name="STATSCHART2TXT" value="<?=htmlspecialchars($nut_stats_c2_txt);?>" title="Statistics Chart 2 - Description Text">
+            </dd>
+        </dl>
+        <dl>
+            <dt><em>Statistics Chart 3 - UPS Variable:</em></dt>
+            <dd>
+                <input id="STATSCHART3VAR" type="text" name="STATSCHART3VAR" value="<?=htmlspecialchars($nut_stats_c3_var);?>" title="Statistics Chart 3 - UPS Variable">
+            </dd>
+        </dl>
+        <dl>
+            <dt><em>Statistics Chart 3 - Description Text:</em></dt>
+            <dd>
+                <input id="STATSCHART3TXT" type="text" name="STATSCHART3TXT" value="<?=htmlspecialchars($nut_stats_c3_txt);?>" title="Statistics Chart 3 - Description Text">
+            </dd>
+        </dl>
+        <dl>
+            <dt><em>Statistics Chart 4 - UPS Variable:</em></dt>
+            <dd>
+                <input id="STATSCHART4VAR" type="text" name="STATSCHART4VAR" value="<?=htmlspecialchars($nut_stats_c4_var);?>" title="Statistics Chart 4 - UPS Variable">
+            </dd>
+        </dl>
+        <dl>
+            <dt><em>Statistics Chart 4 - Description Text:</em></dt>
+            <dd>
+                <input id="STATSCHART4TXT" type="text" name="STATSCHART4TXT" value="<?=htmlspecialchars($nut_stats_c4_txt);?>" title="Statistics Chart 4 - Description Text">
+            </dd>
+        </dl>
+        <dl>
+            <dt><em>Statistics Chart 5 - UPS Variable:</em></dt>
+            <dd>
+                <input id="STATSCHART5VAR" type="text" name="STATSCHART5VAR" value="<?=htmlspecialchars($nut_stats_c5_var);?>" title="Statistics Chart 5 - UPS Variable">
+            </dd>
+        </dl>
+        <dl>
+            <dt><em>Statistics Chart 5 - Description Text:</em></dt>
+            <dd>
+                <input id="STATSCHART5TXT" type="text" name="STATSCHART5TXT" value="<?=htmlspecialchars($nut_stats_c5_txt);?>" title="Statistics Chart 5 - Description Text">
+            </dd>
+        </dl>
+        <dl>
+            <dt><em>Statistics Chart 6 - UPS Variable:</em></dt>
+            <dd>
+                <input id="STATSCHART6VAR" type="text" name="STATSCHART6VAR" value="<?=htmlspecialchars($nut_stats_c6_var);?>" title="Statistics Chart 6 - UPS Variable">
+            </dd>
+        </dl>
+        <dl>
+            <dt><em>Statistics Chart 6 - Description Text:</em></dt>
+            <dd>
+                <input id="STATSCHART6TXT" type="text" name="STATSCHART6TXT" value="<?=htmlspecialchars($nut_stats_c6_txt);?>" title="Statistics Chart 6 - Description Text">
+            </dd>
+        </dl>
+        <dl>
+            <dt><em>Statistics Chart 7 - UPS Variable:</em></dt>
+            <dd>
+                <input id="STATSCHART7VAR" type="text" name="STATSCHART7VAR" value="<?=htmlspecialchars($nut_stats_c7_var);?>" title="Statistics Chart 7 - UPS Variable">
+            </dd>
+        </dl>
+        <dl>
+            <dt><em>Statistics Chart 7 - Description Text:</em></dt>
+            <dd>
+                <input id="STATSCHART7TXT" type="text" name="STATSCHART7TXT" value="<?=htmlspecialchars($nut_stats_c7_txt);?>" title="Statistics Chart 7 - Description Text">
+            </dd>
+        </dl>      
+    </div>  
 
     <dl>
         <dt>UPS Power and Load Display Settings:</dt>
@@ -521,10 +644,10 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
 
     <dl>
         <dt>
-            &nbsp;
+            <input id="DEFAULT" type="submit" name="#default" value="Default">
         </dt>
         <dd>
-            <input type="submit"  value="Apply"><input type="button" value="Done" onclick="done()">
+            <input type="submit" value="Apply"><input type="button" value="Done" onclick="done()">
         </dd>
     </dl>
 </form>
@@ -583,6 +706,10 @@ $(function() {
     $('#SHUTDOWN').change(checkSHUTDOWN);
     $('#MODE').change(checkMODE);
     $('#STATISTICS').change(checkSTATS);
+    $('#STATSOVERRIDE').change(checkSTATSor);
+    $('#STATS-OR-PREF').change(checkSTATSorp);
+    $('#STATSPOLL').change(checkSTATSorp);
+
 
     checkMODE();
     checkPOWER();
@@ -590,6 +717,8 @@ $(function() {
     checkRUNNING();
     checkDRIVER();
     checkSHUTDOWN();
+    initSTATS();
+    initSTATSor();
 
     decData();
 });
@@ -678,8 +807,45 @@ function Reload(){
     $('#command').val('/usr/local/emhttp/plugins/nut/scripts/reload');
 }
 
+function initSTATS(){
+    if ($('#STATISTICS').val() === 'enable') {
+        $('#STATS-OR').show();    
+    } else {
+        $('#STATS-OR').hide();
+    }
+}
+
 function checkSTATS(){
-    $('#command2').val('/usr/local/emhttp/plugins/nut/scripts/write_config');
+    if ($('#STATISTICS').val() === 'enable') {
+        $('#STATS-OR').show();    
+        checkSTATSor();
+    } else {
+        $('#STATS-OR').hide();
+        checkSTATSor();
+    }
+    $('#command2').val('/usr/local/emhttp/plugins/nut/scripts/clear_stats');
+}
+
+function initSTATSor(){
+    if ($('#STATISTICS').val() === 'enable' && $('#STATSOVERRIDE').val() === 'enable') {
+        $('#STATS-OR-PREF').show();    
+    } else {
+        $('#STATS-OR-PREF').hide();
+    }
+}
+
+
+function checkSTATSor(){
+    if ($('#STATISTICS').val() === 'enable' && $('#STATSOVERRIDE').val() === 'enable') {
+        $('#STATS-OR-PREF').show();    
+    } else {
+        $('#STATS-OR-PREF').hide();
+    }
+    $('#command2').val('/usr/local/emhttp/plugins/nut/scripts/clear_stats');
+}
+
+function checkSTATSorp(){
+    $('#command2').val('/usr/local/emhttp/plugins/nut/scripts/clear_stats');
 }
 
 function ResetConfig(){

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 BOOT="/boot/config/plugins/nut"
 DOCROOT="/usr/local/emhttp/plugins/nut"
 

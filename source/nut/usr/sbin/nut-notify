@@ -7,7 +7,7 @@ PROG="nut"
 PLGPATH="/boot/config/plugins/$PROG"
 CONFIG=$PLGPATH/$PROG.cfg
 NOTIFY="/usr/local/emhttp/plugins/dynamix/scripts/notify"
-HOST="$(echo $HOSTNAME | awk '{print toupper($0)}')"
+HOST="$(echo "$HOSTNAME" | awk '{print toupper($0)}')"
 EVENT="UPS Status"
 SUBJECT="[$HOST] - UPS "
 RUNTIME="battery.runtime"
@@ -15,39 +15,39 @@ RUNTIME="battery.runtime"
 # read our configuration
 [ -e "$CONFIG" ] && source $CONFIG
 
-if [ $SHUTDOWN == "batt_level" ]; then
+if [ "$SHUTDOWN" == "batt_level" ]; then
         TIMER=$BATTERYLEVEL
-        MESSAGE="System shuts down when battery reaches $BATTERYLEVEL %"
+        MESSAGE="System shuts down when battery reaches ${BATTERYLEVEL} %"
         BATTERY="battery.charge"
 fi
 
-if [ $SHUTDOWN == "batt_timer" ]; then
+if [ "$SHUTDOWN" == "batt_timer" ]; then
     TIMER=$SECONDS
-    MESSAGE="System shuts down when there is $SECONDS seconds left on the battery..."
+    MESSAGE="System shuts down when there is ${SECONDS} seconds left on the battery..."
     BATTERY=$RUNTIME
 fi
 
-if [ $SHUTDOWN == "sec_timer" ]; then
+if [ "$SHUTDOWN" == "sec_timer" ]; then
     TIMER=$SECONDS
-    MESSAGE="$TIMEOUT seconds till system powers down..."
+    MESSAGE="${TIMEOUT} seconds till system powers down..."
     BATTERY=$RUNTIME
 fi
 
 trap "exit 0" SIGTERM
 if [ "$NOTIFYTYPE" = "ONLINE" ]
 then
-        echo $0: power restored | wall
-        $NOTIFY -e "$EVENT" -s "Notice $SUBJECT Online" -d "The UPS is back on line." -i "normal"
+        echo "$0": power restored | wall
+        $NOTIFY -e "${EVENT}" -s "Notice ${SUBJECT} Online" -d "The UPS is back on line." -i "normal"
 
         # Cause all instances of this script to exit.
-        killall -s SIGTERM `basename $0`
+        killall -s SIGTERM "$(basename "$0")"
 
 elif [ "$NOTIFYTYPE" = "ONBATT" ]
 then
-        echo $0: $MESSAGE | wall
-        $NOTIFY -e "$EVENT" -s "Alert $SUBJECT On battery" -d "The UPS is on battery." -i "alert"
+        echo "$0": "${MESSAGE}" | wall
+        $NOTIFY -e "${EVENT}" -s "Alert ${SUBJECT} On battery" -d "The UPS is on battery." -i "alert"
 
-        if [ $SHUTDOWN == "sec_timer" ]; then
+        if [ "$SHUTDOWN" == "sec_timer" ]; then
             # Loop with one second interval to allow SIGTERM reception.
             let "n = $TIMEOUT"
             while [ $n -ne 0 ]
@@ -57,27 +57,27 @@ then
             done
         else
             # Loop with one second interval to allow SIGTERM reception.
-            timer=$( /usr/bin/upsc $NAME@$IPADDR|grep $BATTERY:|awk '{print $2}' )
-            while [ $timer -gt $TIMER ]
+            timer="$( /usr/bin/upsc "$NAME"@"$IPADDR"|grep "$BATTERY":|awk '{print $2}' )"
+            while [ "$timer" -gt "$TIMER" ]
             do
                 sleep 1
-                timer=$( /usr/bin/upsc $NAME@$IPADDR|grep $BATTERY:|awk '{print $2}' )
+                timer="$( /usr/bin/upsc "$NAME"@"$IPADDR"|grep "$BATTERY":|awk '{print $2}' )"
             done
         fi
 
-        echo $0: commencing shutdown | wall
-        $NOTIFY -e "$EVENT" -s "Alert $SUBJECT Shutdown" -d "unRAID is being shut down." -i "alert"
+        echo "$0": commencing shutdown | wall
+        $NOTIFY -e "${EVENT}" -s "Alert ${SUBJECT} Shutdown" -d "unRAID is being shut down." -i "alert"
         upsmon -c fsd
 
 elif [ "$NOTIFYTYPE" = "REPLBATT" ] 
 then
-        if [ $REPLBATTMSG == "enable" ]; then
-            echo $0: batteries need replacement | wall
-            $NOTIFY -e "$EVENT" -s "Alert $SUBJECT Battery Replacement Notification" -d "The UPS reports that the batteries need replacement." -i "alert"
+        if [ "$REPLBATTMSG" == "enable" ]; then
+            echo "$0": batteries need replacement | wall
+            $NOTIFY -e "${EVENT}" -s "Alert ${SUBJECT} Battery Replacement Notification" -d "The UPS reports that the batteries need replacement." -i "alert"
         fi
 
 # for any other status messages the user has configured to be reported
 else
-        echo $0: $1 | wall
-        $NOTIFY -e "$EVENT" -s "Alert $SUBJECT" -d "$1" -i "alert"
+        echo "$0": "$1" | wall
+        $NOTIFY -e "${EVENT}" -s "Alert ${SUBJECT}" -d "$1" -i "alert"
 fi

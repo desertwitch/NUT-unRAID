@@ -32,9 +32,26 @@ $nut_refresh      = isset($nut_cfg['REFRESH'])      ? htmlspecialchars($nut_cfg 
 $nut_interval     = isset($nut_cfg['INTERVAL'])     ? intval($nut_cfg['INTERVAL'])                : 15 ;
 $nut_runtime      = isset($nut_cfg['RUNTIME'])      ? htmlspecialchars($nut_cfg ['RUNTIME'])      : 'battery.runtime';
 $nut_backend      = isset($nut_cfg['BACKEND'])      ? htmlspecialchars($nut_cfg['BACKEND'])       : 'default';
+$nut_statistics   = isset($nut_cfg['STATISTICS'])      ? htmlspecialchars($nut_cfg ['STATISTICS'])      : 'disable';
+$nut_stats_poll   = isset($nut_cfg['STATSPOLL'])      ? htmlspecialchars($nut_cfg ['STATSPOLL'])      : '30min';
+$nut_stats_override = isset($nut_cfg['STATSOVERRIDE'])      ? htmlspecialchars($nut_cfg ['STATSOVERRIDE'])      : 'disable';
+$nut_stats_c1_var = isset($nut_cfg['STATSCHART1VAR'])      ? htmlspecialchars($nut_cfg ['STATSCHART1VAR'])      : 'ups.realpower';
+$nut_stats_c1_txt = isset($nut_cfg['STATSCHART1TXT'])      ? htmlspecialchars($nut_cfg ['STATSCHART1TXT'])      : 'Power Draw (in W)';
+$nut_stats_c2_var = isset($nut_cfg['STATSCHART2VAR'])      ? htmlspecialchars($nut_cfg ['STATSCHART2VAR'])      : 'battery.charge';
+$nut_stats_c2_txt = isset($nut_cfg['STATSCHART2TXT'])      ? htmlspecialchars($nut_cfg ['STATSCHART2TXT'])      : 'Battery Charge (in %)';
+$nut_stats_c3_var = isset($nut_cfg['STATSCHART3VAR'])      ? htmlspecialchars($nut_cfg ['STATSCHART3VAR'])      : 'battery.voltage';
+$nut_stats_c3_txt = isset($nut_cfg['STATSCHART3TXT'])      ? htmlspecialchars($nut_cfg ['STATSCHART3TXT'])      : 'Battery Voltage (in V)';
+$nut_stats_c4_var = isset($nut_cfg['STATSCHART4VAR'])      ? htmlspecialchars($nut_cfg ['STATSCHART4VAR'])      : 'input.voltage';
+$nut_stats_c4_txt = isset($nut_cfg['STATSCHART4TXT'])      ? htmlspecialchars($nut_cfg ['STATSCHART4TXT'])      : 'Input Voltage (in V)';
+$nut_stats_c5_var = isset($nut_cfg['STATSCHART5VAR'])      ? htmlspecialchars($nut_cfg ['STATSCHART5VAR'])      : 'input.frequency';
+$nut_stats_c5_txt = isset($nut_cfg['STATSCHART5TXT'])      ? htmlspecialchars($nut_cfg ['STATSCHART5TXT'])      : 'Input Frequency (in Hz)';
+$nut_stats_c6_var = isset($nut_cfg['STATSCHART6VAR'])      ? htmlspecialchars($nut_cfg ['STATSCHART6VAR'])      : 'output.voltage';
+$nut_stats_c6_txt = isset($nut_cfg['STATSCHART6TXT'])      ? htmlspecialchars($nut_cfg ['STATSCHART6TXT'])      : 'Output Voltage (in V)';
+$nut_stats_c7_var = isset($nut_cfg['STATSCHART7VAR'])      ? htmlspecialchars($nut_cfg ['STATSCHART7VAR'])      : 'output.frequency';
+$nut_stats_c7_txt = isset($nut_cfg['STATSCHART7TXT'])      ? htmlspecialchars($nut_cfg ['STATSCHART7TXT'])      : 'Output Frequency (in Hz)';
+
 $nut_running      = (intval(trim(shell_exec( "[ -f /proc/`cat /var/run/nut/upsmon.pid 2> /dev/null`/exe ] && echo 1 || echo 0 2> /dev/null" ))) === 1 );
 $nut_installed_backend = trim(shell_exec("find /var/log/packages/ -type f -iname 'nut*' ! -iname 'nut-plugin*' -printf '%f\n' 2> /dev/null"));
-$nut_statistics      = isset($nut_cfg['STATISTICS'])      ? htmlspecialchars($nut_cfg ['STATISTICS'])      : 'disable';
 
 # debug constant to overwrite ups.status
 // define('NUT_STATUS_DEBUG', 'OB DISCHRG BYPASS CAL');

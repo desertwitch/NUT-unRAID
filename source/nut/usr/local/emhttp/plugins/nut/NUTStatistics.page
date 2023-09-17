@@ -1,8 +1,17 @@
-Menu="NUTsettings:3"
-Title="NUT Runtime Statistics Module"
-Tag="file"
+Menu="OtherSettings"
+Type="xmenu"
+Title="NUT Statistics"
+Icon="icon-diagnostics"
+Tag="map-o"
+Markdown="false"
 ---
 <? require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
+<?if(version_compare(parse_ini_file('/etc/unraid-version')['version'],'6.12.3', '<')):?>
+<div><strong>Your UNRAID version is too outdated to use the NUT Runtime Statistics Module (&lt; 6.12.3)</strong></div>
+<?endif;?>
+<?if(version_compare(parse_ini_file('/etc/unraid-version')['version'],'6.12.3', '>') && $nut_statistics == "disable"):?>
+<div><strong>You have not enabled the NUT Runtime Statistics module in the NUT Settings.</strong></div>
+<?endif;?>
 <?if(version_compare(parse_ini_file('/etc/unraid-version')['version'],'6.12.3', '>') && $nut_statistics == "enable"):?>
 <? $update = $nut_refresh == "enable" ? true : false; ?>
 <script src="<?autov('/webGui/javascript/jquery.apexcharts.js')?>"></script>
@@ -27,6 +36,22 @@ switch ($display['theme']) {
   case 'gray' : $theme = 'dark'; break;
   default     : $theme = 'light'; break;
 } } else { $theme = 'light'; }
+
+$def_c1_var = "ups.realpower";
+$def_c1_txt = "Power Draw (in W)";
+$def_c2_var = "battery.charge";
+$def_c2_txt = "Battery Charge (in %)";
+$def_c3_var = "battery.voltage";
+$def_c3_txt = "Battery Voltage (in V)";
+$def_c4_var = "input.voltage";
+$def_c4_txt = "Input Voltage (in V)";
+$def_c5_var = "input.frequency";
+$def_c5_txt = "Input Frequency (in Hz)";
+$def_c6_var = "output.voltage";
+$def_c6_txt = "Output Voltage (in V)";
+$def_c7_var = "output.frequency";
+$def_c7_txt = "Output Frequency (in Hz)";
+
 ?>
 
 <p>For performance reasons the statistics are only preserved for the duration the module is loaded.<br>
@@ -34,13 +59,13 @@ This means that a reboot will clear your statistics, the same applies for enabli
 Some values may be missing or erroneous depending on what your UPS reports - enabling and disabling the module might fix such problems.
 </p>
 
-<div id='NCpowerdraw'></div>
-<div id='NCbattcharge'></div>
-<div id='NCbattvoltage'></div>
-<div id='NCinputvoltage'></div>
-<div id='NCinputfrequen'></div>
-<div id='NCoutputvoltage'></div>
-<div id='NCoutputfrequen'></div>
+<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c1_var) != "disable")):?><div id='NCchart1'></div><?endif;?>
+<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c2_var) != "disable")):?><div id='NCchart2'></div><?endif;?>
+<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c3_var) != "disable")):?><div id='NCchart3'></div><?endif;?>
+<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c4_var) != "disable")):?><div id='NCchart4'></div><?endif;?>
+<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c5_var) != "disable")):?><div id='NCchart5'></div><?endif;?>
+<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c6_var) != "disable")):?><div id='NCchart6'></div><?endif;?>
+<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c7_var) != "disable")):?><div id='NCchart7'></div><?endif;?>
 
 <script>
 
@@ -95,63 +120,98 @@ var options_nut = {
   theme: { mode:'<?=$theme?>' }
 };
 
-var NCpowerdraw = new ApexCharts(document.querySelector('#NCpowerdraw'), options_nut);
-var NCbattcharge = new ApexCharts(document.querySelector('#NCbattcharge'), options_nut);
-var NCbattvoltage = new ApexCharts(document.querySelector('#NCbattvoltage'), options_nut);
-var NCinputvoltage = new ApexCharts(document.querySelector('#NCinputvoltage'), options_nut);
-var NCinputfrequen = new ApexCharts(document.querySelector('#NCinputfrequen'), options_nut);
-var NCoutputvoltage = new ApexCharts(document.querySelector('#NCoutputvoltage'), options_nut);
-var NCoutputfrequen = new ApexCharts(document.querySelector('#NCoutputfrequen'), options_nut);
+<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c1_var) != "disable")):?>
+var NCchart1 = new ApexCharts(document.querySelector('#NCchart1'), options_nut);
+<?endif;?>
+
+<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c2_var) != "disable")):?>
+var NCchart2 = new ApexCharts(document.querySelector('#NCchart2'), options_nut);
+<?endif;?>
+
+<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c3_var) != "disable")):?>
+var NCchart3 = new ApexCharts(document.querySelector('#NCchart3'), options_nut);
+<?endif;?>
+
+<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c4_var) != "disable")):?>
+var NCchart4 = new ApexCharts(document.querySelector('#NCchart4'), options_nut);
+<?endif;?>
+
+<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c5_var) != "disable")):?>
+var NCchart5 = new ApexCharts(document.querySelector('#NCchart5'), options_nut);
+<?endif;?>
+
+<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c6_var) != "disable")):?>
+var NCchart6 = new ApexCharts(document.querySelector('#NCchart6'), options_nut);
+<?endif;?>
+
+<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c7_var) != "disable")):?>
+var NCchart7 = new ApexCharts(document.querySelector('#NCchart7'), options_nut);
+<?endif;?>
 
 function updateNUTcharts() {
-  $.getJSON('/plugins/nut/nutstats/ups.realpower.json', function(response) {
-  NCpowerdraw.updateSeries([{
-    name: "UPS Power Draw (in W)",
+  
+<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c1_var) != "disable")):?>
+$.getJSON('/plugins/nut/nutstats/<?=$nut_stats_override=="disable"||!isset($nut_stats_c1_var)||empty($nut_stats_c1_var)?$def_c1_var:htmlspecialchars($nut_stats_c1_var)?>.json', function(response) {
+  NCchart1.updateSeries([{
+    name: "<?=$nut_stats_override=="disable"||!isset($nut_stats_c1_txt)||empty($nut_stats_c1_txt)?$def_c1_txt:htmlspecialchars($nut_stats_c1_txt)?>",
     data: response.data
   }])
 });
+<?endif;?>
 
-$.getJSON('/plugins/nut/nutstats/battery.charge.json', function(response) {
-  NCbattcharge.updateSeries([{
-    name: "Battery Charge (in %)",
+<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c2_var) != "disable")):?>
+$.getJSON('/plugins/nut/nutstats/<?=$nut_stats_override=="disable"||!isset($nut_stats_c2_var)||empty($nut_stats_c2_var)?$def_c2_var:htmlspecialchars($nut_stats_c2_var)?>.json', function(response) {
+  NCchart2.updateSeries([{
+    name: "<?=$nut_stats_override=="disable"||!isset($nut_stats_c2_txt)||empty($nut_stats_c2_txt)?$def_c2_txt:htmlspecialchars($nut_stats_c2_txt)?>",
     data: response.data
   }])
 });
+<?endif;?>
 
-$.getJSON('/plugins/nut/nutstats/battery.voltage.json', function(response) {
-  NCbattvoltage.updateSeries([{
-    name: "Battery Voltage (in V)",
+<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c3_var) != "disable")):?>
+$.getJSON('/plugins/nut/nutstats/<?=$nut_stats_override=="disable"||!isset($nut_stats_c3_var)||empty($nut_stats_c3_var)?$def_c3_var:htmlspecialchars($nut_stats_c3_var)?>.json', function(response) {
+  NCchart3.updateSeries([{
+    name: "<?=$nut_stats_override=="disable"||!isset($nut_stats_c3_txt)||empty($nut_stats_c3_txt)?$def_c3_txt:htmlspecialchars($nut_stats_c3_txt)?>",
     data: response.data
   }])
 });
+<?endif;?>
 
-$.getJSON('/plugins/nut/nutstats/input.voltage.json', function(response) {
-  NCinputvoltage.updateSeries([{
-    name: "Input Voltage (in V)",
+<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c4_var) != "disable")):?>
+$.getJSON('/plugins/nut/nutstats/<?=$nut_stats_override=="disable"||!isset($nut_stats_c4_var)||empty($nut_stats_c4_var)?$def_c4_var:htmlspecialchars($nut_stats_c4_var)?>.json', function(response) {
+  NCchart4.updateSeries([{
+    name: "<?=$nut_stats_override=="disable"||!isset($nut_stats_c4_txt)||empty($nut_stats_c4_txt)?$def_c4_txt:htmlspecialchars($nut_stats_c4_txt)?>",
     data: response.data
   }])
 });
+<?endif;?>
 
-$.getJSON('/plugins/nut/nutstats/input.frequency.json', function(response) {
-  NCinputfrequen.updateSeries([{
-    name: "Input Frequency (in Hz)",
+<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c5_var) != "disable")):?>
+$.getJSON('/plugins/nut/nutstats/<?=$nut_stats_override=="disable"||!isset($nut_stats_c5_var)||empty($nut_stats_c5_var)?$def_c5_var:htmlspecialchars($nut_stats_c5_var)?>.json', function(response) {
+  NCchart5.updateSeries([{
+    name: "<?=$nut_stats_override=="disable"||!isset($nut_stats_c5_txt)||empty($nut_stats_c5_txt)?$def_c5_txt:htmlspecialchars($nut_stats_c5_txt)?>",
     data: response.data
   }])
 });
+<?endif;?>
 
-$.getJSON('/plugins/nut/nutstats/output.voltage.json', function(response) {
-  NCoutputvoltage.updateSeries([{
-    name: "Output Voltage (in V)",
+<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c6_var) != "disable")):?>
+$.getJSON('/plugins/nut/nutstats/<?=$nut_stats_override=="disable"||!isset($nut_stats_c6_var)||empty($nut_stats_c6_var)?$def_c6_var:htmlspecialchars($nut_stats_c6_var)?>.json', function(response) {
+  NCchart6.updateSeries([{
+    name: "<?=$nut_stats_override=="disable"||!isset($nut_stats_c6_txt)||empty($nut_stats_c6_txt)?$def_c6_txt:htmlspecialchars($nut_stats_c6_txt)?>",
     data: response.data
   }])
 });
+<?endif;?>
 
-$.getJSON('/plugins/nut/nutstats/output.frequency.json', function(response) {
-  NCoutputfrequen.updateSeries([{
-    name: "Output Frequency (in Hz)",
+<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c7_var) != "disable")):?>
+$.getJSON('/plugins/nut/nutstats/<?=$nut_stats_override=="disable"||!isset($nut_stats_c7_var)||empty($nut_stats_c7_var)?$def_c7_var:htmlspecialchars($nut_stats_c7_var)?>.json', function(response) {
+  NCchart7.updateSeries([{
+    name: "<?=$nut_stats_override=="disable"||!isset($nut_stats_c7_txt)||empty($nut_stats_c7_txt)?$def_c7_txt:htmlspecialchars($nut_stats_c7_txt)?>",
     data: response.data
   }])
 });
+<?endif;?>
 
 <?if ($update):?>
     setTimeout(updateNUTcharts,<?=max(abs(isset($display['refresh']) ? $display['refresh'] : 0),(1000 * $nut_interval))?>);
@@ -161,26 +221,40 @@ $.getJSON('/plugins/nut/nutstats/output.frequency.json', function(response) {
 
 $(function() {
 
-NCpowerdraw.render();
-NCpowerdraw.updateOptions({title: { text: 'Power Draw (in W)' }})
+<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c1_var) != "disable")):?>
+NCchart1.render();
+NCchart1.updateOptions({title: { text: '<?=$nut_stats_override=="disable"||!isset($nut_stats_c1_txt)||empty($nut_stats_c1_txt)?$def_c1_txt:htmlspecialchars($nut_stats_c1_txt)?>' }})
+<?endif;?>
 
-NCbattcharge.render();
-NCbattcharge.updateOptions({title: { text: 'Battery Charge (in %)' }, yaxis: { min: 0, max: 100, tickAmount: 5 }})
+<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c2_var) != "disable")):?>
+NCchart2.render();
+NCchart2.updateOptions({title: { text: '<?=$nut_stats_override=="disable"||!isset($nut_stats_c2_txt)||empty($nut_stats_c2_txt)?$def_c2_txt:htmlspecialchars($nut_stats_c2_txt)?>' }})
+<?endif;?>
 
-NCbattvoltage.render();
-NCbattvoltage.updateOptions({title: { text: 'Battery Voltage (in V)' }})
+<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c3_var) != "disable")):?>
+NCchart3.render();
+NCchart3.updateOptions({title: { text: '<?=$nut_stats_override=="disable"||!isset($nut_stats_c3_txt)||empty($nut_stats_c3_txt)?$def_c3_txt:htmlspecialchars($nut_stats_c3_txt)?>' }})
+<?endif;?>
 
-NCinputvoltage.render();
-NCinputvoltage.updateOptions({title: { text: 'Input Voltage (in V)' }})
+<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c4_var) != "disable")):?>
+NCchart4.render();
+NCchart4.updateOptions({title: { text: '<?=$nut_stats_override=="disable"||!isset($nut_stats_c4_txt)||empty($nut_stats_c4_txt)?$def_c4_txt:htmlspecialchars($nut_stats_c4_txt)?>' }})
+<?endif;?>
 
-NCinputfrequen.render();
-NCinputfrequen.updateOptions({title: { text: 'Input Frequency (in Hz)' }, yaxis: { min: 45, max: 65, tickAmount: 4 }})
+<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c5_var) != "disable")):?>
+NCchart5.render();
+NCchart5.updateOptions({title: { text: '<?=$nut_stats_override=="disable"||!isset($nut_stats_c5_txt)||empty($nut_stats_c5_txt)?$def_c5_txt:htmlspecialchars($nut_stats_c5_txt)?>' }})
+<?endif;?>
 
-NCoutputvoltage.render();
-NCoutputvoltage.updateOptions({title: { text: 'Output Voltage (in V)' }})
+<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c6_var) != "disable")):?>
+NCchart6.render();
+NCchart6.updateOptions({title: { text: '<?=$nut_stats_override=="disable"||!isset($nut_stats_c6_txt)||empty($nut_stats_c6_txt)?$def_c6_txt:htmlspecialchars($nut_stats_c6_txt)?>' }})
+<?endif;?>
 
-NCoutputfrequen.render();
-NCoutputfrequen.updateOptions({title: { text: 'Output Frequency (in Hz)' }, yaxis: { min: 45, max: 65, tickAmount: 4 }})
+<?if(($nut_stats_override=="disable") || ($nut_stats_override=="enable" && htmlspecialchars($nut_stats_c7_var) != "disable")):?>
+NCchart7.render();
+NCchart7.updateOptions({title: { text: '<?=$nut_stats_override=="disable"||!isset($nut_stats_c7_txt)||empty($nut_stats_c7_txt)?$def_c7_txt:htmlspecialchars($nut_stats_c7_txt)?>' }})
+<?endif;?>
 
 updateNUTcharts();
 

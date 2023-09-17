@@ -1,0 +1,6 @@
+Menu="NUTsettings:3"
+Title="NUT Runtime Statistics"
+Tag="map-o"
+Markdown="false"
+---
+<p>The NUT Runtime Statistics have been moved to <a href="/Settings/NUTStatistics">a seperate page</a> for performance reasons.</p>
