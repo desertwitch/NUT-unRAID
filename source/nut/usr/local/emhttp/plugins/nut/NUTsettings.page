@@ -509,7 +509,8 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
     <blockquote class="inline_help">
     <p>The NUT Runtime Statistics Variable Override lets you configure custom UPS values and descriptions for the statistics charts.</p>
     <p><u>Note:</u> By setting a <u>UPS Variable</u> to <strong><em>disable</em></strong> you can disable/hide an unneeded chart altogether.</p>
-    <p><strong><u>Warning:</u> You can only use <u>numeric (number) values</u>, which are also existent in the <u>NUT Details</u> table on this page!</strong></p>
+    <p><strong><u>Warning:</u> You must make sure that every UPS variable field has a value set, either a UPS variable or <em>"disable"</em></strong>.</p>
+    <p><strong><u>Warning:</u> You can only use <u>numeric (number) UPS variables</u>, which are also existent in the <u>NUT Details</u> table on this page!</strong></p>
     </blockquote>
 
     </div> 
