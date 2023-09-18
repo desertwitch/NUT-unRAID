@@ -247,11 +247,21 @@ echo "Making sure all existing NUT services are stopped (before install/upgrade)
 if [ -x /etc/rc.d/rc.nut ]; then
     if ! /etc/rc.d/rc.nut stop >/dev/null 2>&amp;1; then
         echo "WARNING:"
-        echo "WARNING: The NUT installation script was not able to stop all services gracefully."
+        echo "WARNING: The NUT installation script was not able to stop all NUT services gracefully."
         echo "WARNING: IN CASE OF PROBLEMS, please REBOOT YOUR SYSTEM to complete any upgrades."
         echo "WARNING:"
     fi 
 fi
+
+if [ -x /etc/rc.d/rc.nutstats ]; then
+    if ! /etc/rc.d/rc.nutstats disable >/dev/null 2>&amp;1; then
+        echo "WARNING:"
+        echo "WARNING: The NUT installation script was not able to stop all NUT statistic services gracefully."
+        echo "WARNING: IN CASE OF PROBLEMS, please REBOOT YOUR SYSTEM to complete any upgrades."
+        echo "WARNING:"
+    fi 
+fi
+
 exit 0
 </INLINE>
 </FILE>
