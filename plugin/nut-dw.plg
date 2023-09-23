@@ -276,7 +276,7 @@ install or upgrade dependency files
 
 <FILE Name="&plgPATH;/nut-2.8.0-x86_64-9master.ssl11.txz" Min="6.10" Max="6.12.99">
 <URL>&pkgURL;/nut-2.8.0-x86_64-9master.ssl11.txz</URL>
-<MD5>50b79d9709254e5b78d80b6d69e899c1</MD5>
+<MD5>1b3c3e0bf2ce3a3aafa54dffd74153a1</MD5>
 </FILE>
 
 <FILE Name="&plgPATH;/nut-2.8.0-x86_64-1stable.ssl11.txz" Min="6.10" Max="6.12.99">
