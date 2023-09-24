@@ -295,6 +295,7 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
         <p>- <strong><em>Battery Level</em></strong> shuts down the system when there is X percentage left on the battery.</p>
         <p>- <strong><em>Runtime Left</em></strong> shuts down the system when there is X runtime left on the battery (in minutes).</p>
         <p>- <strong><em>Time on Battery</em></strong> shuts down the system when the user defined timer reaches zero (in minutes).</p>
+        <p>If your UPS <u>does not</u> report the variables <strong><em>battery.charge</em></strong> or <strong><em>battery.runtime</em></strong> correctly (see <strong><em>NUT Details</em></strong> table), please choose <strong><em>Time on Battery</em></strong> here.</p>
     </blockquote>
 
     <div id="SHUTDOWN0">
