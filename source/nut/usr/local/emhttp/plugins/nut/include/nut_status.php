@@ -106,16 +106,22 @@ if (file_exists('/var/run/nut/upsmon.pid')) {
       $realPower = 0;
   }
 
-  # if no ups.load compute from available values
+  # if no ups.load compute from ups.power(.nominal) or ups.realpower(.nominal)
   if ($load <= 0) {
+    $load1 = 0;
+    $load2 = 0;
     if ($apparentPower > 0 && $powerNominal > 0)
-      $load = round($apparentPower / $powerNominal  * 100);
+      $load1 = round($apparentPower / $powerNominal  * 100);
     if ($realPower > 0 && $realPowerNominal > 0)
-      $load = round($realPower / $realPowerNominal  * 100);
+      $load2 = round($realPower / $realPowerNominal  * 100);
+    if($load1 > 1 && $load1 < 101)
+      $load = $load1;
+    if($load2 > 1 && $load2 < 101)
+      $load = $load2;    
   }
 
   if ($load > 0)
-    $status[5] = $load>=90 ? "<td $red>".intval($val). "&thinsp;%</td>" : "<td $green>".intval($val). "&thinsp;%</td>";
+    $status[5] = $load>=90 ? "<td $red>".intval($load). "&thinsp;%</td>" : "<td $green>".intval($load). "&thinsp;%</td>";
 
   # if no ups.power compute from load and ups.power.nominal
   if ($apparentPower <= 0)
