@@ -85,7 +85,6 @@ if (file_exists('/var/run/nut/upsmon.pid')) {
       break;
     case 'ups.load':
       $load      = strtok($val,' ');
-      $status[5] = $load>=90 ? "<td $red>".intval($val). "&thinsp;%</td>" : "<td $green>".intval($val). "&thinsp;%</td>";
       break;
     }
     if ($all) {
@@ -106,6 +105,17 @@ if (file_exists('/var/run/nut/upsmon.pid')) {
     if ($realPowerNominal > 0)
       $realPower = 0;
   }
+
+  # if no ups.load compute from available values
+  if ($load <= 0) {
+    if ($apparentPower > 0 && $powerNominal > 0)
+      $load = round($apparentPower / $powerNominal  * 100);
+    if ($realPower > 0 && $realPowerNominal > 0)
+      $load = round($realPower / $realPowerNominal  * 100);
+  }
+
+  if ($load > 0)
+    $status[5] = $load>=90 ? "<td $red>".intval($val). "&thinsp;%</td>" : "<td $green>".intval($val). "&thinsp;%</td>";
 
   # if no ups.power compute from load and ups.power.nominal
   if ($apparentPower <= 0)

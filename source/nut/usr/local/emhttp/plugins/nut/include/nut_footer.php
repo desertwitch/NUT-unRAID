@@ -116,6 +116,14 @@ if (count($ups_status)) {
 
   $status[0] = "<span id='" . ($nut_footer_style == 0 ? "nut_battery" : "") . "' class='tooltip-nut " . $css_class . "'" . $statusTooltipData . "><i class='fa " . $fa_icon . "' style='vertical-align: baseline;'></i>&thinsp;" . $batteryText . "</span>";
 
+  # if no ups.load compute from available values
+  if ($load <= 0) {
+    if ($apparentPower > 0 && $powerNominal > 0)
+      $load = round($apparentPower / $powerNominal  * 100);
+    if ($realPower > 0 && $realPowerNominal > 0)
+      $load = round($realPower / $realPowerNominal  * 100);
+  }
+
   # if no ups.power compute from load and ups.power.nominal
   if ($apparentPower <= 0)
    $apparentPower = $powerNominal > 0 && $load ? round($powerNominal * $load * 0.01) : 0;
