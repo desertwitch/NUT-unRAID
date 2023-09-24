@@ -276,9 +276,9 @@ install or upgrade dependency files
 <MD5>e69f6cff89191aa63fa6914f84da14a0</MD5>
 </FILE>
 
-<FILE Name="&plgPATH;/nut-2.8.0-x86_64-5.ssl11.txz" Min="6.10" Max="6.12.99">
-<URL>&pkgURL;/nut-2.8.0-x86_64-5.ssl11.txz</URL>
-<MD5>02e32099f43b31a39250538b600ad7c7</MD5>
+<FILE Name="&plgPATH;/nut-2.8.0-x86_64-6.ssl11.txz" Min="6.10" Max="6.12.99">
+<URL>&pkgURL;/nut-2.8.0-x86_64-6.ssl11.txz</URL>
+<MD5>ab44f48e65b4c6bd5c4564ccd4ca2782</MD5>
 </FILE>
 
 <FILE Name="&plgPATH;/nut-2.8.0-x86_64-1stable.ssl11.txz" Min="6.10" Max="6.12.99">
@@ -298,7 +298,7 @@ if [ -e "$CONFIG" ]; then
     source "$CONFIG"
     if [ "$BACKEND" == "default" ]; then
         echo "Installing DEFAULT backend for NUT..."
-        upgradepkg --install-new &plgPATH;/nut-2.8.0-x86_64-5.ssl11.txz
+        upgradepkg --install-new &plgPATH;/nut-2.8.0-x86_64-6.ssl11.txz
     elif [ "$BACKEND" == "stable" ]; then
         echo "Installing user-configured STABLE backend for NUT..."
         upgradepkg --install-new &plgPATH;/nut-2.8.0-x86_64-1stable.ssl11.txz
@@ -307,11 +307,11 @@ if [ -e "$CONFIG" ]; then
         upgradepkg --install-new &plgPATH;/nut-2.7.4.20200318-x86_64-1.txz
     else
         echo "Installing DEFAULT backend for NUT..."
-        upgradepkg --install-new &plgPATH;/nut-2.8.0-x86_64-5.ssl11.txz
+        upgradepkg --install-new &plgPATH;/nut-2.8.0-x86_64-6.ssl11.txz
     fi
 else
     echo "Installing DEFAULT backend for NUT..."
-    upgradepkg --install-new &plgPATH;/nut-2.8.0-x86_64-5.ssl11.txz
+    upgradepkg --install-new &plgPATH;/nut-2.8.0-x86_64-6.ssl11.txz
 fi
 </INLINE>
 </FILE>
