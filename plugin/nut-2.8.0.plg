@@ -3,14 +3,14 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "nut">
 <!ENTITY author    "desertwitch">
-<!ENTITY version   "2023.09.23">
+<!ENTITY version   "2023.09.26">
 <!ENTITY launch    "Settings/NUTsettings">
 <!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/master">
 <!ENTITY pluginURL "&gitURL;/plugin/&name;-2.8.0.plg">
 <!ENTITY pkgURL    "&gitURL;/packages">
 <!ENTITY plgPATH   "/boot/config/plugins/&name;">
-<!ENTITY plgNAME   "nut-plugin-2023.09.23-x86_64-1">
-<!ENTITY plgMD5    "5d268f2ee4df73c4eca4a5d630562c03">
+<!ENTITY plgNAME   "nut-plugin-2023.09.26-x86_64-1">
+<!ENTITY plgMD5    "8ecc40268206aa965c220451a146925a">
 <!ENTITY emhttp    "/usr/local/emhttp/plugins/&name;">
 ]>
 
@@ -18,6 +18,9 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
+###2023.09.26
+- new: stats module: hide stats module pages when deactivated (thanks to ich777)
+- new: compute UPS load from power variables when not reported by UPS (where possible)
 ###2023.09.23
 - new: default backend updated to most recent master branch as of 23.09.2023 (upstream bugfixes)
 ###2023.09.17a/b
