@@ -4,6 +4,7 @@ Title="NUT Statistics"
 Icon="icon-diagnostics"
 Tag="map-o"
 Markdown="false"
+Cond="parse_ini_file('/boot/config/plugins/nut/nut.cfg')['STATISTICS'] == 'enable'"
 ---
 <? require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
 <?if(version_compare(parse_ini_file('/etc/unraid-version')['version'],'6.12.3', '<')):?>
