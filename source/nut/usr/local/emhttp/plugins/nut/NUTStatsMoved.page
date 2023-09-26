@@ -2,6 +2,6 @@ Menu="NUTsettings:3"
 Title="NUT Runtime Statistics"
 Tag="map-o"
 Markdown="false"
-Cond="parse_ini_file('/boot/config/plugins/nut/nut.cfg')['STATISTICS'] == 'enable'"
+Cond="isset(parse_ini_file('/boot/config/plugins/nut/nut.cfg')['STATISTICS']) && parse_ini_file('/boot/config/plugins/nut/nut.cfg')['STATISTICS'] == 'enable'"
 ---
 <p>The NUT Runtime Statistics have been moved to <a href="/Settings/NUTStatistics">a seperate page</a> for performance reasons.</p>
