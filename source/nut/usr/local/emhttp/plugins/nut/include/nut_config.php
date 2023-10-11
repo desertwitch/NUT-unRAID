@@ -16,6 +16,7 @@ $nut_slavepass    = isset($nut_cfg['SLAVEPASS'])    ? htmlspecialchars($nut_cfg[
 $nut_driver       = isset($nut_cfg['DRIVER'])       ? htmlspecialchars($nut_cfg['DRIVER'])        : 'custom';
 $nut_serial       = isset($nut_cfg['SERIAL'])       ? htmlspecialchars($nut_cfg['SERIAL'])        : 'none';
 $nut_port         = isset($nut_cfg['PORT'])         ? htmlspecialchars($nut_cfg['PORT'])          : 'auto';
+$nut_deblevel     = isset($nut_cfg['DEBLEVEL'])     ? htmlspecialchars($nut_cfg['DEBLEVEL'])      : 'default';
 $nut_ip           = preg_match('/^(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:[.](?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}$/', $nut_cfg['IPADDR']) ? htmlspecialchars($nut_cfg['IPADDR']) : '127.0.0.1';
 $nut_mode         = isset($nut_cfg['MODE'])         ? htmlspecialchars($nut_cfg['MODE'])          : 'standalone';
 $nut_shutdown     = isset($nut_cfg['SHUTDOWN'])     ? htmlspecialchars($nut_cfg['SHUTDOWN'])      : 'sec_timer';

@@ -3,14 +3,14 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "nut">
 <!ENTITY author    "desertwitch">
-<!ENTITY version   "2023.10.06">
+<!ENTITY version   "2023.10.11">
 <!ENTITY launch    "Settings/NUTsettings">
 <!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/master">
 <!ENTITY pluginURL "&gitURL;/plugin/&name;-2.8.0.plg">
 <!ENTITY pkgURL    "&gitURL;/packages">
 <!ENTITY plgPATH   "/boot/config/plugins/&name;">
-<!ENTITY plgNAME   "nut-plugin-2023.09.26-x86_64-1">
-<!ENTITY plgMD5    "8ecc40268206aa965c220451a146925a">
+<!ENTITY plgNAME   "nut-plugin-2023.10.11-x86_64-1">
+<!ENTITY plgMD5    "0720dcc277ca9da86b92018022749a16">
 <!ENTITY emhttp    "/usr/local/emhttp/plugins/&name;">
 ]>
 
@@ -18,6 +18,12 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
+###2023.10.11
+- new: option to raise the debug level on UPS driver for diagnostic purposes
+- new: option to export an extensive (anonymized) NUT debug package for diagnostic purposes
+- new: added some additional USB-based UPS drivers to GUI dropdown for improved accessibility
+- fix: minor cosmetic changes in GUI and GUI documentation texts
+- fix: increase maximum allowed field length for UPS port to more reasonable value
 ###2023.10.06
 - new: default backend updated to most recent master branch as of 06.10.2023 (upstream bugfixes)
 - new: default 6.13+ backend updated to most recent master branch as of 06.10.2023 (upstream bugfixes)

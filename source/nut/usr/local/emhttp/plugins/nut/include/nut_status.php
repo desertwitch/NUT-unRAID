@@ -27,20 +27,20 @@ if (file_exists('/var/run/nut/upsmon.pid')) {
   
   if (isset($_GET['diagsave']) && $_GET['diagsave'] == "true") { 
 
-  $diagarray = $rows;
+    $diagarray = $rows;
   
-  array_walk($diagarray, function(&$var) {
-    if (preg_match('/^(device|ups)\.(serial|macaddr):/i', $var, $matches)) {
-      $var = $matches[1] . '.' . $matches[2] . ': REMOVED';
-    }
-  });
+    array_walk($diagarray, function(&$var) {
+      if (preg_match('/^(device|ups)\.(serial|macaddr):/i', $var, $matches)) {
+        $var = $matches[1] . '.' . $matches[2] . ': REMOVED';
+      }
+    });
 
-  $diagstring = implode("\n",$diagarray);
-  header('Content-Disposition: attachment; filename="nut-diagnostics.dev"');
-  header('Content-Type: text/plain');
-  header('Content-Length: ' . strlen($diagstring));
-  header('Connection: close');
-  die($diagstring);
+    $diagstring = implode("\n",$diagarray);
+    header('Content-Disposition: attachment; filename="nut-ups.dev"');
+    header('Content-Type: text/plain');
+    header('Content-Length: ' . strlen($diagstring));
+    header('Connection: close');
+    die($diagstring);
 
   }
   

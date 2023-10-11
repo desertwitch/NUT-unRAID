@@ -72,7 +72,7 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
 
     <blockquote class="inline_help">
     <p>In case of any problems with your UPS you can attempt to switch the NUT backend to an older version (if available).</p>
-    <p>This is <strong><em>NOT RECOMMENDED</em></strong> unless you are having problems - <strong><em>STAY ON DEFAULT</em></strong> for the latest NUT backend.</p>
+    <p>This is not recommended unless you are having problems - if possible stay on default for the latest NUT backends.</p>
     </blockquote>
 
     <dl>
@@ -130,7 +130,7 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
         <dl>
             <dt>NUT Master IP Address:</dt>
             <dd>
-                <input id="IPADDR" type="text" class="narrow nut-ipaddr" name="IPADDR" maxlength="66" value="<?=htmlspecialchars($nut_ip);?>" title="nut ip address" maxlength="15">
+                <input id="IPADDR" type="text" class="narrow nut-ipaddr" name="IPADDR" value="<?=htmlspecialchars($nut_ip);?>" title="nut ip address" maxlength="15">
             </dd>
         </dl>
 
@@ -148,6 +148,7 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
 
         <blockquote class="inline_help">
             <p>The username to access the NUT master server.</p>
+            <p><u>Warning:</u> Do not set this to the same username as <strong><em>NUT Slave Username</em></strong>.</p>
         </blockquote>
 
         <dl>
@@ -171,6 +172,7 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
 
             <blockquote class="inline_help">
                 <p>The username for NUT slaves to use connecting to the NUT master server.</p>
+                <p><u>Warning:</u> Do not set this to the same username as <strong><em>NUT Monitor Username</em></strong>.</p>
                 <p><u>Note:</u> NUT is configured to listen on all interfaces (<strong><em>0.0.0.0</em></strong>).</p>
             </blockquote>
 
@@ -204,28 +206,30 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
                 <dt>UPS Driver:</dt>
                 <dd>
                     <select class="nut-run" id="DRIVER" name="DRIVER" size="1" title="nut driver">
+                    <?=mk_option($nut_driver, 'usbhid-ups', 'usbhid-ups');?>
+                    <?=mk_option($nut_driver, 'nutdrv_qx', 'nutdrv_qx');?>
                     <?=mk_option($nut_driver, 'blazer_usb', 'blazer_usb');?>
                     <?=mk_option($nut_driver, 'blazer_ser', 'blazer_ser');?>
                     <?=mk_option($nut_driver, 'bcmxcp_usb', 'bcmxcp_usb');?>
                     <?=mk_option($nut_driver, 'richcomm_usb', 'richcomm_usb');?>
+                    <?=mk_option($nut_driver, 'riello_usb', 'riello_usb');?>
                     <?=mk_option($nut_driver, 'tripplite_usb', 'tripplite_usb');?>
-                    <?=mk_option($nut_driver, 'usbhid-ups', 'usbhid-ups');?>
                     <?=mk_option($nut_driver, 'snmp-ups', 'snmp-ups');?>
-                    <?=mk_option($nut_driver, 'custom', 'custom');?>
-                    </select><input type="hidden" class="narrow serial nut-run" id="SERIAL" name="SERIAL" maxlength="40" value="<?=$nut_serial;?>">
+                    <?=mk_option($nut_driver, 'custom', 'custom (not listed)');?>
+                    </select><input type="hidden" class="narrow serial nut-run" id="SERIAL" name="SERIAL" placeholder="driver name" maxlength="40" value="<?=$nut_serial;?>">
                 </dd>
             </dl>
 
             <blockquote class="inline_help">
                 <p>Please check the link below to find a driver matching for your UPS:</p>
                 <p><a href="http://www.networkupstools.org/stable-hcl.html" target="_blank">http://www.networkupstools.org/stable-hcl.html</a></p>
-                <p>For drivers not listed here, set to <strong><em>custom</em></strong> and insert the driver in the text field appearing to the right.</p>
+                <p>For drivers not listed here, set to <strong><em>custom (not listed)</em></strong> and insert the driver in the text field appearing to the right.</p>
                 <p>Please do not forget to match your selected driver and the port configured below.</p>
             </blockquote>
 
             <dl>
               <dt>UPS Driver Port:</dt>
-              <dd><input type="text" name="PORT" class="narrow nut-run nut-port" maxlength="15" value="<?=$nut_port;?>"></dd>
+              <dd><input type="text" name="PORT" class="narrow nut-run nut-port" maxlength="40" value="<?=$nut_port;?>"></dd>
             </dl>
 
             <blockquote class="inline_help">
@@ -234,6 +238,29 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
                 <p>- Set to a physical port, e.g. <strong><em>/dev/tty0</em></strong>, for serial devices.</p>
                 <p>- Set to <strong><em>hostname[:port]</em></strong> when connecting via SNMP using the driver <strong><em>snmp-ups</em></strong>.</p>
             </blockquote>
+
+            <dl>
+              <dt>UPS Driver Debug Level:</dt>
+              <dd>
+                    <select class="nut-run" id="DEBLEVEL" name="DEBLEVEL" size="1">
+                    <?=mk_option($nut_deblevel, 'default', 'Default');?>
+                    <?=mk_option($nut_deblevel, '1', 'Level 1');?>
+                    <?=mk_option($nut_deblevel, '2', 'Level 2');?>
+                    <?=mk_option($nut_deblevel, '3', 'Level 3');?>
+                    <?=mk_option($nut_deblevel, '4', 'Level 4');?>
+                    <?=mk_option($nut_deblevel, '5', 'Level 5');?>
+                    <?=mk_option($nut_deblevel, '6', 'Level 6');?>
+                    </select>
+              </dd>
+            </dl>
+
+            <blockquote class="inline_help">
+                <p>The UPS Driver Debug Level decides how much information the UPS Driver outputs to the SYSLOG.</p>
+                <p>In case of problems with your UPS, the developers might ask you to raise this level for diagnostic reasons.</p>
+                <p>If you want your SYSLOG to survive system reboots (for diagnostics), you can set this elsewhere - see <a href="/Settings/SyslogSettings" target="_blank">Settings->Syslog Server->Mirror syslog to flash</a>.</p>
+                <p>You will then find a mirror of the SYSLOG file on your USB drive (<a href="/plugins/nut/include/nut_syslog_helper.php" target="_blank">HERE</a> or inside <strong><em>/boot/logs/</em></strong>), please be aware that mirroring will increase wear to your USB drive.</p>
+            </blockquote>
+
         </div>
 
         <div id="snmp" style="display: none;">
@@ -296,6 +323,7 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
         <p>- <strong><em>Runtime Left</em></strong> shuts down the system when there is X runtime left on the battery (in minutes).</p>
         <p>- <strong><em>Time on Battery</em></strong> shuts down the system when the user defined timer reaches zero (in minutes).</p>
         <p>If your UPS <u>does not</u> report the variables <strong><em>battery.charge</em></strong> or <strong><em>battery.runtime</em></strong> correctly (see <strong><em>NUT Details</em></strong> table), please choose <strong><em>Time on Battery</em></strong> here.</p>
+        <p><u>Recommendation:</u> Choose <strong><em>Time on Battery</em></strong> or <strong><em>Battery Level</em></strong> where possible, as <strong><em>Runtime Left</em></strong> is the most volatile and UPS-dependent of the three modes.</p>
     </blockquote>
 
     <div id="SHUTDOWN0">
@@ -357,7 +385,7 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
         </dl>
 
         <blockquote class="inline_help">
-            <p>Set to <strong><em>Yes</em></strong> to turn off the UPS power (to the protected devices) after a NUT intiated shutdown.</p>
+            <p>Set to <strong><em>Yes</em></strong> to turn off the UPS battery power (to the protected devices) after a NUT intiated shutdown.</p>
             <p>Enable <strong><em>Automatically power on after power loss</em></strong> in your BIOS if you want your computers to restart when the power (mains) recovers.</p>
             <p><u>Warning:</u> Not all UPS devices support this setting, in the worst case it will have no effect.</p>
         </blockquote>
@@ -394,9 +422,11 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
     </dl>
 </form>
 
-<div id="title" >
+<div id="title">
     <span class="left"><i class="icon fa fa-desktop"></i> Display Settings</span>
 </div>
+
+<br>
 
 <form markdown="0" id="nut-display" name="nut_display" method="POST" action="/update.php" target="progressFrame">
     <input type="hidden" name="#file" value="<?=$sName?>/<?=$sName?>.cfg">

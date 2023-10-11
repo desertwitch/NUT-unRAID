@@ -119,9 +119,19 @@ write_config() {
             var12=''
         fi
 
+        # UPS Driver Debug Level
+        if [ "$DEBLEVEL" == "default" ]; then
+            var13=''
+        elif [ -n "$DEBLEVEL" ]; then
+            var13="debug_min = ${DEBLEVEL}"
+        else
+            var13=''
+        fi
+
         sed -i "4 s/.*/$var10/" /etc/nut/ups.conf
         sed -i "5 s/.*/$var11/" /etc/nut/ups.conf
         sed -i "6 s/.*/$var12/" /etc/nut/ups.conf
+        sed -i "7 s/.*/$var13/" /etc/nut/ups.conf
 
         # Set monitor ip address, user, password and mode
         if [ "$MODE" == "slave" ]; then
