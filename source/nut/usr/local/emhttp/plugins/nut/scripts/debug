@@ -87,6 +87,7 @@ fi
 # include names and versions of installed nut-related packages in package
 find /var/log/packages/ -type f -iname 'nut*' -printf '%f\n' >> $DEBUGROOT/unraid-packages.txt
 find /var/log/packages/ -type f -iname 'net-snmp*' -printf '%f\n' >> $DEBUGROOT/unraid-packages.txt
+find /var/log/packages/ -type f -iname 'libmodbus*' -printf '%f\n' >> $DEBUGROOT/unraid-packages.txt
 
 # include unraid version in package
 [ -f /etc/unraid-version ] && cp -f /etc/unraid-version $DEBUGROOT/unraid-version.txt 2>&1

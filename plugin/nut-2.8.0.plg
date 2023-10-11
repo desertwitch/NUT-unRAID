@@ -3,14 +3,14 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "nut">
 <!ENTITY author    "desertwitch">
-<!ENTITY version   "2023.10.11">
+<!ENTITY version   "2023.10.11a">
 <!ENTITY launch    "Settings/NUTsettings">
 <!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/master">
 <!ENTITY pluginURL "&gitURL;/plugin/&name;-2.8.0.plg">
 <!ENTITY pkgURL    "&gitURL;/packages">
 <!ENTITY plgPATH   "/boot/config/plugins/&name;">
-<!ENTITY plgNAME   "nut-plugin-2023.10.11-x86_64-1">
-<!ENTITY plgMD5    "0720dcc277ca9da86b92018022749a16">
+<!ENTITY plgNAME   "nut-plugin-2023.10.11a-x86_64-1">
+<!ENTITY plgMD5    "4d00cf065b756b78de37e135e766ad39">
 <!ENTITY emhttp    "/usr/local/emhttp/plugins/&name;">
 ]>
 
@@ -18,10 +18,11 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
-###2023.10.11
+###2023.10.11a
 - new: option to raise the debug level on UPS driver for diagnostic purposes
 - new: option to export an extensive (anonymized) NUT debug package for diagnostic purposes
 - new: added some additional USB-based UPS drivers to GUI dropdown for improved accessibility
+- new: also install the libmodbus libraries on 6.10+ as they are required by some UPS drivers
 - fix: minor cosmetic changes in GUI and GUI documentation texts
 - fix: increase maximum allowed field length for UPS port to more reasonable value
 ###2023.10.06
@@ -358,6 +359,11 @@ fi
 <MD5>b9ef68216b97cb5f0bcd9f3312e5941e</MD5>
 </FILE>
 
+<FILE Name="&plgPATH;/libmodbus-3.1.10-x86_64-1gds.txz" Min="6.10" Run="upgradepkg --install-new">
+<URL>&pkgURL;/libmodbus-3.1.10-x86_64-1gds.txz</URL>
+<MD5>8094f0904494db8c670c60ec131d4d3e</MD5>
+</FILE>
+
 <!--
 install or upgrade the plugin itself
 -->
@@ -432,6 +438,12 @@ fi
 if [ "$(find /boot/config/plugins/*.plg -type f ! -iname "*nut-2.8.0.plg*" | xargs grep "net-snmp" -sl)" ]; then
     echo "Net-SNMP in use by another plugin, will not be removed with NUT."
     rm -f &plgPATH;/net-snmp*.txz
+fi
+
+# check if libmodbus is used by another plugin
+if [ "$(find /boot/config/plugins/*.plg -type f ! -iname "*nut-2.8.0.plg*" | xargs grep "libmodbus" -sl)" ]; then
+    echo "libmodbus in use by another plugin, will not be removed with NUT."
+    rm -f &plgPATH;/libmodbus*.txz
 fi
 
 removepkg &plgPATH;/*.txz
