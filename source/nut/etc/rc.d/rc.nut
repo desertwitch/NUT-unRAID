@@ -182,6 +182,17 @@ write_config() {
             sed -i "3 s,.*,$var9," /etc/nut/upsmon.conf
         fi
 
+        # NUT Monitor Debug Level
+        if [ "$DEBLEVELMON" == "default" ]; then
+            var24=''
+        elif [ -n "$DEBLEVELMON" ]; then
+            var24="DEBUG_MIN ${DEBLEVELMON}"
+        else
+            var24=''
+        fi
+
+        sed -i "8 s/.*/$var24/" /etc/nut/upsmon.conf
+
         # Set upsd users
         var13="[admin]"
         var14="password=adminpass"

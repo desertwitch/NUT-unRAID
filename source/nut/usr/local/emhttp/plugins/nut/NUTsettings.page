@@ -158,6 +158,28 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
             </dd>
         </dl>
 
+        <dl>
+            <dt>NUT Monitor Debug Level:</dt>
+            <dd>
+                <select class="nut-run" id="DEBLEVELMON" name="DEBLEVELMON" size="1">
+                <?=mk_option($nut_deblevel_mon, 'default', 'Default');?>
+                <?=mk_option($nut_deblevel_mon, '1', 'Level 1');?>
+                <?=mk_option($nut_deblevel_mon, '2', 'Level 2');?>
+                <?=mk_option($nut_deblevel_mon, '3', 'Level 3');?>
+                <?=mk_option($nut_deblevel_mon, '4', 'Level 4');?>
+                <?=mk_option($nut_deblevel_mon, '5', 'Level 5');?>
+                <?=mk_option($nut_deblevel_mon, '6', 'Level 6');?>
+                </select>
+            </dd>
+        </dl>
+
+        <blockquote class="inline_help">
+            <p>The NUT Monitor Debug Level decides how much information the NUT Monitor outputs to the SYSLOG.</p>
+            <p>In case of problems with your UPS, the developers might ask you to raise this level for diagnostic reasons.</p>
+            <p>If you want your SYSLOG to survive system reboots (for diagnostics), you can set this elsewhere - see <a href="/Settings/SyslogSettings" target="_blank">Settings->Syslog Server->Mirror syslog to flash</a>.</p>
+            <p>You will then find a mirror of the SYSLOG file on your USB drive (<a href="/plugins/nut/include/nut_syslog_helper.php" target="_blank">HERE</a> or inside <strong><em>/boot/logs/</em></strong>), please be aware that mirroring will increase wear to your USB drive.</p>
+        </blockquote>
+
         <blockquote class="inline_help">
             <p>The password to access the NUT master server.</p>
         </blockquote>
