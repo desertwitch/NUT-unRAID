@@ -140,25 +140,6 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
         </blockquote>
 
         <dl>
-            <dt>NUT Monitor Username:</dt>
-            <dd>
-                <input id="MONUSER" type="text" class="narrow nut-run nut-monuser" name="MONUSER" maxlength="30" value="<?=htmlspecialchars($nut_monuser);?>" title="nut ups monitor username" >
-            </dd>
-        </dl>
-
-        <blockquote class="inline_help">
-            <p>The username to access the NUT master server.</p>
-            <p><u>Warning:</u> Do not set this to the same username as <strong><em>NUT Slave Username</em></strong>.</p>
-        </blockquote>
-
-        <dl>
-            <dt>NUT Monitor Password:</dt>
-            <dd>
-                <input id="MONPASS" type="password" class="narrow nut-run" name="MONPASS" maxlength="66" value="<?=htmlspecialchars($nut_monpass);?>" title="nut ups password" >
-            </dd>
-        </dl>
-
-        <dl>
             <dt>NUT Monitor Debug Level:</dt>
             <dd>
                 <select class="nut-run" id="DEBLEVELMON" name="DEBLEVELMON" size="1">
@@ -179,6 +160,25 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
             <p>If you want your SYSLOG to survive system reboots (for diagnostics), you can set this elsewhere - see <a href="/Settings/SyslogSettings" target="_blank">Settings->Syslog Server->Mirror syslog to flash</a>.</p>
             <p>You will then find a mirror of the SYSLOG file on your USB drive (<a href="/plugins/nut/include/nut_syslog_helper.php" target="_blank">HERE</a> or inside <strong><em>/boot/logs/</em></strong>), please be aware that mirroring will increase wear to your USB drive.</p>
         </blockquote>
+
+        <dl>
+            <dt>NUT Monitor Username:</dt>
+            <dd>
+                <input id="MONUSER" type="text" class="narrow nut-run nut-monuser" name="MONUSER" maxlength="30" value="<?=htmlspecialchars($nut_monuser);?>" title="nut ups monitor username" >
+            </dd>
+        </dl>
+
+        <blockquote class="inline_help">
+            <p>The username to access the NUT master server.</p>
+            <p><u>Warning:</u> Do not set this to the same username as <strong><em>NUT Slave Username</em></strong>.</p>
+        </blockquote>
+
+        <dl>
+            <dt>NUT Monitor Password:</dt>
+            <dd>
+                <input id="MONPASS" type="password" class="narrow nut-run" name="MONPASS" maxlength="66" value="<?=htmlspecialchars($nut_monpass);?>" title="nut ups password" >
+            </dd>
+        </dl>
 
         <blockquote class="inline_help">
             <p>The password to access the NUT master server.</p>
