@@ -216,6 +216,16 @@ write_config() {
         sed -i "9 s,.*,$var21," /etc/nut/upsd.users
         sed -i "10 s,.*,$var22," /etc/nut/upsd.users
         sed -i "11 s,.*,$var23," /etc/nut/upsd.users
+
+        # Add safe zones to configuration files
+        SAFEZONE="# If not in manual mode, put any additional settings below this line"
+        sed -i "12 s/.*/$SAFEZONE/" /etc/nut/nut.conf
+        sed -i "12 s/.*/$SAFEZONE/" /etc/nut/ups.conf
+        sed -i "12 s/.*/$SAFEZONE/" /etc/nut/upsd.conf
+        sed -i "12 s/.*/$SAFEZONE/" /etc/nut/upsd.users
+        sed -i "12 s/.*/$SAFEZONE/" /etc/nut/upsmon.conf
+        sed -i "12 s/.*/$SAFEZONE/" /etc/nut/upssched.conf
+
     fi
     
     # save conf files to flash drive regardless of mode
