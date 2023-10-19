@@ -128,7 +128,7 @@ Link="nav-user"
 <?endif;?>
 
 <?if(version_compare(parse_ini_file('/etc/unraid-version')['version'],'6.12.0-beta5', '>')):?>
-<?if($nut_running):?>
+<?if(stripos($path, "dashboard") !== false && $nut_running):?>
 <?PHP
 $pluginname = "UPS(NUT)"; 
 
