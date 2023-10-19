@@ -212,7 +212,7 @@ $(function(){
 
   function addNUTDashboard() {
     if ($("#db-box1").length) {
-      i = $("#db-box1 > tbody.sortable").length;
+      var i = $("#db-box1 > tbody.sortable").length;
       nut_dashboard = $("#nut_dashboard").detach();
       nut_dashboard.find("thead, tbody").attr("sort",i);
       nut_dashboard.find("thead, tbody").appendTo('#db-box1');
