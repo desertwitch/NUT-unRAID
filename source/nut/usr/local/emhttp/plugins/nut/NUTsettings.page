@@ -365,23 +365,22 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
 
     <div id="SHUTDOWN1">
         <dl>
-            <dt>Battery Runtime left to initiate Shutdown (minutes):</dt>
+            <dt>Battery Runtime Left to initiate Shutdown:</dt>
             <dd>
-                <select class="nut-run" id="SECONDS" name="SECONDS" size="1">
-                    <? echo get_minute_options($nut_seconds);?>
-                </select>
+                <input id="SECONDS" type="text" class="narrow nut-run" name="SECONDS" maxlength="5" value="<?=htmlspecialchars($nut_seconds);?>">
             </dd>
         </dl>
 
         <blockquote class="inline_help">
-            <p>If during a power failure, the remaining battery runtime minutes (as calculated by the UPS) are below or equal to this setting, NUT will initiate a system shutdown.</p>
+            <p>If during a power failure, the remaining battery runtime (as calculated by the UPS) is below or equal to this setting, NUT will initiate a system shutdown.</p>
+            <p>Usually your UPS reports this value in seconds (check <strong><em>NUT Details</em></strong> table). If so, write this value here in seconds - otherwise write this value here in minutes.</p>
             <p><u>Warning:</u> Depending on your UPS this value can fluctuate, if your UPS has an old battery you shouldn't trust this shutdown mode.</p>
         </blockquote>
     </div>
 
     <div id="SHUTDOWN2">
         <dl>
-            <dt>Time on Battery before Shutdown (minutes):</dt>
+            <dt>Time on Battery before Shutdown (Minutes):</dt>
             <dd>
                 <select class="nut-run" id="TIMEOUT" name="TIMEOUT" size="1">
                     <? echo get_minute_options($nut_timeout);?>
@@ -483,7 +482,7 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
     </blockquote>
 
     <dl>
-        <dt>NUT Dashboard Refresh:</dt>
+        <dt>NUT Automatic GUI Refresh:</dt>
         <dd>
             <select class="" name="REFRESH" size="1">
                 <?=mk_option($nut_refresh, 'disable', 'No');?>
@@ -493,18 +492,18 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
     </dl>
 
     <blockquote class="inline_help">
-        <p>Enable or disable automatic refreshes for the NUT dashboards.</p>
+        <p>Enable or disable automatic refreshes for the NUT dashboards, charts and footer.</p>
     </blockquote>
 
     <dl>
-        <dt>NUT Dashboard Refresh Interval:</dt>
+        <dt>NUT Automatic GUI Refresh Interval:</dt>
         <dd>
             <input id="INTERVAL" type="text" class="narrow nut-power" name="INTERVAL" maxlength="5" value="<?=htmlspecialchars($nut_interval);?>" title="nut page refresh interval(Seconds)">
         </dd>
     </dl>
 
     <blockquote class="inline_help">
-        <p>Interval for the automatic NUT dashboard refreshes (in seconds).</p>
+        <p>Interval for the automatic NUT dashboard, chart and footer refreshes (in seconds).</p>
     </blockquote>
 
     <dl>
@@ -697,6 +696,21 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
     </div>
 
     <dl>
+        <dt>UPS Battery Runtime Measurement Unit:</dt>
+        <dd>
+            <select id="RTUNIT" name="RTUNIT" size="1">
+                <?=mk_option($nut_rtunit, "seconds", "Seconds");?>
+                <?=mk_option($nut_rtunit, "minutes", "Minutes");?>
+            </select>
+        </dd>
+    </dl>
+
+    <blockquote class="inline_help">
+        <p>Please select here how your UPS reports the remaining battery runtime (see <strong><em>NUT Details</em></strong> table) - either in seconds or minutes.</p>
+        <p>Most UPS report their remaining battery runtime in seconds, however some UPS choose to report this value in minutes instead.</p>
+    </blockquote>
+
+    <dl>
         <dt>
             <input id="DEFAULT" type="submit" name="#default" value="Default">
         </dt>
@@ -708,7 +722,7 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
 
 <script src="<?=autov('/plugins/nut/js/jquery.mask.min.js');?>"></script>
 
-<script>
+<script type="text/javascript">
 $(function() {
     showStatus('upsmon');
 

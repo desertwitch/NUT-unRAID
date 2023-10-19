@@ -16,9 +16,9 @@ Tag="file"
  * all copies or substantial portions of the Software.
  */
 require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php';
-$update = $nut_refresh == "enable" ? true : false;
+$update_details = ($nut_refresh == "enable" ? true : false);
 ?>
-<style>
+<style type="text/css">
 table.tablesorter tbody tr:nth-child(odd) {
     background-color: #<?=($display['theme'] == 'white' || $display['theme'] == 'azure') ? 'F0F0F0' : '212421';?>;
 }
@@ -34,7 +34,7 @@ table.tablesorter tbody tr:nth-child(even) {
 
 <div style="font-size:x-small;font-weight:bold;"><i class="fa fa-download"></i> <a href="/plugins/nut/include/nut_debug.php">NUT Debug Package (.zip)</a><?if ($nut_running):?> / <i class="fa fa-download"></i> <a href="/plugins/nut/include/nut_status.php?diagsave=true&all=true">UPS Data File (.dev)</a><?endif;?></div>
 
-<script>
+<script type="text/javascript">
 function getNUTstatus() {
   $.get('/plugins/nut/include/nut_status.php',{all:'true'},function(data) {
     if (data) {
@@ -42,10 +42,11 @@ function getNUTstatus() {
       $('#nut_summary').html(data[0]);
       $('#nut_status').html(data[1]);
     }
-<?if ($update):?>
-    setTimeout(getNUTstatus,<?=max(abs(isset($display['refresh']) ? $display['refresh'] : 0),(1000 * $nut_interval))?>);
-<?endif;?>
   });
+  clearTimeout(timers.getNUTstatus);
+  <?if ($update_details):?>
+  timers.getNUTstatus = setTimeout(getNUTstatus, <?=max(abs(isset($display['refresh']) ? $display['refresh'] : 0),($nut_interval * 1000))?>);
+  <?endif;?>
 }
 $(getNUTstatus);
 </script>

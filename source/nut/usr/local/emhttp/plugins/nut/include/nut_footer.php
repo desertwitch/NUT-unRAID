@@ -45,8 +45,8 @@ function array_key_exists_wildcard ( $arr, $nee ) {
   return array_values(preg_grep( '/^' . $nee . '$/i', array_keys( $arr ) ));
 }
 
-function format_time($seconds) {
-  $t = round($seconds);
+function format_time($repTime, $repUnit) {
+  $t = ($repUnit == "minutes" ? round($repTime*60) : round($repTime));
   return gmdate("H:i:s" ,$t );
 }
 
@@ -81,7 +81,7 @@ if (count($ups_status)) {
     $status[3] = "<span id='nut_alarm' class='tooltip-nut $orange' data=\"$alarms\"><i class='fa fa-bell faa-ring animated'></i></span>";
   }
 
-  $battery_runtime = array_key_exists($nut_runtime, $ups_status) ? format_time($ups_status[$nut_runtime]) : "n/a";
+  $battery_runtime = array_key_exists($nut_runtime, $ups_status) ? format_time($ups_status[$nut_runtime],$nut_rtunit) : "n/a";
   $css_class = $online['severity'] > 0 ? $nut_msgSeverity[$online['severity']]['css_class'] : ($nut_footer_style == 1 ? $black : $green);
   $fa_icon = '';
   $statusTooltipData = '';

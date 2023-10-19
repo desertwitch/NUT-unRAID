@@ -46,7 +46,7 @@ Markdown="false"
 <script src="<?=autov('/webGui/javascript/jquery.filetree.js');?>"></script>
 
 
-<script>
+<script type="text/javascript">
 $(function(){
     $('#btnCancel').click(function() {
         $.cookie('one', 'tab1', { expires:null, path: '/'});

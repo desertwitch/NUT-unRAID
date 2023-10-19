@@ -68,8 +68,8 @@ if (file_exists('/var/run/nut/upsmon.pid')) {
       $status[1] = strtok($val,' ')<=10 ? "<td $red>".intval($val). "&thinsp;%</td>" : "<td $green>".intval($val). "&thinsp;%</td>";
       break;
     case $nut_runtime:
-      $runtime   = gmdate("H:i:s", $val);
-      $status[2] = strtok($val/60,' ')<=5 && !in_array('ups.status: OL', $rows) ? "<td $red>$runtime</td>" : "<td $green>$runtime</td>";
+      $runtime   = $nut_rtunit == "minutes" ? gmdate("H:i:s", round($val*60)) : gmdate("H:i:s", round($val));
+      $status[2] = strtok(($nut_rtunit == "minutes" ? round($val) : round($val/60)),' ')<=5 && !in_array('ups.status: OL', $rows) ? "<td $red>$runtime</td>" : "<td $green>$runtime</td>";
       break;
     case 'ups.realpower':
       $realPower = strtok($val, ' ');

@@ -1,47 +1,10 @@
 Menu="Buttons:199"
 Link="nav-user"
 ---
-<?PHP
-/*
-  Create a .page file based on this example file and store the file in your plugin directory
-  Make sure this file has a unique name not used by the GUI or other plugins
-
-  This is an example configuration which is used to add custom tiles to the dashboard
-  Placement of one or more custom tiles is done under column1, column2 or column3
-  A column can have as many new custom tiles as needed, each custom tile is a <tbody> element
-  Each tile must have these two properties set:
-
-  "_(description)_"    - this is the (translated) description shown in the Content Manager window
-  "_(Tile tile)_"      - this is the (translated) title of the tile shown in bold on the screen
-
-  The content of the tile can be any text as required by your plugin, this content is placed inside the <td> element
-  A number of predefined spans are available to make fields of certain widths and maybe used to follow the GUI alignment
-  These are:
-  <span class="w18">
-  <span class="w26">
-  <span class="w36">
-  <span class="w44">
-  <span class="w72">
-*/
-
-$pluginname = "UPS(NUT)"; // substitute this entry with the name of your plugin
-if (version_compare(parse_ini_file('/etc/unraid-version')['version'],'6.12.0-beta5', '>')) {
-
-$mytiles[$pluginname]['column2'] =
-<<<EOT
-<tbody id="tblUPSNUTDash" title="_(UPS(NUT))_">
-<tr><td><i class='icon-ups f32'></i>
-<div class='section'>_(UPS(NUT))_<br><span><i class='ups fa fa-line-chart'></i><span id='load'>Load: <span class='nut_loadpct' id='nut_loadpct'></span></span>
-<br><br></div>
-<a href="/Dashboard/NUTsettings" title="_(Go to NUT Settings)_"><i class="fa fa-fw fa-cog control"></i></a></td></tr>
-</tbody>
-EOT;
-}
-?>
-
 <?require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php';?>
+<? $update_dash = ($nut_refresh == "enable" ? true : false); ?>
 <?if ($nut_footer == "enable" && $nut_running):?>
-<?$update= $nut_refresh == "enable" ? true : false;?>
+
 <style type="text/css">
 @keyframes battery-charging {
   0% { content: "\f244"; }
@@ -114,7 +77,6 @@ EOT;
   function getNUTfooter() {
     $.get('/plugins/nut/include/nut_footer.php',function(data) {
       if (data) {
-        clearTimeout(timers.getNUTfooter);
         animed = $("#nut_footer").find("i[class^='fa fa-battery-discharging'], i[class^='fa fa-battery-charging']");
         hovered = $( ".tooltip-nut:hover" ).map(function(){return this.id;}).get();
         if (animed.length > 0) {
@@ -127,10 +89,11 @@ EOT;
         }
         $.each(hovered, function(k,v){ if(v.length) { $("#"+v).trigger("mouseenter");} });
       }
-      <?if ($update):?>
-      timers.getNUTfooter = setTimeout(getNUTfooter, <?=max(abs(isset($display['refresh']) ? $display['refresh'] : 0),($nut_interval * 1000))?>);
-      <?endif;?>
     });
+    clearTimeout(timers.getNUTfooter);
+    <?if ($update_dash):?>
+    timers.getNUTfooter = setTimeout(getNUTfooter, <?=max(abs(isset($display['refresh']) ? $display['refresh'] : 0),($nut_interval * 1000))?>);
+    <?endif;?>
   }
 
   $(function()
@@ -165,72 +128,58 @@ EOT;
 <?endif;?>
 
 <?if(version_compare(parse_ini_file('/etc/unraid-version')['version'],'6.12.0-beta5', '>')):?>
-<script type="text/javascript">
-  function UPSNUTArray() {
-    $.get('/plugins/nut/include/nut_status.php',{all:'false'},function(d) {
-      var data = d.replace(/<\/?tr>/g,'').replace(/<td/g,'<span').replace(/td>/g,'span>').split('</span>');
-      $('#tblUPSNUTDash').find('tr.updated').remove();
+<?if($nut_running):?>
+<?PHP
+$pluginname = "UPS(NUT)"; 
 
-      $('#tblUPSNUTDash').append('<tr class="updated"><td>'+
-        "<tr class='updated'><td style='display: flex;'><span class='w36 ups'>UPS Status:</span><span class='nut_status' style='flex: 1; white-space: normal;'>"+data[0]+"</span></td></tr>" +
-        "<tr class='updated'><td><span class='w36 ups'>Battery Charge:</span><span class='nut_bcharge'>"+data[1]+"</span></td></tr>" +
-        "<tr class='updated'><td><span class='w36 ups'>Runtime Left:</span><span class='nut_timeleft'>"+data[2]+"</span></td></tr>" +
-        "<tr class='updated'><td><span class='w36 ups'>Nominal Power:</span>"+data[3]+"</td></tr>");
-    $("#tblUPSNUTDash").find('.nut_loadpct').html(data[5]+' - '+data[4]);
-    setTimeout(UPSNUTArray, <?=($nut_interval * 1000)?>);
-  }) ;
-};
+$mytiles[$pluginname]['column2'] =
+<<<EOT
+<tbody id="tblUPSNUTDash" title="_(UPS(NUT))_">
+<tr><td>
+<i class="icon-ups f32"></i>
+<div class="section">_(UPS(NUT))_<br><span><i class="ups fa fa-line-chart"></i><span id="load">Load: <span class="nut_loadpct" id="nut_loadpct"></span></span>
+<br><br>
+</div>
+<a href="/Dashboard/NUTsettings" title="_(Go to NUT Settings)_"><i class="fa fa-fw fa-cog control"></i></a>
+</td></tr>
+<tr><td style="display: flex;"><span class="w36 ups">UPS Status:</span><span class="nut_status" style="flex: 1; white-space: normal;"></span></td></tr>
+<tr><td><span class="w36 ups">Battery Charge:</span><span class="nut_bcharge"></span></td></tr>
+<tr><td><span class="w36 ups">Runtime Left:</span><span class="nut_timeleft"></span></td></tr>
+<tr><td><span class="w36 ups">Nominal Power:</span><span class="nut_nompower"></span></td></tr>
+</tbody>
+EOT;
+?>
+<script type="text/javascript">
+  function updateNUTDashboard() {
+    $.get('/plugins/nut/include/nut_status.php',{all:'false'},function(data) {
+      if (data) {
+        data = data.replace(/<\/?tr>/g,'').replace(/<td/g,'<span').replace(/td>/g,'span>').split('</span>');
+        $("#tblUPSNUTDash").find('.nut_status').html(data[0]);
+        $("#tblUPSNUTDash").find('.nut_bcharge').html(data[1]);
+        $("#tblUPSNUTDash").find('.nut_timeleft').html(data[2]);
+        $("#tblUPSNUTDash").find('.nut_nompower').html(data[3]);
+        $("#tblUPSNUTDash").find('.nut_loadpct').html(data[5]+' - '+data[4]);
+      }
+    });
+    clearTimeout(updateNUTDashboard);
+    <?if ($update_dash):?>
+    timers.updateNUTDashboard = setTimeout(updateNUTDashboard, <?=max(abs(isset($display['refresh']) ? $display['refresh'] : 0),($nut_interval * 1000))?>);
+    <?endif;?>
+}
 
 $(function(){
-  UPSNUTArray();
+  updateNUTDashboard();
 });
 </script>
 <?endif;?>
-
-
+<?endif;?>
 
 <?if(version_compare(parse_ini_file('/etc/unraid-version')['version'],'6.12.0-beta6', '<')):?>
 <?if(stripos($path, "dashboard") !== false && $nut_running):?>
-<script type="text/javascript">
-  function getNUTDashboard() {
-    $.get('/plugins/nut/include/nut_status.php',{all:'false'},function(d) {
-      var data = d.replace(/<\/?tr>/g,'').replace(/<td/g,'<span').replace(/td>/g,'span>').split('</span>');
-      $("#db-box1").find('.nut_status').html(data[0]);
-      $("#db-box1").find('.nut_bcharge').html(data[1]);
-      $("#db-box1").find('.nut_timeleft').html(data[2]);
-      $("#db-box1").find('.nut_nompower').html(data[3]);
-      $("#db-box1").find('.nut_loadpct').html(data[5]+' - '+data[4]);
-      <?if ($update):?>
-      clearTimeout(timers.getNUTDashboard);
-      timers.getNUTDashboard = setTimeout(getNUTDashboard, <?=max(abs(isset($display['refresh']) ? $display['refresh'] : 0),($nut_interval * 1000))?>);
-      <?endif;?>
-    });
-  }
-
-  function addNUTDashboard() {
-    if (! $("#ups_loadpct").length && $("#db-box1").length){
-      i = $("#db-box1 > tbody.sortable").length;
-      toggleView('nut_view',true);
-      nut_dashboard = $("#nut_dashboard-defaults").clone();
-      sort = nut_dashboard.find("thead, tbody").attr("sort",i);
-      $("#db-box1").append(nut_dashboard.html());
-      sortTable($('#db-box1'),$.cookie('db-box1'));
-      getNUTDashboard();
-    }
-  }
-  $(function(){
-    addNUTDashboard();
-  });
-<?endif;?>
-
-
-
-
-</script>
-<table id="nut_dashboard-defaults" style="display: none;">
+<table id="nut_dashboard" style="display: none;">
 <thead sort=''><tr class='hidden'><td></td><td colspan='3'></td><td></td></tr></thead>
 <tbody sort='' class='sortable'>
-<tr><td></td><td colspan='3' class='next'><i class='icon-ups'></i><div class='section'>Power<br>
+<tr><td></td><td colspan='3' class='next'><i class='icon-ups'></i><div class='section'>UPS(NUT)<br>
 <span>UPS Load: <span class='nut_loadpct'></span></span><br><br></div>
 <i class='fa fa-fw chevron' id='nut_view' onclick='toggleChevron("nut_view",0)'></i>
 <a href='/Dashboard/NUTsettings' title='Go to NUT Settings'><i class='fa fa-fw fa-cog chevron'></i></a>
@@ -243,4 +192,38 @@ $(function(){
 </td><td></td></tr>
 </tbody>
 </table>
+<script type="text/javascript">
+  function getNUTDashboard() {
+    $.get('/plugins/nut/include/nut_status.php',{all:'false'},function(data) {
+      if (data) {
+        data = data.replace(/<\/?tr>/g,'').replace(/<td/g,'<span').replace(/td>/g,'span>').split('</span>');
+        $("#db-box1").find('.nut_status').html(data[0]);
+        $("#db-box1").find('.nut_bcharge').html(data[1]);
+        $("#db-box1").find('.nut_timeleft').html(data[2]);
+        $("#db-box1").find('.nut_nompower').html(data[3]);
+        $("#db-box1").find('.nut_loadpct').html(data[5]+' - '+data[4]);
+      }
+    });
+    clearTimeout(timers.getNUTDashboard);
+    <?if ($update_dash):?>
+    timers.getNUTDashboard = setTimeout(getNUTDashboard, <?=max(abs(isset($display['refresh']) ? $display['refresh'] : 0),($nut_interval * 1000))?>);
+    <?endif;?>
+  }
+
+  function addNUTDashboard() {
+    if ($("#db-box1").length) {
+      i = $("#db-box1 > tbody.sortable").length;
+      nut_dashboard = $("#nut_dashboard").detach();
+      nut_dashboard.find("thead, tbody").attr("sort",i);
+      nut_dashboard.find("thead, tbody").appendTo('#db-box1');
+      toggleView('nut_view',true);
+      sortTable($('#db-box1'),$.cookie('db-box1'));
+      getNUTDashboard();
+    }
+  }
+  $(function(){
+    addNUTDashboard();
+  });
+</script>
+<?endif;?>
 <?endif;?>

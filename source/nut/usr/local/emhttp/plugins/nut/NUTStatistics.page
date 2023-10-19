@@ -14,7 +14,7 @@ Cond="isset(parse_ini_file('/boot/config/plugins/nut/nut.cfg')['STATISTICS']) &&
 <div><strong>You have not enabled the NUT Runtime Statistics module in the NUT Settings.</strong></div>
 <?endif;?>
 <?if(version_compare(parse_ini_file('/etc/unraid-version')['version'],'6.12.3', '>') && $nut_statistics == "enable"):?>
-<? $update = $nut_refresh == "enable" ? true : false; ?>
+<? $update_stats = ($nut_refresh == "enable" ? true : false); ?>
 <script src="<?autov('/webGui/javascript/jquery.apexcharts.js')?>"></script>
 
 <p>For performance reasons the statistics are only preserved for the duration the module is loaded.<br>
@@ -87,7 +87,7 @@ if($nut_stats_override=="enable") {
 <?if($c6_var != "disable"):?><div id='NCchart6'></div><?endif;?>
 <?if($c7_var != "disable"):?><div id='NCchart7'></div><?endif;?>
 
-<script>
+<script type="text/javascript">
 
 var options_nut = {
   series: [{
@@ -233,8 +233,9 @@ $.getJSON('/plugins/nut/nutstats/<?=$c7_var?>.json', function(response) {
 });
 <?endif;?>
 
-<?if ($update):?>
-    setTimeout(updateNUTcharts,<?=max(abs(isset($display['refresh']) ? $display['refresh'] : 0),(1000 * $nut_interval))?>);
+clearTimeout(timers.updateNUTcharts);
+<?if ($update_stats):?>
+timers.updateNUTcharts = setTimeout(updateNUTcharts, <?=max(abs(isset($display['refresh']) ? $display['refresh'] : 0),($nut_interval * 1000))?>);
 <?endif;?>
 
 }
