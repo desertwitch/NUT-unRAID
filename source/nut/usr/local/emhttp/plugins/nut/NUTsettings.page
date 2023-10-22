@@ -22,7 +22,8 @@ Markdown="false"
  *
  */
 
-require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
+require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php';
+$showStatPrefs = version_compare(parse_ini_file('/etc/unraid-version')['version'],'6.12.3', '>'); ?>
 
 <table class="tablesorter shift nut" <?if (!file_exists('/var/run/nut/upsmon.pid')):?>style="display:none"<?endif;?>>
 <thead><tr><th>UPS Status</th><th>Battery Charge</th><th>Runtime Left </th><th>Nominal Power</th><th>UPS Load</th><th>UPS Load</th><th>Power Factor</th></tr></tr></thead>
@@ -96,16 +97,19 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
             <select class="nut-run" id="MANUAL" name="MANUAL" size="1">
                 <?=mk_option($nut_manual, "disable", "No");?>
                 <?=mk_option($nut_manual, "enable", "Yes");?>
+                <?=mk_option($nut_manual, "onlyups", "for UPS Driver");?>
             </select>
         </dd>
     </dl>
 
     <blockquote class="inline_help">
-        <p>Set to <strong><em>Yes</em></strong> to enable NUT manual configuration, set to <strong><em>No</em></strong> to disable NUT manual configuration.</p>
+        <p>Set to <strong><em>Yes</em></strong> to enable manual configuration of NUT, set to <strong><em>No</em></strong> to disable manual configuration of NUT.</p>
         <p>Setting <strong><em>Yes</em></strong> will ignore and hide all NUT settings on this page. The NUT configuration files will be used instead.</p>
         <p>Setting <strong><em>No</em></strong> will use the NUT settings on this page to configure the NUT services and populate the configuration files.</p>
+        <p>Setting <strong><em>for UPS Driver</em></strong> (usually set by the <strong><em>AUTO CONFIG</em></strong> feature) enables manual configuration of NUT only for the <strong><em>ups.conf</em></strong> file.</p>
         <p>Regardless of this setting, you can always edit the configuration files to add any extra settings not included on this page.</p>
         <p>If not in manual configuration mode, mind the safe zones marked in the configuration files so your extra settings are not overwritten.</p>
+        <p><u>Note:</u> If you run into problems after changing this setting, it might be helpful to start from a fresh configuration using the <strong><em>RESET CONFIG</em></strong> feature.</p>
     </blockquote>
 
     <div id="SETTINGS">
@@ -230,6 +234,7 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
                     <select class="nut-run" id="DRIVER" name="DRIVER" size="1" title="nut driver">
                     <?=mk_option($nut_driver, 'usbhid-ups', 'usbhid-ups');?>
                     <?=mk_option($nut_driver, 'nutdrv_qx', 'nutdrv_qx');?>
+                    <?=mk_option($nut_driver, 'apc_modbus', 'apc_modbus');?>
                     <?=mk_option($nut_driver, 'blazer_usb', 'blazer_usb');?>
                     <?=mk_option($nut_driver, 'blazer_ser', 'blazer_ser');?>
                     <?=mk_option($nut_driver, 'bcmxcp_usb', 'bcmxcp_usb');?>
@@ -434,7 +439,7 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
     <dl>
         <dt>
             <input id="DEFAULT" class="nut-run" type="submit" name="#default" value="Default">
-            <input id="SCAN" class="nut-run" type="button" value="Autodetect">
+            <input id="SCAN" class="nut-run" type="button" value="Auto Config">
             <input id="RESETCONF" class="nut-run" type="button" value="Reset Config">
         </dt>
         <dd>
@@ -506,20 +511,13 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
         <p>Interval for the automatic NUT dashboard, chart and footer refreshes (in seconds).</p>
     </blockquote>
 
+    <div id="STATPREFS" style="<?=($showStatPrefs ? '' : 'display:none;');?>">
     <dl>
         <dt>NUT Runtime Statistics Module:</dt>
             <dd>
                 <select id="STATISTICS" name="STATISTICS" size="1">
-                    <?
-                    $URversion = parse_ini_file('/etc/unraid-version')['version'];
-                    if(isset($URversion) && $URversion && version_compare($URversion, '6.12.3', '>')) {
-                        echo(mk_option($nut_statistics, 'disable', 'No'));
-                        echo(mk_option($nut_statistics, 'enable', 'Yes'));
-                    }
-                    else {
-                        echo(mk_option($nut_statistics, 'disable', 'n/a'));
-                    }
-                ?>
+                    <?=mk_option($nut_statistics, 'disable', 'No');?>
+                    <?=mk_option($nut_statistics, 'enable', 'Yes');?>
                 </select>
             </dd>
         </dl>
@@ -652,6 +650,7 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
                 <input id="STATSCHART7TXT" type="text" name="STATSCHART7TXT" value="<?=htmlspecialchars($nut_stats_c7_txt);?>" title="Statistics Chart 7 - Description Text">
             </dd>
         </dl>      
+    </div>
     </div>  
 
     <dl>
@@ -812,23 +811,6 @@ function checkRUNNING(){
     }
 }
 
-function checkSETTINGS(){
-    if ($('#MANUAL').val() === 'enable'){
-        $('#command').val('/usr/local/emhttp/plugins/nut/scripts/start');
-        $('#SETTINGS').hide();
-    }else{
-        $('#command').val('/usr/local/emhttp/plugins/nut/scripts/stop');
-        $('#SETTINGS').show();
-    }
-}
-
-function checkPOWER(){
-    if ($('#POWER')[0].selectedIndex < 1)
-        $('#POWER-SETTINGS').hide();
-    else
-        $('#POWER-SETTINGS').show();
-}
-
 function checkDRIVER(){
     if ($('#DRIVER').val() == 'custom' ) {
         $('#SERIAL').prop('type', 'text');
@@ -837,11 +819,30 @@ function checkDRIVER(){
 
     if ($('#DRIVER').val() == 'snmp-ups' ){
         $('#snmp').show();
-        $('.nut-port').mask('0ZZ.0ZZ.0ZZ.0ZZ', {translation:  {'Z': {pattern: /[0-9]/, optional: true}}});
+        $('.nut-port').val('0.0.0.0');
     }else{
         $('#snmp').hide();
-        $('.nut-port').unmask();
     }
+}
+
+function checkSETTINGS(){
+    if ($('#MANUAL').val() === 'enable'){
+        $('#SETTINGS').hide();
+    } else if ($('#MANUAL').val() === 'onlyups') {
+        $('#DRIVERS').hide();
+        $('#snmp').hide();
+    } else {
+        $('#SETTINGS').show();
+        $('#DRIVERS').show();
+        checkDRIVER();
+    }
+}
+
+function checkPOWER(){
+    if ($('#POWER')[0].selectedIndex < 1)
+        $('#POWER-SETTINGS').hide();
+    else
+        $('#POWER-SETTINGS').show();
 }
 
 function checkSHUTDOWN(){

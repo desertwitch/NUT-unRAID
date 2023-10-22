@@ -1,33 +1,59 @@
-#!/usr/bin/php -q
-<?php
-require_once '/usr/local/emhttp/plugins/nut/include/nut_helpers.php';
+#!/bin/bash
+CONFIG="/boot/config/plugins/nut/nut.cfg"
+SCANFAILED="no"
+echo "-----------------------------------------------------"
+echo "INFO: The NUT Scanner is also available from the terminal with more advanced settings."
+echo "INFO: You can use 'nut-scanner -h' to see all available options for searching UPS devices."
+echo "-----------------------------------------------------"
+echo ""
 
-echo "Scanning for UPS...\n\n";
-$cmd = '/usr/bin/nut-scanner -N 2>/dev/null';
-$cfg_file = '/boot/config/plugins/nut/nut.cfg';
+echo "Making sure all existing NUT services are stopped (before UPS scanning)..."
+if [ -x /etc/rc.d/rc.nut ]; then
+    /etc/rc.d/rc.nut stop 1>/dev/null
+fi
 
-while (@ ob_end_flush()); // end all output buffers if any
+echo "Reading the existing NUT configuration..."
+[ -e "$CONFIG" ] && source $CONFIG 2>&1
 
-$proc = popen($cmd, 'r');
-ob_start();
-while(!feof($proc)) {
-    $buffer = trim(fgets($proc));
-    $msg = "$buffer\n";
-    $output = explode(" = ", $buffer);
-    if ((strpos($buffer, 'driver')) !== false)
-        $driver = trim($output[1]);
-    elseif ((strpos($buffer, 'port')) !== false)
-        $port = trim($output[1]);
-    echo "$msg";
+echo ""
+echo "NUT Scanner is now searching for UPS devices..."
+echo "#####################################################"
+echo ""
 
-    ob_flush();
-}
+SCANRESULT=$(/usr/bin/nut-scanner -N 2>/dev/null)
 
-pclose($proc);
-ob_end_flush();
+if [ -z "$SCANRESULT" ]; then
+    echo "NO DEVICES FOUND"
+    SCANFAILED="yes"
+else
+    echo "${SCANRESULT}"
+    echo "${SCANRESULT}" > /etc/nut/ups.conf
+fi
 
-$cfg = parse_ini_file($cfg_file);
-$cfg['DRIVER'] = $driver;
-$cfg['PORT'] = $port;
-write_php_ini($cfg, $cfg_file);
-?>
+echo ""
+echo "#####################################################"
+echo ""
+
+if [ "$SCANFAILED" == "no" ]; then
+    echo "Adjusting the NUT configuration for the found UPS..."
+    sed -i "1 s/^.*$/\[${NAME}\]/" /etc/nut/ups.conf 2>&1
+
+    if [ "$MANUAL" == "disable" ]; then
+        echo "Setting the manual configuration mode ('for UPS Driver') in GUI..."
+        sed -i '/MANUAL=/c\MANUAL="onlyups"' $CONFIG 2>&1
+    fi
+
+    echo "Writing the modified NUT configuration to the respective locations..."
+    if [ -x /etc/rc.d/rc.nut ]; then
+        /etc/rc.d/rc.nut write_config 1>/dev/null
+    fi
+
+    echo ""
+    echo "NUT Scanner has finished configuring NUT - please attempt to start your NUT services now."
+else
+    echo "NUT Scanner has finished without configuring NUT - no settings were changed."
+    echo ""
+    echo "Please check out the 'Driver Guide' / HCL for our supported UPS and their configurations."
+    echo "You can also consult with other users on the UNRAID forums - do visit our relevant 'Support Thread'."
+    echo "Sometimes switching the NUT backend can prove helpful for UPS detection (but consider this as a last resort)."
+fi

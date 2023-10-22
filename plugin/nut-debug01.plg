@@ -9,8 +9,8 @@
 <!ENTITY pluginURL "&gitURL;/plugin/&name;-debug01.plg">
 <!ENTITY pkgURL    "&gitURL;/packages">
 <!ENTITY plgPATH   "/boot/config/plugins/&name;">
-<!ENTITY plgNAME   "nut-plugin-2023.10.19-x86_64-1">
-<!ENTITY plgMD5    "35deb34a1d3c3c4f466114a73ae99a6c">
+<!ENTITY plgNAME   "nut-plugin-2023.10.22-x86_64-1">
+<!ENTITY plgMD5    "55eb838feaa76263659d9fe77e4ce795">
 <!ENTITY emhttp    "/usr/local/emhttp/plugins/&name;">
 ]>
 
@@ -18,9 +18,15 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
+###2023.10.22
+- new: updated libmodbus package to support new MODBUS driver for APC devices (Serial, USB or TCP)
+- new: improved NUT scanner feature to improve auto detection and configuration of UPS devices
+- new: introduced a configuration mode where users can use a custom ups.conf file and GUI settings
+- fix: off-loaded new NUT dashboard from unrelated GUI pages to reduce load and page loading times
+- fix: no longer show the NUT runtime statistics module settings on systems without support for it
 ###2023.10.19
 - new: introduced GUI setting for UPS reporting minutes instead of seconds for battery runtime left
-- fix: major bugfixes and re-factoring of outdated code (particuarly for front-page NUT dashboards)
+- fix: major bugfixes and re-factoring of outdated code (particularly for front-page NUT dashboards)
 - fix: dashboard no longer expands randomly when collapsed, now respects user visibility settings
 - fix: dashboard no longer shows on front page and takes up space when NUT itself is not running
 - fix: refactored the automatic refreshing functions and clarified the scope of their settings in GUI
@@ -366,9 +372,9 @@ fi
 <MD5>b9ef68216b97cb5f0bcd9f3312e5941e</MD5>
 </FILE>
 
-<FILE Name="&plgPATH;/libmodbus-3.1.10-x86_64-1gds.txz" Min="6.10" Run="upgradepkg --install-new">
-<URL>&pkgURL;/libmodbus-3.1.10-x86_64-1gds.txz</URL>
-<MD5>8094f0904494db8c670c60ec131d4d3e</MD5>
+<FILE Name="&plgPATH;/libmodbus-3.1.10-x86_64-1usb.txz" Min="6.10" Run="upgradepkg --install-new">
+<URL>&pkgURL;/libmodbus-3.1.10-x86_64-1usb.txz</URL>
+<MD5>b833d6ceffad69a19ac871b74be95eb3</MD5>
 </FILE>
 
 <!--

@@ -86,52 +86,54 @@ stop() {
 write_config() {
     echo "Writing NUT configuration..."
 
-    if [ "$MANUAL" == "disable" ]; then
+    if [ "$MANUAL" == "disable" ] || [ "$MANUAL" == "onlyups" ]; then
 
-        # add the name
-        sed -i "1 s~.*~[${NAME}]~" /etc/nut/ups.conf
+        if [ "$MANUAL" == "disable" ]; then
+            # add the name
+            sed -i "1 s~.*~[${NAME}]~" /etc/nut/ups.conf
 
-        # Add the driver config
-        if [ "$DRIVER" == "custom" ]; then
-                sed -i "2 s/.*/driver = ${SERIAL}/" /etc/nut/ups.conf
-        else
-                sed -i "2 s/.*/driver = ${DRIVER}/" /etc/nut/ups.conf
-        fi
+            # Add the driver config
+            if [ "$DRIVER" == "custom" ]; then
+                    sed -i "2 s/.*/driver = ${SERIAL}/" /etc/nut/ups.conf
+            else
+                    sed -i "2 s/.*/driver = ${DRIVER}/" /etc/nut/ups.conf
+            fi
 
-        # add the port
-        if [ -n "$PORT" ]; then
-            sed -i "3 s~.*~port = ${PORT}~" /etc/nut/ups.conf
-        else
-            sed -i "3 s~.*~port = auto~" /etc/nut/ups.conf
+            # add the port
+            if [ -n "$PORT" ]; then
+                sed -i "3 s~.*~port = ${PORT}~" /etc/nut/ups.conf
+            else
+                sed -i "3 s~.*~port = auto~" /etc/nut/ups.conf
+            fi
+        
+            # Add SNMP-specific config
+            if [ "$DRIVER" == "snmp-ups" ]; then
+                var10="pollfreq = ${POLL}"
+                var11="community = ${COMMUNITY}"
+                var12='snmp_version = v2c'
+            else
+                var10=''
+                var11=''
+                var12=''
+            fi
+
+            # UPS Driver Debug Level
+            if [ "$DEBLEVEL" == "default" ]; then
+                var13=''
+            elif [ -n "$DEBLEVEL" ]; then
+                var13="debug_min = ${DEBLEVEL}"
+            else
+                var13=''
+            fi
+
+            sed -i "4 s/.*/$var10/" /etc/nut/ups.conf
+            sed -i "5 s/.*/$var11/" /etc/nut/ups.conf
+            sed -i "6 s/.*/$var12/" /etc/nut/ups.conf
+            sed -i "7 s/.*/$var13/" /etc/nut/ups.conf
         fi
 
         # add mode standalone/netserver
         sed -i "1 s/.*/MODE=${MODE}/" /etc/nut/nut.conf
-
-        # Add SNMP-specific config
-        if [ "$DRIVER" == "snmp-ups" ]; then
-            var10="pollfreq = ${POLL}"
-            var11="community = ${COMMUNITY}"
-            var12='snmp_version = v2c'
-        else
-            var10=''
-            var11=''
-            var12=''
-        fi
-
-        # UPS Driver Debug Level
-        if [ "$DEBLEVEL" == "default" ]; then
-            var13=''
-        elif [ -n "$DEBLEVEL" ]; then
-            var13="debug_min = ${DEBLEVEL}"
-        else
-            var13=''
-        fi
-
-        sed -i "4 s/.*/$var10/" /etc/nut/ups.conf
-        sed -i "5 s/.*/$var11/" /etc/nut/ups.conf
-        sed -i "6 s/.*/$var12/" /etc/nut/ups.conf
-        sed -i "7 s/.*/$var13/" /etc/nut/ups.conf
 
         # Set monitor ip address, user, password and mode
         if [ "$MODE" == "slave" ]; then
