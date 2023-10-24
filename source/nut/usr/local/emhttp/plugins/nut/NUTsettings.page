@@ -819,7 +819,6 @@ function checkDRIVER(){
 
     if ($('#DRIVER').val() == 'snmp-ups' ){
         $('#snmp').show();
-        $('.nut-port').val('0.0.0.0');
     }else{
         $('#snmp').hide();
     }
