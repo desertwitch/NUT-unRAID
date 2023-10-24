@@ -300,9 +300,9 @@ exit 0
 <!--
 install or upgrade dependency files
 -->
-<FILE Name="&plgPATH;/nut-2.8.0-x86_64-11master.ssl31.txz" Min="6.13" Run="upgradepkg --install-new">
-<URL>&pkgURL;/nut-2.8.0-x86_64-11master.ssl31.txz</URL>
-<MD5>484d0a061de092dda4b5687f98e8dad9</MD5>
+<FILE Name="&plgPATH;/nut-2.8.0-x86_64-12master.ssl31.txz" Min="6.13" Run="upgradepkg --install-new">
+<URL>&pkgURL;/nut-2.8.0-x86_64-12master.ssl31.txz</URL>
+<MD5>a44a7e50eb81ccb232d8b12aa76afdda</MD5>
 </FILE>
 
 <FILE Name="&plgPATH;/nut-2.8.0-x86_64-12master.ssl11.txz" Min="6.10" Max="6.12.99">
