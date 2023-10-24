@@ -3,7 +3,7 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "nut">
 <!ENTITY author    "desertwitch">
-<!ENTITY version   "2023.10.19">
+<!ENTITY version   "2023.10.24">
 <!ENTITY launch    "Settings/NUTsettings">
 <!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/master">
 <!ENTITY pluginURL "&gitURL;/plugin/&name;-debug01.plg">
@@ -18,6 +18,19 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
+
+#### Warning for users considering to update an existing NUT installation:
+
+Be advised that the backend (including the UPS drivers) is developed further and subject to change.
+
+Backend development can never plan for all UPS devices and updating comes with a chance of degraded UPS compatibility.
+
+That means if NUT works well for you and you are happy with everything, updating is not going to bring you much benefit.
+
+Most of the changes are intended towards simplifying new installations and users having problems with their UPS devices.
+
+Please read the following changelog carefully and think if you really need these changes on your (working) system:
+
 ###2023.10.22
 - new: updated libmodbus package to support new MODBUS driver for APC devices (Serial, USB or TCP)
 - new: improved NUT scanner feature to improve auto detection and configuration of UPS devices
