@@ -296,7 +296,7 @@ $showStatPrefs = version_compare(parse_ini_file('/etc/unraid-version')['version'
                 <dl>
                     <dt>SNMP Community:</dt>
                     <dd>
-                        <input type="text" name="COMMUNITY" class="narrow" maxlength="40" value="<?=$nut_community;?>">
+                        <input type="text" name="COMMUNITY" class="narrow nut-run" maxlength="40" value="<?=$nut_community;?>">
                     </dd>
                 </dl>
 
@@ -307,7 +307,7 @@ $showStatPrefs = version_compare(parse_ini_file('/etc/unraid-version')['version'
                 <dl>
                     <dt>SNMP Polling Frequency:</dt>
                     <dd>
-                        <input type="text" name="POLL" class="narrow" maxlength="40" value="<?=$nut_poll;?>">
+                        <input type="text" name="POLL" class="narrow nut-run" maxlength="40" value="<?=$nut_poll;?>">
                     </dd>
                 </dl>
 
