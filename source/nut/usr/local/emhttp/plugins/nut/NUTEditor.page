@@ -3,6 +3,26 @@ Title="NUT Configuration Editor"
 Tag="cogs"
 Markdown="false"
 ---
+<?PHP
+/* Copyright Derek Macias
+ * Copyright macester
+ * Copyright gfjardim
+ * Copyright SimonF
+ * Copyright desertwitch
+ *
+ * Copyright Dan Landon
+ * Copyright Bergware International
+ * Copyright Lime Technology
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License 2
+ * as published by the Free Software Foundation.
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ */
+?>
 <link rel="stylesheet" href="<?=autov('/plugins/nut/css/codemirror/codemirror.min.css');?>">
 <link rel="stylesheet" href="<?=autov('/plugins/nut/css/codemirror/dracula.min.css');?>">
 

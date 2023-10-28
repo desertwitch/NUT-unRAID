@@ -1,7 +1,19 @@
 #!/bin/bash
 #
-# NUT NOTIFYCMD script macester macecapri@gmail.com
-# 2017.05.07 modified by Derek Macias
+# Copyright Derek Macias
+# Copyright macester
+# Copyright gfjardim
+# Copyright SimonF
+# Copyright desertwitch
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License 2
+# as published by the Free Software Foundation.
+#
+# The above copyright notice and this permission notice shall be
+# included in all copies or substantial portions of the Software.
+#
+
 PATH=/sbin:/usr/sbin:/bin:/usr/bin:/usr/local/sbin:/usr/local/bin
 PROG="nut"
 PLGPATH="/boot/config/plugins/$PROG"

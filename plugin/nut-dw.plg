@@ -3,14 +3,14 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "nut">
 <!ENTITY author    "desertwitch">
-<!ENTITY version   "2023.10.24">
+<!ENTITY version   "2023.10.28">
 <!ENTITY launch    "Settings/NUTsettings">
 <!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/master">
 <!ENTITY pluginURL "&gitURL;/plugin/&name;-dw.plg">
 <!ENTITY pkgURL    "&gitURL;/packages">
 <!ENTITY plgPATH   "/boot/config/plugins/&name;">
-<!ENTITY plgNAME   "nut-plugin-2023.10.22-x86_64-1">
-<!ENTITY plgMD5    "55eb838feaa76263659d9fe77e4ce795">
+<!ENTITY plgNAME   "nut-plugin-2023.10.28-x86_64-1">
+<!ENTITY plgMD5    "4a0c113d8ba6cb6ae97d49cbe396492c">
 <!ENTITY emhttp    "/usr/local/emhttp/plugins/&name;">
 ]>
 
@@ -21,7 +21,7 @@
 
 #### Warning for users considering to update an existing NUT installation:
 
-Be advised that the backend (including the UPS drivers) is developed further and subject to change.
+Be advised that the default backend (including the UPS drivers) is developed further and subject to change.
 
 Backend development can never plan for all UPS devices and updating comes with a chance of degraded UPS compatibility.
 
@@ -29,8 +29,12 @@ That means if NUT works well for you and you are happy with everything, updating
 
 Most of the changes are intended towards simplifying new installations and users having problems with their UPS devices.
 
-Please read the following changelog carefully and think if you really need these changes on your (working) system:
+So please read the following changelog carefully and consider if you really need these changes on your working system:
 
+###2023.10.28
+- fix: cleaned up all code files in preparation of the NUT 2.8.1 stable backend currently in the works
+- fix: reworked the GUI visibility toggles so that all mode-unrelated settings are now hidden from GUI
+- fix: prevent the SNMP driver from holding up the rest of the boot process under some rare circumstances
 ###2023.10.24
 - new: default backend updated to master branch as of 24.10.2023 (w/bugfix: no-comm shutdown as slave)
 ###2023.10.22
@@ -416,10 +420,23 @@ fi
 
 # determine if config wants NUT services to start
 echo "Determining if NUT services should be started..."
-if [ "$SERVICE" == "enable" ]; then
-    /etc/rc.d/rc.nut start
-elif [ "$STATISTICS" == "enable" ]; then
-    /etc/rc.d/rc.nutstats check
+
+if [ "$MODE" != "slave" ] &amp;&amp; [ "$DRIVER" == "snmp-ups" ]; then
+    if [ "$SERVICE" == "enable" ]; then
+        echo "SNMP driver is configured, starting NUT services in background instead (see syslog)..."
+        at -M now &lt;&lt;&lt; "/etc/rc.d/rc.nut start | logger"
+    elif [ "$STATISTICS" == "enable" ]; then
+        echo "SNMP driver is configured, starting NUT statistic services in background instead (see syslog)..."
+        at -M now &lt;&lt;&lt; "/etc/rc.d/rc.nutstats check | logger"
+    fi
+else
+    if [ "$SERVICE" == "enable" ]; then
+        echo "Starting NUT services..."
+        /etc/rc.d/rc.nut start
+    elif [ "$STATISTICS" == "enable" ]; then
+        echo "Starting NUT statistic services..."
+        /etc/rc.d/rc.nutstats check
+    fi
 fi
  
 # Cleaning old plugin source files

@@ -1,4 +1,23 @@
 <?
+/* Copyright Derek Macias
+ * Copyright macester
+ * Copyright gfjardim
+ * Copyright SimonF
+ * Copyright desertwitch
+ *
+ * Copyright Dan Landon
+ * Copyright Bergware International
+ * Copyright Lime Technology
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License 2
+ * as published by the Free Software Foundation.
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ */
+
 /* get options for battery level */
 function get_battery_options($selected=20){
     $range = [1,99];

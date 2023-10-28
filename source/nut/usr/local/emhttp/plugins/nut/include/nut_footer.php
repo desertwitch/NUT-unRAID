@@ -1,15 +1,21 @@
 <?PHP
-/* Copyright 2017, Derek Macias.
- * Copyright 2005-2016, Lime Technology
- * Copyright 2015, Dan Landon.
- * Copyright 2015, Bergware International.
+/* Copyright Derek Macias
+ * Copyright macester
+ * Copyright gfjardim
+ * Copyright SimonF
+ * Copyright desertwitch
+ *
+ * Copyright Dan Landon
+ * Copyright Bergware International
+ * Copyright Lime Technology
  *
  * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License version 2,
+ * modify it under the terms of the GNU General Public License 2
  * as published by the Free Software Foundation.
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
  */
 require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php';
 

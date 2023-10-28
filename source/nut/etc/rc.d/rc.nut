@@ -1,8 +1,18 @@
 #!/bin/bash
-# Slackware startup script for Network UPS Tools
-# Copyright 2010 V'yacheslav Stetskevych
-# Edited for unRAID by macester macecapri@gmail.com
-# Revised by Derek Macias 2017.05.01
+#
+# Copyright V'yacheslav Stetskevych
+# Copyright Derek Macias
+# Copyright macester
+# Copyright gfjardim
+# Copyright SimonF
+# Copyright desertwitch
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License 2
+# as published by the Free Software Foundation.
+#
+# The above copyright notice and this permission notice shall be
+# included in all copies or substantial portions of the Software.
 #
 
 PROG="nut"

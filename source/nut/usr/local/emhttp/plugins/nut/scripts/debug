@@ -1,4 +1,19 @@
 #!/bin/bash
+#
+# Copyright Derek Macias
+# Copyright macester
+# Copyright gfjardim
+# Copyright SimonF
+# Copyright desertwitch
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License 2
+# as published by the Free Software Foundation.
+#
+# The above copyright notice and this permission notice shall be
+# included in all copies or substantial portions of the Software.
+#
+
 DEBUGROOT="/tmp/nut-debug"
 PKGROOT="/usr/local/emhttp/plugins/nut/debug"
 CONFIG="/boot/config/plugins/nut/nut.cfg"
@@ -80,7 +95,8 @@ else
 fi
 
 # scan for UPS devices and include the results in the package
-[ -x /usr/bin/nut-scanner ] && /usr/bin/nut-scanner -Q > $DEBUGROOT/PLUGIN/nut-scanner.txt 2>&1
+[ -x /usr/bin/nut-scanner ] && /usr/bin/nut-scanner -N > $DEBUGROOT/PLUGIN/nut-scanner.txt 2>&1
+[ -f $DEBUGROOT/PLUGIN/nut-scanner.txt ] && sed -i '/serial/c\serial = "REMOVED"' $DEBUGROOT/PLUGIN/nut-scanner.txt 2>&1
 
 # check for username misconfiguration without including them in package
 if [ "$MONUSER" == "$SLAVEUSER" ]; then

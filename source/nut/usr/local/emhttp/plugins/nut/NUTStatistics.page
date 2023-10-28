@@ -6,6 +6,26 @@ Tag="map-o"
 Markdown="false"
 Cond="isset(parse_ini_file('/boot/config/plugins/nut/nut.cfg')['STATISTICS']) && parse_ini_file('/boot/config/plugins/nut/nut.cfg')['STATISTICS'] == 'enable'"
 ---
+<?PHP
+/* Copyright Derek Macias
+ * Copyright macester
+ * Copyright gfjardim
+ * Copyright SimonF
+ * Copyright desertwitch
+ *
+ * Copyright Dan Landon
+ * Copyright Bergware International
+ * Copyright Lime Technology
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License 2
+ * as published by the Free Software Foundation.
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ */
+?>
 <? require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php'; ?>
 <?if(version_compare(parse_ini_file('/etc/unraid-version')['version'],'6.12.3', '<')):?>
 <div><strong>Your UNRAID version is too outdated to use the NUT Runtime Statistics Module (&lt; 6.12.3)</strong></div>
@@ -23,17 +43,6 @@ Some values may be missing or erroneous depending on what your UPS reports - ena
 </p>
 
 <?
-/* Copyright 2005-2023, Lime Technology
- * Copyright 2012-2023, Bergware International.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License version 2,
- * as published by the Free Software Foundation.
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
-*/
-
 if(isset($display['theme']) && $display['theme']) {
 switch ($display['theme']) {
   case 'white': $theme = 'light'; break;
@@ -169,124 +178,112 @@ var NCchart7 = new ApexCharts(document.querySelector('#NCchart7'), options_nut);
 <?endif;?>
 
 function updateNUTcharts() {
-  
-<?if($c1_var != "disable"):?>
-$.getJSON('/plugins/nut/nutstats/<?=$c1_var?>.json', function(response) {
-  NCchart1.updateSeries([{
-    name: "<?=$c1_txt?>",
-    data: response.data
-  }])
-});
-<?endif;?>
+  <?if($c1_var != "disable"):?>
+  $.getJSON('/plugins/nut/nutstats/<?=$c1_var?>.json', function(response) {
+    NCchart1.updateSeries([{
+      name: "<?=$c1_txt?>",
+      data: response.data
+    }])
+  });
+  <?endif;?>
 
-<?if($c2_var != "disable"):?>
-$.getJSON('/plugins/nut/nutstats/<?=$c2_var?>.json', function(response) {
-  NCchart2.updateSeries([{
-    name: "<?=$c2_txt?>",
-    data: response.data
-  }])
-});
-<?endif;?>
+  <?if($c2_var != "disable"):?>
+  $.getJSON('/plugins/nut/nutstats/<?=$c2_var?>.json', function(response) {
+    NCchart2.updateSeries([{
+      name: "<?=$c2_txt?>",
+      data: response.data
+    }])
+  });
+  <?endif;?>
 
-<?if($c3_var != "disable"):?>
-$.getJSON('/plugins/nut/nutstats/<?=$c3_var?>.json', function(response) {
-  NCchart3.updateSeries([{
-    name: "<?=$c3_txt?>",
-    data: response.data
-  }])
-});
-<?endif;?>
+  <?if($c3_var != "disable"):?>
+  $.getJSON('/plugins/nut/nutstats/<?=$c3_var?>.json', function(response) {
+    NCchart3.updateSeries([{
+      name: "<?=$c3_txt?>",
+      data: response.data
+    }])
+  });
+  <?endif;?>
 
-<?if($c4_var != "disable"):?>
-$.getJSON('/plugins/nut/nutstats/<?=$c4_var?>.json', function(response) {
-  NCchart4.updateSeries([{
-    name: "<?=$c4_txt?>",
-    data: response.data
-  }])
-});
-<?endif;?>
+  <?if($c4_var != "disable"):?>
+  $.getJSON('/plugins/nut/nutstats/<?=$c4_var?>.json', function(response) {
+    NCchart4.updateSeries([{
+      name: "<?=$c4_txt?>",
+      data: response.data
+    }])
+  });
+  <?endif;?>
 
-<?if($c5_var != "disable"):?>
-$.getJSON('/plugins/nut/nutstats/<?=$c5_var?>.json', function(response) {
-  NCchart5.updateSeries([{
-    name: "<?=$c5_txt?>",
-    data: response.data
-  }])
-});
-<?endif;?>
+  <?if($c5_var != "disable"):?>
+  $.getJSON('/plugins/nut/nutstats/<?=$c5_var?>.json', function(response) {
+    NCchart5.updateSeries([{
+      name: "<?=$c5_txt?>",
+      data: response.data
+    }])
+  });
+  <?endif;?>
 
-<?if($c6_var != "disable"):?>
-$.getJSON('/plugins/nut/nutstats/<?=$c6_var?>.json', function(response) {
-  NCchart6.updateSeries([{
-    name: "<?=$c6_txt?>",
-    data: response.data
-  }])
-});
-<?endif;?>
+  <?if($c6_var != "disable"):?>
+  $.getJSON('/plugins/nut/nutstats/<?=$c6_var?>.json', function(response) {
+    NCchart6.updateSeries([{
+      name: "<?=$c6_txt?>",
+      data: response.data
+    }])
+  });
+  <?endif;?>
 
-<?if($c7_var != "disable"):?>
-$.getJSON('/plugins/nut/nutstats/<?=$c7_var?>.json', function(response) {
-  NCchart7.updateSeries([{
-    name: "<?=$c7_txt?>",
-    data: response.data
-  }])
-});
-<?endif;?>
+  <?if($c7_var != "disable"):?>
+  $.getJSON('/plugins/nut/nutstats/<?=$c7_var?>.json', function(response) {
+    NCchart7.updateSeries([{
+      name: "<?=$c7_txt?>",
+      data: response.data
+    }])
+  });
+  <?endif;?>
 
-clearTimeout(timers.updateNUTcharts);
-<?if ($update_stats):?>
-timers.updateNUTcharts = setTimeout(updateNUTcharts, <?=max(abs(isset($display['refresh']) ? $display['refresh'] : 0),($nut_interval * 1000))?>);
-<?endif;?>
-
+  clearTimeout(timers.updateNUTcharts);
+  <?if ($update_stats):?>
+  timers.updateNUTcharts = setTimeout(updateNUTcharts, <?=max(abs(isset($display['refresh']) ? $display['refresh'] : 0),($nut_interval * 1000))?>);
+  <?endif;?>
 }
 
 $(function() {
+  <?if($c1_var != "disable"):?>
+  NCchart1.render();
+  NCchart1.updateOptions({title: { text: '<?=$c1_txt?>' }})
+  <?endif;?>
 
-<?if($c1_var != "disable"):?>
-NCchart1.render();
-NCchart1.updateOptions({title: { text: '<?=$c1_txt?>' }})
-<?endif;?>
+  <?if($c2_var != "disable"):?>
+  NCchart2.render();
+  NCchart2.updateOptions({title: { text: '<?=$c2_txt?>' }})
+  <?endif;?>
 
-<?if($c2_var != "disable"):?>
-NCchart2.render();
-NCchart2.updateOptions({title: { text: '<?=$c2_txt?>' }})
-<?endif;?>
+  <?if($c3_var != "disable"):?>
+  NCchart3.render();
+  NCchart3.updateOptions({title: { text: '<?=$c3_txt?>' }})
+  <?endif;?>
 
-<?if($c3_var != "disable"):?>
-NCchart3.render();
-NCchart3.updateOptions({title: { text: '<?=$c3_txt?>' }})
-<?endif;?>
+  <?if($c4_var != "disable"):?>
+  NCchart4.render();
+  NCchart4.updateOptions({title: { text: '<?=$c4_txt?>' }})
+  <?endif;?>
 
-<?if($c4_var != "disable"):?>
-NCchart4.render();
-NCchart4.updateOptions({title: { text: '<?=$c4_txt?>' }})
-<?endif;?>
+  <?if($c5_var != "disable"):?>
+  NCchart5.render();
+  NCchart5.updateOptions({title: { text: '<?=$c5_txt?>' }})
+  <?endif;?>
 
-<?if($c5_var != "disable"):?>
-NCchart5.render();
-NCchart5.updateOptions({title: { text: '<?=$c5_txt?>' }})
-<?endif;?>
+  <?if($c6_var != "disable"):?>
+  NCchart6.render();
+  NCchart6.updateOptions({title: { text: '<?=$c6_txt?>' }})
+  <?endif;?>
 
-<?if($c6_var != "disable"):?>
-NCchart6.render();
-NCchart6.updateOptions({title: { text: '<?=$c6_txt?>' }})
-<?endif;?>
+  <?if($c7_var != "disable"):?>
+  NCchart7.render();
+  NCchart7.updateOptions({title: { text: '<?=$c7_txt?>' }})
+  <?endif;?>
 
-<?if($c7_var != "disable"):?>
-NCchart7.render();
-NCchart7.updateOptions({title: { text: '<?=$c7_txt?>' }})
-<?endif;?>
-
-updateNUTcharts();
-
-// dynamix plugin update api
-<?if (function_exists('plugin_update_available') && $version = plugin_update_available('nut-dw')):?>
-showNotice('NUT <?=htmlspecialchars($version);?> available. <a>Update</a>','nut-dw');
-$('#user-notice a').on('click', function () {
-  $('#user-notice').empty();
-});
-<?endif;?>
-
+  updateNUTcharts();
 });
 </script>
 <?endif;?>

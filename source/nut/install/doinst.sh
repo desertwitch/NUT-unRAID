@@ -1,4 +1,19 @@
 #!/bin/bash
+#
+# Copyright Derek Macias
+# Copyright macester
+# Copyright gfjardim
+# Copyright SimonF
+# Copyright desertwitch
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License 2
+# as published by the Free Software Foundation.
+#
+# The above copyright notice and this permission notice shall be
+# included in all copies or substantial portions of the Software.
+#
+
 BOOT="/boot/config/plugins/nut"
 DOCROOT="/usr/local/emhttp/plugins/nut"
 

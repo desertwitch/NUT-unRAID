@@ -6,22 +6,26 @@ Tag="cog"
 Markdown="false"
 ---
 <?PHP
-/* Copyright 2017, Derek Macias.
- * Copyright 2015, Dan Landon.
- * Copyright 2015, Bergware International.
- * Copyright 2015, Lime Technology
+/* Copyright Derek Macias
+ * Copyright macester
+ * Copyright gfjardim
+ * Copyright SimonF
+ * Copyright desertwitch
+ *
+ * Copyright Dan Landon
+ * Copyright Bergware International
+ * Copyright Lime Technology
  *
  * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License version 2,
+ * modify it under the terms of the GNU General Public License 2
  * as published by the Free Software Foundation.
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * Modified by macester macecapri@gmail.com for NUT plugin
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
  *
  */
-
+?>
+<?PHP
 require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php';
 $showStatPrefs = version_compare(parse_ini_file('/etc/unraid-version')['version'],'6.12.3', '>'); ?>
 
@@ -32,7 +36,7 @@ $showStatPrefs = version_compare(parse_ini_file('/etc/unraid-version')['version'
 
 <form markdown="0" id="nut-settings" name="nut_settings" method="POST" action="/update.php" target="progressFrame">
     <input type="hidden" name="#file" value="<?=$sName?>/<?=$sName?>.cfg">
-    <input type="hidden" id="command" name="#command" value="" />
+    <input type="hidden" id="command" name="#command" value="/usr/local/emhttp/plugins/nut/scripts/write_config" />
     <span style="float:right;margin-right:10px"><a href="https://forums.unraid.net/topic/60217-plugin-nut-v2-network-ups-tools/" target="_blank" title="NUT Support Thread"><i class="fa fa-medkit"></i> <u>Support Thread</u></a> / <a href="http://www.networkupstools.org/docs/user-manual.chunked/" target="_blank" title="NUT User Manual"><i class="fa fa-file-text-o"></i> <u>User Manual</u></a> / <a href="https://networkupstools.org/stable-hcl.html" target="_blank" title="NUT Driver Guide"><i class="fa fa-usb"></i> <u>Driver Guide</u></a></span>
 
     <dl>
@@ -134,7 +138,7 @@ $showStatPrefs = version_compare(parse_ini_file('/etc/unraid-version')['version'
         <dl>
             <dt>NUT Master IP Address:</dt>
             <dd>
-                <input id="IPADDR" type="text" class="narrow nut-ipaddr" name="IPADDR" value="<?=htmlspecialchars($nut_ip);?>" title="nut ip address" maxlength="15">
+                <input id="IPADDR" type="text" class="narrow nut-ipaddr" name="IPADDR" value="<?=htmlspecialchars($nut_ip);?>" maxlength="15">
             </dd>
         </dl>
 
@@ -146,7 +150,7 @@ $showStatPrefs = version_compare(parse_ini_file('/etc/unraid-version')['version'
         <dl>
             <dt>NUT Monitor Username:</dt>
             <dd>
-                <input id="MONUSER" type="text" class="narrow nut-run nut-monuser" name="MONUSER" maxlength="30" value="<?=htmlspecialchars($nut_monuser);?>" title="nut ups monitor username" >
+                <input id="MONUSER" type="text" class="narrow nut-run nut-monuser" name="MONUSER" maxlength="30" value="<?=htmlspecialchars($nut_monuser);?>">
             </dd>
         </dl>
 
@@ -158,7 +162,7 @@ $showStatPrefs = version_compare(parse_ini_file('/etc/unraid-version')['version'
         <dl>
             <dt>NUT Monitor Password:</dt>
             <dd>
-                <input id="MONPASS" type="password" class="narrow nut-run" name="MONPASS" maxlength="66" value="<?=htmlspecialchars($nut_monpass);?>" title="nut ups password" >
+                <input id="MONPASS" type="password" class="narrow nut-run" name="MONPASS" maxlength="66" value="<?=htmlspecialchars($nut_monpass);?>">
             </dd>
         </dl>
 
@@ -192,7 +196,7 @@ $showStatPrefs = version_compare(parse_ini_file('/etc/unraid-version')['version'
             <dl>
                 <dt>NUT Slave Username:</dt>
                 <dd>
-                    <input id="SLAVEUSER" type="text" class="narrow nut-run nut-slaveuser" name="SLAVEUSER" maxlength="30" value="<?=htmlspecialchars($nut_slaveuser);?>" title="nut ups slave username" >
+                    <input id="SLAVEUSER" type="text" class="narrow nut-run nut-slaveuser" name="SLAVEUSER" maxlength="30" value="<?=htmlspecialchars($nut_slaveuser);?>">
                 </dd>
             </dl>
 
@@ -205,7 +209,7 @@ $showStatPrefs = version_compare(parse_ini_file('/etc/unraid-version')['version'
             <dl>
                 <dt>NUT Slave Password:</dt>
                 <dd>
-                    <input id="SLAVEPASS" type="password" class="narrow nut-run" name="SLAVEPASS" maxlength="66" value="<?=htmlspecialchars($nut_slavepass);?>" title="nut ups slave password" >
+                    <input id="SLAVEPASS" type="password" class="narrow nut-run" name="SLAVEPASS" maxlength="66" value="<?=htmlspecialchars($nut_slavepass);?>">
                 </dd>
             </dl>
 
@@ -218,7 +222,7 @@ $showStatPrefs = version_compare(parse_ini_file('/etc/unraid-version')['version'
         <dl>
             <dt>UPS Name:</dt>
             <dd>
-                <input id="NAME" type="text" class="narrow nut-run nut-name" name="NAME" maxlength="30" value="<?=htmlspecialchars($nut_name);?>" title="nut ups name">
+                <input id="NAME" type="text" class="narrow nut-run nut-name" name="NAME" maxlength="30" value="<?=htmlspecialchars($nut_name);?>">
             </dd>
         </dl>
 
@@ -231,7 +235,7 @@ $showStatPrefs = version_compare(parse_ini_file('/etc/unraid-version')['version'
             <dl>
                 <dt>UPS Driver:</dt>
                 <dd>
-                    <select class="nut-run" id="DRIVER" name="DRIVER" size="1" title="nut driver">
+                    <select class="nut-run" id="DRIVER" name="DRIVER" size="1">
                     <?=mk_option($nut_driver, 'usbhid-ups', 'usbhid-ups');?>
                     <?=mk_option($nut_driver, 'nutdrv_qx', 'nutdrv_qx');?>
                     <?=mk_option($nut_driver, 'apc_modbus', 'apc_modbus');?>
@@ -287,141 +291,137 @@ $showStatPrefs = version_compare(parse_ini_file('/etc/unraid-version')['version'
                 <p>If you want your SYSLOG to survive system reboots (for diagnostics), you can set this elsewhere - see <a href="/Settings/SyslogSettings" target="_blank">Settings->Syslog Server->Mirror syslog to flash</a>.</p>
                 <p>You will then find a mirror of the SYSLOG file on your USB drive (<a href="/plugins/nut/include/nut_syslog_helper.php" target="_blank">HERE</a> or inside <strong><em>/boot/logs/</em></strong>), please be aware that mirroring will increase wear to your USB drive.</p>
             </blockquote>
+        
+            <div id="snmp" style="display: none;">
+                <dl>
+                    <dt>SNMP Community:</dt>
+                    <dd>
+                        <input type="text" name="COMMUNITY" class="narrow" maxlength="40" value="<?=$nut_community;?>">
+                    </dd>
+                </dl>
 
+                <blockquote class="inline_help">
+                    <p>The name of the read community of your UPS SNMP agent.</p>
+                </blockquote>
+
+                <dl>
+                    <dt>SNMP Polling Frequency:</dt>
+                    <dd>
+                        <input type="text" name="POLL" class="narrow" maxlength="40" value="<?=$nut_poll;?>">
+                    </dd>
+                </dl>
+
+                <blockquote class="inline_help">
+                    <p>The desired SNMP polling frequency (in seconds).</p>
+                </blockquote>
+            </div>
         </div>
 
-        <div id="snmp" style="display: none;">
+        <dl>
+            <dt>UPS Battery Runtime Attribute:</dt>
+            <dd>
+                <select class="nut-run" id="RUNTIME" name="RUNTIME" size="1">
+                    <?=mk_option($nut_runtime, 'battery.runtime', 'battery.runtime');?>
+                    <?=mk_option($nut_runtime, 'battery.runtime.low', 'battery.runtime.low');?>
+                </select>
+            </dd>
+        </dl>
+
+        <blockquote class="inline_help">
+            <p>Select the battery runtime attribute that correctly reflects your UPS remaining battery runtime (see <strong><em>NUT Details</em></strong> table).</p>
+            <p>- <strong><em>battery.runtime</em></strong> usually reflects the total remaining battery runtime of the UPS.</p>
+            <p>- <strong><em>battery.runtime.low</em></strong> usually reflects the remaining battery runtime after UPS switches to Low Battery.</p>
+            <p>This setting is used to display the correct runtime information and also when using the shutdown mode <strong><em>Runtime Left</em></strong>.</p>
+        </blockquote>
+
+        <dl>
+            <dt>Shutdown Mode:</dt>
+            <dd>
+                <select class="nut-run" id="SHUTDOWN" name="SHUTDOWN" size="1">
+                    <?=mk_option($nut_shutdown, 'batt_level', 'Battery Level');?>
+                    <?=mk_option($nut_shutdown, 'batt_timer', 'Runtime Left');?>
+                    <?=mk_option($nut_shutdown, 'sec_timer', 'Time on Battery');?>
+                </select>
+            </dd>
+        </dl>
+
+        <blockquote class="inline_help">
+            <p>Select the shutdown mode for NUT, this mode determines which UPS criteria to use when NUT should shutdown the system.</p>
+            <p>- <strong><em>Battery Level</em></strong> shuts down the system when there is X percentage left on the battery.</p>
+            <p>- <strong><em>Runtime Left</em></strong> shuts down the system when there is X runtime left on the battery (in minutes).</p>
+            <p>- <strong><em>Time on Battery</em></strong> shuts down the system when the user defined timer reaches zero (in minutes).</p>
+            <p>If your UPS <u>does not</u> report the variables <strong><em>battery.charge</em></strong> or <strong><em>battery.runtime</em></strong> correctly (see <strong><em>NUT Details</em></strong> table), please choose <strong><em>Time on Battery</em></strong> here.</p>
+            <p><u>Recommendation:</u> Choose <strong><em>Time on Battery</em></strong> or <strong><em>Battery Level</em></strong> where possible, as <strong><em>Runtime Left</em></strong> is the most volatile and UPS-dependent of the three modes.</p>
+        </blockquote>
+
+        <div id="SHUTDOWN0">
             <dl>
-                <dt>SNMP Community:</dt>
+                <dt>Battery Level to initiate Shutdown (%):</dt>
                 <dd>
-                    <input type="text" name="COMMUNITY" class="narrow" maxlength="40" value="<?=$nut_community;?>">
+                    <select class="nut-run" id="BATTERYLEVEL" name="BATTERYLEVEL" size="1">
+                        <? echo get_battery_options($nut_battery);?>
+                    </select>
                 </dd>
             </dl>
 
             <blockquote class="inline_help">
-                <p>The name of the read community of your UPS SNMP agent.</p>
+                <p>If during a power failure, the remaining battery percentage (as reported by the UPS) is below or equal to this setting, NUT will initiate a system shutdown.</p>
             </blockquote>
+        </div>
 
+        <div id="SHUTDOWN1">
             <dl>
-                <dt>SNMP Polling Frequency:</dt>
+                <dt>Battery Runtime Left to initiate Shutdown:</dt>
                 <dd>
-                    <input type="text" name="POLL" class="narrow" maxlength="40" value="<?=$nut_poll;?>">
+                    <input id="SECONDS" type="text" class="narrow nut-run" name="SECONDS" maxlength="5" value="<?=htmlspecialchars($nut_seconds);?>">
                 </dd>
             </dl>
 
             <blockquote class="inline_help">
-                <p>The desired SNMP polling frequency (in seconds).</p>
+                <p>If during a power failure, the remaining battery runtime (as calculated by the UPS) is below or equal to this setting, NUT will initiate a system shutdown.</p>
+                <p>Usually your UPS reports this value in seconds (check <strong><em>NUT Details</em></strong> table). If so, write this value here in seconds - otherwise write this value here in minutes.</p>
+                <p><u>Warning:</u> Depending on your UPS this value can fluctuate, if your UPS has an old battery you shouldn't trust this shutdown mode.</p>
             </blockquote>
         </div>
 
-    </div>
+        <div id="SHUTDOWN2">
+            <dl>
+                <dt>Time on Battery before Shutdown (Minutes):</dt>
+                <dd>
+                    <select class="nut-run" id="TIMEOUT" name="TIMEOUT" size="1">
+                        <? echo get_minute_options($nut_timeout);?>
+                    </select>
+                </dd>
+            </dl>
 
-    <dl>
-        <dt>UPS Battery Runtime Attribute:</dt>
-        <dd>
-            <select class="nut-run" id="RUNTIME" name="RUNTIME" size="1">
-                <?=mk_option($nut_runtime, 'battery.runtime', 'battery.runtime');?>
-                <?=mk_option($nut_runtime, 'battery.runtime.low', 'battery.runtime.low');?>
-            </select>
-        </dd>
-    </dl>
+            <blockquote class="inline_help">
+                <p>The time in minutes before NUT will initiate a system shutdown if a power failure occours (regardless of battery runtime/charge).</p>
+                <p>This value should always be lower than the total time you expect your UPS to last on battery in a maximum load scenario.</p>
+            </blockquote>
+        </div>
 
-    <blockquote class="inline_help">
-        <p>Select the battery runtime attribute that correctly reflects your UPS remaining battery runtime (see <strong><em>NUT Details</em></strong> table).</p>
-        <p>- <strong><em>battery.runtime</em></strong> usually reflects the total remaining battery runtime of the UPS.</p>
-        <p>- <strong><em>battery.runtime.low</em></strong> usually reflects the remaining battery runtime after UPS switches to Low Battery.</p>
-        <p>This setting is used to display the correct runtime information and also when using the shutdown mode <strong><em>Runtime Left</em></strong>.</p>
-    </blockquote>
+        <div id="UPSKILL">
+            <dl>
+                <dt>Disable UPS Power after Shutdown:</dt>
+                <dd>
+                    <select class="nut-run" name="UPSKILL" size="1">
+                        <?=mk_option($nut_upskill, 'disable', 'No');?>
+                        <?=mk_option($nut_upskill, 'enable', 'Yes');?>
+                    </select>
+                </dd>
+            </dl>
 
-    <dl>
-        <dt>Shutdown Mode:</dt>
-        <dd>
-            <select class="nut-run" id="SHUTDOWN" name="SHUTDOWN" size="1">
-                <?=mk_option($nut_shutdown, 'batt_level', 'Battery Level');?>
-                <?=mk_option($nut_shutdown, 'batt_timer', 'Runtime Left');?>
-                <?=mk_option($nut_shutdown, 'sec_timer', 'Time on Battery');?>
-            </select>
-        </dd>
-    </dl>
-
-    <blockquote class="inline_help">
-        <p>Select the shutdown mode for NUT, this mode determines which UPS criteria to use when NUT should shutdown the system.</p>
-        <p>- <strong><em>Battery Level</em></strong> shuts down the system when there is X percentage left on the battery.</p>
-        <p>- <strong><em>Runtime Left</em></strong> shuts down the system when there is X runtime left on the battery (in minutes).</p>
-        <p>- <strong><em>Time on Battery</em></strong> shuts down the system when the user defined timer reaches zero (in minutes).</p>
-        <p>If your UPS <u>does not</u> report the variables <strong><em>battery.charge</em></strong> or <strong><em>battery.runtime</em></strong> correctly (see <strong><em>NUT Details</em></strong> table), please choose <strong><em>Time on Battery</em></strong> here.</p>
-        <p><u>Recommendation:</u> Choose <strong><em>Time on Battery</em></strong> or <strong><em>Battery Level</em></strong> where possible, as <strong><em>Runtime Left</em></strong> is the most volatile and UPS-dependent of the three modes.</p>
-    </blockquote>
-
-    <div id="SHUTDOWN0">
-        <dl>
-            <dt>Battery Level to initiate Shutdown (%):</dt>
-            <dd>
-                <select class="nut-run" id="BATTERYLEVEL" name="BATTERYLEVEL" size="1">
-                    <? echo get_battery_options($nut_battery);?>
-                </select>
-            </dd>
-        </dl>
-
-        <blockquote class="inline_help">
-            <p>If during a power failure, the remaining battery percentage (as reported by the UPS) is below or equal to this setting, NUT will initiate a system shutdown.</p>
-        </blockquote>
-    </div>
-
-    <div id="SHUTDOWN1">
-        <dl>
-            <dt>Battery Runtime Left to initiate Shutdown:</dt>
-            <dd>
-                <input id="SECONDS" type="text" class="narrow nut-run" name="SECONDS" maxlength="5" value="<?=htmlspecialchars($nut_seconds);?>">
-            </dd>
-        </dl>
-
-        <blockquote class="inline_help">
-            <p>If during a power failure, the remaining battery runtime (as calculated by the UPS) is below or equal to this setting, NUT will initiate a system shutdown.</p>
-            <p>Usually your UPS reports this value in seconds (check <strong><em>NUT Details</em></strong> table). If so, write this value here in seconds - otherwise write this value here in minutes.</p>
-            <p><u>Warning:</u> Depending on your UPS this value can fluctuate, if your UPS has an old battery you shouldn't trust this shutdown mode.</p>
-        </blockquote>
-    </div>
-
-    <div id="SHUTDOWN2">
-        <dl>
-            <dt>Time on Battery before Shutdown (Minutes):</dt>
-            <dd>
-                <select class="nut-run" id="TIMEOUT" name="TIMEOUT" size="1">
-                    <? echo get_minute_options($nut_timeout);?>
-                </select>
-            </dd>
-        </dl>
-
-        <blockquote class="inline_help">
-            <p>The time in minutes before NUT will initiate a system shutdown if a power failure occours (regardless of battery runtime/charge).</p>
-            <p>This value should always be lower than the total time you expect your UPS to last on battery in a maximum load scenario.</p>
-        </blockquote>
-    </div>
-
-    <div id="UPSKILL">
-        <dl>
-            <dt>Kill UPS Power:</dt>
-            <dd>
-                <select class="nut-run" name="UPSKILL" size="1">
-                    <?=mk_option($nut_upskill, 'disable', 'No');?>
-                    <?=mk_option($nut_upskill, 'enable', 'Yes');?>
-                </select>
-            </dd>
-        </dl>
-
-        <blockquote class="inline_help">
-            <p>Set to <strong><em>Yes</em></strong> to turn off the UPS battery power (to the protected devices) after a NUT intiated shutdown.</p>
-            <p>Enable <strong><em>Automatically power on after power loss</em></strong> in your BIOS if you want your computers to restart when the power (mains) recovers.</p>
-            <p><u>Warning:</u> Not all UPS devices support this setting, in the worst case it will have no effect.</p>
-        </blockquote>
-    </div>
-
-    <div id="REPLBATTMSG">
+            <blockquote class="inline_help">
+                <p>Set to <strong><em>Yes</em></strong> to turn off the UPS battery power (to the protected devices) after a NUT intiated shutdown.</p>
+                <p>Enable <strong><em>Automatically power on after power loss</em></strong> in your BIOS if you want your computers to restart when the power (mains) recovers.</p>
+                <p><u>Warning:</u> Not all UPS devices support this setting, in the worst case it will have no effect.</p>
+            </blockquote>
+        </div>
+        
         <dl>
             <dt>Battery Replacement Notification:</dt>
             <dd>
-                <select class="nut-run" name="REPLBATTMSG" size="1">
+                <select class="nut-run" id="REPLBATTMSG" name="REPLBATTMSG" size="1">
                     <?=mk_option($nut_replbattmsg, 'disable', 'No');?>
                     <?=mk_option($nut_replbattmsg, 'enable', 'Yes');?>
                 </select>
@@ -431,7 +431,7 @@ $showStatPrefs = version_compare(parse_ini_file('/etc/unraid-version')['version'
         <blockquote class="inline_help">
             <p>Set to <strong><em>Yes</em></strong> to receive a notification when the UPS reports the batteries as needing replacement.</p>
             <p>By default this notification will be sent every 12 hours until the batteries are replaced.</p>
-        </blockquote>
+        </blockquote>  
     </div>
 
     <br>
@@ -503,7 +503,7 @@ $showStatPrefs = version_compare(parse_ini_file('/etc/unraid-version')['version'
     <dl>
         <dt>NUT Automatic GUI Refresh Interval:</dt>
         <dd>
-            <input id="INTERVAL" type="text" class="narrow nut-power" name="INTERVAL" maxlength="5" value="<?=htmlspecialchars($nut_interval);?>" title="nut page refresh interval(Seconds)">
+            <input id="INTERVAL" type="text" class="narrow nut-power" name="INTERVAL" maxlength="5" value="<?=htmlspecialchars($nut_interval);?>">
         </dd>
     </dl>
 
@@ -512,7 +512,7 @@ $showStatPrefs = version_compare(parse_ini_file('/etc/unraid-version')['version'
     </blockquote>
 
     <div id="STATPREFS" style="<?=($showStatPrefs ? '' : 'display:none;');?>">
-    <dl>
+        <dl>
         <dt>NUT Runtime Statistics Module:</dt>
             <dd>
                 <select id="STATISTICS" name="STATISTICS" size="1">
@@ -527,131 +527,130 @@ $showStatPrefs = version_compare(parse_ini_file('/etc/unraid-version')['version'
             <p>The module will record UPS variables of interest and display them as useful charts on a seperate <strong><em>NUT Statistics</em></strong> page.</p>
         </blockquote>
 
-    <div id="STATS-OR" style="display: none;">
-    <dl>
-        <dt>NUT Runtime Statistics Polling Frequency:</dt>
-            <dd>
-                <select id="STATSPOLL" name="STATSPOLL" size="1">
-                    <?=mk_option($nut_stats_poll, '01min', 'Every 01 Minute(s)');?>
-                    <?=mk_option($nut_stats_poll, '15min', 'Every 15 Minute(s)');?>
-                    <?=mk_option($nut_stats_poll, '30min', 'Every 30 Minute(s)');?>
-                    <?=mk_option($nut_stats_poll, '45min', 'Every 45 Minute(s)');?>
-                    <?=mk_option($nut_stats_poll, '60min', 'Every 60 Minute(s)');?>
-                </select>
-            </dd>
-    </dl>
+        <div id="STATS-OR" style="display: none;">
+            <dl>
+                <dt>NUT Runtime Statistics Polling Frequency:</dt>
+                    <dd>
+                        <select id="STATSPOLL" name="STATSPOLL" size="1">
+                            <?=mk_option($nut_stats_poll, '01min', 'Every 01 Minute(s)');?>
+                            <?=mk_option($nut_stats_poll, '15min', 'Every 15 Minute(s)');?>
+                            <?=mk_option($nut_stats_poll, '30min', 'Every 30 Minute(s)');?>
+                            <?=mk_option($nut_stats_poll, '45min', 'Every 45 Minute(s)');?>
+                            <?=mk_option($nut_stats_poll, '60min', 'Every 60 Minute(s)');?>
+                        </select>
+                    </dd>
+            </dl>
 
-    <blockquote class="inline_help">
-    <p>Sets the updating frequency for the NUT Runtime Statistics.</p>
-    <p>This means how often the NUT Runtime Statistics service will request the UPS data from the NUT service.</p>
-    </blockquote>
+            <blockquote class="inline_help">
+            <p>Sets the updating frequency for the NUT Runtime Statistics.</p>
+            <p>This means how often the NUT Runtime Statistics service will request the UPS data from the NUT service.</p>
+            </blockquote>
 
-    <dl>
-        <dt>NUT Runtime Statistics Variable Override:</dt>
-            <dd>
-                <select id="STATSOVERRIDE" name="STATSOVERRIDE" size="1">
-                    <?=mk_option($nut_stats_override, 'disable', 'No');?>
-                    <?=mk_option($nut_stats_override, 'enable', 'Yes');?>
-                </select>
-            </dd>
-        </dl>
+            <dl>
+                <dt>NUT Runtime Statistics Variable Override:</dt>
+                    <dd>
+                        <select id="STATSOVERRIDE" name="STATSOVERRIDE" size="1">
+                            <?=mk_option($nut_stats_override, 'disable', 'No');?>
+                            <?=mk_option($nut_stats_override, 'enable', 'Yes');?>
+                        </select>
+                    </dd>
+            </dl>
 
-    <blockquote class="inline_help">
-    <p>The NUT Runtime Statistics Variable Override lets you configure custom UPS values and descriptions for the statistics charts.</p>
-    <p><u>Note:</u> By setting a <u>UPS Variable</u> to <strong><em>disable</em></strong> you can disable/hide an unneeded chart altogether.</p>
-    <p><strong><u>Warning:</u> You must make sure that <u>every UPS variable field has a value set</u>, either a UPS variable or <em>disable</em></strong>.</p>
-    <p><strong><u>Warning:</u> You can only use <u>numeric (number) UPS variables</u>, which are also existent in the <u>NUT Details</u> table on this page!</strong></p>
-    </blockquote>
+            <blockquote class="inline_help">
+            <p>The NUT Runtime Statistics Variable Override lets you configure custom UPS values and descriptions for the statistics charts.</p>
+            <p><u>Note:</u> By setting a <u>UPS Variable</u> to <strong><em>disable</em></strong> you can disable/hide an unneeded chart altogether.</p>
+            <p><strong><u>Warning:</u> You must make sure that <u>every UPS variable field has a value set</u>, either a UPS variable or <em>disable</em></strong>.</p>
+            <p><strong><u>Warning:</u> You can only use <u>numeric (number) UPS variables</u>, which are also existent in the <u>NUT Details</u> table on this page!</strong></p>
+            </blockquote>
+        </div>
 
-    </div> 
-
-    <div id="STATS-OR-PREF" style="display: none;">
-        <dl>
-            <dt><em>Statistics Chart 1 - UPS Variable:</em></dt>
-            <dd>
-                <input id="STATSCHART1VAR" type="text" name="STATSCHART1VAR" value="<?=htmlspecialchars($nut_stats_c1_var);?>" title="Statistics Chart 1 - UPS Variable">
-            </dd>
-        </dl>
-        <dl>
-            <dt><em>Statistics Chart 1 - Description Text:</em></dt>
-            <dd>
-                <input id="STATSCHART1TXT" type="text" name="STATSCHART1TXT" value="<?=htmlspecialchars($nut_stats_c1_txt);?>" title="Statistics Chart 1 - Description Text">
-            </dd>
-        </dl>
-        <dl>
-            <dt><em>Statistics Chart 2 - UPS Variable:</em></dt>
-            <dd>
-                <input id="STATSCHART2VAR" type="text" name="STATSCHART2VAR" value="<?=htmlspecialchars($nut_stats_c2_var);?>" title="Statistics Chart 2 - UPS Variable">
-            </dd>
-        </dl>
-        <dl>
-            <dt><em>Statistics Chart 2 - Description Text:</em></dt>
-            <dd>
-                <input id="STATSCHART2TXT" type="text" name="STATSCHART2TXT" value="<?=htmlspecialchars($nut_stats_c2_txt);?>" title="Statistics Chart 2 - Description Text">
-            </dd>
-        </dl>
-        <dl>
-            <dt><em>Statistics Chart 3 - UPS Variable:</em></dt>
-            <dd>
-                <input id="STATSCHART3VAR" type="text" name="STATSCHART3VAR" value="<?=htmlspecialchars($nut_stats_c3_var);?>" title="Statistics Chart 3 - UPS Variable">
-            </dd>
-        </dl>
-        <dl>
-            <dt><em>Statistics Chart 3 - Description Text:</em></dt>
-            <dd>
-                <input id="STATSCHART3TXT" type="text" name="STATSCHART3TXT" value="<?=htmlspecialchars($nut_stats_c3_txt);?>" title="Statistics Chart 3 - Description Text">
-            </dd>
-        </dl>
-        <dl>
-            <dt><em>Statistics Chart 4 - UPS Variable:</em></dt>
-            <dd>
-                <input id="STATSCHART4VAR" type="text" name="STATSCHART4VAR" value="<?=htmlspecialchars($nut_stats_c4_var);?>" title="Statistics Chart 4 - UPS Variable">
-            </dd>
-        </dl>
-        <dl>
-            <dt><em>Statistics Chart 4 - Description Text:</em></dt>
-            <dd>
-                <input id="STATSCHART4TXT" type="text" name="STATSCHART4TXT" value="<?=htmlspecialchars($nut_stats_c4_txt);?>" title="Statistics Chart 4 - Description Text">
-            </dd>
-        </dl>
-        <dl>
-            <dt><em>Statistics Chart 5 - UPS Variable:</em></dt>
-            <dd>
-                <input id="STATSCHART5VAR" type="text" name="STATSCHART5VAR" value="<?=htmlspecialchars($nut_stats_c5_var);?>" title="Statistics Chart 5 - UPS Variable">
-            </dd>
-        </dl>
-        <dl>
-            <dt><em>Statistics Chart 5 - Description Text:</em></dt>
-            <dd>
-                <input id="STATSCHART5TXT" type="text" name="STATSCHART5TXT" value="<?=htmlspecialchars($nut_stats_c5_txt);?>" title="Statistics Chart 5 - Description Text">
-            </dd>
-        </dl>
-        <dl>
-            <dt><em>Statistics Chart 6 - UPS Variable:</em></dt>
-            <dd>
-                <input id="STATSCHART6VAR" type="text" name="STATSCHART6VAR" value="<?=htmlspecialchars($nut_stats_c6_var);?>" title="Statistics Chart 6 - UPS Variable">
-            </dd>
-        </dl>
-        <dl>
-            <dt><em>Statistics Chart 6 - Description Text:</em></dt>
-            <dd>
-                <input id="STATSCHART6TXT" type="text" name="STATSCHART6TXT" value="<?=htmlspecialchars($nut_stats_c6_txt);?>" title="Statistics Chart 6 - Description Text">
-            </dd>
-        </dl>
-        <dl>
-            <dt><em>Statistics Chart 7 - UPS Variable:</em></dt>
-            <dd>
-                <input id="STATSCHART7VAR" type="text" name="STATSCHART7VAR" value="<?=htmlspecialchars($nut_stats_c7_var);?>" title="Statistics Chart 7 - UPS Variable">
-            </dd>
-        </dl>
-        <dl>
-            <dt><em>Statistics Chart 7 - Description Text:</em></dt>
-            <dd>
-                <input id="STATSCHART7TXT" type="text" name="STATSCHART7TXT" value="<?=htmlspecialchars($nut_stats_c7_txt);?>" title="Statistics Chart 7 - Description Text">
-            </dd>
-        </dl>      
+        <div id="STATS-OR-PREF" style="display: none;">
+            <dl>
+                <dt><em>Statistics Chart 1 - UPS Variable:</em></dt>
+                <dd>
+                    <input id="STATSCHART1VAR" type="text" name="STATSCHART1VAR" value="<?=htmlspecialchars($nut_stats_c1_var);?>">
+                </dd>
+            </dl>
+            <dl>
+                <dt><em>Statistics Chart 1 - Description Text:</em></dt>
+                <dd>
+                    <input id="STATSCHART1TXT" type="text" name="STATSCHART1TXT" value="<?=htmlspecialchars($nut_stats_c1_txt);?>">
+                </dd>
+            </dl>
+            <dl>
+                <dt><em>Statistics Chart 2 - UPS Variable:</em></dt>
+                <dd>
+                    <input id="STATSCHART2VAR" type="text" name="STATSCHART2VAR" value="<?=htmlspecialchars($nut_stats_c2_var);?>">
+                </dd>
+            </dl>
+            <dl>
+                <dt><em>Statistics Chart 2 - Description Text:</em></dt>
+                <dd>
+                    <input id="STATSCHART2TXT" type="text" name="STATSCHART2TXT" value="<?=htmlspecialchars($nut_stats_c2_txt);?>">
+                </dd>
+            </dl>
+            <dl>
+                <dt><em>Statistics Chart 3 - UPS Variable:</em></dt>
+                <dd>
+                    <input id="STATSCHART3VAR" type="text" name="STATSCHART3VAR" value="<?=htmlspecialchars($nut_stats_c3_var);?>">
+                </dd>
+            </dl>
+            <dl>
+                <dt><em>Statistics Chart 3 - Description Text:</em></dt>
+                <dd>
+                    <input id="STATSCHART3TXT" type="text" name="STATSCHART3TXT" value="<?=htmlspecialchars($nut_stats_c3_txt);?>">
+                </dd>
+            </dl>
+            <dl>
+                <dt><em>Statistics Chart 4 - UPS Variable:</em></dt>
+                <dd>
+                    <input id="STATSCHART4VAR" type="text" name="STATSCHART4VAR" value="<?=htmlspecialchars($nut_stats_c4_var);?>">
+                </dd>
+            </dl>
+            <dl>
+                <dt><em>Statistics Chart 4 - Description Text:</em></dt>
+                <dd>
+                    <input id="STATSCHART4TXT" type="text" name="STATSCHART4TXT" value="<?=htmlspecialchars($nut_stats_c4_txt);?>">
+                </dd>
+            </dl>
+            <dl>
+                <dt><em>Statistics Chart 5 - UPS Variable:</em></dt>
+                <dd>
+                    <input id="STATSCHART5VAR" type="text" name="STATSCHART5VAR" value="<?=htmlspecialchars($nut_stats_c5_var);?>">
+                </dd>
+            </dl>
+            <dl>
+                <dt><em>Statistics Chart 5 - Description Text:</em></dt>
+                <dd>
+                    <input id="STATSCHART5TXT" type="text" name="STATSCHART5TXT" value="<?=htmlspecialchars($nut_stats_c5_txt);?>">
+                </dd>
+            </dl>
+            <dl>
+                <dt><em>Statistics Chart 6 - UPS Variable:</em></dt>
+                <dd>
+                    <input id="STATSCHART6VAR" type="text" name="STATSCHART6VAR" value="<?=htmlspecialchars($nut_stats_c6_var);?>">
+                </dd>
+            </dl>
+            <dl>
+                <dt><em>Statistics Chart 6 - Description Text:</em></dt>
+                <dd>
+                    <input id="STATSCHART6TXT" type="text" name="STATSCHART6TXT" value="<?=htmlspecialchars($nut_stats_c6_txt);?>">
+                </dd>
+            </dl>
+            <dl>
+                <dt><em>Statistics Chart 7 - UPS Variable:</em></dt>
+                <dd>
+                    <input id="STATSCHART7VAR" type="text" name="STATSCHART7VAR" value="<?=htmlspecialchars($nut_stats_c7_var);?>">
+                </dd>
+            </dl>
+            <dl>
+                <dt><em>Statistics Chart 7 - Description Text:</em></dt>
+                <dd>
+                    <input id="STATSCHART7TXT" type="text" name="STATSCHART7TXT" value="<?=htmlspecialchars($nut_stats_c7_txt);?>">
+                </dd>
+            </dl>      
+        </div>
     </div>
-    </div>  
 
     <dl>
         <dt>UPS Power and Load Display Settings:</dt>
@@ -673,7 +672,7 @@ $showStatPrefs = version_compare(parse_ini_file('/etc/unraid-version')['version'
         <dl>
             <dt>UPS Output Volt Ampere Capacity (VA):</dt>
             <dd>
-                <input id="POWERVA" type="text" class="narrow nut-power" name="POWERVA" maxlength="5" value="<?=htmlspecialchars($nut_powerva);?>" title="nut ups capacity (VA)">
+                <input id="POWERVA" type="text" class="narrow nut-power" name="POWERVA" maxlength="5" value="<?=htmlspecialchars($nut_powerva);?>">
             </dd>
         </dl>
 
@@ -684,7 +683,7 @@ $showStatPrefs = version_compare(parse_ini_file('/etc/unraid-version')['version'
         <dl>
             <dt>UPS Output Watt Capacity (W):</dt>
             <dd>
-                <input id="POWERW" type="text" class="narrow nut-power" name="POWERW" maxlength="4" value="<?=htmlspecialchars($nut_powerw);?>" title="nut ups name">
+                <input id="POWERW" type="text" class="narrow nut-power" name="POWERW" maxlength="4" value="<?=htmlspecialchars($nut_powerw);?>">
             </dd>
         </dl>
 
@@ -722,16 +721,155 @@ $showStatPrefs = version_compare(parse_ini_file('/etc/unraid-version')['version'
 <script src="<?=autov('/plugins/nut/js/jquery.mask.min.js');?>"></script>
 
 <script type="text/javascript">
+function checkNUTsettings() {
+    $('#SETTINGS').hide();
+    $('#DRIVERS').hide();
+    $('#SLAVE').hide();
+    $('#UPSKILL').hide();
+    $('#SERIAL').prop('type', 'hidden');
+    $('#snmp').hide();
+    $('#SHUTDOWN0').hide();
+    $('#SHUTDOWN1').hide();
+    $('#SHUTDOWN2').hide();
+
+    if ($('#MANUAL').val() === 'enable') {
+        $('#SETTINGS').hide();
+    } else if ($('#MANUAL').val() === 'onlyups') {
+        $('#SETTINGS').show();
+
+        var Shutdown = $('#SHUTDOWN')[0].selectedIndex;
+        for (var i = 0; i < 3; i++) {
+            if (i == Shutdown) {
+                $('#SHUTDOWN'+i).show();
+            } else {
+                $('#SHUTDOWN'+i).hide();
+            }
+        }
+
+        if ($('#MODE')[0].selectedIndex < 2){
+            //standalone+netserver
+            $('#IPADDR').val('127.0.0.1');
+            $('#IPADDR').attr('readonly', true);
+            $('#UPSKILL').show();
+        }else{
+            //slave
+            $('#IPADDR').attr('readonly', false);
+            $('#UPSKILL').hide();
+        }
+        if ($('#MODE')[0].selectedIndex != 1) {
+            //standalone+slave
+            $('#SLAVE').hide();
+        } else {
+            //netserver
+            $('#SLAVE').show();
+        }
+    } else {
+        $('#SETTINGS').show();
+
+        var Shutdown = $('#SHUTDOWN')[0].selectedIndex;
+        for (var i = 0; i < 3; i++) {
+            if (i == Shutdown) {
+                $('#SHUTDOWN'+i).show();
+            } else {
+                $('#SHUTDOWN'+i).hide();
+            }
+        }
+
+        if ($('#MODE')[0].selectedIndex < 2){
+            //standalone+netserver
+            $('#IPADDR').val('127.0.0.1');
+            $('#IPADDR').attr('readonly', true);
+            $('#UPSKILL').show();
+            
+            $('#DRIVERS').show();
+
+            if ($('#DRIVER').val() == 'custom' ) {
+                $('#SERIAL').prop('type', 'text');
+            } else {
+                $('#SERIAL').prop('type', 'hidden');
+            }
+
+            if ($('#DRIVER').val() == 'snmp-ups' ) {
+                $('#snmp').show();
+            } else {
+                $('#snmp').hide();
+            }
+        }else{
+            //slave
+            $('#IPADDR').attr('readonly', false);
+            $('#UPSKILL').hide();
+        }
+        if ($('#MODE')[0].selectedIndex != 1) {
+            //standalone+slave
+            $('#SLAVE').hide();
+        } else {
+            //netserver
+            $('#SLAVE').show();
+        }
+    }
+}
+
+function checkNUTSTATsettings(toggleChanged = true) {
+    $('#STATS-OR').hide();
+    $('#STATS-OR-PREF').hide();
+    if (toggleChanged) {
+        $('#command2').val('/usr/local/emhttp/plugins/nut/scripts/clear_stats');
+    }
+    if ($('#STATISTICS').val() === 'enable') {
+        $('#STATS-OR').show();
+        if ($('#STATISTICS').val() === 'enable' && $('#STATSOVERRIDE').val() === 'enable') {
+            $('#STATS-OR-PREF').show();
+        } else {
+            $('#STATS-OR-PREF').hide();
+        }
+    } else {
+        $('#STATS-OR').hide();
+        $('#STATS-OR-PREF').hide();
+    }
+}
+
+function checkRUNNING() {
+    if ($('#SERVICE').val() === 'enable')
+        $('#command').val('/usr/local/emhttp/plugins/nut/scripts/start');
+    else
+        $('#command').val('/usr/local/emhttp/plugins/nut/scripts/stop');
+
+    if ("<?=$nut_running;?>" == 1){
+        $('.nut-run').prop('disabled', true);
+        $('.nut-ipaddr').prop('disabled', true);
+        $('#RELOAD').prop('disabled', false);
+    }else{
+        $('.nut-run').prop('disabled', false);
+        $('.nut-ipaddr').prop('disabled', false);
+        $('#RELOAD').prop('disabled', true);
+    }
+
+    checkNUTsettings();
+}
+
+function checkPOWER() {
+    if ($('#POWER')[0].selectedIndex < 1)
+        $('#POWER-SETTINGS').hide();
+    else
+        $('#POWER-SETTINGS').show();
+}
+
+function decData() {
+    $('#MONPASS').val(atob($('#MONPASS').val()));
+    $('#SLAVEPASS').val(atob($('#SLAVEPASS').val()));
+}
+
+function Reload() {
+    $('#command').val('/usr/local/emhttp/plugins/nut/scripts/reload');
+}
+
+function ResetConfig() {
+    $('#command').val('');
+    openBox('/plugins/nut/scripts/resetconf', 'NUT Configuration Reset', 600, 600, true);
+}
+
 $(function() {
     showStatus('upsmon');
-
-    // dynamix plugin update api
-    <?if (function_exists('plugin_update_available') && $version = plugin_update_available('nut-dw')):?>
-        showNotice('NUT <?=htmlspecialchars($version);?> available. <a>Update</a>','nut-dw');
-        $('#user-notice a').on('click', function () {
-        $('#user-notice').empty();
-    });
-    <?endif;?>
 
     $('.nut-ipaddr').mask('0ZZ.0ZZ.0ZZ.0ZZ', {translation:  {'Z': {pattern: /[0-9]/, optional: true}}});
 
@@ -744,9 +882,7 @@ $(function() {
     $('.nut-power').mask('ZZZZZ', {translation:  {'Z': {pattern: /[0-9]/, optional: true}}});
 
     $('#SCAN').click(function() {
-        // do not run any additional commands in case browser wrongly triggers submit
         $('#command').val('');
-        // open shadowbox window (run in foreground)
         openBox('/plugins/nut/scripts/nutscan', 'NUT Scanner', 600, 600, true);
     });
 
@@ -765,159 +901,24 @@ $(function() {
         $('#nut-settings').submit();
     });
 
-    $('#POWER').change(checkPOWER);
-    $('#DRIVER').change(checkDRIVER);
-    $('#MANUAL').change(checkSETTINGS);
-    $('#RELOAD').click(Reload);
+    $('#DRIVER').change(checkNUTsettings);
+    $('#MANUAL').change(checkNUTsettings);
+    $('#SHUTDOWN').change(checkNUTsettings);
+    $('#MODE').change(checkNUTsettings);
     $('#SERVICE').change(checkRUNNING);
-    $('#SHUTDOWN').change(checkSHUTDOWN);
-    $('#MODE').change(checkMODE);
-    $('#STATISTICS').change(checkSTATS);
-    $('#STATSOVERRIDE').change(checkSTATSor);
-    $('#STATS-OR-PREF').change(checkSTATSorp);
-    $('#STATSPOLL').change(checkSTATSorp);
 
+    $('#STATISTICS').change(checkNUTSTATsettings);
+    $('#STATSOVERRIDE').change(checkNUTSTATsettings);
+    $('#STATS-OR-PREF').change(checkNUTSTATsettings);
+    $('#STATSPOLL').change(checkNUTSTATsettings);
+    $('#POWER').change(checkPOWER);
 
-    checkMODE();
-    checkPOWER();
-    checkSETTINGS();
+    $('#RELOAD').click(Reload);
+
     checkRUNNING();
-    checkDRIVER();
-    checkSHUTDOWN();
-    initSTATS();
-    initSTATSor();
+    checkPOWER();
+    checkNUTSTATsettings(false);
 
     decData();
 });
-
-function decData(){
-    $('#MONPASS').val(atob($('#MONPASS').val()));
-    $('#SLAVEPASS').val(atob($('#SLAVEPASS').val()));
-}
-
-function checkRUNNING(){
-    if ($('#SERVICE').val() === 'enable')
-        $('#command').val('/usr/local/emhttp/plugins/nut/scripts/start');
-    else
-        $('#command').val('/usr/local/emhttp/plugins/nut/scripts/stop');
-
-    if ("<?=$nut_running;?>" == 1){
-        $('.nut-run').prop('disabled', true);
-        $('.nut-ipaddr').prop('disabled', true);
-        $('#RELOAD').prop('disabled', false);
-    }else{
-        $('.nut-run').prop('disabled', false);
-        $('#RELOAD').prop('disabled', true);
-    }
-}
-
-function checkDRIVER(){
-    if ($('#DRIVER').val() == 'custom' ) {
-        $('#SERIAL').prop('type', 'text');
-    }else
-        $('#SERIAL').prop('type', 'hidden');
-
-    if ($('#DRIVER').val() == 'snmp-ups' ){
-        $('#snmp').show();
-    }else{
-        $('#snmp').hide();
-    }
-}
-
-function checkSETTINGS(){
-    if ($('#MANUAL').val() === 'enable'){
-        $('#SETTINGS').hide();
-    } else if ($('#MANUAL').val() === 'onlyups') {
-        $('#DRIVERS').hide();
-        $('#snmp').hide();
-    } else {
-        $('#SETTINGS').show();
-        $('#DRIVERS').show();
-        checkDRIVER();
-    }
-}
-
-function checkPOWER(){
-    if ($('#POWER')[0].selectedIndex < 1)
-        $('#POWER-SETTINGS').hide();
-    else
-        $('#POWER-SETTINGS').show();
-}
-
-function checkSHUTDOWN(){
-    var Shutdown = $('#SHUTDOWN')[0].selectedIndex;
-    for (var i = 0; i < 3; i++) {
-        if (i == Shutdown)
-            $('#SHUTDOWN'+i).show();
-        else
-            $('#SHUTDOWN'+i).hide();
-    }
-}
-
-function checkMODE(){
-    if ($('#MODE')[0].selectedIndex < 2){
-        $('#IPADDR').val('127.0.0.1').attr('readonly', true);
-        $('#DRIVERS').show();
-        $('#UPSKILL').show();
-    }else{
-        //Mode equals slave
-        $('#IPADDR').val("<?=$nut_ip;?>").prop('disabled', false).attr('readonly', false);
-        $('#DRIVERS').hide();
-        $('#UPSKILL').hide();
-    }
-    if ($('#MODE')[0].selectedIndex != 1)
-        $('#SLAVE').hide();
-    else
-        $('#SLAVE').show();
-}
-
-function Reload(){
-    $('#command').val('/usr/local/emhttp/plugins/nut/scripts/reload');
-}
-
-function initSTATS(){
-    if ($('#STATISTICS').val() === 'enable') {
-        $('#STATS-OR').show();    
-    } else {
-        $('#STATS-OR').hide();
-    }
-}
-
-function checkSTATS(){
-    if ($('#STATISTICS').val() === 'enable') {
-        $('#STATS-OR').show();    
-        checkSTATSor();
-    } else {
-        $('#STATS-OR').hide();
-        checkSTATSor();
-    }
-    $('#command2').val('/usr/local/emhttp/plugins/nut/scripts/clear_stats');
-}
-
-function initSTATSor(){
-    if ($('#STATISTICS').val() === 'enable' && $('#STATSOVERRIDE').val() === 'enable') {
-        $('#STATS-OR-PREF').show();    
-    } else {
-        $('#STATS-OR-PREF').hide();
-    }
-}
-
-
-function checkSTATSor(){
-    if ($('#STATISTICS').val() === 'enable' && $('#STATSOVERRIDE').val() === 'enable') {
-        $('#STATS-OR-PREF').show();    
-    } else {
-        $('#STATS-OR-PREF').hide();
-    }
-    $('#command2').val('/usr/local/emhttp/plugins/nut/scripts/clear_stats');
-}
-
-function checkSTATSorp(){
-    $('#command2').val('/usr/local/emhttp/plugins/nut/scripts/clear_stats');
-}
-
-function ResetConfig(){
-    $('#command').val('');
-    openBox('/plugins/nut/scripts/resetconf', 'NUT Configuration Reset', 600, 600, true);
-}
 </script>
