@@ -31,13 +31,13 @@ $showStatPrefs = version_compare(parse_ini_file('/etc/unraid-version')['version'
 $lastStartFailed = false;
 
 if (file_exists('/usr/local/emhttp/plugins/nut/start-failed')) {
-    $lastStartFailed = true;
+    if (!$nut_running) { $lastStartFailed = true; }
     unlink('/usr/local/emhttp/plugins/nut/start-failed');
 }
 ?>
 
 <?if ($lastStartFailed):?>
-<div style="border: 1px solid red;padding: 5px;color: red;">
+<div style="border: 1px solid red;padding: 5px;color: red;" id="errormsg">
     NUT was not able to start successfully - please check the <a href="/Tools/Syslog" target="_blank">SYSLOG</a> for more information.
 </div><br>
 <?endif;?>
@@ -933,5 +933,10 @@ $(function() {
     checkNUTSTATsettings(false);
 
     decData();
+
+    if ($('#errormsg').length) {
+        $('#SERVICE').val('disable');
+        checkRUNNING();
+    }
 });
 </script>
