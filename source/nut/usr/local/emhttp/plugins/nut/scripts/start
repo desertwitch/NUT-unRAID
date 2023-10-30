@@ -14,5 +14,9 @@
 # included in all copies or substantial portions of the Software.
 #
 
+DOCROOT="/usr/local/emhttp/plugins/nut"
+
 echo "Starting NUT services..."
 /etc/rc.d/rc.nut start | logger
+
+[ "${PIPESTATUS[0]}" != 0 ] && touch $DOCROOT/start-failed

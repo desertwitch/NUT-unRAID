@@ -27,7 +27,21 @@ Markdown="false"
 ?>
 <?PHP
 require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php';
-$showStatPrefs = version_compare(parse_ini_file('/etc/unraid-version')['version'],'6.12.3', '>'); ?>
+$showStatPrefs = version_compare(parse_ini_file('/etc/unraid-version')['version'],'6.12.3', '>');
+$lastStartFailed = false;
+
+if (file_exists('/usr/local/emhttp/plugins/nut/start-failed')) {
+    $lastStartFailed = true;
+    unlink('/usr/local/emhttp/plugins/nut/start-failed');
+}
+?>
+
+<?if ($lastStartFailed):?>
+<div style="border: 3px solid red;padding: 5px;">
+    <strong>NUT was not able to start successfully - please check the <a href="/Tools/Syslog" target="_blank">SYSLOG</a> for more information!</strong>
+</div>
+<br>
+<?endif;?>
 
 <table class="tablesorter shift nut" <?if (!file_exists('/var/run/nut/upsmon.pid')):?>style="display:none"<?endif;?>>
 <thead><tr><th>UPS Status</th><th>Battery Charge</th><th>Runtime Left </th><th>Nominal Power</th><th>UPS Load</th><th>UPS Load</th><th>Power Factor</th></tr></tr></thead>
