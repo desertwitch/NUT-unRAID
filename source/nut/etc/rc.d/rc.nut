@@ -27,19 +27,25 @@ export NUT_DEBUG_PID
 PROG="nut"
 PLGPATH="/boot/config/plugins/$PROG"
 CONFIG=$PLGPATH/$PROG.cfg
+DOCROOT="/usr/local/emhttp/plugins/nut"
 
 # read our configuration
 [ -e "$CONFIG" ] && source $CONFIG
 
+error_at_start() {
+    touch $DOCROOT/start-failed
+    exit 1
+}
+
 start_driver() {
-    /usr/sbin/upsdrvctl -u root start 2>&1 || exit 1
+    /usr/sbin/upsdrvctl -u root start 2>&1 || error_at_start
 }
 
 start_upsd() {
     if pgrep -x upsd >/dev/null 2>&1; then
         echo "$PROG NUT upsd is running..."
     else
-        /usr/sbin/upsd -u root || exit 1
+        /usr/sbin/upsd -u root || error_at_start
     fi
 }
 
@@ -47,7 +53,7 @@ start_upsmon() {
     if pgrep upsmon >/dev/null 2>&1; then
         echo "$PROG NUT upsmon is running..."
     else
-        /usr/sbin/upsmon -u root || exit 1
+        /usr/sbin/upsmon -u root || error_at_start
     fi
 }
 
