@@ -15,11 +15,18 @@
 # included in all copies or substantial portions of the Software.
 #
 
+DRIVERPATH=/usr/libexec/nut
+export PATH=$PATH:$DRIVERPATH
+
+NUT_QUIET_INIT_UPSNOTIFY=true
+export NUT_QUIET_INIT_UPSNOTIFY
+
+NUT_DEBUG_PID=true
+export NUT_DEBUG_PID
+
 PROG="nut"
 PLGPATH="/boot/config/plugins/$PROG"
 CONFIG=$PLGPATH/$PROG.cfg
-DPATH=/usr/bin
-export PATH=$DPATH:$PATH
 
 # read our configuration
 [ -e "$CONFIG" ] && source $CONFIG

@@ -14,7 +14,6 @@
 # included in all copies or substantial portions of the Software.
 #
 
-PATH=/sbin:/usr/sbin:/bin:/usr/bin:/usr/local/sbin:/usr/local/bin
 PROG="nut"
 PLGPATH="/boot/config/plugins/$PROG"
 CONFIG=$PLGPATH/$PROG.cfg
@@ -79,7 +78,7 @@ then
 
         echo "$0": commencing shutdown | wall
         $NOTIFY -e "${EVENT}" -s "Alert ${SUBJECT} Shutdown" -d "unRAID is being shut down." -i "alert"
-        upsmon -c fsd
+        /usr/sbin/upsmon -c fsd
 
 elif [ "$NOTIFYTYPE" = "REPLBATT" ] 
 then

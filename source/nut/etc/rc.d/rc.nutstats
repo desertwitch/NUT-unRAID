@@ -18,8 +18,6 @@ PROG="nut"
 PLGPATH="/boot/config/plugins/$PROG"
 DOCROOT="/usr/local/emhttp/plugins/nut"
 CONFIG=$PLGPATH/$PROG.cfg
-DPATH=/usr/bin
-export PATH=$DPATH:$PATH
 
 # read our configuration
 [ -e "$CONFIG" ] && source $CONFIG
