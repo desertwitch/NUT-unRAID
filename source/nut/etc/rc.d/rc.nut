@@ -53,6 +53,22 @@ start_upsmon() {
 
 stop() {
     echo "Stopping the NUT services... "
+    if pgrep -x upsmon >/dev/null 2>&1; then
+        /usr/sbin/upsmon -c stop
+
+        TIMER=0
+        while killall upsmon 2>/dev/null; do
+            sleep 1
+            killall upsmon
+            TIMER=$((TIMER+1))
+            if [ $TIMER -ge 30 ]; then
+                killall -9 upsmon
+                sleep 1
+                break
+            fi
+        done
+    fi
+
     if pgrep -x upsd >/dev/null 2>&1; then
         /usr/sbin/upsd -c stop
 
@@ -63,22 +79,6 @@ stop() {
             TIMER=$((TIMER+1))
             if [ $TIMER -ge 30 ]; then
                 killall -9 upsd
-                sleep 1
-                break
-            fi
-        done
-    fi
-
-    if pgrep upsmon >/dev/null 2>&1; then
-        /usr/sbin/upsmon -c stop
-
-        TIMER=0
-        while killall upsmon 2>/dev/null; do
-            sleep 1
-            killall upsmon
-            TIMER=$((TIMER+1))
-            if [ $TIMER -ge 30 ]; then
-                killall -9 upsmon
                 sleep 1
                 break
             fi
