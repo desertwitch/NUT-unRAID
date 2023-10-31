@@ -33,7 +33,9 @@ DOCROOT="/usr/local/emhttp/plugins/nut"
 [ -e "$CONFIG" ] && source $CONFIG
 
 error_at_start() {
-    touch $DOCROOT/start-failed
+    if [ -d $DOCROOT/misc ]; then
+        touch $DOCROOT/misc/start-failed
+    fi
     exit 1
 }
 
@@ -50,7 +52,7 @@ start_upsd() {
 }
 
 start_upsmon() {
-    if pgrep upsmon >/dev/null 2>&1; then
+    if pgrep -x upsmon >/dev/null 2>&1; then
         echo "$PROG NUT upsmon is running..."
     else
         /usr/sbin/upsmon -u root || error_at_start

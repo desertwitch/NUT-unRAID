@@ -38,7 +38,7 @@ fi
 
 echo "Pulling default configuration files from package..."
 cp -f $DOCROOT/default.cfg $BOOT/nut.cfg
-cp -rf $DOCROOT/nut/* $BOOT/ups
+cp -rf $DOCROOT/nut-defaults/* $BOOT/ups
 cp -rf $BOOT/ups/* /etc/nut
 
 echo "Setting up permissions on configuration locations..."

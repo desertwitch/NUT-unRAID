@@ -30,9 +30,9 @@ require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php';
 $showStatPrefs = version_compare(parse_ini_file('/etc/unraid-version')['version'],'6.12.3', '>');
 $lastStartFailed = false;
 
-if (file_exists('/usr/local/emhttp/plugins/nut/start-failed')) {
+if (file_exists('/usr/local/emhttp/plugins/nut/misc/start-failed')) {
     if (!$nut_running) { $lastStartFailed = true; }
-    unlink('/usr/local/emhttp/plugins/nut/start-failed');
+    unlink('/usr/local/emhttp/plugins/nut/misc/start-failed');
 }
 ?>
 

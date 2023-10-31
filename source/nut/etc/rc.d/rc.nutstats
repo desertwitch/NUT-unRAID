@@ -70,7 +70,7 @@ echo "Enabling the NUT Runtime Statistics Module..."
         chmod 644 /etc/nutstats/*
         chown root:root /etc/nutstats/*
 
-        cp -f  $DOCROOT/nutstats.cron /boot/config/plugins/dynamix/nutstats.cron
+        cp -f  $DOCROOT/misc/nutstats.cron /boot/config/plugins/dynamix/nutstats.cron
 
         if [ "$STATSPOLL" == "01min" ]; then
             sleep 1
