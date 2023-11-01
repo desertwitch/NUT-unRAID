@@ -85,6 +85,8 @@ $(function(){
         hintOptions: {}
     });
 
+    editor.setSize(null, 400);
+
     $('#tab2').click(function () {
         editor.refresh();
     });

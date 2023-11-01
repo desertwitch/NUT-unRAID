@@ -284,6 +284,15 @@ $(function() {
   <?endif;?>
 
   updateNUTcharts();
+
+  // dynamix plugin update api
+  <?if (function_exists('plugin_update_available') && $version = plugin_update_available('nut-dw')):?>
+  showNotice('NUT <?=htmlspecialchars($version);?> available. <a>Update</a>','nut-dw');
+  $('#user-notice a').on('click', function () {
+    $('#user-notice').empty();
+  });
+  <?endif;?>
+
 });
 </script>
 <?endif;?>

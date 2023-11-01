@@ -3,14 +3,14 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "nut">
 <!ENTITY author    "desertwitch">
-<!ENTITY version   "2023.10.28">
+<!ENTITY version   "2023.11.01">
 <!ENTITY launch    "Settings/NUTsettings">
 <!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/master">
 <!ENTITY pluginURL "&gitURL;/plugin/&name;-dw.plg">
 <!ENTITY pkgURL    "&gitURL;/packages">
 <!ENTITY plgPATH   "/boot/config/plugins/&name;">
-<!ENTITY plgNAME   "nut-plugin-2023.10.28-x86_64-1">
-<!ENTITY plgMD5    "4a0c113d8ba6cb6ae97d49cbe396492c">
+<!ENTITY plgNAME   "nut-plugin-2023.11.01-x86_64-1">
+<!ENTITY plgMD5    "994cf19c062b739a8b36e4d16356165d">
 <!ENTITY emhttp    "/usr/local/emhttp/plugins/&name;">
 ]>
 
@@ -18,19 +18,12 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
-
-#### Warning for users considering to update an existing NUT installation:
-
-Be advised that the default backend (including the UPS drivers) is developed further and subject to change.
-
-Backend development can never plan for all UPS devices and updating comes with a chance of degraded UPS compatibility.
-
-That means if NUT works well for you and you are happy with everything, updating is not going to bring you much benefit.
-
-Most of the changes are intended towards simplifying new installations and users having problems with their UPS devices.
-
-So please read the following changelog carefully and consider if you really need these changes on your working system:
-
+###2023.11.01
+- new: default backend pinned to NUT 2.8.1 stable release, no more frequent backend changes from here
+- new: users who want all bleeding-edge changes can select "preview (latest build)" as backend instead
+- new: the previous update warning is no longer in effect for the default backend (as it is pinned now)
+- new: unsuccessful start of NUT services is now shown as an error message in the GUI pointing to logs
+- new: NUT environment variables are now in effect to reduce spamming of some diagnostic/debug messages
 ###2023.10.28
 - fix: cleaned up all code files in preparation of the NUT 2.8.1 stable backend currently in the works
 - fix: reworked the GUI visibility toggles so that all mode-unrelated settings are now hidden from GUI
@@ -126,7 +119,7 @@ So please read the following changelog carefully and consider if you really need
 ###2023.07.24a
 - fix override realpower if realpower nominal set manually
 - simplification of realpower/apparent power if value set manually
-- used   to separate number and unit (W/VA)
+- used U+2009 to separate number and unit (W/VA)
 - remove obsolete lowbatt fail-safe
         Thanks to forum member Peuuuur Noel and Rysz for the PRs.
 ###2023.07.23a
@@ -327,6 +320,11 @@ install or upgrade dependency files
 <MD5>cb9cd5e33094d64ebcd84bfeeab1a6fc</MD5>
 </FILE>
 
+<FILE Name="&plgPATH;/nut-2.8.1-x86_64-1stable.ssl11.txz" Min="6.10" Max="6.12.99">
+<URL>&pkgURL;/nut-2.8.1-x86_64-1stable.ssl11.txz</URL>
+<MD5>d85d38dbb8b3ef1aa325392599fe4cb5</MD5>
+</FILE>
+
 <FILE Name="&plgPATH;/nut-2.8.0-x86_64-1stable.ssl11.txz" Min="6.10" Max="6.12.99">
 <URL>&pkgURL;/nut-2.8.0-x86_64-1stable.ssl11.txz</URL>
 <MD5>c85081d018dff6661b563021e4cec293</MD5>
@@ -342,9 +340,12 @@ install or upgrade dependency files
 CONFIG=&plgPATH;/&name;.cfg
 if [ -e "$CONFIG" ]; then
     source "$CONFIG"
-    if [ "$BACKEND" == "default" ]; then
-        echo "Installing DEFAULT backend for NUT..."
+    if [ "$BACKEND" == "preview" ]; then
+        echo "Installing user-configured PREVIEW backend for NUT..."
         upgradepkg --install-new &plgPATH;/nut-2.8.0-x86_64-12master.ssl11.txz
+    elif [ "$BACKEND" == "default" ]; then
+        echo "Installing DEFAULT backend for NUT..."
+        upgradepkg --install-new &plgPATH;/nut-2.8.1-x86_64-1stable.ssl11.txz
     elif [ "$BACKEND" == "stable" ]; then
         echo "Installing user-configured STABLE backend for NUT..."
         upgradepkg --install-new &plgPATH;/nut-2.8.0-x86_64-1stable.ssl11.txz
@@ -353,11 +354,11 @@ if [ -e "$CONFIG" ]; then
         upgradepkg --install-new &plgPATH;/nut-2.7.4.20200318-x86_64-1.txz
     else
         echo "Installing DEFAULT backend for NUT..."
-        upgradepkg --install-new &plgPATH;/nut-2.8.0-x86_64-12master.ssl11.txz
+        upgradepkg --install-new &plgPATH;/nut-2.8.1-x86_64-1stable.ssl11.txz
     fi
 else
     echo "Installing DEFAULT backend for NUT..."
-    upgradepkg --install-new &plgPATH;/nut-2.8.0-x86_64-12master.ssl11.txz
+    upgradepkg --install-new &plgPATH;/nut-2.8.1-x86_64-1stable.ssl11.txz
 fi
 </INLINE>
 </FILE>

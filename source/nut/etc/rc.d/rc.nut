@@ -59,6 +59,18 @@ start_upsmon() {
     fi
 }
 
+start() {
+    sleep 1
+    write_config
+    sleep 1
+    if [ "$MODE" != "slave" ]; then
+        start_driver
+        sleep 1
+        start_upsd
+    fi
+    start_upsmon
+}
+
 stop() {
     echo "Stopping the NUT services... "
     if pgrep -x upsmon >/dev/null 2>&1; then
@@ -291,15 +303,7 @@ case "$1" in
         fi
         ;;
     start)  # starts everything (for a ups server box)
-        sleep 1
-        write_config
-        sleep 1
-        if [ "$MODE" != "slave" ]; then
-            start_driver
-            sleep 1
-            start_upsd
-        fi
-        start_upsmon
+        start
         ;;
     start_upsmon) # starts upsmon only (for a ups client box)
         start_upsmon
@@ -321,6 +325,11 @@ case "$1" in
         fi
         /usr/sbin/upsmon -c reload
         ;;
+    restart)
+        stop
+        sleep 3
+        start
+        ;;
     restart_udev)
         if [ -f /etc/nut/killpower ]; then
             echo "Restarting udev for NUT to be able to shut the UPS inverter off..."
@@ -332,5 +341,5 @@ case "$1" in
         write_config
         ;;
     *)
-    echo "Usage: $0 {start|start_upsmon|stop|shutdown|reload|write_config}"
+    echo "Usage: $0 {start|start_upsmon|stop|shutdown|reload|restart|write_config}"
 esac

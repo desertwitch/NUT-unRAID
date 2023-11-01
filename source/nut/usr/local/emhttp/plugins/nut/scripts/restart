@@ -14,5 +14,5 @@
 # included in all copies or substantial portions of the Software.
 #
 
-echo "Reloading NUT services..."
-/etc/rc.d/rc.nut reload | logger
+echo "Restarting NUT services..."
+/etc/rc.d/rc.nut restart | logger
