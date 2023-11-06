@@ -3,14 +3,14 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "nut">
 <!ENTITY author    "desertwitch">
-<!ENTITY version   "2023.11.01">
+<!ENTITY version   "2023.11.06">
 <!ENTITY launch    "Settings/NUTsettings">
 <!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/master">
 <!ENTITY pluginURL "&gitURL;/plugin/&name;-dw.plg">
 <!ENTITY pkgURL    "&gitURL;/packages">
 <!ENTITY plgPATH   "/boot/config/plugins/&name;">
-<!ENTITY plgNAME   "nut-plugin-2023.11.01-x86_64-1">
-<!ENTITY plgMD5    "994cf19c062b739a8b36e4d16356165d">
+<!ENTITY plgNAME   "nut-plugin-2023.11.06-x86_64-1">
+<!ENTITY plgMD5    "b61b5d77056c2b0c3c59a821dd3cae1c">
 <!ENTITY emhttp    "/usr/local/emhttp/plugins/&name;">
 ]>
 
@@ -18,6 +18,8 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
+###2023.11.06
+- new: minor optimizations, re-factorings and overall quality of life improvements
 ###2023.11.01
 - new: default backend pinned to NUT 2.8.1 stable release, no more frequent backend changes from here
 - new: users who want all bleeding-edge changes can select "preview (latest build)" as backend instead
@@ -310,9 +312,9 @@ exit 0
 <!--
 install or upgrade dependency files
 -->
-<FILE Name="&plgPATH;/nut-2.8.1-x86_64-1stable.ssl31.txz" Min="6.13" Run="upgradepkg --install-new">
-<URL>&pkgURL;/nut-2.8.1-x86_64-1stable.ssl31.txz</URL>
-<MD5>1af8973e517c8210bc305e0d0df5cddd</MD5>
+<FILE Name="&plgPATH;/nut-2.8.1-x86_64-2stable.ssl31.txz" Min="6.13" Run="upgradepkg --install-new">
+<URL>&pkgURL;/nut-2.8.1-x86_64-2stable.ssl31.txz</URL>
+<MD5>7e4af2667739b62f104ec4a376f69814</MD5>
 </FILE>
 
 <FILE Name="&plgPATH;/nut-2.8.0-x86_64-12master.ssl11.txz" Min="6.10" Max="6.12.99">
@@ -320,9 +322,9 @@ install or upgrade dependency files
 <MD5>cb9cd5e33094d64ebcd84bfeeab1a6fc</MD5>
 </FILE>
 
-<FILE Name="&plgPATH;/nut-2.8.1-x86_64-1stable.ssl11.txz" Min="6.10" Max="6.12.99">
-<URL>&pkgURL;/nut-2.8.1-x86_64-1stable.ssl11.txz</URL>
-<MD5>d85d38dbb8b3ef1aa325392599fe4cb5</MD5>
+<FILE Name="&plgPATH;/nut-2.8.1-x86_64-2stable.ssl11.txz" Min="6.10" Max="6.12.99">
+<URL>&pkgURL;/nut-2.8.1-x86_64-2stable.ssl11.txz</URL>
+<MD5>c27e063a311ffee9426aae6dcce8ee48</MD5>
 </FILE>
 
 <FILE Name="&plgPATH;/nut-2.8.0-x86_64-1stable.ssl11.txz" Min="6.10" Max="6.12.99">
@@ -345,7 +347,7 @@ if [ -e "$CONFIG" ]; then
         upgradepkg --install-new &plgPATH;/nut-2.8.0-x86_64-12master.ssl11.txz
     elif [ "$BACKEND" == "default" ]; then
         echo "Installing DEFAULT backend for NUT..."
-        upgradepkg --install-new &plgPATH;/nut-2.8.1-x86_64-1stable.ssl11.txz
+        upgradepkg --install-new &plgPATH;/nut-2.8.1-x86_64-2stable.ssl11.txz
     elif [ "$BACKEND" == "stable" ]; then
         echo "Installing user-configured STABLE backend for NUT..."
         upgradepkg --install-new &plgPATH;/nut-2.8.0-x86_64-1stable.ssl11.txz
@@ -354,11 +356,11 @@ if [ -e "$CONFIG" ]; then
         upgradepkg --install-new &plgPATH;/nut-2.7.4.20200318-x86_64-1.txz
     else
         echo "Installing DEFAULT backend for NUT..."
-        upgradepkg --install-new &plgPATH;/nut-2.8.1-x86_64-1stable.ssl11.txz
+        upgradepkg --install-new &plgPATH;/nut-2.8.1-x86_64-2stable.ssl11.txz
     fi
 else
     echo "Installing DEFAULT backend for NUT..."
-    upgradepkg --install-new &plgPATH;/nut-2.8.1-x86_64-1stable.ssl11.txz
+    upgradepkg --install-new &plgPATH;/nut-2.8.1-x86_64-2stable.ssl11.txz
 fi
 </INLINE>
 </FILE>

@@ -27,7 +27,7 @@ $all    = $_GET['all']=='true';
 $result = [];
 $rows = [];
 
-if (file_exists('/var/run/nut/upsmon.pid')) {
+if ($nut_running) {
 
   exec("/usr/bin/upsc ".escapeshellarg($nut_name)."@$nut_ip 2>/dev/null", $rows);
   

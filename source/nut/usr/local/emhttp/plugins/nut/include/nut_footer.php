@@ -20,7 +20,7 @@
 require_once '/usr/local/emhttp/plugins/nut/include/nut_config.php';
 
 //  exit if NUT daemon isn't working
-if (! file_exists('/var/run/nut/upsmon.pid')) {
+if (!$nut_running) {
   echo " ";
   exit(0);
 }
@@ -30,7 +30,7 @@ $green  = "green-text";
 $orange = "orange-text";
 $black  = "black-text";
 
-function get_ups($name, $ip="localhost")
+function get_ups($name, $ip="127.0.0.1")
 {
   $output = [];
   $alarm = 0;
