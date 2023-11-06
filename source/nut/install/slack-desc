@@ -9,5 +9,6 @@ nut-plugin: and ensure safe shutdowns of the systems which are connected.
 nut-plugin: This package includes the tools needed to monitor your UPS over the
 nut-plugin: web and it also includes the upsclient library.
 nut-plugin:
-nut-plugin: packaged by desertwitch on Slackware 15.0 for use on UNRAID systems
+nut-plugin: compiled and packaged by desertwitch on Slackware 15.0 (x86_64)
+nut-plugin: intended for use on UNRAID installations WITHOUT ANY WARRANTIES
 nut-plugin:
