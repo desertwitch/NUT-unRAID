@@ -70,7 +70,12 @@ if (file_exists('/usr/local/emhttp/plugins/nut/misc/start-failed')) {
                 <?
                 $URversion = parse_ini_file('/etc/unraid-version')['version'];
                 if(isset($URversion) && $URversion) {
-                    if( version_compare($URversion, '6.10.0', '>') && version_compare($URversion, '6.12.99', '<') ) {
+                    if (version_compare($URversion, '6.12.99', '>')) {
+                        echo(mk_option($nut_backend, "preview", "preview (latest build)"));
+                        echo(mk_option($nut_backend, "default", "default (2.8.1 stable)"));
+                        echo(mk_option($nut_backend, "stable", "release (2.8.0 stable)"));
+                    }    
+                    elseif (version_compare($URversion, '6.10.0', '>') && version_compare($URversion, '6.12.99', '<')) {
                         echo(mk_option($nut_backend, "preview", "preview (latest build)"));
                         echo(mk_option($nut_backend, "default", "default (2.8.1 stable)"));
                         echo(mk_option($nut_backend, "stable", "release (2.8.0 stable)"));

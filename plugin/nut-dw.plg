@@ -3,14 +3,14 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "nut">
 <!ENTITY author    "desertwitch">
-<!ENTITY version   "2023.11.06">
+<!ENTITY version   "2023.11.08">
 <!ENTITY launch    "Settings/NUTsettings">
 <!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/master">
 <!ENTITY pluginURL "&gitURL;/plugin/&name;-dw.plg">
 <!ENTITY pkgURL    "&gitURL;/packages">
 <!ENTITY plgPATH   "/boot/config/plugins/&name;">
-<!ENTITY plgNAME   "nut-plugin-2023.11.06-x86_64-1">
-<!ENTITY plgMD5    "b61b5d77056c2b0c3c59a821dd3cae1c">
+<!ENTITY plgNAME   "nut-plugin-2023.11.08-x86_64-1">
+<!ENTITY plgMD5    "a8fab0c966ebfdb9aeba3604f584ea94">
 <!ENTITY emhttp    "/usr/local/emhttp/plugins/&name;">
 ]>
 
@@ -18,6 +18,9 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
+###2023.11.08
+- fix: important backend and backend switch preparations for future UNRAID versions 6.13+
+- new: preview (latest build) backend updated to most recent master branch as of 08.11.2023
 ###2023.11.06
 - new: minor optimizations, re-factorings and overall quality of life improvements
 ###2023.11.01
@@ -309,34 +312,75 @@ exit 0
 </INLINE>
 </FILE>
 
-<!--
-install or upgrade dependency files
--->
-<FILE Name="&plgPATH;/nut-2.8.1-x86_64-2stable.ssl31.txz" Min="6.13" Run="upgradepkg --install-new">
+<!-- slack15.1 preview -->
+<FILE Name="&plgPATH;/nut-2.8.1-x86_64-1master.ssl31.txz" Min="6.13">
+<URL>&pkgURL;/nut-2.8.1-x86_64-1master.ssl31.txz</URL>
+<MD5>9614c616fae2b7ae09ac2f485cd9441d</MD5>
+</FILE>
+
+<!-- slack15.1 default -->
+<FILE Name="&plgPATH;/nut-2.8.1-x86_64-2stable.ssl31.txz" Min="6.13">
 <URL>&pkgURL;/nut-2.8.1-x86_64-2stable.ssl31.txz</URL>
 <MD5>7e4af2667739b62f104ec4a376f69814</MD5>
 </FILE>
 
-<FILE Name="&plgPATH;/nut-2.8.0-x86_64-12master.ssl11.txz" Min="6.10" Max="6.12.99">
-<URL>&pkgURL;/nut-2.8.0-x86_64-12master.ssl11.txz</URL>
-<MD5>cb9cd5e33094d64ebcd84bfeeab1a6fc</MD5>
+<!-- slack15.1 stable -->
+<FILE Name="&plgPATH;/nut-2.8.0-x86_64-2stable.ssl31.txz" Min="6.13">
+<URL>&pkgURL;/nut-2.8.0-x86_64-2stable.ssl31.txz</URL>
+<MD5>ff9a8a88ae1ff030260d4e5b7138333e</MD5>
 </FILE>
 
+<!-- slack15.1 backend switch -->
+<FILE Min="6.13" Run="/bin/bash">
+<INLINE>
+CONFIG=&plgPATH;/&name;.cfg
+if [ -e "$CONFIG" ]; then
+    source "$CONFIG"
+    if [ "$BACKEND" == "preview" ]; then
+        echo "Installing user-configured PREVIEW backend for NUT..."
+        upgradepkg --install-new &plgPATH;/nut-2.8.1-x86_64-1master.ssl31.txz
+    elif [ "$BACKEND" == "default" ]; then
+        echo "Installing DEFAULT backend for NUT..."
+        upgradepkg --install-new &plgPATH;/nut-2.8.1-x86_64-2stable.ssl31.txz
+    elif [ "$BACKEND" == "stable" ]; then
+        echo "Installing user-configured STABLE backend for NUT..."
+        upgradepkg --install-new &plgPATH;/nut-2.8.0-x86_64-2stable.ssl31.txz
+    else
+        echo "Installing DEFAULT backend for NUT..."
+        upgradepkg --install-new &plgPATH;/nut-2.8.1-x86_64-2stable.ssl31.txz
+    fi
+else
+    echo "Installing DEFAULT backend for NUT..."
+    upgradepkg --install-new &plgPATH;/nut-2.8.1-x86_64-2stable.ssl31.txz
+fi
+</INLINE>
+</FILE>
+
+<!-- slack15.0 preview -->
+<FILE Name="&plgPATH;/nut-2.8.1-x86_64-1master.ssl11.txz" Min="6.10" Max="6.12.99">
+<URL>&pkgURL;/nut-2.8.1-x86_64-1master.ssl11.txz</URL>
+<MD5>0f6c4f988c55359ed2ae00a4dd60f9d0</MD5>
+</FILE>
+
+<!-- slack15.0 default -->
 <FILE Name="&plgPATH;/nut-2.8.1-x86_64-2stable.ssl11.txz" Min="6.10" Max="6.12.99">
 <URL>&pkgURL;/nut-2.8.1-x86_64-2stable.ssl11.txz</URL>
 <MD5>c27e063a311ffee9426aae6dcce8ee48</MD5>
 </FILE>
 
-<FILE Name="&plgPATH;/nut-2.8.0-x86_64-1stable.ssl11.txz" Min="6.10" Max="6.12.99">
-<URL>&pkgURL;/nut-2.8.0-x86_64-1stable.ssl11.txz</URL>
-<MD5>c85081d018dff6661b563021e4cec293</MD5>
+<!-- slack15.0 stable -->
+<FILE Name="&plgPATH;/nut-2.8.0-x86_64-2stable.ssl11.txz" Min="6.10" Max="6.12.99">
+<URL>&pkgURL;/nut-2.8.0-x86_64-2stable.ssl11.txz</URL>
+<MD5>80364beffcab0d4dbe80ae0ad91416eb</MD5>
 </FILE>
 
+<!-- slack15.0 legacy -->
 <FILE Name="&plgPATH;/nut-2.7.4.20200318-x86_64-1.txz" Min="6.10" Max="6.12.99">
 <URL>&pkgURL;/nut-2.7.4.20200318-x86_64-1.txz</URL>
 <MD5>52de2867d6b8f6bc1a98a45870b05420</MD5>
 </FILE>
 
+<!-- slack15.0 backend switch -->
 <FILE Min="6.10" Max="6.12.99" Run="/bin/bash">
 <INLINE>
 CONFIG=&plgPATH;/&name;.cfg
@@ -344,13 +388,13 @@ if [ -e "$CONFIG" ]; then
     source "$CONFIG"
     if [ "$BACKEND" == "preview" ]; then
         echo "Installing user-configured PREVIEW backend for NUT..."
-        upgradepkg --install-new &plgPATH;/nut-2.8.0-x86_64-12master.ssl11.txz
+        upgradepkg --install-new &plgPATH;/nut-2.8.1-x86_64-1master.ssl11.txz
     elif [ "$BACKEND" == "default" ]; then
         echo "Installing DEFAULT backend for NUT..."
         upgradepkg --install-new &plgPATH;/nut-2.8.1-x86_64-2stable.ssl11.txz
     elif [ "$BACKEND" == "stable" ]; then
         echo "Installing user-configured STABLE backend for NUT..."
-        upgradepkg --install-new &plgPATH;/nut-2.8.0-x86_64-1stable.ssl11.txz
+        upgradepkg --install-new &plgPATH;/nut-2.8.0-x86_64-2stable.ssl11.txz
     elif [ "$BACKEND" == "legacy" ]; then
         echo "Installing user-configured LEGACY backend for NUT..."
         upgradepkg --install-new &plgPATH;/nut-2.7.4.20200318-x86_64-1.txz
@@ -365,6 +409,7 @@ fi
 </INLINE>
 </FILE>
 
+<!-- default backends for legacy systems -->
 <FILE Name="&plgPATH;/nut-2.7.4.20200318-x86_64-1.txz" Min="6.8" Max="6.9.99" Run="upgradepkg --install-new">
 <URL>&pkgURL;/nut-2.7.4.20200318-x86_64-1.txz</URL>
 <MD5>52de2867d6b8f6bc1a98a45870b05420</MD5>
@@ -380,6 +425,8 @@ fi
 <MD5>24702ef930855db3432ed9ee73e93d42</MD5>
 </FILE>
 
+
+<!-- dependency packages -->
 <FILE Name="&plgPATH;/net-snmp-5.9.4-x86_64-1.txz" Min="6.13" Run="upgradepkg --install-new">
 <URL>&pkgURL;/net-snmp-5.9.4-x86_64-1.txz</URL>
 <MD5>df3f30cdb8680f79ca8f2d1ecf77a156</MD5>
@@ -400,17 +447,13 @@ fi
 <MD5>b833d6ceffad69a19ac871b74be95eb3</MD5>
 </FILE>
 
-<!--
-install or upgrade the plugin itself
--->
+<!-- plugin package -->
 <FILE Name="&plgPATH;/&plgNAME;.txz" Min="6.1" Run="upgradepkg --install-new">
 <URL>&gitURL;/archive/&plgNAME;.txz</URL>
 <MD5>&plgMD5;</MD5>
 </FILE>
 
-<!--
-run the post-installation scripts
--->
+<!-- installation -->
 <FILE Run="/bin/bash">
 <INLINE>
 CONFIG=&plgPATH;/&name;.cfg
@@ -455,9 +498,7 @@ echo ""
 </INLINE>
 </FILE>
 
-<!--
-definition for uninstallation of the plugin
--->
+<!-- uninstallation -->
 <FILE Run="/bin/bash" Method="remove">
 <INLINE>
 echo "Making sure all existing NUT services are stopped (before uninstall)..."
