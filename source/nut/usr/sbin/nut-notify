@@ -58,27 +58,29 @@ then
         echo "$0": "${MESSAGE}" | wall
         $NOTIFY -e "${EVENT}" -s "Alert ${SUBJECT} On battery" -d "The UPS is on battery." -i "alert"
 
-        if [ "$SHUTDOWN" == "sec_timer" ]; then
-            # Loop with one second interval to allow SIGTERM reception.
-            let "n = $TIMEOUT"
-            while [ $n -ne 0 ]
-            do
-                    sleep 1
-                    let "n--"
-            done
-        else
-            # Loop with one second interval to allow SIGTERM reception.
-            timer="$( /usr/bin/upsc "$NAME"@"$IPADDR"|grep "$BATTERY":|awk '{print $2}' )"
-            while [ "$timer" -gt "$TIMER" ]
-            do
-                sleep 1
+        if [ "$SHUTDOWN" != "none" ]; then
+            if [ "$SHUTDOWN" == "sec_timer" ]; then
+                # Loop with one second interval to allow SIGTERM reception.
+                let "n = $TIMEOUT"
+                while [ $n -ne 0 ]
+                do
+                        sleep 1
+                        let "n--"
+                done
+            else
+                # Loop with one second interval to allow SIGTERM reception.
                 timer="$( /usr/bin/upsc "$NAME"@"$IPADDR"|grep "$BATTERY":|awk '{print $2}' )"
-            done
-        fi
+                while [ "$timer" -gt "$TIMER" ]
+                do
+                    sleep 1
+                    timer="$( /usr/bin/upsc "$NAME"@"$IPADDR"|grep "$BATTERY":|awk '{print $2}' )"
+                done
+            fi
 
-        echo "$0": commencing shutdown | wall
-        $NOTIFY -e "${EVENT}" -s "Alert ${SUBJECT} Shutdown" -d "unRAID is being shut down." -i "alert"
-        /usr/sbin/upsmon -c fsd
+            echo "$0": commencing shutdown | wall
+            $NOTIFY -e "${EVENT}" -s "Alert ${SUBJECT} Shutdown" -d "UNRAID is being shut down." -i "alert"
+            /usr/sbin/upsmon -c fsd
+        fi
 
 elif [ "$NOTIFYTYPE" = "REPLBATT" ] 
 then
