@@ -135,7 +135,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut/misc/start-failed')) {
         <p><u>Note:</u> If you run into problems after changing this setting, it might be helpful to start from a fresh configuration using the <strong><em>RESET CONFIG</em></strong> feature.</p>
     </blockquote>
 
-    <div id="SETTINGS">
+    <div id="SETTINGS1">
         <dl>
             <dt>NUT Mode:</dt>
             <dd>
@@ -237,7 +237,9 @@ if (file_exists('/usr/local/emhttp/plugins/nut/misc/start-failed')) {
                 <p><u>Note:</u> NUT is configured to listen on all interfaces (<strong><em>0.0.0.0</em></strong>).</p>
             </blockquote>
         </div>
+    </div>
 
+    <div id="NAMESETT">
         <dl>
             <dt>UPS Name:</dt>
             <dd>
@@ -248,8 +250,11 @@ if (file_exists('/usr/local/emhttp/plugins/nut/misc/start-failed')) {
         <blockquote class="inline_help">
             <p>The name of the UPS configured in NUT (on the master server).</p>
             <p>It is recommended to leave this setting as it is, unless connecting to a UPS with a different name in <strong><em>Slave</em></strong> mode.</p>
+            <p>In <strong><em>manual configuration</em></strong> mode, this setting controls which of your (possibly multiple) configured UPS the GUI dashboards will show information for.</p>            
         </blockquote>
+    </div>
 
+    <div id="SETTINGS2">
         <div id="DRIVERS">
             <dl>
                 <dt>UPS Driver:</dt>
@@ -746,7 +751,8 @@ if (file_exists('/usr/local/emhttp/plugins/nut/misc/start-failed')) {
 
 <script type="text/javascript">
 function checkNUTsettings() {
-    $('#SETTINGS').hide();
+    $('#SETTINGS1').hide();
+    $('#SETTINGS2').hide();
     $('#DRIVERS').hide();
     $('#SLAVE').hide();
     $('#UPSKILL').hide();
@@ -755,11 +761,16 @@ function checkNUTsettings() {
     $('#SHUTDOWN0').hide();
     $('#SHUTDOWN1').hide();
     $('#SHUTDOWN2').hide();
+    $('#NAMESETT').hide();
 
     if ($('#MANUAL').val() === 'enable') {
-        $('#SETTINGS').hide();
+        $('#SETTINGS1').hide();
+        $('#SETTINGS2').hide();
+        $('#NAMESETT').show();
     } else if ($('#MANUAL').val() === 'onlyups') {
-        $('#SETTINGS').show();
+        $('#SETTINGS1').show();
+        $('#SETTINGS2').show();
+        $('#NAMESETT').show();
 
         var Shutdown = $('#SHUTDOWN')[0].selectedIndex;
         for (var i = 0; i < 3; i++) {
@@ -788,7 +799,9 @@ function checkNUTsettings() {
             $('#SLAVE').show();
         }
     } else {
-        $('#SETTINGS').show();
+        $('#SETTINGS1').show();
+        $('#SETTINGS2').show();
+        $('#NAMESETT').show();
 
         var Shutdown = $('#SHUTDOWN')[0].selectedIndex;
         for (var i = 0; i < 3; i++) {
