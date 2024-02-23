@@ -94,6 +94,11 @@ else
     touch $DEBUGROOT/PLUGIN/upsmon-not-running 2>&1
 fi
 
+# check if APC daemon is also running which could cause problems with NUT
+if pgrep apcupsd >/dev/null 2>&1; then
+    touch $DEBUGROOT/PLUGIN/apcupsd-also-running 2>&1
+fi
+
 # scan for UPS devices and include the results in the package
 [ -x /usr/bin/nut-scanner ] && /usr/bin/nut-scanner -N > $DEBUGROOT/PLUGIN/nut-scanner.txt 2>&1
 [ -f $DEBUGROOT/PLUGIN/nut-scanner.txt ] && sed -i '/serial/c\serial = "REMOVED"' $DEBUGROOT/PLUGIN/nut-scanner.txt 2>&1

@@ -36,16 +36,23 @@ if (file_exists('/usr/local/emhttp/plugins/nut/misc/start-failed')) {
 }
 ?>
 
+<table class="tablesorter shift nut" <?if (!$nut_running):?>style="display:none"<?endif;?>>
+<thead><tr><th>UPS Status</th><th>Battery Charge</th><th>Runtime Left </th><th>Nominal Power</th><th>UPS Load</th><th>UPS Load</th><th>Power Factor</th></tr></tr></thead>
+<tbody id="nut_summary"><tr><td colspan="7">&nbsp;</td></tr></tbody>
+</table>
+
 <?if ($lastStartFailed):?>
 <div style="border: 1px solid red;padding: 5px;color: red;" id="errormsg">
     NUT was not able to start successfully - please check the <a href="/Tools/Syslog" target="_blank">SYSLOG</a> for more information.
 </div><br>
 <?endif;?>
 
-<table class="tablesorter shift nut" <?if (!$nut_running):?>style="display:none"<?endif;?>>
-<thead><tr><th>UPS Status</th><th>Battery Charge</th><th>Runtime Left </th><th>Nominal Power</th><th>UPS Load</th><th>UPS Load</th><th>Power Factor</th></tr></tr></thead>
-<tbody id="nut_summary"><tr><td colspan="7">&nbsp;</td></tr></tbody>
-</table>
+<?if ($apc_running):?>
+<div style="border: 1px solid red;padding: 5px;color: red;" id="apcerror">
+    APCUPSD also seems to be enabled, this is not recommended and will lead to both unexpected UPS behaviour and system instabilities.<br>
+    Please visit the <a href="/Settings/UPSsettings" target="_blank">UPS Settings</a> and disable the APC UPS daemon before using and trusting NUT to protect your server from power failures.
+</div><br>
+<?endif;?>
 
 <form markdown="0" id="nut-settings" name="nut_settings" method="POST" action="/update.php" target="progressFrame">
     <input type="hidden" name="#file" value="<?=$sName?>/<?=$sName?>.cfg">

@@ -19,11 +19,11 @@ DOCROOT="/usr/local/emhttp/plugins/nut"
 
 # Add nut user and group (for legacy packages)
 if [ "$( grep -ic "218" /etc/group )" -eq 0 ]; then
-    groupadd -g 218 nut
+    groupadd -g 218 nut >/dev/null 2>&1
 fi
 
 if [ "$( grep -ic "218" /etc/passwd )" -eq 0 ]; then
-    useradd -u 218 -g nut -s /bin/false nut
+    useradd -u 218 -g nut -s /bin/false nut >/dev/null 2>&1
 fi
 
 # Update file permissions of scripts
