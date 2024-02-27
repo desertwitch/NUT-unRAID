@@ -55,7 +55,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut/misc/start-failed')) {
 <?endif;?>
 
 <?if ($powertop_installed):?>
-<div style="border: 1px solid grey;padding: 5px;color: grey;" id="ptwarning">
+<div style="border: 1px solid gray;padding: 5px;color: gray;" id="ptwarning">
     'powertop' was detected on your system and is known to cause instabilities with some UPS changing the auto-hibernation of USB devices.<br>
     In case you are having intermittent UPS connection problems, please consider this as a possible source for any such problems you are experiencing.
 </div><br>
