@@ -1,0 +1,46 @@
+#!/bin/bash
+#
+# Copyright Derek Macias
+# Copyright macester
+# Copyright gfjardim
+# Copyright SimonF
+# Copyright desertwitch
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License 2
+# as published by the Free Software Foundation.
+#
+# The above copyright notice and this permission notice shall be
+# included in all copies or substantial portions of the Software.
+#
+
+SCANRESULT=$(/usr/bin/nut-scanner -N 2>/dev/null)
+
+if [ -z "$SCANRESULT" ]; then
+    echo ""
+    echo "NO DEVICES FOUND"
+    echo ""
+    echo "Please visit the 'Driver Guide' and manually choose the recommended driver for your UPS."
+    echo "In case of persisting problems please try another physical port, cable or the 'Support Thread'."
+    echo ""
+else
+    echo ""
+    echo "${SCANRESULT}"
+    echo ""
+    echo "-----------------------------------"
+    echo "HOW TO INTERPRET THESE RESULTS:"
+    echo ""
+    echo "Please select the UPS Driver, reported as 'driver' here, for your UPS inside the NUT Settings."
+    echo "It is usually best to leave the UPS Driver Port on 'auto' instead of using what is reported as 'port' here."
+    echo ""
+    echo "In case UPS Driver Port on 'auto' does not work, you can try using the 'port' information reported here instead."
+    echo "Beware that this might make the UPS Driver blind to any other physical ports than the one that is currently used."
+    echo ""
+    echo "Any additional settings reported here (apart from 'driver' and 'port') can be ignored in most cases."
+    echo "They could however prove very helpful in cases where your UPS Driver is not able to connect to your UPS."
+    echo "You can then put these extra settings in UPS.CONF using the GUI configuration editor (additional setting zone)."
+    echo ""
+    echo "NOTE: 'apc_modbus' requires for MODBUS protocol to be enabled on the UPS - otherwise use 'usbhid-ups'."
+    echo ""
+fi
+

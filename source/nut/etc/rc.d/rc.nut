@@ -55,7 +55,7 @@ start_upsmon() {
     if pgrep -x upsmon >/dev/null 2>&1; then
         echo "$PROG NUT upsmon is running..."
     else
-        /usr/sbin/upsmon -u root || error_at_start
+        /usr/sbin/upsmon -p || error_at_start
     fi
 }
 

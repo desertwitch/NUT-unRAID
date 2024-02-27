@@ -278,12 +278,14 @@ if (file_exists('/usr/local/emhttp/plugins/nut/misc/start-failed')) {
                     <?=mk_option($nut_driver, 'tripplite_usb', 'tripplite_usb');?>
                     <?=mk_option($nut_driver, 'snmp-ups', 'snmp-ups');?>
                     <?=mk_option($nut_driver, 'custom', 'custom (not listed)');?>
-                    </select><input type="hidden" class="narrow serial nut-run" id="SERIAL" name="SERIAL" placeholder="driver name" maxlength="40" value="<?=$nut_serial;?>">
+                    </select>
+                    <input type="hidden" class="narrow serial nut-run" id="SERIAL" name="SERIAL" placeholder="driver name" maxlength="40" value="<?=$nut_serial;?>">
+                    <i class="fa fa-search" title="Scan for Devices" id="SCANDRIVERS"></i>
                 </dd>
             </dl>
 
             <blockquote class="inline_help">
-                <p>Please check the link below to find a driver matching for your UPS:</p>
+                <p>Please use the device scanner (<i class="fa fa-search"></i>) or the link below to find a driver matching for your UPS:</p>
                 <p><a href="http://www.networkupstools.org/stable-hcl.html" target="_blank">http://www.networkupstools.org/stable-hcl.html</a></p>
                 <p>For drivers not listed here, set to <strong><em>custom (not listed)</em></strong> and insert the driver in the text field appearing to the right.</p>
                 <p>Please do not forget to match your selected driver and the port configured below.</p>
@@ -475,8 +477,8 @@ if (file_exists('/usr/local/emhttp/plugins/nut/misc/start-failed')) {
     <dl>
         <dt>
             <input id="DEFAULT" class="nut-run" type="submit" name="#default" value="Default">
-            <input id="SCAN" class="nut-run" type="button" value="Auto Config">
             <input id="RESETCONF" class="nut-run" type="button" value="Reset Config">
+            <input id="SCAN" class="nut-run" type="button" value="Auto Config">
         </dt>
         <dd>
             <input type="submit" id="btnApply" name="#apply" value="Apply"><input type="button" value="Done" onclick="done()"><input id="RESTART" type="submit" value="Restart Nut" style="margin-bottom:8px;">
@@ -912,7 +914,11 @@ function ResetConfig() {
 
 function ScanUPS() {
     $('#command').val('');
-    openBox('/plugins/nut/scripts/nutscan', 'NUT Scanner', 600, 600, true);
+    openBox('/plugins/nut/scripts/nutscan', 'NUT Auto Configuration', 600, 600, true);
+}
+
+function ScanDrivers() {
+    openBox('/plugins/nut/scripts/nutscan_soft', 'NUT Device Scanner', 600, 600, false);
 }
 
 $(function() {
@@ -935,6 +941,8 @@ $(function() {
         $('#SCAN').click(ScanUPS);
         $('#RESETCONF').click(ResetConfig);
     }
+
+    $('#SCANDRIVERS').click(ScanDrivers);
     
     $('form input:not([type="submit"])').keydown(function(e) {
         if (e.keyCode == 13) {

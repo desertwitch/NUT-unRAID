@@ -113,6 +113,9 @@ find /var/log/packages/ -type f -iname 'nut*' -printf '%f\n' >> $DEBUGROOT/unrai
 find /var/log/packages/ -type f -iname 'net-snmp*' -printf '%f\n' >> $DEBUGROOT/unraid-packages.txt 2>&1
 find /var/log/packages/ -type f -iname 'libmodbus*' -printf '%f\n' >> $DEBUGROOT/unraid-packages.txt 2>&1
 
+# include system detected USB devices in package
+lsusb >> $DEBUGROOT/unraid-lsusb.txt 2>&1
+
 # include unraid version in package
 [ -f /etc/unraid-version ] && cp -f /etc/unraid-version $DEBUGROOT/unraid-version.txt 2>&1
 
