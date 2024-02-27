@@ -109,7 +109,7 @@ if [ "$MONUSER" == "$SLAVEUSER" ]; then
 fi
 
 # check for powertop package which is known to cause problems with NUT
-[ -n "$(find /var/log/packages/ -type f -iname '*powertop*' -printf '%f\n' 2> /dev/null)" ] && touch $DEBUGROOT/powertop-installed 2>&1
+[ -n "$(find /var/log/packages/ -type f -iname '*powertop*' -printf '%f\n' 2> /dev/null)" ] && touch $DEBUGROOT/PLUGIN/powertop-is-installed 2>&1
 
 # include names and versions of installed nut-related packages in package
 find /var/log/packages/ -type f -iname 'nut*' -printf '%f\n' >> $DEBUGROOT/unraid-packages.txt 2>&1
