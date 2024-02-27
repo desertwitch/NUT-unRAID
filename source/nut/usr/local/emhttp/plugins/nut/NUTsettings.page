@@ -54,6 +54,13 @@ if (file_exists('/usr/local/emhttp/plugins/nut/misc/start-failed')) {
 </div><br>
 <?endif;?>
 
+<?if ($powertop_installed):?>
+<div style="border: 1px solid darkorange;padding: 5px;color: darkorange;" id="ptwarning">
+    'powertop' was detected on your system and is known to cause UPS instabilities due to auto-suspending of USB devices.<br>
+    In case you are having UPS connection problems, please consider this as a possible source for any problems you are experiencing.
+</div><br>
+<?endif;?>
+
 <form markdown="0" id="nut-settings" name="nut_settings" method="POST" action="/update.php" target="progressFrame">
     <input type="hidden" name="#file" value="<?=$sName?>/<?=$sName?>.cfg">
     <input type="hidden" id="command" name="#command" value="/usr/local/emhttp/plugins/nut/scripts/write_config" />
