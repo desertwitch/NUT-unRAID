@@ -23,6 +23,7 @@
 - new: include more information about system detected USB devices in debug package
 - fix: reduce any unnecessary upsmon process forking to consume less system resources
 - fix: minor cosmetic changes in GUI regarding the positioning of the NUT command buttons
+- fix: detect presence of "powertop" package and warn user about related complications in GUI
 ###2024.02.23
 - new: detect if APCUPSD is also running alongside NUT and warn user about related complications in GUI
 - new: the preview (latest build) backend was updated to the most recent master branch as of 23.02.2024
