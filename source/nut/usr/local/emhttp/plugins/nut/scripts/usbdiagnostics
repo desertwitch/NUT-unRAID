@@ -14,17 +14,31 @@
 # included in all copies or substantial portions of the Software.
 #
 
-echo "############ USB DEVICES ############"
+echo "###"
+echo "### USB DEVICES"
+echo "###"
 echo ""
 lsusb
 echo ""
 
-echo "############ USB DEVICES (TREE VIEW) ############"
+echo "###"
+echo "### USB DEVICES (TREE VIEW)"
+echo "###"
 echo ""
 lsusb -tv
 echo ""
 
-echo "############ USB POWER MANAGEMENT SETTINGS ############"
+echo "###"
+echo "### USB POWER MANAGEMENT SETTINGS"
+echo "### ON: ALWAYS ON / AUTO: SYSTEM MANAGED"
+echo "###"
 echo ""
 tail -v /sys/bus/usb/devices/*/power/control 
+echo ""
+
+echo "###"
+echo "### USB RELATED KERNEL MESSAGES"
+echo "###"
+echo ""
+dmesg | grep "usb"
 echo ""
