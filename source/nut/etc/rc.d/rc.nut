@@ -60,6 +60,15 @@ start_upsmon() {
 }
 
 start() {
+    if [ "$ORUSBPOWER" == "enable" ]; then
+        echo "WARNING: NUT was user-configured to disable power management for all USB devices."
+        echo "WARNING: NUT is now forcing all USB devices to permanent [on] power state as requested..."
+
+        OVRESULT="$(echo on | tee /sys/bus/usb/devices/*/power/control)"
+        if [ "$OVRESULT" != "on" ]; then
+            echo "ERROR: NUT has encountered an unexpected result disabling all USB power management: ${OVRESULT}"
+        fi
+    fi
     sleep 1
     write_config
     sleep 1

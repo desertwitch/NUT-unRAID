@@ -129,6 +129,25 @@ if (file_exists('/usr/local/emhttp/plugins/nut/misc/start-failed')) {
     </blockquote>
 
     <dl>
+        <dt>Enable USB Power Management Override:</dt>
+        <dd>
+            <select class="nut-run" id="ORUSBPOWER" name="ORUSBPOWER" size="1">
+                <?=mk_option($nut_usb_override, "disable", "No");?>
+                <?=mk_option($nut_usb_override, "enable", "Yes");?>
+            </select>
+            <i class="fa fa-map-o" title="Show USB Diagnostics" id="USBDIAGS"></i>
+            <i class="fa fa-exclamation-triangle" title="System-Wide Setting (read F1-Text)" style="padding-left:4px;"></i>
+        </dd>
+    </dl>
+
+    <blockquote class="inline_help">
+        <p>Some UPS devices or drivers have USB implementations that cannot handle USB power management (auto hibernation) without resulting in connection problems.</p>
+        <p>This <strong>in most cases not recommended setting</strong> disables USB power management <strong>for all USB hubs and devices (system-wide)</strong>, setting them to <strong><em>always on</em></strong> mode.</p>
+        <p>Enabling this setting will prevent any connected USB hubs and devices from going into auto hibernation (which could alleviate UPS connection instabilities).</p>
+        <p>Please be aware after disabling this setting again a full system reboot will be required to return your system to its default USB power management behavior.</p>
+    </blockquote>
+
+    <dl>
         <dt>Enable Manual Configuration:</dt>
         <dd>
             <select class="nut-run" id="MANUAL" name="MANUAL" size="1">
@@ -928,6 +947,10 @@ function ScanDrivers() {
     openBox('/plugins/nut/scripts/nutscan_soft', 'NUT Device Scanner', 600, 600, false);
 }
 
+function USBDiagnostics() {
+    openBox('/plugins/nut/scripts/usbdiagnostics', 'NUT USB Diagnostics', 600, 600, false);
+}
+
 $(function() {
     showStatus('upsmon');
 
@@ -950,6 +973,7 @@ $(function() {
     }
 
     $('#SCANDRIVERS').click(ScanDrivers);
+    $('#USBDIAGS').click(USBDiagnostics);
     
     $('form input:not([type="submit"])').keydown(function(e) {
         if (e.keyCode == 13) {

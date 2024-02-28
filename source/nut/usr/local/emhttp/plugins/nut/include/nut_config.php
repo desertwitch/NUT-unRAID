@@ -26,6 +26,7 @@ $nut_power        = isset($nut_cfg['POWER'])        ? htmlspecialchars($nut_cfg[
 $nut_powerva      = isset($nut_cfg['POWERVA'])      ? intval($nut_cfg['POWERVA'])                 : 0;
 $nut_powerw       = isset($nut_cfg['POWERW'])       ? intval($nut_cfg['POWERW'])                  : 0;
 $nut_manual       = isset($nut_cfg['MANUAL'])       ? htmlspecialchars($nut_cfg['MANUAL'])        : 'disable';
+$nut_usb_override = isset($nut_cfg['ORUSBPOWER'])   ? htmlspecialchars($nut_cfg['ORUSBPOWER'])    : 'disable'; 
 $nut_name         = isset($nut_cfg['NAME'])         ? htmlspecialchars($nut_cfg['NAME'])          : 'ups';
 $nut_monuser      = isset($nut_cfg['MONUSER'])      ? htmlspecialchars($nut_cfg['MONUSER'])       : 'monuser';
 $nut_monpass      = isset($nut_cfg['MONPASS'])      ? htmlspecialchars($nut_cfg['MONPASS'])       : base64_encode('monpass');
@@ -76,7 +77,7 @@ $nut_installed_backend = trim(shell_exec("find /var/log/packages/ -type f -iname
 $nut_plugin_version = trim(shell_exec("/usr/local/sbin/plugin version /boot/config/plugins/nut-dw.plg 2> /dev/null"));
 
 $apc_running      = (intval(trim(shell_exec( "[ -f /proc/`cat /var/run/apcupsd.pid 2> /dev/null`/exe ] && echo 1 || echo 0 2> /dev/null" ))) === 1 );
-$powertop_installed = (intval(trim(shell_exec( "[ -n \"`find /var/log/packages/ -type f -iname '*powertop*' -printf '%f\n' 2> /dev/null`\" ] && echo 1 || echo 0 2> /dev/null" ))) === 1 );
+$powertop_installed = (intval(trim(shell_exec( "[ -n \"`find /var/log/packages/ -type f -iname 'powertop*' -printf '%f\n' 2> /dev/null`\" ] && echo 1 || echo 0 2> /dev/null" ))) === 1 );
 
 # debug constant to overwrite ups.status
 // define('NUT_STATUS_DEBUG', 'OB DISCHRG BYPASS CAL');

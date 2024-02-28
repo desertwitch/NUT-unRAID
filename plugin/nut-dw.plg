@@ -3,14 +3,14 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "nut">
 <!ENTITY author    "desertwitch">
-<!ENTITY version   "2024.02.27b">
+<!ENTITY version   "2024.02.28">
 <!ENTITY launch    "Settings/NUTsettings">
 <!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/master">
 <!ENTITY pluginURL "&gitURL;/plugin/&name;-dw.plg">
 <!ENTITY pkgURL    "&gitURL;/packages">
 <!ENTITY plgPATH   "/boot/config/plugins/&name;">
-<!ENTITY plgNAME   "nut-plugin-2024.02.27b-x86_64-1">
-<!ENTITY plgMD5    "c28d48d63396a1cc7b6863006fc3353b">
+<!ENTITY plgNAME   "nut-plugin-2024.02.28-x86_64-1">
+<!ENTITY plgMD5    "04816d2b87ddb1ff9955956111d8e5ab">
 <!ENTITY emhttp    "/usr/local/emhttp/plugins/&name;">
 ]>
 
@@ -18,6 +18,9 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
+###2024.02.28
+- new: implement USB diagnostics and override for USB device power management
+- new: implement checks for common power management related problems in debug package
 ###2024.02.27
 - new: implement NUT device scanner into GUI for easier selection of UPS drivers
 - new: include more information about system detected USB devices in debug package
