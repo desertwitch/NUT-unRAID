@@ -136,7 +136,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut/misc/start-failed')) {
                 <?=mk_option($nut_usb_override, "enable", "Yes");?>
             </select>
             <i class="fa fa-map-o" title="Show USB Diagnostics" id="USBDIAGS"></i>
-            <i class="fa fa-exclamation-triangle" title="System-Wide Setting (read F1-Text)" style="padding-left:3px;"></i>
+            <i class="fa fa-exclamation-triangle" title="System-Wide Setting (read F1-Text)" style="padding-left:4px;"></i>
         </dd>
     </dl>
 
