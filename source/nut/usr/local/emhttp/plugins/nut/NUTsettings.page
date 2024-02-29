@@ -37,7 +37,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut/misc/start-failed')) {
 ?>
 
 <table class="tablesorter shift nut" <?if (!$nut_running):?>style="display:none"<?endif;?>>
-<thead><tr><th>UPS Status</th><th>Battery Charge</th><th>Runtime Left </th><th>Nominal Power</th><th>UPS Load</th><th>UPS Load</th><th>Power Factor</th></tr></tr></thead>
+<thead><tr><th>UPS Status</th><th>Battery Charge</th><th>Runtime Left</th><th>Nominal Power</th><th>UPS Load</th><th>UPS Load</th><th>Power Factor</th></tr></thead>
 <tbody id="nut_summary"><tr><td colspan="7">&nbsp;</td></tr></tbody>
 </table>
 
