@@ -14,6 +14,9 @@
 # included in all copies or substantial portions of the Software.
 #
 
+CONFIG="/boot/config/plugins/nut/nut.cfg"
+[ -e "$CONFIG" ] && source $CONFIG 2>&1
+
 echo "###"
 echo "### USB DEVICES"
 echo "###"
@@ -31,6 +34,7 @@ echo ""
 echo "###"
 echo "### USB POWER MANAGEMENT SETTINGS"
 echo "### ON: ALWAYS ON / AUTO: SYSTEM MANAGED"
+[ "$ORUSBPOWER" == "enable" ] && echo "###" && echo "### USB POWER MANAGEMENT OVERRIDE IS ACTIVATED"
 echo "###"
 echo ""
 tail -v /sys/bus/usb/devices/*/power/control 
