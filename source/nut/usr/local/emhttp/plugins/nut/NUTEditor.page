@@ -34,10 +34,6 @@ Markdown="false"
 </style>
 <link type="text/css" rel="stylesheet" href="<?=autov('/webGui/styles/jquery.filetree.css');?>">
 
-<blockquote class="inline_help">
-    <p>The <strong><em>NUT Configuration Editor</em></strong> allows to directly modify the NUT configuration files.</p>
-</blockquote>
-
 <form id="editform" method="POST">
 
 <img id="editfolder" style="cursor:pointer;margin-left: 10px;" src="/webGui/images/explore.png" >
@@ -56,17 +52,11 @@ Markdown="false"
 </dl>
 </form>
 
-
-<blockquote class="inline_help">
-    <p>The <strong><em>Save</em></strong> button saves the currently selected configuration file.</p>
-</blockquote>
-
 <script src="<?=autov('/plugins/nut/js/codemirror/codemirror.min.js');?>"></script>
 
 <script src="<?=autov('/plugins/nut/js/codemirror/autorefresh.min.js');?>"></script>
 
 <script src="<?=autov('/webGui/javascript/jquery.filetree.js');?>"></script>
-
 
 <script type="text/javascript">
 $(function(){
