@@ -48,10 +48,11 @@ Markdown="false"
 <input type="hidden" name="commit" value="1" />
 <input type="hidden" name="manual" value="<?=$nut_manual?>" />
 <dl>
-    <dt></dt>
-    <dd><input type="button" value="Save" id="btnSubmit" title="Save Configuration File" />
-    <input type="button" value="Cancel" id="btnCancel" />
-    </dd>
+    <dt>
+        <input type="button" value="Save" id="btnSubmit" title="Save Configuration File" />
+        <input type="button" value="Cancel" id="btnCancel" />
+    </dt>
+    <dd></dd>
 </dl>
 </form>
 
