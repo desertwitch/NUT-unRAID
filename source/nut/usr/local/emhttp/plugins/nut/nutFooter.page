@@ -157,7 +157,7 @@ $mytiles[$pluginname]['column2'] =
 <tbody id="tblUPSNUTDash" title="_(UPS(NUT))_">
 <tr><td>
 <i class="icon-ups f32"></i>
-<div class="section">_(UPS(NUT))_<br><span><i class="ups fa fa-line-chart"></i><span id="load">Load: <span class="nut_loadpct" id="nut_loadpct"></span></span>
+<div class="section">_(UPS(NUT))_<br><span><i class="ups fa fa-line-chart"></i><span id="load">Load: <span class="nut_loadpct" id="nut_loadpct"></span></span></span>
 <br><br>
 </div>
 <a href="/Dashboard/NUTsettings" title="_(Go to NUT Settings)_"><i class="fa fa-fw fa-cog control"></i></a>
