@@ -34,7 +34,7 @@ echo ""
 echo "###"
 echo "### USB POWER MANAGEMENT SETTINGS"
 echo "### ON: ALWAYS ON / AUTO: SYSTEM MANAGED"
-[ "$ORUSBPOWER" == "enable" ] && echo "###" && echo "### USB POWER MANAGEMENT OVERRIDE IS ACTIVATED"
+[ "$ORUSBPOWER" == "enable" ] && echo "###" && echo "### USB POWER MANAGEMENT OVERRIDE ACTIVATED"
 echo "###"
 echo ""
 tail -v /sys/bus/usb/devices/*/power/control 
