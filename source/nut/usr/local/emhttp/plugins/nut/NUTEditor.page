@@ -102,7 +102,7 @@ $(function(){
             var Title = 'Configuration ';
 
             if(data.success)
-                swal({title: Title+'Saved', text: data.saved+'\n\nChanges will be active on next NUT restart.', timer: 3500, showConfirmButton: false, type:'success'
+                swal({title: Title+'Saved', text: data.saved+'\n\nAny changes will be active on next NUT restart.', timer: 3500, showConfirmButton: false, type:'success'
                 });
             if(data.error)
                 swal({title:Title+'Error', text: data.error+'\n\nError saving configuration file.', type:'error'});
