@@ -59,7 +59,7 @@ function format_time($repTime, $repUnit) {
 $status = [];
 $ups_status = get_ups($nut_name, $nut_ip);
 if (count($ups_status)) {
-  $online           = ( array_key_exists("ups.status", $ups_status) ? nut_ups_status([$ups_status["ups.status"]], true) : false );
+  $online           = (array_key_exists("ups.status", $ups_status) ? nut_ups_status([$ups_status["ups.status"]], true) : false );
   $battery          = (array_key_exists("battery.charge",$ups_status)) ? intval(strtok($ups_status['battery.charge'],' ')) : false;
   $load             = (array_key_exists("ups.load", $ups_status)) ? intval(strtok($ups_status['ups.load'],' ')) : 0;
   $realPower        = (array_key_exists("ups.realpower", $ups_status)) ? intval(strtok($ups_status['ups.realpower'],' ')) : NULL;
