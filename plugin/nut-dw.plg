@@ -1,16 +1,16 @@
 <?xml version='1.0' standalone='yes'?>
 
 <!DOCTYPE PLUGIN [
-<!ENTITY name      "nut">
+<!ENTITY name      "nut-dw">
 <!ENTITY author    "desertwitch">
-<!ENTITY version   "2024.03.01">
+<!ENTITY version   "2024.03.04b">
 <!ENTITY launch    "Settings/NUTsettings">
 <!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/master">
-<!ENTITY pluginURL "&gitURL;/plugin/&name;-dw.plg">
+<!ENTITY pluginURL "&gitURL;/plugin/&name;.plg">
 <!ENTITY pkgURL    "&gitURL;/packages">
 <!ENTITY plgPATH   "/boot/config/plugins/&name;">
-<!ENTITY plgNAME   "nut-plugin-2024.03.01-x86_64-1">
-<!ENTITY plgMD5    "a21a6a8b905002fe1956a6ce5799f015">
+<!ENTITY plgNAME   "nut-plugin-2024.03.04b-x86_64-1">
+<!ENTITY plgMD5    "1abac873d25430f24a131ed520c4f067">
 <!ENTITY emhttp    "/usr/local/emhttp/plugins/&name;">
 ]>
 
@@ -18,6 +18,14 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
+###2024.03.04
+- release note: it is advised to update to this version before updating your system to UNRAID 6.13+
+- new: important changes in NUT configuration layouts and backends for future UNRAID versions 6.13+
+- new: add the UPS status and battery charge to non-collapsed miniature dashboard for better overview
+- fix: changed to more descriptive and consistent notification messages regarding all UPS power events
+- fix: changed severity level of some UPS states to be more visible in GUI, particularly a UPS on battery
+- fix: major overhaul and fixes of NUT notification service for reliable power event information and logs
+- fix: UPS overload now colors the actual power consumed to red color instead of the nominal power of UPS
 ###2024.03.01
 - fix: bugfixes across the GUI and preparations for future UNRAID versions 6.13+
 ###2024.02.28
@@ -331,26 +339,83 @@ if [ -x /etc/rc.d/rc.nutstats ]; then
     fi 
 fi
 
+if [ -d /boot/config/plugins/nut ] &amp;&amp; [ ! -d /boot/config/plugins/nut-dw ]; then
+    MIGRATIONFAILED="NO"
+    echo "Now migrating previous NUT configuration layout to new NUT configuration layout..."
+    
+    mkdir -p /boot/config/plugins/nut-dw 2>&amp;1 || MIGRATIONFAILED="YES"
+    cp -rf /boot/config/plugins/nut/* /boot/config/plugins/nut-dw/ 2>&amp;1 || MIGRATIONFAILED="YES"
+    mv -f /boot/config/plugins/nut-dw/nut.cfg /boot/config/plugins/nut-dw/nut-dw.cfg 2>&amp;1 || MIGRATIONFAILED="YES"
+    [ -d /boot/config/plugins/nut-dw ] 2>&amp;1 || MIGRATIONFAILED="YES"
+    [ -f /boot/config/plugins/nut-dw/nut-dw.cfg ] 2>&amp;1 || MIGRATIONFAILED="YES"
+
+    if [ "$MIGRATIONFAILED" == "YES" ]; then
+        echo "WARNING:"
+        echo "WARNING: The NUT installation script was not able to migrate your NUT configuration to the new layout."
+        echo "WARNING: For NUT to remain functional it will be necessary to start with a fresh configuration instead."
+        echo "WARNING:"
+        echo "WARNING: The previous NUT configuration remains untouched at this location: /boot/config/plugins/nut-old"
+        echo "WARNING: You can use old configuration for reference, but try to set up NUT with the fresh configuration."
+        echo "WARNING:"
+        echo "WARNING: === Steps for Manual Migration of Configuration Layout (For Advanced Users / Not Recommended) ==="
+        echo "WARNING: 1. Uninstall NUT"
+        echo "WARNING: 2. Rename Folder [/boot/config/plugins/nut-old] to [/boot/config/plugins/nut-dw]"
+        echo "WARNING: 3. Rename File [/boot/config/plugins/nut-dw/nut.cfg] to [/boot/config/plugins/nut-dw/nut-dw.cfg]"
+        echo "WARNING: 4. Reinstall NUT"
+        echo "WARNING:"
+        echo "Now reverting to fresh NUT configuration..."
+        rm -rf /boot/config/plugins/nut-dw
+        mkdir -p /boot/config/plugins/nut-dw
+        find /var/log/packages/ -type f -iname 'nut*' -exec removepkg {} \;
+        rm -rf /usr/local/emhttp/plugins/nut
+        rm -rf /usr/local/emhttp/plugins/nut-dw
+        rm -rf /etc/nut
+        rm -rf /etc/ups
+        rm -rf /var/run/nut
+        rm -rf /var/state/ups
+        rm -rf /etc/nutstats
+        if [ -f /boot/config/plugins/dynamix/nutstats.cron ]; then
+            rm -f /boot/config/plugins/dynamix/nutstats.cron
+            sleep 1
+            update_cron
+            sleep 1
+        fi
+        touch /boot/config/plugins/nut-dw/migration-failed 2>&amp;1
+    else
+        echo "Your NUT configuration layout has been successfully migrated to the new NUT configuration layout."
+        touch /boot/config/plugins/nut-dw/migration-complete 2>&amp;1
+    fi
+    rm -f /boot/config/plugins/nut/*.md5
+    rm -f /boot/config/plugins/nut/*.txz
+    mv -f /boot/config/plugins/nut /boot/config/plugins/nut-old
+fi
+echo ""
 exit 0
 </INLINE>
 </FILE>
 
 <!-- slack15.1 preview -->
-<FILE Name="&plgPATH;/nut-2.8.1-x86_64-4master.ssl31.txz" Min="6.13">
-<URL>&pkgURL;/nut-2.8.1-x86_64-4master.ssl31.txz</URL>
-<MD5>34be1837c8731415256612c1636e6170</MD5>
+<FILE Name="&plgPATH;/nut-2.8.1-x86_64-5master.ssl31.txz" Min="6.13">
+<URL>&pkgURL;/nut-2.8.1-x86_64-5master.ssl31.txz</URL>
+<MD5>987ae232925eae9fd7bd8e9fa2d65466</MD5>
 </FILE>
 
 <!-- slack15.1 default -->
-<FILE Name="&plgPATH;/nut-2.8.1-x86_64-2stable.ssl31.txz" Min="6.13">
-<URL>&pkgURL;/nut-2.8.1-x86_64-2stable.ssl31.txz</URL>
-<MD5>7e4af2667739b62f104ec4a376f69814</MD5>
+<FILE Name="&plgPATH;/nut-2.8.1-x86_64-3stable.ssl31.txz" Min="6.13">
+<URL>&pkgURL;/nut-2.8.1-x86_64-3stable.ssl31.txz</URL>
+<MD5>ed16442a55705053d3413ff756c64ea7</MD5>
 </FILE>
 
 <!-- slack15.1 stable -->
-<FILE Name="&plgPATH;/nut-2.8.0-x86_64-2stable.ssl31.txz" Min="6.13">
-<URL>&pkgURL;/nut-2.8.0-x86_64-2stable.ssl31.txz</URL>
-<MD5>ff9a8a88ae1ff030260d4e5b7138333e</MD5>
+<FILE Name="&plgPATH;/nut-2.8.0-x86_64-3stable.ssl31.txz" Min="6.13">
+<URL>&pkgURL;/nut-2.8.0-x86_64-3stable.ssl31.txz</URL>
+<MD5>766d0e0fa3a2ecf42e439b012d8b6614</MD5>
+</FILE>
+
+<!-- slack15.1 legacy -->
+<FILE Name="&plgPATH;/nut-2.7.4.20200318-x86_64-1.txz" Min="6.13">
+<URL>&pkgURL;/nut-2.7.4.20200318-x86_64-1.txz</URL>
+<MD5>52de2867d6b8f6bc1a98a45870b05420</MD5>
 </FILE>
 
 <!-- slack15.1 backend switch -->
@@ -361,21 +426,25 @@ if [ -e "$CONFIG" ]; then
     source "$CONFIG"
     if [ "$BACKEND" == "preview" ]; then
         echo "Installing user-configured PREVIEW backend for NUT..."
-        upgradepkg --install-new &plgPATH;/nut-2.8.1-x86_64-4master.ssl31.txz
+        upgradepkg --install-new &plgPATH;/nut-2.8.1-x86_64-5master.ssl31.txz
     elif [ "$BACKEND" == "default" ]; then
         echo "Installing DEFAULT backend for NUT..."
-        upgradepkg --install-new &plgPATH;/nut-2.8.1-x86_64-2stable.ssl31.txz
+        upgradepkg --install-new &plgPATH;/nut-2.8.1-x86_64-3stable.ssl31.txz
     elif [ "$BACKEND" == "stable" ]; then
         echo "Installing user-configured STABLE backend for NUT..."
-        upgradepkg --install-new &plgPATH;/nut-2.8.0-x86_64-2stable.ssl31.txz
+        upgradepkg --install-new &plgPATH;/nut-2.8.0-x86_64-3stable.ssl31.txz
+    elif [ "$BACKEND" == "legacy" ]; then
+        echo "Installing user-configured LEGACY backend for NUT..."
+        upgradepkg --install-new &plgPATH;/nut-2.7.4.20200318-x86_64-1.txz
     else
         echo "Installing DEFAULT backend for NUT..."
-        upgradepkg --install-new &plgPATH;/nut-2.8.1-x86_64-2stable.ssl31.txz
+        upgradepkg --install-new &plgPATH;/nut-2.8.1-x86_64-3stable.ssl31.txz
     fi
 else
     echo "Installing DEFAULT backend for NUT..."
-    upgradepkg --install-new &plgPATH;/nut-2.8.1-x86_64-2stable.ssl31.txz
+    upgradepkg --install-new &plgPATH;/nut-2.8.1-x86_64-3stable.ssl31.txz
 fi
+echo ""
 </INLINE>
 </FILE>
 
@@ -429,6 +498,7 @@ else
     echo "Installing DEFAULT backend for NUT..."
     upgradepkg --install-new &plgPATH;/nut-2.8.1-x86_64-2stable.ssl11.txz
 fi
+echo ""
 </INLINE>
 </FILE>
 
@@ -465,7 +535,12 @@ fi
 <MD5>b9ef68216b97cb5f0bcd9f3312e5941e</MD5>
 </FILE>
 
-<FILE Name="&plgPATH;/libmodbus-3.1.10-x86_64-1usb.txz" Min="6.10" Run="upgradepkg --install-new">
+<FILE Name="&plgPATH;/libmodbus-3.1.10-x86_64-2usb.txz" Min="6.13" Run="upgradepkg --install-new">
+<URL>&pkgURL;/libmodbus-3.1.10-x86_64-2usb.txz</URL>
+<MD5>63c06646d01daaa8389e885ac2f8778e</MD5>
+</FILE>
+
+<FILE Name="&plgPATH;/libmodbus-3.1.10-x86_64-1usb.txz" Min="6.10" Max="6.12.99" Run="upgradepkg --install-new">
 <URL>&pkgURL;/libmodbus-3.1.10-x86_64-1usb.txz</URL>
 <MD5>b833d6ceffad69a19ac871b74be95eb3</MD5>
 </FILE>
@@ -480,6 +555,11 @@ fi
 <FILE Run="/bin/bash">
 <INLINE>
 CONFIG=&plgPATH;/&name;.cfg
+
+if [ -d /usr/local/emhttp/plugins/nut ]; then
+    echo "Now removing the remaining parts of the previous NUT configuration layout..."
+    rm -rf /usr/local/emhttp/plugins/nut
+fi
 
 # reading our configuration
 echo "Reading NUT configuration..."
@@ -509,13 +589,13 @@ else
 fi
  
 # Cleaning old plugin source files
-find &plgPATH;/ -type f -iname "&name;-plugin*.txz" ! -iname "*&plgNAME;*" -delete
-find &plgPATH;/ -type f -iname "&name;-plugin*.md5" ! -iname "*&plgNAME;*" -delete
+find &plgPATH;/ -type f -iname "nut-plugin*.txz" ! -iname "*&plgNAME;*" -delete
+find &plgPATH;/ -type f -iname "nut-plugin*.md5" ! -iname "*&plgNAME;*" -delete
 
 echo ""
 echo "-----------------------------------------------------------"
 echo " Network UPS Tools (NUT) for UNRAID has been installed."
-echo " Version: &version;"
+echo " Version: &version; / Plugin Maintainer: &author;"
 echo "-----------------------------------------------------------"
 echo ""
 </INLINE>
@@ -567,7 +647,7 @@ rm -f &plgPATH;/*.txz \
 rm -rf /etc/nut
 rm -rf /etc/ups
 rm -rf /var/run/nut
-rf -rf /var/state/ups
+rm -rf /var/state/ups
 
 rm -rf /etc/nutstats
 if [ -f /boot/config/plugins/dynamix/nutstats.cron ]; then
@@ -580,7 +660,7 @@ fi
 echo ""
 echo "-----------------------------------------------------------"
 echo " Network UPS Tools (NUT) for UNRAID has been removed."
-echo " Version: &version;"
+echo " Version: &version; / Plugin Maintainer: &author;"
 echo "-----------------------------------------------------------"
 echo ""
 </INLINE>

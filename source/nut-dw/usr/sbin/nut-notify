@@ -1,0 +1,96 @@
+#!/bin/bash
+#
+# Copyright Derek Macias
+# Copyright macester
+# Copyright gfjardim
+# Copyright SimonF
+# Copyright desertwitch
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License 2
+# as published by the Free Software Foundation.
+#
+# The above copyright notice and this permission notice shall be
+# included in all copies or substantial portions of the Software.
+#
+
+PLGPATH="/boot/config/plugins/nut-dw"
+CONFIG=$PLGPATH/nut-dw.cfg
+NOTIFY="/usr/local/emhttp/plugins/dynamix/scripts/notify"
+HOST="$(echo "$HOSTNAME" | awk '{print toupper($0)}')"
+EVENT="UPS Status"
+RUNTIME="battery.runtime"
+
+# read our configuration
+[ -e "$CONFIG" ] && source $CONFIG
+
+SUBJECT="[${HOST}] NUT: [${NAME}] UPS"
+
+if [ "$SHUTDOWN" == "batt_level" ]; then
+        TIMER=$BATTERYLEVEL
+        MESSAGE="The system will shutdown when the UPS battery charge reaches ${BATTERYLEVEL}%."
+        BATTERY="battery.charge"
+fi
+
+if [ "$SHUTDOWN" == "batt_timer" ]; then
+    TIMER=$SECONDS
+    MESSAGE="The system will shutdown when there is ${SECONDS} ${RTUNIT} runtime left on the UPS battery."
+    BATTERY=$RUNTIME
+fi
+
+if [ "$SHUTDOWN" == "sec_timer" ]; then
+    TIMER=$SECONDS
+    MESSAGE="The system will shutdown in ${TIMEOUT} seconds."
+    BATTERY=$RUNTIME
+fi
+
+trap "exit 0" SIGTERM
+if [ "$NOTIFYTYPE" = "ONLINE" ]
+then
+        echo "[${NAME}] UPS is online, any planned shutdowns were cancelled." | tee >(wall) >(logger -t "nut-notify")
+        $NOTIFY -e "${EVENT}" -s "Notice ${SUBJECT} Online" -d "UPS is online, any planned shutdowns were cancelled." -i "normal"
+
+        # Cause all instances of this script to exit.
+        killall -s SIGTERM "$(basename "$0")"
+
+elif [ "$NOTIFYTYPE" = "ONBATT" ]
+then
+        echo "[${NAME}] UPS is on battery. ${MESSAGE}" | tee >(wall) >(logger -t "nut-notify")
+        $NOTIFY -e "${EVENT}" -s "Alert ${SUBJECT} On Battery" -d "UPS is on battery. ${MESSAGE}" -i "alert"
+
+        if [ "$SHUTDOWN" != "none" ]; then
+            if [ "$SHUTDOWN" == "sec_timer" ]; then
+                # Loop with one second interval to allow SIGTERM reception.
+                let "n = $TIMEOUT"
+                while [ $n -ne 0 ]
+                do
+                        sleep 1
+                        let "n--"
+                done
+            else
+                # Loop with one second interval to allow SIGTERM reception.
+                timer="$( /usr/bin/upsc "$NAME"@"$IPADDR"|grep "$BATTERY":|awk '{print $2}' )"
+                while [ "$timer" -gt "$TIMER" ]
+                do
+                    sleep 1
+                    timer="$( /usr/bin/upsc "$NAME"@"$IPADDR"|grep "$BATTERY":|awk '{print $2}' )"
+                done
+            fi
+
+            echo "[${NAME}] UNRAID is being gracefully shutdown from a UPS power event." | tee >(wall) >(logger -t "nut-notify")
+            $NOTIFY -e "${EVENT}" -s "Alert ${SUBJECT} Shutdown" -d "UNRAID is being gracefully shutdown from a UPS power event." -i "alert"
+            /usr/sbin/upsmon -c fsd
+        fi
+
+elif [ "$NOTIFYTYPE" = "REPLBATT" ] 
+then
+        if [ "$REPLBATTMSG" == "enable" ]; then
+            echo "[${NAME}] UPS reports that its batteries need replacement." | tee >(wall) >(logger -t "nut-notify")
+            $NOTIFY -e "${EVENT}" -s "Alert ${SUBJECT} Battery Replacement" -d "UPS reports that its batteries need replacement." -i "alert"
+        fi
+
+# for any other status messages the user has configured to be reported
+else
+        echo "[${NAME}] ${1}" | tee >(wall) >(logger -t "nut-notify")
+        $NOTIFY -e "${EVENT}" -s "Alert ${SUBJECT}" -d "$1" -i "alert"
+fi

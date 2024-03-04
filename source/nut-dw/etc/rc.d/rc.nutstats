@@ -1,0 +1,135 @@
+#!/bin/bash
+#
+# Copyright Derek Macias
+# Copyright macester
+# Copyright gfjardim
+# Copyright SimonF
+# Copyright desertwitch
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License 2
+# as published by the Free Software Foundation.
+#
+# The above copyright notice and this permission notice shall be
+# included in all copies or substantial portions of the Software.
+#
+
+PLGPATH="/boot/config/plugins/nut-dw"
+DOCROOT="/usr/local/emhttp/plugins/nut-dw"
+CONFIG=$PLGPATH/nut-dw.cfg
+
+# read our configuration
+[ -e "$CONFIG" ] && source $CONFIG
+
+enable_nutstats() {
+echo "Enabling the NUT Runtime Statistics Module..."
+    if [ ! -d /etc/nutstats ]; then
+        mkdir /etc/nutstats
+
+        cp -f $CONFIG /etc/nutstats/
+        cp -rf $DOCROOT/nutstats-defaults/* /etc/nutstats/
+
+        rm -rf $DOCROOT/nutstats
+        mkdir $DOCROOT/nutstats
+
+        if [ "$STATSOVERRIDE" == "enable" ]; then
+            echo "NUT Runtime Statistics Variable Override is enabled..."
+
+            variableTestSuccess=true
+            monitorVarsOR=("${STATSCHART1VAR}" "${STATSCHART2VAR}" "${STATSCHART3VAR}" "${STATSCHART4VAR}" "${STATSCHART5VAR}" "${STATSCHART6VAR}" "${STATSCHART7VAR}")
+
+            for i in "${monitorVarsOR[@]}"; do
+                if [ -z "${i// }" ]; then
+                  variableTestSuccess=false
+                fi
+            done
+
+            if [ "$variableTestSuccess" = true ] ; then
+                for monitorVarOR in "${monitorVarsOR[@]}"; do
+                    if [ ! "$monitorVarOR" == "disable" ] ; then
+                        cp -f "${DOCROOT}/nutstats-defaults/ups.realpower.json" "/etc/nutstats/${monitorVarOR}.json"
+                        ln -sf "/etc/nutstats/${monitorVarOR}.json" "${DOCROOT}/nutstats/${monitorVarOR}.json"
+                    fi
+                done
+            else
+                echo "NUT Runtime Statistics Variable Override tests have not passed, using the default values..."
+            fi
+        fi
+
+        ln -sf /etc/nutstats/ups.realpower.json $DOCROOT/nutstats/ups.realpower.json
+        ln -sf /etc/nutstats/battery.charge.json $DOCROOT/nutstats/battery.charge.json
+        ln -sf /etc/nutstats/battery.voltage.json $DOCROOT/nutstats/battery.voltage.json
+        ln -sf /etc/nutstats/input.frequency.json $DOCROOT/nutstats/input.frequency.json
+        ln -sf /etc/nutstats/input.voltage.json $DOCROOT/nutstats/input.voltage.json
+        ln -sf /etc/nutstats/output.frequency.json $DOCROOT/nutstats/output.frequency.json
+        ln -sf /etc/nutstats/output.voltage.json $DOCROOT/nutstats/output.voltage.json
+
+        chmod 755 /etc/nutstats
+        chown root:root /etc/nutstats/*
+        chmod 644 /etc/nutstats/*
+        chown root:root /etc/nutstats/*
+
+        cp -f  $DOCROOT/misc/nutstats.cron /boot/config/plugins/dynamix/nutstats.cron
+
+        if [ "$STATSPOLL" == "01min" ]; then
+            sleep 1
+        elif [ "$STATSPOLL" == "15min" ]; then
+            sed -i '/nutstats/s,^\*,*/15,' /boot/config/plugins/dynamix/nutstats.cron
+            sleep 1
+        elif [ "$STATSPOLL" == "30min" ]; then
+            sed -i '/nutstats/s,^\*,*/30,' /boot/config/plugins/dynamix/nutstats.cron
+            sleep 1
+        elif [ "$STATSPOLL" == "45min" ]; then
+            sed -i '/nutstats/s,^\*,*/45,' /boot/config/plugins/dynamix/nutstats.cron
+            sleep 1
+        elif [ "$STATSPOLL" == "60min" ]; then
+            sed -i '/nutstats/s,^\*,0,' /boot/config/plugins/dynamix/nutstats.cron
+            sleep 1
+        else
+            sed -i '/nutstats/s,^\*,*/30,' /boot/config/plugins/dynamix/nutstats.cron
+            sleep 1
+        fi
+
+        update_cron
+        sleep 1
+        echo "NUT Runtime Statistics is requesting the first batch of data..."
+        /usr/sbin/nutstats 2>/dev/null
+    else
+        cp -f $CONFIG /etc/nutstats/
+    fi
+}
+
+disable_nutstats() {
+echo "Disabling the NUT Runtime Statistics Module..."
+    if [ -f /boot/config/plugins/dynamix/nutstats.cron ]; then
+        rm -f /boot/config/plugins/dynamix/nutstats.cron
+        sleep 1
+        update_cron
+        sleep 1
+    fi
+    rm -rf /etc/nutstats
+    rm -rf $DOCROOT/nutstats
+}
+
+check_nutstats() {
+    echo "Checking if the NUT Runtime Statistics Module should be enabled..."
+    if [ "$STATISTICS" == "enable" ]; then
+        enable_nutstats
+    else
+        disable_nutstats
+    fi
+}
+
+case "$1" in
+    check)
+        check_nutstats
+        ;;
+    enable)
+        enable_nutstats
+        ;;
+    disable)
+        disable_nutstats
+        ;;
+    *)
+    echo "Usage: $0 {enable|disable|check}"
+esac

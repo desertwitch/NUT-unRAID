@@ -1,0 +1,1025 @@
+Menu="OtherSettings"
+Type="xmenu"
+Title="NUT Settings"
+Icon="battery-three-quarters"
+Tag="cog"
+Markdown="false"
+---
+<?PHP
+/* Copyright Derek Macias
+ * Copyright macester
+ * Copyright gfjardim
+ * Copyright SimonF
+ * Copyright desertwitch
+ *
+ * Copyright Dan Landon
+ * Copyright Bergware International
+ * Copyright Lime Technology
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License 2
+ * as published by the Free Software Foundation.
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ */
+?>
+<?PHP
+require_once '/usr/local/emhttp/plugins/nut-dw/include/nut_config.php';
+$showStatPrefs = version_compare(parse_ini_file('/etc/unraid-version')['version'],'6.12.3', '>');
+$lastStartFailed = false;
+
+if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
+    if (!$nut_running) { $lastStartFailed = true; }
+    unlink('/usr/local/emhttp/plugins/nut-dw/misc/start-failed');
+}
+?>
+
+<table class="tablesorter shift nut" <?if (!$nut_running):?>style="display:none"<?endif;?>>
+<thead><tr><th>UPS Status</th><th>Battery Charge</th><th>Runtime Left</th><th>Nominal Power</th><th>UPS Load</th><th>UPS Load</th><th>Power Factor</th></tr></thead>
+<tbody id="nut_summary"><tr><td colspan="7">&nbsp;</td></tr></tbody>
+</table>
+
+<?if ($lastStartFailed):?>
+<div style="border: 1px solid red;padding: 5px;color: red;" id="errormsg">
+    NUT was not able to start successfully - please check the <a href="/Tools/Syslog" target="_blank">SYSLOG</a> for more information.
+</div><br>
+<?endif;?>
+
+<?if ($apc_running):?>
+<div style="border: 1px solid red;padding: 5px;color: red;" id="apcerror">
+    APCUPSD also seems to be enabled, this is not recommended and will lead to both unexpected UPS behaviour and system instabilities.<br>
+    Please visit the <a href="/Settings/UPSsettings" target="_blank">UPS Settings</a> and disable the APC UPS daemon before using and trusting NUT to protect your server from power failures.
+</div><br>
+<?endif;?>
+
+<?if ($powertop_installed):?>
+<div style="border: 1px solid gray;padding: 5px;color: gray;" id="ptwarning">
+    'powertop' was detected on your system and is known to cause instabilities with some UPS (changing the auto-hibernation of USB devices).<br>
+    In case you are having intermittent UPS connection problems, please consider this as a possible source for any such problems you are experiencing.
+</div><br>
+<?endif;?>
+
+<form markdown="0" id="nut-settings" name="nut_settings" method="POST" action="/update.php" target="progressFrame">
+    <input type="hidden" name="#file" value="<?=$sName?>/<?=$sName?>.cfg">
+    <input type="hidden" id="command" name="#command" value="/usr/local/emhttp/plugins/nut-dw/scripts/write_config" />
+    <span style="float:right;margin-right:10px"><a href="https://forums.unraid.net/topic/60217-plugin-nut-v2-network-ups-tools/" target="_blank" title="NUT Support Thread"><i class="fa fa-medkit"></i> <u>Support Thread</u></a> / <a href="http://www.networkupstools.org/docs/user-manual.chunked/" target="_blank" title="NUT User Manual"><i class="fa fa-file-text-o"></i> <u>User Manual</u></a> / <a href="https://networkupstools.org/stable-hcl.html" target="_blank" title="NUT Driver Guide"><i class="fa fa-usb"></i> <u>Driver Guide</u></a></span>
+
+    <dl>
+        <dt>Network UPS Tools Backend:</dt>
+        <dd>
+	        <strong><?= isset($nut_installed_backend) && $nut_installed_backend ? $nut_installed_backend : "n/a" ?></strong>
+        </dd>
+    </dl>
+
+    <blockquote class="inline_help">
+        <p>The currently installed NUT backend is shown here to make sure any backend changes were applied after a reboot.</p>
+    </blockquote>
+
+    <dl>
+        <dt>Network UPS Tools Backend Switch:</dt>
+        <dd>
+            <select class="nut-run" id="BACKEND" name="BACKEND" size="1">
+                <?
+                $URversion = parse_ini_file('/etc/unraid-version')['version'];
+                if(isset($URversion) && $URversion) {
+                    if (version_compare($URversion, '6.12.99', '>')) {
+                        echo(mk_option($nut_backend, "preview", "preview (latest build)"));
+                        echo(mk_option($nut_backend, "default", "default (2.8.1 stable)"));
+                        echo(mk_option($nut_backend, "stable", "release (2.8.0 stable)"));
+                        echo(mk_option($nut_backend, "legacy", "legacy (2.7.4 w/o SNMP)"));
+                    }    
+                    elseif (version_compare($URversion, '6.10.0', '>') && version_compare($URversion, '6.12.99', '<')) {
+                        echo(mk_option($nut_backend, "preview", "preview (latest build)"));
+                        echo(mk_option($nut_backend, "default", "default (2.8.1 stable)"));
+                        echo(mk_option($nut_backend, "stable", "release (2.8.0 stable)"));
+                        echo(mk_option($nut_backend, "legacy", "legacy (2.7.4 stable)"));
+                    }
+                    else {
+                        echo(mk_option($nut_backend, "default", "default"));
+                    }
+                }
+                else {
+                    echo(mk_option($nut_backend, "default", "default"));
+                }
+                ?>
+            </select>
+            <em>requires reboot</em>
+	    </dd>
+    </dl>
+
+    <blockquote class="inline_help">
+    <p>In case of compatibility issues with your UPS, you can attempt to switch the NUT backend to another version (if available).</p>
+    <p>This is not advisable unless you are having problems - if possible stay on <strong><em>default</em></strong> for the recommended NUT backend.</p>
+    </blockquote>
+
+    <dl>
+        <dt><strong>Start Network UPS Tools Service:</strong></dt>
+        <dd>
+            <select id="SERVICE" name="SERVICE" size="1">
+                <?=mk_option($nut_service, "disable", "No");?>
+                <?=mk_option($nut_service, "enable", "Yes");?>
+            </select>
+        </dd>
+    </dl>
+
+    <blockquote class="inline_help">
+        <p>Set to <strong><em>Yes</em></strong> to enable NUT and start the service, set to <strong><em>No</em></strong> to disable NUT and stop the service.</p>
+        <p>The setting <strong><em>Yes</em></strong> will also enable NUT services to start automatically on UNRAID boot.</p>
+    </blockquote>
+
+    <dl>
+        <dt>Enable USB Power Management Override:</dt>
+        <dd>
+            <select class="nut-run" id="ORUSBPOWER" name="ORUSBPOWER" size="1">
+                <?=mk_option($nut_usb_override, "disable", "No");?>
+                <?=mk_option($nut_usb_override, "enable", "Yes");?>
+            </select>
+            <i class="fa fa-exclamation-triangle" title="System-Wide Setting"></i>
+        </dd>
+    </dl>
+
+    <blockquote class="inline_help">
+        <p>Some UPS devices or drivers have USB implementations that cannot handle USB power management (auto hibernation) without resulting in connection problems.</p>
+        <p>This <strong>in most cases not recommended setting</strong> disables USB power management <strong>for all USB hubs and devices (system-wide)</strong>, setting them to <strong><em>always on</em></strong> mode.</p>
+        <p>Enabling this setting will prevent any connected USB hubs and devices from going into auto hibernation (which could alleviate UPS connection instabilities).</p>
+        <p>Please be aware after disabling this setting again a full system reboot will be required to return your system to its default USB power management behavior.</p>
+    </blockquote>
+
+    <dl>
+        <dt>Enable Manual Configuration:</dt>
+        <dd>
+            <select class="nut-run" id="MANUAL" name="MANUAL" size="1">
+                <?=mk_option($nut_manual, "disable", "No");?>
+                <?=mk_option($nut_manual, "enable", "Yes");?>
+                <?=mk_option($nut_manual, "onlyups", "for UPS Driver");?>
+            </select>
+        </dd>
+    </dl>
+
+    <blockquote class="inline_help">
+        <p>Set to <strong><em>Yes</em></strong> to enable manual configuration of NUT, set to <strong><em>No</em></strong> to disable manual configuration of NUT.</p>
+        <p>Setting <strong><em>Yes</em></strong> will ignore and hide all NUT settings on this page. The NUT configuration files will be used instead.</p>
+        <p>Setting <strong><em>No</em></strong> will use the NUT settings on this page to configure the NUT services and populate the configuration files.</p>
+        <p>Setting <strong><em>for UPS Driver</em></strong> (usually set by the <strong><em>AUTO CONFIG</em></strong> feature) enables manual configuration of NUT only for the <strong><em>ups.conf</em></strong> file.</p>
+        <p>Regardless of this setting, you can always edit the configuration files to add any extra settings not included on this page.</p>
+        <p>If not in manual configuration mode, mind the safe zones marked in the configuration files so your extra settings are not overwritten.</p>
+        <p><u>Note:</u> If you run into problems after changing this setting, it might be helpful to start from a fresh configuration using the <strong><em>RESET CONFIG</em></strong> feature.</p>
+    </blockquote>
+
+    <div id="SETTINGS1">
+        <dl>
+            <dt>NUT Mode:</dt>
+            <dd>
+                <select class="nut-run" id="MODE" name="MODE" size="1">
+                    <?=mk_option($nut_mode, 'standalone', 'Standalone');?>
+                    <?=mk_option($nut_mode, 'netserver', 'Netserver');?>
+                    <?=mk_option($nut_mode, 'slave', 'Slave');?>
+                </select>
+            </dd>
+        </dl>
+
+        <blockquote class="inline_help">
+            <p>This setting defines the mode your NUT services will operate in and also the level of connectivity they will provide:</p>
+            <p><strong><em>Standalone</em></strong> - Your UPS is connected to your UNRAID server and no external (slave) connections to NUT will be possible.</p>
+            <p><strong><em>Netserver</em></strong> - Your UPS is connected to your UNRAID server and external (slave) connections to NUT will be possible.</p>
+            <p><strong><em>Slave</em></strong> - Your UPS is connected to another NUT master server and you want your UNRAID server to connect to it as a NUT slave.</p>
+        </blockquote>
+
+        <dl>
+            <dt>NUT Master IP Address:</dt>
+            <dd>
+                <input id="IPADDR" type="text" class="narrow nut-run nut-ipaddr" name="IPADDR" value="<?=htmlspecialchars($nut_ip);?>" maxlength="15">
+            </dd>
+        </dl>
+
+        <blockquote class="inline_help">
+            <p>The IP address of the NUT master server (the UPS is connected to) to monitor.</p>
+            <p>In <strong><em>Standalone</em></strong> and <strong><em>Netserver</em></strong> modes, this setting should be <strong><em>127.0.0.1</em></strong></p>
+        </blockquote>
+
+        <dl>
+            <dt>NUT Monitor Username:</dt>
+            <dd>
+                <input id="MONUSER" type="text" class="narrow nut-run nut-monuser" name="MONUSER" maxlength="30" value="<?=htmlspecialchars($nut_monuser);?>">
+            </dd>
+        </dl>
+
+        <blockquote class="inline_help">
+            <p>The username to access the NUT master server.</p>
+            <p><u>Warning:</u> Do not set this to the same username as <strong><em>NUT Slave Username</em></strong>.</p>
+        </blockquote>
+
+        <dl>
+            <dt>NUT Monitor Password:</dt>
+            <dd>
+                <input id="MONPASS" type="password" class="narrow nut-run" name="MONPASS" maxlength="66" value="<?=htmlspecialchars($nut_monpass);?>">
+            </dd>
+        </dl>
+
+        <blockquote class="inline_help">
+            <p>The password to access the NUT master server.</p>
+        </blockquote>
+
+        <dl>
+            <dt>NUT Monitor Debug Level:</dt>
+            <dd>
+                <select class="nut-run" id="DEBLEVELMON" name="DEBLEVELMON" size="1">
+                <?=mk_option($nut_deblevel_mon, 'default', 'Default');?>
+                <?=mk_option($nut_deblevel_mon, '1', 'Level 1');?>
+                <?=mk_option($nut_deblevel_mon, '2', 'Level 2');?>
+                <?=mk_option($nut_deblevel_mon, '3', 'Level 3');?>
+                <?=mk_option($nut_deblevel_mon, '4', 'Level 4');?>
+                <?=mk_option($nut_deblevel_mon, '5', 'Level 5');?>
+                <?=mk_option($nut_deblevel_mon, '6', 'Level 6');?>
+                </select>
+            </dd>
+        </dl>
+
+        <blockquote class="inline_help">
+            <p>The NUT Monitor Debug Level decides how much information the NUT Monitor outputs to the SYSLOG.</p>
+            <p>In case of problems with your UPS, the developers might ask you to raise this level for diagnostic reasons.</p>
+            <p>If you want your SYSLOG to survive system reboots (for diagnostics), you can set this elsewhere - see <a href="/Settings/SyslogSettings" target="_blank">Settings->Syslog Server->Mirror syslog to flash</a>.</p>
+            <p>You will then find a mirror of the SYSLOG file on your USB drive (<a href="/plugins/nut-dw/include/nut_syslog_helper.php" target="_blank">HERE</a> or inside <strong><em>/boot/logs/</em></strong>), please be aware that mirroring will increase wear to your USB drive.</p>
+        </blockquote>
+
+        <div id="SLAVE">
+            <dl>
+                <dt>NUT Slave Username:</dt>
+                <dd>
+                    <input id="SLAVEUSER" type="text" class="narrow nut-run nut-slaveuser" name="SLAVEUSER" maxlength="30" value="<?=htmlspecialchars($nut_slaveuser);?>">
+                </dd>
+            </dl>
+
+            <blockquote class="inline_help">
+                <p>The username for NUT slaves to use connecting to the NUT master server.</p>
+                <p><u>Warning:</u> Do not set this to the same username as <strong><em>NUT Monitor Username</em></strong>.</p>
+                <p><u>Note:</u> NUT is configured to listen on all interfaces (<strong><em>0.0.0.0</em></strong>).</p>
+            </blockquote>
+
+            <dl>
+                <dt>NUT Slave Password:</dt>
+                <dd>
+                    <input id="SLAVEPASS" type="password" class="narrow nut-run" name="SLAVEPASS" maxlength="66" value="<?=htmlspecialchars($nut_slavepass);?>">
+                </dd>
+            </dl>
+
+            <blockquote class="inline_help">
+                <p>The password for NUT slaves to use connecting to the NUT master server.</p>
+                <p><u>Note:</u> NUT is configured to listen on all interfaces (<strong><em>0.0.0.0</em></strong>).</p>
+            </blockquote>
+        </div>
+    </div>
+
+    <div id="NAMESETT">
+        <dl>
+            <dt>UPS Name:</dt>
+            <dd>
+                <input id="NAME" type="text" class="narrow nut-run nut-name" name="NAME" maxlength="30" value="<?=htmlspecialchars($nut_name);?>">
+            </dd>
+        </dl>
+
+        <blockquote class="inline_help">
+            <p>The name of the UPS configured in NUT (on the master server).</p>
+            <p>It is recommended to leave this setting as it is, unless connecting to a UPS with a different name in <strong><em>Slave</em></strong> mode.</p>
+            <p>In <strong><em>manual configuration</em></strong> mode, this setting controls which of your (possibly multiple) configured UPS the GUI dashboards will show information for.</p>            
+        </blockquote>
+    </div>
+
+    <div id="SETTINGS2">
+        <div id="DRIVERS">
+            <dl>
+                <dt>UPS Driver:</dt>
+                <dd>
+                    <select class="nut-run" id="DRIVER" name="DRIVER" size="1">
+                    <?=mk_option($nut_driver, 'usbhid-ups', 'usbhid-ups');?>
+                    <?=mk_option($nut_driver, 'nutdrv_qx', 'nutdrv_qx');?>
+                    <?=mk_option($nut_driver, 'apc_modbus', 'apc_modbus');?>
+                    <?=mk_option($nut_driver, 'blazer_usb', 'blazer_usb');?>
+                    <?=mk_option($nut_driver, 'blazer_ser', 'blazer_ser');?>
+                    <?=mk_option($nut_driver, 'bcmxcp_usb', 'bcmxcp_usb');?>
+                    <?=mk_option($nut_driver, 'richcomm_usb', 'richcomm_usb');?>
+                    <?=mk_option($nut_driver, 'riello_usb', 'riello_usb');?>
+                    <?=mk_option($nut_driver, 'tripplite_usb', 'tripplite_usb');?>
+                    <?=mk_option($nut_driver, 'snmp-ups', 'snmp-ups');?>
+                    <?=mk_option($nut_driver, 'custom', 'custom (not listed)');?>
+                    </select>
+                    <input type="hidden" class="narrow serial nut-run" id="SERIAL" name="SERIAL" placeholder="driver name" maxlength="40" value="<?=$nut_serial;?>">
+                    <i class="fa fa-search" title="Scan for Devices" id="SCANDRIVERS"></i>
+                </dd>
+            </dl>
+
+            <blockquote class="inline_help">
+                <p>Please use the device scanner (<i class="fa fa-search"></i>) or the link below to find a driver matching for your UPS:</p>
+                <p><a href="http://www.networkupstools.org/stable-hcl.html" target="_blank">http://www.networkupstools.org/stable-hcl.html</a></p>
+                <p>For drivers not listed here, set to <strong><em>custom (not listed)</em></strong> and insert the driver in the text field appearing to the right.</p>
+                <p>Please do not forget to match your selected driver and the port configured below.</p>
+            </blockquote>
+
+            <dl>
+              <dt>UPS Driver Port:</dt>
+              <dd><input type="text" name="PORT" class="narrow nut-run nut-port" maxlength="40" value="<?=$nut_port;?>"></dd>
+            </dl>
+
+            <blockquote class="inline_help">
+                <p>Enter the device port your NUT driver will connect to:</p>
+                <p>- Set to <strong><em>auto</em></strong> if the UPS is connected by USB.</p>
+                <p>- Set to a physical port, e.g. <strong><em>/dev/tty0</em></strong>, for serial devices.</p>
+                <p>- Set to <strong><em>hostname[:port]</em></strong> when connecting via SNMP using the driver <strong><em>snmp-ups</em></strong>.</p>
+            </blockquote>
+
+            <dl>
+              <dt>UPS Driver Debug Level:</dt>
+              <dd>
+                    <select class="nut-run" id="DEBLEVEL" name="DEBLEVEL" size="1">
+                    <?=mk_option($nut_deblevel, 'default', 'Default');?>
+                    <?=mk_option($nut_deblevel, '1', 'Level 1');?>
+                    <?=mk_option($nut_deblevel, '2', 'Level 2');?>
+                    <?=mk_option($nut_deblevel, '3', 'Level 3');?>
+                    <?=mk_option($nut_deblevel, '4', 'Level 4');?>
+                    <?=mk_option($nut_deblevel, '5', 'Level 5');?>
+                    <?=mk_option($nut_deblevel, '6', 'Level 6');?>
+                    </select>
+              </dd>
+            </dl>
+
+            <blockquote class="inline_help">
+                <p>The UPS Driver Debug Level decides how much information the UPS Driver outputs to the SYSLOG.</p>
+                <p>In case of problems with your UPS, the developers might ask you to raise this level for diagnostic reasons.</p>
+                <p>If you want your SYSLOG to survive system reboots (for diagnostics), you can set this elsewhere - see <a href="/Settings/SyslogSettings" target="_blank">Settings->Syslog Server->Mirror syslog to flash</a>.</p>
+                <p>You will then find a mirror of the SYSLOG file on your USB drive (<a href="/plugins/nut-dw/include/nut_syslog_helper.php" target="_blank">HERE</a> or inside <strong><em>/boot/logs/</em></strong>), please be aware that mirroring will increase wear to your USB drive.</p>
+            </blockquote>
+        
+            <div id="snmp" style="display: none;">
+                <dl>
+                    <dt>SNMP Community:</dt>
+                    <dd>
+                        <input type="text" name="COMMUNITY" class="narrow nut-run" maxlength="40" value="<?=$nut_community;?>">
+                    </dd>
+                </dl>
+
+                <blockquote class="inline_help">
+                    <p>The name of the read community of your UPS SNMP agent.</p>
+                </blockquote>
+
+                <dl>
+                    <dt>SNMP Polling Frequency:</dt>
+                    <dd>
+                        <input type="text" name="POLL" class="narrow nut-run" maxlength="40" value="<?=$nut_poll;?>">
+                    </dd>
+                </dl>
+
+                <blockquote class="inline_help">
+                    <p>The desired SNMP polling frequency (in seconds).</p>
+                </blockquote>
+            </div>
+        </div>
+
+        <dl>
+            <dt>UPS Battery Runtime Attribute:</dt>
+            <dd>
+                <select class="nut-run" id="RUNTIME" name="RUNTIME" size="1">
+                    <?=mk_option($nut_runtime, 'battery.runtime', 'battery.runtime');?>
+                    <?=mk_option($nut_runtime, 'battery.runtime.low', 'battery.runtime.low');?>
+                </select>
+            </dd>
+        </dl>
+
+        <blockquote class="inline_help">
+            <p>Select the battery runtime attribute that correctly reflects your UPS remaining battery runtime (see <strong><em>NUT Details</em></strong> table).</p>
+            <p>- <strong><em>battery.runtime</em></strong> usually reflects the total remaining battery runtime of the UPS.</p>
+            <p>- <strong><em>battery.runtime.low</em></strong> usually reflects the remaining battery runtime after UPS switches to Low Battery.</p>
+            <p>This setting is used to display the correct runtime information and also when using the shutdown mode <strong><em>Runtime Left</em></strong>.</p>
+        </blockquote>
+
+        <dl>
+            <dt>Shutdown Mode:</dt>
+            <dd>
+                <select class="nut-run" id="SHUTDOWN" name="SHUTDOWN" size="1">
+                    <?=mk_option($nut_shutdown, 'batt_level', 'Battery Level');?>
+                    <?=mk_option($nut_shutdown, 'batt_timer', 'Runtime Left');?>
+                    <?=mk_option($nut_shutdown, 'sec_timer', 'Time on Battery');?>
+                    <?=mk_option($nut_shutdown, 'none', 'None (the UPS decides)');?>
+                </select>
+            </dd>
+        </dl>
+
+        <blockquote class="inline_help">
+            <p>Select the shutdown mode for NUT, this mode determines which UPS criteria to use when NUT should shutdown the system.</p>
+            <p>- <strong><em>Battery Level</em></strong> shuts down the system when there is X percentage left on the battery.</p>
+            <p>- <strong><em>Runtime Left</em></strong> shuts down the system when there is X runtime left on the battery (in minutes).</p>
+            <p>- <strong><em>Time on Battery</em></strong> shuts down the system when the user defined timer reaches zero (in minutes).</p>
+            <p>- <strong><em>None (the UPS decides)</em></strong> deactivates any <u>additional</u> shutdown criteria and shuts down the system when the UPS emits a Low Battery (LB) status.</p>
+            <p>If your UPS <u>does not</u> report the variables <strong><em>battery.charge</em></strong> or <strong><em>battery.runtime</em></strong> correctly (see <strong><em>NUT Details</em></strong> table), please choose <strong><em>Time on Battery</em></strong> here.</p>
+            <p><u>Recommendation:</u> Choose <strong><em>Time on Battery</em></strong> or <strong><em>Battery Level</em></strong> where possible, as <strong><em>Runtime Left</em></strong> is the most volatile and UPS-dependent of the three modes.</p>
+        </blockquote>
+
+        <div id="SHUTDOWN0">
+            <dl>
+                <dt>Battery Level to initiate Shutdown (%):</dt>
+                <dd>
+                    <select class="nut-run" id="BATTERYLEVEL" name="BATTERYLEVEL" size="1">
+                        <? echo get_battery_options($nut_battery);?>
+                    </select>
+                </dd>
+            </dl>
+
+            <blockquote class="inline_help">
+                <p>If during a power failure, the remaining battery percentage (as reported by the UPS) is below or equal to this setting, NUT will initiate a system shutdown.</p>
+            </blockquote>
+        </div>
+
+        <div id="SHUTDOWN1">
+            <dl>
+                <dt>Battery Runtime Left to initiate Shutdown:</dt>
+                <dd>
+                    <input id="SECONDS" type="text" class="narrow nut-run" name="SECONDS" maxlength="5" value="<?=htmlspecialchars($nut_seconds);?>">
+                </dd>
+            </dl>
+
+            <blockquote class="inline_help">
+                <p>If during a power failure, the remaining battery runtime (as calculated by the UPS) is below or equal to this setting, NUT will initiate a system shutdown.</p>
+                <p>Usually your UPS reports this value in seconds (check <strong><em>NUT Details</em></strong> table). If so, write this value here in seconds - otherwise write this value here in minutes.</p>
+                <p><u>Warning:</u> Depending on your UPS this value can fluctuate, if your UPS has an old battery you shouldn't trust this shutdown mode.</p>
+            </blockquote>
+        </div>
+
+        <div id="SHUTDOWN2">
+            <dl>
+                <dt>Time on Battery before Shutdown (Minutes):</dt>
+                <dd>
+                    <select class="nut-run" id="TIMEOUT" name="TIMEOUT" size="1">
+                        <? echo get_minute_options($nut_timeout);?>
+                    </select>
+                </dd>
+            </dl>
+
+            <blockquote class="inline_help">
+                <p>The time in minutes before NUT will initiate a system shutdown if a power failure occours (regardless of battery runtime/charge).</p>
+                <p>This value should always be lower than the total time you expect your UPS to last on battery in a maximum load scenario.</p>
+            </blockquote>
+        </div>
+
+        <div id="SHUTDOWN3">
+        </div>
+
+        <div id="UPSKILL">
+            <dl>
+                <dt>Disable UPS Power after Shutdown:</dt>
+                <dd>
+                    <select class="nut-run" name="UPSKILL" size="1">
+                        <?=mk_option($nut_upskill, 'disable', 'No');?>
+                        <?=mk_option($nut_upskill, 'enable', 'Yes');?>
+                    </select>
+                </dd>
+            </dl>
+
+            <blockquote class="inline_help">
+                <p>Set to <strong><em>Yes</em></strong> to turn off the UPS battery power (to the protected devices) after a NUT intiated shutdown.</p>
+                <p>Enable <strong><em>Automatically power on after power loss</em></strong> in your BIOS if you want your computers to restart when the power (mains) recovers.</p>
+                <p><u>Warning:</u> Not all UPS devices support this setting, in the worst case it will have no effect.</p>
+            </blockquote>
+        </div>
+        
+        <dl>
+            <dt>Battery Replacement Notification:</dt>
+            <dd>
+                <select class="nut-run" id="REPLBATTMSG" name="REPLBATTMSG" size="1">
+                    <?=mk_option($nut_replbattmsg, 'disable', 'No');?>
+                    <?=mk_option($nut_replbattmsg, 'enable', 'Yes');?>
+                </select>
+            </dd>
+        </dl>
+
+        <blockquote class="inline_help">
+            <p>Set to <strong><em>Yes</em></strong> to receive a notification when the UPS reports the batteries as needing replacement.</p>
+            <p>By default this notification will be sent every 12 hours until the batteries are replaced.</p>
+        </blockquote>  
+    </div>
+
+    <br>
+
+    <dl>
+        <dt>
+            <input id="DEFAULT" class="nut-run" type="submit" name="#default" value="Default">
+            <input id="RESETCONF" class="nut-run" type="button" value="Reset Config">
+            <input id="SCAN" class="nut-run" type="button" value="Auto Config">
+        </dt>
+        <dd>
+            <input type="submit" id="btnApply" name="#apply" value="Apply"><input type="button" value="Done" onclick="done()"><input id="RESTART" type="submit" value="Restart Nut" style="margin-bottom:8px;">
+        </dd>
+    </dl>
+</form>
+
+<div id="title">
+    <span class="left"><i class="icon fa fa-desktop"></i> Display Settings</span>
+</div>
+
+<br>
+
+<form markdown="0" id="nut-display" name="nut_display" method="POST" action="/update.php" target="progressFrame">
+    <input type="hidden" name="#file" value="<?=$sName?>/<?=$sName?>.cfg">
+    <input type="hidden" id="command2" name="#command" value="/usr/local/emhttp/plugins/nut-dw/scripts/write_config" />
+    <dl>
+        <dt>NUT Page Footer:</dt>
+        <dd>
+            <select class="" name="FOOTER" size="1">
+                <?=mk_option($nut_footer, 'disable', 'No');?>
+                <?=mk_option($nut_footer, 'enable', 'Yes');?>
+            </select>
+        </dd>
+    </dl>
+
+    <blockquote class="inline_help">
+        <p>Display a small banner in the page's footer with available UPS statistics.</p>
+    </blockquote>
+
+    <dl>
+        <dt>NUT Footer Style:</dt>
+        <dd>
+            <select class="" name="FOOTER_STYLE" size="1">
+                <?=mk_option($nut_footer_style, '0', 'Default');?>
+                <?=mk_option($nut_footer_style, '1', 'Minimal');?>
+            </select>
+        </dd>
+    </dl>
+
+    <blockquote class="inline_help">
+        <p>Sets the style of the small banner in the page's footer.</p>
+        <p><u>Note:</u> There is no tooltip with additional UPS information when using the <strong><em>Minimal</em></strong> style.</p>
+    </blockquote>
+
+    <dl>
+        <dt>NUT Automatic GUI Refresh:</dt>
+        <dd>
+            <select class="" name="REFRESH" size="1">
+                <?=mk_option($nut_refresh, 'disable', 'No');?>
+                <?=mk_option($nut_refresh, 'enable', 'Yes');?>
+            </select>
+        </dd>
+    </dl>
+
+    <blockquote class="inline_help">
+        <p>Enable or disable automatic refreshes for the NUT dashboards, charts and footer.</p>
+    </blockquote>
+
+    <dl>
+        <dt>NUT Automatic GUI Refresh Interval:</dt>
+        <dd>
+            <input id="INTERVAL" type="text" class="narrow nut-power" name="INTERVAL" maxlength="5" value="<?=htmlspecialchars($nut_interval);?>">
+        </dd>
+    </dl>
+
+    <blockquote class="inline_help">
+        <p>Interval for the automatic NUT dashboard, chart and footer refreshes (in seconds).</p>
+    </blockquote>
+
+    <div id="STATPREFS" style="<?=($showStatPrefs ? '' : 'display:none;');?>">
+        <dl>
+        <dt>NUT Runtime Statistics Module:</dt>
+            <dd>
+                <select id="STATISTICS" name="STATISTICS" size="1">
+                    <?=mk_option($nut_statistics, 'disable', 'No');?>
+                    <?=mk_option($nut_statistics, 'enable', 'Yes');?>
+                </select>
+            </dd>
+        </dl>
+
+        <blockquote class="inline_help">
+            <p>Enable or disable the NUT Runtime Statistics Module (on UNRAID <strong><em>versions 6.12.3+</em></strong>).</p>
+            <p>The module will record UPS variables of interest and display them as useful charts on a seperate <strong><em>NUT Statistics</em></strong> page.</p>
+        </blockquote>
+
+        <div id="STATS-OR" style="display: none;">
+            <dl>
+                <dt>NUT Runtime Statistics Polling Frequency:</dt>
+                    <dd>
+                        <select id="STATSPOLL" name="STATSPOLL" size="1">
+                            <?=mk_option($nut_stats_poll, '01min', 'Every 01 Minute(s)');?>
+                            <?=mk_option($nut_stats_poll, '15min', 'Every 15 Minute(s)');?>
+                            <?=mk_option($nut_stats_poll, '30min', 'Every 30 Minute(s)');?>
+                            <?=mk_option($nut_stats_poll, '45min', 'Every 45 Minute(s)');?>
+                            <?=mk_option($nut_stats_poll, '60min', 'Every 60 Minute(s)');?>
+                        </select>
+                    </dd>
+            </dl>
+
+            <blockquote class="inline_help">
+            <p>Sets the updating frequency for the NUT Runtime Statistics.</p>
+            <p>This means how often the NUT Runtime Statistics service will request the UPS data from the NUT service.</p>
+            </blockquote>
+
+            <dl>
+                <dt>NUT Runtime Statistics Variable Override:</dt>
+                    <dd>
+                        <select id="STATSOVERRIDE" name="STATSOVERRIDE" size="1">
+                            <?=mk_option($nut_stats_override, 'disable', 'No');?>
+                            <?=mk_option($nut_stats_override, 'enable', 'Yes');?>
+                        </select>
+                    </dd>
+            </dl>
+
+            <blockquote class="inline_help">
+            <p>The NUT Runtime Statistics Variable Override lets you configure custom UPS values and descriptions for the statistics charts.</p>
+            <p><u>Note:</u> By setting a <u>UPS Variable</u> to <strong><em>disable</em></strong> you can disable/hide an unneeded chart altogether.</p>
+            <p><strong><u>Warning:</u> You must make sure that <u>every UPS variable field has a value set</u>, either a UPS variable or <em>disable</em></strong>.</p>
+            <p><strong><u>Warning:</u> You can only use <u>numeric (number) UPS variables</u>, which are also existent in the <u>NUT Details</u> table on this page!</strong></p>
+            </blockquote>
+        </div>
+
+        <div id="STATS-OR-PREF" style="display: none;">
+            <dl>
+                <dt><em>Statistics Chart 1 - UPS Variable:</em></dt>
+                <dd>
+                    <input id="STATSCHART1VAR" type="text" name="STATSCHART1VAR" value="<?=htmlspecialchars($nut_stats_c1_var);?>">
+                </dd>
+            </dl>
+            <dl>
+                <dt><em>Statistics Chart 1 - Description Text:</em></dt>
+                <dd>
+                    <input id="STATSCHART1TXT" type="text" name="STATSCHART1TXT" value="<?=htmlspecialchars($nut_stats_c1_txt);?>">
+                </dd>
+            </dl>
+            <dl>
+                <dt><em>Statistics Chart 2 - UPS Variable:</em></dt>
+                <dd>
+                    <input id="STATSCHART2VAR" type="text" name="STATSCHART2VAR" value="<?=htmlspecialchars($nut_stats_c2_var);?>">
+                </dd>
+            </dl>
+            <dl>
+                <dt><em>Statistics Chart 2 - Description Text:</em></dt>
+                <dd>
+                    <input id="STATSCHART2TXT" type="text" name="STATSCHART2TXT" value="<?=htmlspecialchars($nut_stats_c2_txt);?>">
+                </dd>
+            </dl>
+            <dl>
+                <dt><em>Statistics Chart 3 - UPS Variable:</em></dt>
+                <dd>
+                    <input id="STATSCHART3VAR" type="text" name="STATSCHART3VAR" value="<?=htmlspecialchars($nut_stats_c3_var);?>">
+                </dd>
+            </dl>
+            <dl>
+                <dt><em>Statistics Chart 3 - Description Text:</em></dt>
+                <dd>
+                    <input id="STATSCHART3TXT" type="text" name="STATSCHART3TXT" value="<?=htmlspecialchars($nut_stats_c3_txt);?>">
+                </dd>
+            </dl>
+            <dl>
+                <dt><em>Statistics Chart 4 - UPS Variable:</em></dt>
+                <dd>
+                    <input id="STATSCHART4VAR" type="text" name="STATSCHART4VAR" value="<?=htmlspecialchars($nut_stats_c4_var);?>">
+                </dd>
+            </dl>
+            <dl>
+                <dt><em>Statistics Chart 4 - Description Text:</em></dt>
+                <dd>
+                    <input id="STATSCHART4TXT" type="text" name="STATSCHART4TXT" value="<?=htmlspecialchars($nut_stats_c4_txt);?>">
+                </dd>
+            </dl>
+            <dl>
+                <dt><em>Statistics Chart 5 - UPS Variable:</em></dt>
+                <dd>
+                    <input id="STATSCHART5VAR" type="text" name="STATSCHART5VAR" value="<?=htmlspecialchars($nut_stats_c5_var);?>">
+                </dd>
+            </dl>
+            <dl>
+                <dt><em>Statistics Chart 5 - Description Text:</em></dt>
+                <dd>
+                    <input id="STATSCHART5TXT" type="text" name="STATSCHART5TXT" value="<?=htmlspecialchars($nut_stats_c5_txt);?>">
+                </dd>
+            </dl>
+            <dl>
+                <dt><em>Statistics Chart 6 - UPS Variable:</em></dt>
+                <dd>
+                    <input id="STATSCHART6VAR" type="text" name="STATSCHART6VAR" value="<?=htmlspecialchars($nut_stats_c6_var);?>">
+                </dd>
+            </dl>
+            <dl>
+                <dt><em>Statistics Chart 6 - Description Text:</em></dt>
+                <dd>
+                    <input id="STATSCHART6TXT" type="text" name="STATSCHART6TXT" value="<?=htmlspecialchars($nut_stats_c6_txt);?>">
+                </dd>
+            </dl>
+            <dl>
+                <dt><em>Statistics Chart 7 - UPS Variable:</em></dt>
+                <dd>
+                    <input id="STATSCHART7VAR" type="text" name="STATSCHART7VAR" value="<?=htmlspecialchars($nut_stats_c7_var);?>">
+                </dd>
+            </dl>
+            <dl>
+                <dt><em>Statistics Chart 7 - Description Text:</em></dt>
+                <dd>
+                    <input id="STATSCHART7TXT" type="text" name="STATSCHART7TXT" value="<?=htmlspecialchars($nut_stats_c7_txt);?>">
+                </dd>
+            </dl>      
+        </div>
+    </div>
+
+    <dl>
+        <dt>UPS Power and Load Display Settings:</dt>
+        <dd>
+            <select id="POWER" name="POWER" size="1">
+                <?=mk_option($nut_power, "auto", "Auto");?>
+                <?=mk_option($nut_power, "manual", "Manual");?>
+            </select>
+        </dd>
+    </dl>
+
+    <blockquote class="inline_help">
+        <p>Setting for UPS Output Capacity Watts and Volt-Amperes, used to calculate the Power Factor and Watts used:</p>
+        <p>- <strong><em>Auto</em></strong> if the values reported by your UPS are correct (see <strong><em>NUT Details</em></strong> table).</p>
+        <p>- <strong><em>Manual</em></strong> if the values reported by your UPS are incorrect (see <strong><em>NUT Details</em></strong> table).</p>
+    </blockquote>
+
+    <div id="POWER-SETTINGS">
+        <dl>
+            <dt>UPS Output Volt Ampere Capacity (VA):</dt>
+            <dd>
+                <input id="POWERVA" type="text" class="narrow nut-power" name="POWERVA" maxlength="5" value="<?=htmlspecialchars($nut_powerva);?>">
+            </dd>
+        </dl>
+
+        <blockquote class="inline_help">
+            <p>Enter your actual UPS Output Capacity in Volt-Amperes.</p>
+        </blockquote>
+
+        <dl>
+            <dt>UPS Output Watt Capacity (W):</dt>
+            <dd>
+                <input id="POWERW" type="text" class="narrow nut-power" name="POWERW" maxlength="4" value="<?=htmlspecialchars($nut_powerw);?>">
+            </dd>
+        </dl>
+
+        <blockquote class="inline_help">
+            <p>Enter your actual UPS Output Capacity in Watts.</p>
+        </blockquote>
+
+    </div>
+
+    <dl>
+        <dt>UPS Battery Runtime Measurement Unit:</dt>
+        <dd>
+            <select id="RTUNIT" name="RTUNIT" size="1">
+                <?=mk_option($nut_rtunit, "seconds", "Seconds");?>
+                <?=mk_option($nut_rtunit, "minutes", "Minutes");?>
+            </select>
+        </dd>
+    </dl>
+
+    <blockquote class="inline_help">
+        <p>Please select here how your UPS reports the remaining battery runtime (see <strong><em>NUT Details</em></strong> table) - either in seconds or minutes.</p>
+        <p>Most UPS report their remaining battery runtime in seconds, however some UPS choose to report this value in minutes instead.</p>
+    </blockquote>
+
+    <dl>
+        <dt>
+            <input id="DEFAULT" type="submit" name="#default" value="Default">
+            <input id="USBDIAGS" type="button" value="USB Diagnostics">
+        </dt>
+        <dd>
+            <input type="submit" value="Apply"><input type="button" value="Done" onclick="done()">
+        </dd>
+    </dl>
+</form>
+
+<script src="<?=autov('/plugins/nut-dw/js/jquery.mask.min.js');?>"></script>
+
+<script type="text/javascript">
+function checkNUTsettings() {
+    $('#SETTINGS1').hide();
+    $('#SETTINGS2').hide();
+    $('#DRIVERS').hide();
+    $('#SLAVE').hide();
+    $('#UPSKILL').hide();
+    $('#SERIAL').prop('type', 'hidden');
+    $('#snmp').hide();
+    $('#SHUTDOWN0').hide();
+    $('#SHUTDOWN1').hide();
+    $('#SHUTDOWN2').hide();
+    $('#NAMESETT').hide();
+
+    if ($('#MANUAL').val() === 'enable') {
+        $('#SETTINGS1').hide();
+        $('#SETTINGS2').hide();
+        $('#NAMESETT').show();
+    } else if ($('#MANUAL').val() === 'onlyups') {
+        $('#SETTINGS1').show();
+        $('#SETTINGS2').show();
+        $('#NAMESETT').show();
+
+        var Shutdown = $('#SHUTDOWN')[0].selectedIndex;
+        for (var i = 0; i < 3; i++) {
+            if (i == Shutdown) {
+                $('#SHUTDOWN'+i).show();
+            } else {
+                $('#SHUTDOWN'+i).hide();
+            }
+        }
+
+        if ($('#MODE')[0].selectedIndex < 2){
+            //standalone+netserver
+            $('#IPADDR').val('127.0.0.1');
+            $('#IPADDR').attr('readonly', true);
+            $('#UPSKILL').show();
+        }else{
+            //slave
+            $('#IPADDR').attr('readonly', false);
+            $('#UPSKILL').hide();
+        }
+        if ($('#MODE')[0].selectedIndex != 1) {
+            //standalone+slave
+            $('#SLAVE').hide();
+        } else {
+            //netserver
+            $('#SLAVE').show();
+        }
+    } else {
+        $('#SETTINGS1').show();
+        $('#SETTINGS2').show();
+        $('#NAMESETT').show();
+
+        var Shutdown = $('#SHUTDOWN')[0].selectedIndex;
+        for (var i = 0; i < 3; i++) {
+            if (i == Shutdown) {
+                $('#SHUTDOWN'+i).show();
+            } else {
+                $('#SHUTDOWN'+i).hide();
+            }
+        }
+
+        if ($('#MODE')[0].selectedIndex < 2){
+            //standalone+netserver
+            $('#IPADDR').val('127.0.0.1');
+            $('#IPADDR').attr('readonly', true);
+            $('#UPSKILL').show();
+            
+            $('#DRIVERS').show();
+
+            if ($('#DRIVER').val() == 'custom' ) {
+                $('#SERIAL').prop('type', 'text');
+            } else {
+                $('#SERIAL').prop('type', 'hidden');
+            }
+
+            if ($('#DRIVER').val() == 'snmp-ups' ) {
+                $('#snmp').show();
+            } else {
+                $('#snmp').hide();
+            }
+        }else{
+            //slave
+            $('#IPADDR').attr('readonly', false);
+            $('#UPSKILL').hide();
+        }
+        if ($('#MODE')[0].selectedIndex != 1) {
+            //standalone+slave
+            $('#SLAVE').hide();
+        } else {
+            //netserver
+            $('#SLAVE').show();
+        }
+    }
+}
+
+function checkNUTSTATsettings(toggleChanged = true) {
+    $('#STATS-OR').hide();
+    $('#STATS-OR-PREF').hide();
+    if (toggleChanged) {
+        $('#command2').val('/usr/local/emhttp/plugins/nut-dw/scripts/clear_stats');
+    }
+    if ($('#STATISTICS').val() === 'enable') {
+        $('#STATS-OR').show();
+        if ($('#STATISTICS').val() === 'enable' && $('#STATSOVERRIDE').val() === 'enable') {
+            $('#STATS-OR-PREF').show();
+        } else {
+            $('#STATS-OR-PREF').hide();
+        }
+    } else {
+        $('#STATS-OR').hide();
+        $('#STATS-OR-PREF').hide();
+    }
+}
+
+function checkRUNNING() {
+    if ($('#SERVICE').val() === 'enable')
+        $('#command').val('/usr/local/emhttp/plugins/nut-dw/scripts/start');
+    else
+        $('#command').val('/usr/local/emhttp/plugins/nut-dw/scripts/stop');
+
+    if ("<?=$nut_running;?>" == 1){
+        $('.nut-run').prop('disabled', true);
+        $('#RESTART').prop('disabled', false);
+    }else{
+        $('.nut-run').prop('disabled', false);
+        $('#RESTART').prop('disabled', true);
+    }
+
+    checkNUTsettings();
+}
+
+function checkPOWER() {
+    if ($('#POWER')[0].selectedIndex < 1)
+        $('#POWER-SETTINGS').hide();
+    else
+        $('#POWER-SETTINGS').show();
+}
+
+function decData() {
+    $('#MONPASS').val(atob($('#MONPASS').val()));
+    $('#SLAVEPASS').val(atob($('#SLAVEPASS').val()));
+}
+
+function Restart() {
+    $('#command').val('/usr/local/emhttp/plugins/nut-dw/scripts/restart');
+}
+
+function ResetConfig() {
+    $('#command').val('');
+    openBox('/plugins/nut-dw/scripts/resetconf', 'NUT Configuration Reset', 600, 600, true);
+}
+
+function ScanUPS() {
+    $('#command').val('');
+    openBox('/plugins/nut-dw/scripts/nutscan', 'NUT Auto Configuration', 600, 600, true);
+}
+
+function ScanDrivers() {
+    openBox('/plugins/nut-dw/scripts/nutscan_soft', 'NUT Device Scanner', 600, 600, false);
+}
+
+function USBDiagnostics() {
+    openBox('/plugins/nut-dw/scripts/usbdiagnostics', 'NUT USB Diagnostics', 600, 600, false);
+}
+
+$(function() {
+    showStatus('upsmon');
+
+    $('.nut-ipaddr').mask('0ZZ.0ZZ.0ZZ.0ZZ', {translation:  {'Z': {pattern: /[0-9]/, optional: true}}});
+
+    $('.nut-name').mask('ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ', {translation:  {'Z': {pattern: /[A-Za-z0-9]/, optional: true}}});
+
+    $('.nut-monuser').mask('ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ', {translation:  {'Z': {pattern: /[A-Za-z0-9]/, optional: true}}});
+
+    $('.nut-slaveuser').mask('ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ', {translation:  {'Z': {pattern: /[A-Za-z0-9]/, optional: true}}});
+
+    $('.nut-power').mask('ZZZZZ', {translation:  {'Z': {pattern: /[0-9]/, optional: true}}});
+
+    if (typeof swal === "function") { 
+        $('#SCAN').click(function(){ swal({title:"Warning",text:"Please always attempt to (manually) set up your respective UPS Driver with the UPS Port on 'auto' first, this is more flexible and preferable to running the 'Auto Config' program straight after installation.<br><br>This tool is for cases where the UPS driver fails to otherwise find your UPS device, even with the correct UPS Driver and UPS Port on 'auto'.<br><br>Beware that 'Auto Config' will make your UPS Driver blind to anything else than that specific UPS device it detected on that specific USB port (that means you cannot change the USB port afterwards).<br><br>In case 'Auto Config' detects a UPS but still does not work for you, please make sure to always 'Reset Config' to start with a fresh configuration before attemping anything else configuration-wise.",type:"warning",html:true,showCancelButton:true}, ScanUPS); });
+        $('#RESETCONF').click(function(){ swal({title:"Are you sure?",text:"This action will return any existing NUT configuration to their defaults!",type:"warning",html:true,showCancelButton:true}, ResetConfig); });
+    } else {
+        $('#SCAN').click(ScanUPS);
+        $('#RESETCONF').click(ResetConfig);
+    }
+
+    $('#SCANDRIVERS').click(ScanDrivers);
+    $('#USBDIAGS').click(USBDiagnostics);
+    
+    $('form input:not([type="submit"])').keydown(function(e) {
+        if (e.keyCode == 13) {
+            e.preventDefault();
+            return false;
+        }
+    });
+
+    $('#btnApply').click(function(){
+        $('#MONPASS').val(btoa($('#MONPASS').val()));
+        $('#SLAVEPASS').val(btoa($('#SLAVEPASS').val()));
+        $('#nut-settings').submit();
+    });
+
+    $('#DRIVER').change(checkNUTsettings);
+    $('#MANUAL').change(checkNUTsettings);
+    $('#SHUTDOWN').change(checkNUTsettings);
+    $('#MODE').change(checkNUTsettings);
+    $('#SERVICE').change(checkRUNNING);
+
+    $('#STATISTICS').change(checkNUTSTATsettings);
+    $('#STATSOVERRIDE').change(checkNUTSTATsettings);
+    $('#STATS-OR-PREF').change(checkNUTSTATsettings);
+    $('#STATSPOLL').change(checkNUTSTATsettings);
+    $('#POWER').change(checkPOWER);
+
+    $('#RESTART').click(Restart);
+
+    checkRUNNING();
+    checkPOWER();
+    checkNUTSTATsettings(false);
+
+    decData();
+
+    if ($('#errormsg').length) {
+        $('#SERVICE').val('disable');
+        checkRUNNING();
+    }
+
+    // dynamix plugin update api
+    <?if (function_exists('plugin_update_available') && $version = plugin_update_available('nut-dw')):?>
+    showNotice('NUT <?=htmlspecialchars($version);?> available. <a>Update</a>','nut-dw');
+    $('#user-notice a').on('click', function () {
+        $('#user-notice').empty();
+    });
+    <?endif;?>
+});
+</script>
