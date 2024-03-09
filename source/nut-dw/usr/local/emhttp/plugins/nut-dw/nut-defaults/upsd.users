@@ -16,5 +16,5 @@ upsmon slave
 
 
 
-
-# If not in manual mode, put any additional settings below this line
+# If not in manual mode, the following lines are overwritten by GUI:
+# L6:[MONUSERNAME]/L7:PASSWORD/L9:[SLAVEUSERNAME]/L10:PASSWORD
