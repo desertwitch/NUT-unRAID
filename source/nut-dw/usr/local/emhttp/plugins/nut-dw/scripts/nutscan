@@ -43,6 +43,9 @@ if [ -z "$SCANRESULT" ]; then
 else
     echo "${SCANRESULT}"
     echo "${SCANRESULT}" > /etc/nut/ups.conf
+    echo "" >> /etc/nut/ups.conf
+    echo "# If not in manual mode, the following lines are overwritten by GUI:" >> /etc/nut/ups.conf
+    echo "# L1:MODE" >> /etc/nut/ups.conf
 fi
 
 echo ""
