@@ -214,12 +214,6 @@ write_config() {
         var1="MONITOR ${NAME}@${IPADDR} 1 ${MONUSER} ${MONPASS} ${MONITOR}"
         sed -i "1 s,.*,$var1," /etc/nut/upsmon.conf
 
-        # Set which shutdown script NUT should use
-        sed -i "2 s,.*,SHUTDOWNCMD \"/sbin/poweroff\"," /etc/nut/upsmon.conf
-
-        # Set which notification script NUT should use
-        sed -i "6 s,.*,NOTIFYCMD \"/usr/sbin/nut-notify\"," /etc/nut/upsmon.conf
-
         # Set if the ups should be turned off
         if [ "$UPSKILL" == "enable" ]; then
             var8='POWERDOWNFLAG /etc/nut/killpower'
@@ -241,28 +235,14 @@ write_config() {
         sed -i "8 s/.*/$var24/" /etc/nut/upsmon.conf
 
         # Set upsd users
-        var13="[admin]"
-        var14="password=adminpass"
-        var15="actions=set"
-        var16="actions=fsd"
-        var17="instcmds=all"
         var18="[${MONUSER}]"
         var19="password=${MONPASS}"
-        var20="upsmon master"
         var21="[${SLAVEUSER}]"
         var22="password=${SLAVEPASS}"
-        var23="upsmon slave"
-        sed -i "1 s,.*,$var13," /etc/nut/upsd.users
-        sed -i "2 s,.*,$var14," /etc/nut/upsd.users
-        sed -i "3 s,.*,$var15," /etc/nut/upsd.users
-        sed -i "4 s,.*,$var16," /etc/nut/upsd.users
-        sed -i "5 s,.*,$var17," /etc/nut/upsd.users
         sed -i "6 s,.*,$var18," /etc/nut/upsd.users
         sed -i "7 s,.*,$var19," /etc/nut/upsd.users
-        sed -i "8 s,.*,$var20," /etc/nut/upsd.users
         sed -i "9 s,.*,$var21," /etc/nut/upsd.users
         sed -i "10 s,.*,$var22," /etc/nut/upsd.users
-        sed -i "11 s,.*,$var23," /etc/nut/upsd.users
     fi
     
     # save conf files to flash drive regardless of mode
