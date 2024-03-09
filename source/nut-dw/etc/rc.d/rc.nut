@@ -273,7 +273,7 @@ write_config() {
         mkdir $PLGPATH/ups
     fi
 	
-    cp -rf /etc/nut/* $PLGPATH/ups >/dev/null 2>&1
+    cp -rf /etc/nut/* $PLGPATH/ups/ >/dev/null 2>&1
 
     # re-create state directories if missing
     [ ! -d /var/state/ups ] && mkdir -p /var/state/ups

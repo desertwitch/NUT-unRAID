@@ -53,10 +53,10 @@ if [ ! -d $BOOT/ups ]; then
 fi
 
 # copy default conf files to flash drive, if no backups exist there
-cp -nr $DOCROOT/nut-defaults/* $BOOT/ups >/dev/null 2>&1
+cp -nr $DOCROOT/nut-defaults/* $BOOT/ups/ >/dev/null 2>&1
 
 # copy conf files from flash drive to local system, for our services to use
-cp -rf $BOOT/ups/* /etc/nut >/dev/null 2>&1
+cp -rf $BOOT/ups/* /etc/nut/ >/dev/null 2>&1
 
 # set up permissions
 if [ -d /etc/nut ]; then

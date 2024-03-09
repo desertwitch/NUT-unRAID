@@ -39,8 +39,8 @@ fi
 
 echo "Pulling default configuration files from package..."
 cp -f $DOCROOT/default.cfg $BOOT/nut-dw.cfg
-cp -rf $DOCROOT/nut-defaults/* $BOOT/ups
-cp -rf $BOOT/ups/* /etc/nut
+cp -rf $DOCROOT/nut-defaults/* $BOOT/ups/
+cp -rf $BOOT/ups/* /etc/nut/
 
 echo "Setting up permissions on configuration locations..."
 chown root:nut /etc/nut
