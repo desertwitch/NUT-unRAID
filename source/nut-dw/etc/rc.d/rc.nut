@@ -243,26 +243,6 @@ write_config() {
         sed -i "7 s,.*,$var19," /etc/nut/upsd.users
         sed -i "9 s,.*,$var21," /etc/nut/upsd.users
         sed -i "10 s,.*,$var22," /etc/nut/upsd.users
-
-        # add comment with reserved GUI lines
-        comment1="# If not in manual mode, the following lines are reserved and overwritten by GUI:"
-
-        comment2="# L1:MODE/L19-20:COMMENT"
-        sed -i "19 s,.*,$comment1," /etc/nut/nut.conf
-        sed -i "20 s,.*,$comment2," /etc/nut/nut.conf
-
-        comment2="# L1:[UPSNAME]/L2:DRIVER/L3:PORT/L4-L6:SNMP/L7:DEBUG_MIN/L19-20:COMMENT"
-        sed -i "19 s,.*,$comment1," /etc/nut/ups.conf
-        sed -i "20 s,.*,$comment2," /etc/nut/ups.conf
-
-        comment2="# L6:[MONUSERNAME]/L7:PASSWORD/L9:[SLAVEUSERNAME]/L10:PASSWORD/L19-20:COMMENT"
-        sed -i "19 s,.*,$comment1," /etc/nut/upsd.users
-        sed -i "20 s,.*,$comment2," /etc/nut/upsd.users  
-
-        comment2="# L1:MONITOR/L3:POWERDOWNFLAG/L8:DEBUG_MIN/L19-20:COMMENT"
-        sed -i "19 s,.*,$comment1," /etc/nut/upsmon.conf
-        sed -i "20 s,.*,$comment2," /etc/nut/upsmon.conf  
-
     fi
     
     # save conf files to flash drive regardless of mode
