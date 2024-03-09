@@ -38,7 +38,7 @@ else
     echo ""
     echo "Any additional settings reported here (apart from 'driver' and 'port') can be ignored in most cases."
     echo "They could however prove very helpful in cases where your UPS Driver is not able to connect to your UPS."
-    echo "You can then put these extra settings in UPS.CONF using the GUI configuration editor (beware the GUI setting lines)."
+    echo "You can then put these extra settings in UPS.CONF using the GUI configuration editor (beware the GUI reserved lines)."
     echo ""
     echo "NOTE: 'apc_modbus' requires for MODBUS protocol to be enabled on the UPS - otherwise use 'usbhid-ups'."
     echo ""
