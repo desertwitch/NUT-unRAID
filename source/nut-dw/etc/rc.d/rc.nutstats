@@ -35,16 +35,16 @@ echo "Enabling the NUT Runtime Statistics Module..."
         if [ "$STATSOVERRIDE" == "enable" ]; then
             echo "NUT Runtime Statistics Variable Override is enabled..."
 
-            variableTestSuccess=true
+            variableTestSuccess="YES"
             monitorVarsOR=("${STATSCHART1VAR}" "${STATSCHART2VAR}" "${STATSCHART3VAR}" "${STATSCHART4VAR}" "${STATSCHART5VAR}" "${STATSCHART6VAR}" "${STATSCHART7VAR}")
 
             for i in "${monitorVarsOR[@]}"; do
                 if [ -z "${i// }" ]; then
-                  variableTestSuccess=false
+                  variableTestSuccess="NO"
                 fi
             done
 
-            if [ "$variableTestSuccess" = true ] ; then
+            if [ "$variableTestSuccess" == "YES" ] ; then
                 for monitorVarOR in "${monitorVarsOR[@]}"; do
                     if [ ! "$monitorVarOR" == "disable" ] ; then
                         cp -f "${DOCROOT}/nutstats-defaults/ups.realpower.json" "/etc/nutstats/${monitorVarOR}.json"
