@@ -164,7 +164,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
         <p>Setting <strong><em>No</em></strong> will use the NUT settings on this page to configure the NUT services and populate the configuration files.</p>
         <p>Setting <strong><em>for UPS Driver</em></strong> (usually set by the <strong><em>AUTO CONFIG</em></strong> feature) enables manual configuration of NUT only for the <strong><em>ups.conf</em></strong> file.</p>
         <p>Regardless of this setting, you can always edit the configuration files to add any extra settings not included on this page.</p>
-        <p>If not in manual configuration mode, mind the GUI reserved lines marked in the configuration files so your extra settings are not overwritten.</p>
+        <p>If not in manual configuration mode, beware the GUI reserved lines marked in the configuration files so your extra settings are not overwritten.</p>
         <p><u>Note:</u> If you run into problems after changing this setting, it might be helpful to start from a fresh configuration using the <strong><em>RESET CONFIG</em></strong> feature.</p>
     </blockquote>
 
