@@ -3,14 +3,14 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "nut-dw">
 <!ENTITY author    "desertwitch">
-<!ENTITY version   "2024.03.04b">
+<!ENTITY version   "2024.03.10">
 <!ENTITY launch    "Settings/NUTsettings">
 <!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/master">
 <!ENTITY pluginURL "&gitURL;/plugin/&name;.plg">
 <!ENTITY pkgURL    "&gitURL;/packages">
 <!ENTITY plgPATH   "/boot/config/plugins/&name;">
-<!ENTITY plgNAME   "nut-plugin-2024.03.04b-x86_64-1">
-<!ENTITY plgMD5    "1abac873d25430f24a131ed520c4f067">
+<!ENTITY plgNAME   "nut-plugin-2024.03.10-x86_64-1">
+<!ENTITY plgMD5    "ebc4cff86cbfd9e51e628a188d9302cf">
 <!ENTITY emhttp    "/usr/local/emhttp/plugins/&name;">
 ]>
 
@@ -18,6 +18,10 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
+###2024.03.10
+- fix: no longer overwrite configuration files with static, non-changing information over and over
+- fix: improved transparency in configuration files as to which lines are reserved and overwritten
+- fix: improved safeguards against failing file operations when shifting around configuration files
 ###2024.03.04
 - release note: it is advised to update to this version before updating your system to UNRAID 6.13+
 - new: important changes in NUT configuration layouts and backends for future UNRAID versions 6.13+
@@ -366,7 +370,7 @@ if [ -d /boot/config/plugins/nut ] &amp;&amp; [ ! -d /boot/config/plugins/nut-dw
         echo "Now reverting to fresh NUT configuration..."
         rm -rf /boot/config/plugins/nut-dw
         mkdir -p /boot/config/plugins/nut-dw
-        find /var/log/packages/ -type f -iname 'nut*' -exec removepkg {} \;
+        find /var/log/packages/ -type f -iname "nut*" -exec removepkg {} \;
         rm -rf /usr/local/emhttp/plugins/nut
         rm -rf /usr/local/emhttp/plugins/nut-dw
         rm -rf /etc/nut
