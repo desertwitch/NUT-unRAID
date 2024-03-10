@@ -45,7 +45,7 @@ if [ "$SHUTDOWN" == "sec_timer" ]; then
 fi
 
 trap "exit 0" SIGTERM
-if [ "$NOTIFYTYPE" = "ONLINE" ]
+if [ "$NOTIFYTYPE" == "ONLINE" ]
 then
         echo "[${NAME}] UPS is online, any planned shutdowns were cancelled." | tee >(wall) >(logger -t "nut-notify")
         $NOTIFY -e "${EVENT}" -s "Notice ${SUBJECT} Online" -d "UPS is online, any planned shutdowns were cancelled." -i "normal"
@@ -53,7 +53,7 @@ then
         # Cause all instances of this script to exit.
         killall -s SIGTERM "$(basename "$0")"
 
-elif [ "$NOTIFYTYPE" = "ONBATT" ]
+elif [ "$NOTIFYTYPE" == "ONBATT" ]
 then
         echo "[${NAME}] UPS is on battery. ${MESSAGE}" | tee >(wall) >(logger -t "nut-notify")
         $NOTIFY -e "${EVENT}" -s "Alert ${SUBJECT} On Battery" -d "UPS is on battery. ${MESSAGE}" -i "alert"
@@ -82,7 +82,7 @@ then
             /usr/sbin/upsmon -c fsd
         fi
 
-elif [ "$NOTIFYTYPE" = "REPLBATT" ] 
+elif [ "$NOTIFYTYPE" == "REPLBATT" ] 
 then
         if [ "$REPLBATTMSG" == "enable" ]; then
             echo "[${NAME}] UPS reports that its batteries need replacement." | tee >(wall) >(logger -t "nut-notify")
