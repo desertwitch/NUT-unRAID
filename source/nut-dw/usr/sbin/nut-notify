@@ -68,7 +68,6 @@ then
                         let "n--"
                 done
             else
-                
                 timer="$( /usr/bin/upsc "$NAME"@"$IPADDR" "$BATTERY" 2>/dev/null )"
 
                 # Loop in case of null return value until return value is no longer null
