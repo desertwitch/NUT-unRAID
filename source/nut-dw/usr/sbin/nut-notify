@@ -87,19 +87,19 @@ then
                     sleep 1
 
                     # Intermediate variable to check for null return value
-                    continoustimer="$( /usr/bin/upsc "$NAME"@"$IPADDR" "$BATTERY" 2>/dev/null )"
+                    intermediatetimer="$( /usr/bin/upsc "$NAME"@"$IPADDR" "$BATTERY" 2>/dev/null )"
 
                     # Loop in case of null return value until return value is no longer null
                     # In the worst case (continous null return) NUT will always set FSD on LOWBATT event
-                    while [ -z "$continoustimer" ]
+                    while [ -z "$intermediatetimer" ]
                     do
                         # Loop with one second interval to allow SIGTERM reception.
                         sleep 1
-                        continoustimer="$( /usr/bin/upsc "$NAME"@"$IPADDR" "$BATTERY" 2>/dev/null )"
+                        intermediatetimer="$( /usr/bin/upsc "$NAME"@"$IPADDR" "$BATTERY" 2>/dev/null )"
                     done
                     
-                    # Return value is definitely not null at this point
-                    timer="$continoustimer"
+                    # Return value is definitely not null at this point, return it to actual comparison
+                    timer="$intermediatetimer"
                 done
             fi
 
