@@ -68,12 +68,38 @@ then
                         let "n--"
                 done
             else
-                # Loop with one second interval to allow SIGTERM reception.
-                timer="$( /usr/bin/upsc "$NAME"@"$IPADDR"|grep "$BATTERY":|awk '{print $2}' )"
+                
+                timer="$( /usr/bin/upsc "$NAME"@"$IPADDR" "$BATTERY" 2>/dev/null )"
+
+                # Loop in case of null return value until return value is no longer null
+                # In the worst case (continous null return) NUT will always set FSD on LOWBATT event
+                while [ -z "$timer" ]
+                do
+                    # Loop with one second interval to allow SIGTERM reception.
+                    sleep 1
+                    timer="$( /usr/bin/upsc "$NAME"@"$IPADDR" "$BATTERY" 2>/dev/null )"
+                done
+
+                # Proceed to actual comparison here when return value is definitely not null
                 while [ "$timer" -gt "$TIMER" ]
                 do
+                    # Loop with one second interval to allow SIGTERM reception.
                     sleep 1
-                    timer="$( /usr/bin/upsc "$NAME"@"$IPADDR"|grep "$BATTERY":|awk '{print $2}' )"
+
+                    # Intermediate variable to check for null return value
+                    continoustimer="$( /usr/bin/upsc "$NAME"@"$IPADDR" "$BATTERY" 2>/dev/null )"
+
+                    # Loop in case of null return value until return value is no longer null
+                    # In the worst case (continous null return) NUT will always set FSD on LOWBATT event
+                    while [ -z "$continoustimer" ]
+                    do
+                        # Loop with one second interval to allow SIGTERM reception.
+                        sleep 1
+                        continoustimer="$( /usr/bin/upsc "$NAME"@"$IPADDR" "$BATTERY" 2>/dev/null )"
+                    done
+                    
+                    # Return value is definitely not null at this point
+                    timer="$continoustimer"
                 done
             fi
 
