@@ -18,6 +18,8 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
+###2024.03.16
+- fix: safeguards against unwarranted shutdowns w/ null responses from upsc (thanks: danielb7390)
 ###2024.03.10
 - fix: no longer overwrite configuration files with static, non-changing information over and over
 - fix: improved transparency in configuration files as to which lines are reserved and overwritten
