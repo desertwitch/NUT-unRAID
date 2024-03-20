@@ -593,10 +593,6 @@ else
         /etc/rc.d/rc.nutstats check
     fi
 fi
- 
-# Cleaning old plugin source files
-find &plgPATH;/ -type f -iname "nut-plugin*.txz" ! -iname "*&plgNAME;*" -delete
-find &plgPATH;/ -type f -iname "nut-plugin*.md5" ! -iname "*&plgNAME;*" -delete
 
 echo ""
 echo "-----------------------------------------------------------"
