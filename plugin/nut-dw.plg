@@ -3,14 +3,14 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "nut-dw">
 <!ENTITY author    "desertwitch">
-<!ENTITY version   "2024.03.16">
+<!ENTITY version   "2024.03.26">
 <!ENTITY launch    "Settings/NUTsettings">
 <!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/master">
 <!ENTITY pluginURL "&gitURL;/plugin/&name;.plg">
 <!ENTITY pkgURL    "&gitURL;/packages">
 <!ENTITY plgPATH   "/boot/config/plugins/&name;">
-<!ENTITY plgNAME   "nut-plugin-2024.03.16-x86_64-1">
-<!ENTITY plgMD5    "f013c2e2abd77a12d188fb88f1e9feed">
+<!ENTITY plgNAME   "nut-plugin-2024.03.26-x86_64-1">
+<!ENTITY plgMD5    "1661ccaf5f9954ad4a258e5009a557f7">
 <!ENTITY emhttp    "/usr/local/emhttp/plugins/&name;">
 ]>
 
@@ -18,6 +18,10 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
+###2024.03.26
+- fix: relax strict legacy UPS name standards to also allow hyphens in the UPS name (not recommended)
+- fix: cleaned up legacy code surrounding the NUT configuration editor and updated related dependencies
+- fix: minor code revisions and quality of life improvements surrounding configurations and some legacy code
 ###2024.03.16
 - fix: safeguards against unwarranted shutdowns w/ null responses from upsc (thanks: danielb7390)
 ###2024.03.10

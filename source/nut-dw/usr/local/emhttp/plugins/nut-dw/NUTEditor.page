@@ -23,26 +23,34 @@ Markdown="false"
  *
  */
 ?>
-<link rel="stylesheet" href="<?=autov('/plugins/nut-dw/css/codemirror/codemirror.min.css');?>">
-<link rel="stylesheet" href="<?=autov('/plugins/nut-dw/css/codemirror/dracula.min.css');?>">
 
+<link type="text/css" rel="stylesheet" href="<?=autov('/webGui/styles/jquery.filetree.css');?>">
+<link type="text/css" rel="stylesheet" href="<?=autov('/plugins/nut-dw/css/codemirror.css');?>">
+<link type="text/css" rel="stylesheet" href="<?=autov('/plugins/nut-dw/css/dracula.css');?>">
 <style type="text/css">
     .CodeMirror { border: 1px solid #eee; cursor: text; margin-top: 15px; margin-bottom: 10px; }
     .CodeMirror pre.CodeMirror-placeholder { color: #999; }
     .errortext {color: #EF3D47;display: none;}
     .fileTree {color:#486dba;width:305px;max-height:150px;overflow:scroll;position:absolute;z-index:100;display:none;}
 </style>
-<link type="text/css" rel="stylesheet" href="<?=autov('/webGui/styles/jquery.filetree.css');?>">
+
+<div style="color:red;"><strong>WARNING:</strong></div>
+<div><strong>In most cases it is sufficient to configure NUT using the GUI for the smoothest possible user experience.</strong></div>
+<div><strong>Any changing the configuration directly can have unexpected side effects, use '<u>Reset Config</u>' in case of problems.</strong></div>
+<br>
+<div>If your UPS needs special parameters to be recognized, set '<strong>Enable Manual Configuration</strong>' to '<strong>for UPS Driver</strong>' to have manual control over the '<strong>UPS.CONF</strong>' file.</div>
+<div>This ensures your custom UPS Driver configuration does not get overwritten by the GUI, while still being able to configure everything else through the GUI settings.</div>
+<br>
 
 <form id="editform" method="POST">
 
 <img id="editfolder" style="cursor:pointer;margin-left: 10px;" src="/webGui/images/explore.png" >
-
 <input id="editfile" type="text" name="editfile" value="" readonly="" data-picktop="/etc/nut" data-pickcloseonfile="true" data-pickfilter="conf,users" data-pickroot="/etc/nut" data-pickfolders="false" required="required" >
 
 <textarea id="editdata" name="editdata" placeholder="Select Configuration File" autofocus></textarea>
 <input type="hidden" name="commit" value="1" />
 <input type="hidden" name="manual" value="<?=$nut_manual?>" />
+
 <dl>
     <dt>
         <input type="button" value="Save" id="btnSubmit" title="Save Configuration File" />
@@ -50,18 +58,17 @@ Markdown="false"
     </dt>
     <dd></dd>
 </dl>
+
 </form>
 
-<script src="<?=autov('/plugins/nut-dw/js/codemirror/codemirror.min.js');?>"></script>
-
-<script src="<?=autov('/plugins/nut-dw/js/codemirror/autorefresh.min.js');?>"></script>
-
 <script src="<?=autov('/webGui/javascript/jquery.filetree.js');?>"></script>
+<script src="<?=autov('/plugins/nut-dw/js/codemirror.js');?>"></script>
+<script src="<?=autov('/plugins/nut-dw/js/autorefresh.js');?>"></script>
+<script src="<?=autov('/plugins/nut-dw/js/properties.js');?>"></script>
 
 <script type="text/javascript">
 $(function(){
     $('#btnCancel').click(function() {
-        $.cookie('one', 'tab1', { expires:null, path: '/'});
         location = '/Settings/NUTsettings';
     });
 
@@ -69,19 +76,10 @@ $(function(){
         theme: '<?=($display["theme"] == 'white' || $display["theme"] == 'azure') ? "default" : "dracula";?>',
         mode: 'properties',
         lineNumbers: true,
-        autoRefresh: true,
-        gutters: ['CodeMirror-linenumbers'],
-        extraKeys: {
-            'Ctrl-Space': 'autocomplete'
-        },
-        hintOptions: {}
+        autoRefresh: true
     });
 
     editor.setSize(null, 400);
-
-    $('#tab2').click(function () {
-        editor.refresh();
-    });
 
     $('#editfile').fileTreeAttach(null, null, function(file) {
         $('#editfile').val(file);
@@ -95,7 +93,13 @@ $(function(){
         );
     });
 
-    // save config
+    $('#editfile').val("/etc/nut/ups.conf");
+    var EditfileDefault = $('#editfile').val();
+    $.getJSON('/plugins/nut-dw/include/nut_edit.php', {editfile: EditfileDefault}, function (data) {
+            editor.setValue(data);
+        }
+    );
+
     $('#btnSubmit').click(function () {
         editor.save();
         $.post('/plugins/nut-dw/include/nut_save.php', $('#editform').serializeArray(), function (data) {
@@ -105,7 +109,7 @@ $(function(){
                 swal({title: Title+'Saved', text: data.saved+'\n\nAny changes will be active on next NUT restart.', timer: 3500, showConfirmButton: false, type:'success'
                 });
             if(data.error)
-                swal({title:Title+'Error', text: data.error+'\n\nError saving configuration file.', type:'error'});
+                swal({title:Title+'Error', text: data.error+'\n\nThere was an error saving the configuration file.', type:'error'});
 
         }, 'json');
     });

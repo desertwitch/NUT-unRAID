@@ -22,7 +22,7 @@ $plgpath  = '/boot/config/plugins/nut-dw/ups/';
 $editfile = realpath($_POST['editfile']);
 $plgfile  = $plgpath.basename($editfile);
 
-if(!strpos($editfile, $base) && file_exists($editfile) && array_key_exists('editdata', $_POST)){
+if(file_exists($editfile) && array_key_exists('editdata', $_POST)){
     // remove carriage returns
     $editdata = str_replace("\r", '', $_POST['editdata']);
 
