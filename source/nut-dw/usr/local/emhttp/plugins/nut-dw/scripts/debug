@@ -64,6 +64,7 @@ SLAVEPASSDEC="$(echo "$SLAVEPASS" | base64 --decode)"
 
 [ -f $DEBUGROOT/RAM/ups.conf ] && sed -i '/community/c\community = COMMUNITY-REMOVED' $DEBUGROOT/RAM/ups.conf 2>&1
 [ -f $DEBUGROOT/USB/ups.conf ] && sed -i '/community/c\community = COMMUNITY-REMOVED' $DEBUGROOT/USB/ups.conf 2>&1
+[ -f $DEBUGROOT/RAM/ups.conf ] && sed -i '/serial/c\serial = "REMOVED"' $DEBUGROOT/RAM/ups.conf 2>&1
 [ -f $DEBUGROOT/USB/ups.conf ] && sed -i '/serial/c\serial = "REMOVED"' $DEBUGROOT/USB/ups.conf 2>&1
 
 [ -f $DEBUGROOT/RAM/upsd.users ] && sed -i '/password/c\password=PASS-REMOVED' $DEBUGROOT/RAM/upsd.users 2>&1
