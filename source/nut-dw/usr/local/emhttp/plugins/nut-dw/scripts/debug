@@ -139,6 +139,10 @@ tail -v /sys/bus/usb/devices/*/power/control >> $DEBUGROOT/unraid-lsusb.txt 2>&1
 # include plugin definition files in package
 cp -f /boot/config/plugins/nut*.plg $DEBUGROOT/PLUGIN/ 2>&1
 
+# generate and include diagnostics package
+DIAGFILE="$(/usr/local/sbin/diagnostics 2>/dev/null | grep -o "/boot/logs/.*.zip")"
+[ -f "$DIAGFILE" ] && mv -f "$DIAGFILE" $DEBUGROOT/
+
 # package up the prepared files in our packaging location
 (cd $DEBUGROOT && zip -r "${PKGROOT}/${DEBUGNAME}" . 2>&1)
 
