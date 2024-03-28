@@ -3,14 +3,14 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "nut-dw">
 <!ENTITY author    "desertwitch">
-<!ENTITY version   "2024.03.26">
+<!ENTITY version   "2024.03.28">
 <!ENTITY launch    "Settings/NUTsettings">
 <!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/master">
 <!ENTITY pluginURL "&gitURL;/plugin/&name;.plg">
 <!ENTITY pkgURL    "&gitURL;/packages">
 <!ENTITY plgPATH   "/boot/config/plugins/&name;">
-<!ENTITY plgNAME   "nut-plugin-2024.03.26-x86_64-1">
-<!ENTITY plgMD5    "1661ccaf5f9954ad4a258e5009a557f7">
+<!ENTITY plgNAME   "nut-plugin-2024.03.28-x86_64-1">
+<!ENTITY plgMD5    "5a988ae9e434090ca1ce9565fe6ed0a0">
 <!ENTITY emhttp    "/usr/local/emhttp/plugins/&name;">
 ]>
 
@@ -18,6 +18,12 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
+###2024.03.28
+- new: shortened UPS statuses removing some previous lengthy explanations for better dashboard displaying
+- new: present the dynamic output power factor in the dashboards instead of the static nominal power factor
+- new: when NUT debug package is requested for download by user, also include standard anonymized diagnostics
+- new: in case of important messages from the plugin maintainers, such will now be displayed in the NUT settings
+- fix: minor modifications to debug package now also blacking out any serial numbers in UPS configuration file
 ###2024.03.26
 - fix: relax strict legacy UPS name standards to also allow hyphens in the UPS name (not recommended)
 - fix: cleaned up legacy code surrounding the NUT configuration editor and updated related dependencies

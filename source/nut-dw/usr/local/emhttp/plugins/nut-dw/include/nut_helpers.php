@@ -87,4 +87,42 @@ function nut_ups_status($rows, $valueOnly = false)
     return ['severity' => $severity, 'value' => $status_values, 'fulltext' => $status_fulltext];
 }
 
+function nut_download_url($url, $conn_timeout = 15, $timeout = 45) {
+    try {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $conn_timeout);
+        curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+        curl_setopt($ch, CURLOPT_ENCODING, "");
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_REFERER, "");
+        curl_setopt($ch, CURLOPT_FAILONERROR, true);
+        $out = curl_exec($ch) ?: false;
+        curl_close($ch);
+        return $out;
+    } catch (Throwable $e) { // For PHP 7
+        return false;
+    } catch (Exception $e) { // For PHP 5
+        return false;
+    }
+}
+
+function nut_get_dev_message() {
+    try {
+        $dev_message_url = "https://raw.githubusercontent.com/desertwitch/NUT-unRAID/master/plugin/developer_message";
+        $raw_dev_message = nut_download_url($dev_message_url, 10, 15);
+        if($raw_dev_message && strpos($raw_dev_message, "NODISPLAY") === false) {
+            return $raw_dev_message;
+        } else {
+            return false;
+        }
+    } catch (Throwable $e) { // For PHP 7
+        return false;
+    } catch (Exception $e) { // For PHP 5
+        return false;
+    }
+}
+
 ?>
