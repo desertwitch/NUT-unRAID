@@ -93,7 +93,7 @@ $nut_states = [
     'OVER'    => ['severity' => 2, 'msg' => 'Overloaded'],
     'TRIM'    => ['severity' => 1, 'msg' => 'Trimming Input'],
     'BOOST'   => ['severity' => 1, 'msg' => 'Boosting Input'],
-    'OFF'     => ['severity' => 1, 'msg' => 'UPS is Offline'],
+    'OFF'     => ['severity' => 2, 'msg' => 'UPS is Offline'],
     'FSD'     => ['severity' => 2, 'msg' => 'Forcing Shutdown'],
 ];
 $nut_msgSeverity = [
