@@ -159,11 +159,11 @@ if ($nut_running) {
     $status[4] = "<td " . ($load >= 90 ? $red : $green) . ">$realPower&thinsp;W</td>";
 
   if ($realPower > 0 && $apparentPower > 0) {
-    # compute dynamic power factor from real power and apparent power if available
+    # compute output power factor from real power and apparent power if available
     $status[6] = "<td $green>".round($realPower / $apparentPower, 2)."</td>";
   }
   else if ($realPowerNominal > 0 && $powerNominal > 0) {
-    # or present static power factor from ups.realpower.nominal and ups.power.nominal if available
+    # or present nominal power factor from ups.realpower.nominal and ups.power.nominal if available
     $status[6] = "<td $green>".round($realPowerNominal / $powerNominal, 2)."</td>";
   }
 
