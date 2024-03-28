@@ -158,13 +158,15 @@ if ($nut_running) {
   else if ($realPower > 0)
     $status[4] = "<td " . ($load >= 90 ? $red : $green) . ">$realPower&thinsp;W</td>";
 
-  # compute power factor from ups.realpower.nominal and ups.power.nominal if available
-  if ($realPowerNominal > 0 && $powerNominal > 0) {
-    $status[6] = "<td $green>".round($realPowerNominal / $powerNominal, 2)."</td>";
-  # or from real power and apparent power if available too (computed bellow).
-  } else if ($realPower > 0 && $apparentPower > 0) {
+  if ($realPower > 0 && $apparentPower > 0) {
+    # compute dynamic power factor from real power and apparent power if available
     $status[6] = "<td $green>".round($realPower / $apparentPower, 2)."</td>";
   }
+  else if ($realPowerNominal > 0 && $powerNominal > 0) {
+    # or present static power factor from ups.realpower.nominal and ups.power.nominal if available
+    $status[6] = "<td $green>".round($realPowerNominal / $powerNominal, 2)."</td>";
+  }
+
   if ($all && count($rows)%2==1) $result[] = "<td></td><td></td></tr>";
 }
 if ($all && !$rows) $result[] = "<tr><td colspan='4' style='text-align:center'>No information available</td></tr>";
