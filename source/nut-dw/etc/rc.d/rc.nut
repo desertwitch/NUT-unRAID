@@ -265,7 +265,7 @@ write_config() {
          sed -i -e '/# Now halt /a [ -x /etc/rc.d/rc.nut ] && /etc/rc.d/rc.nut shutdown' -e //N /etc/rc.d/rc.6
     fi
 
-    # NUT Frequent Event Filtering (SYSLOG Anti-Spam)
+    # NUT Repetitive Event Filtering (SYSLOG Anti-Spam)
     if [ "$SYSLOGFILTER" == "enable" ]; then
         if [ -f /etc/nut/xnut-nospam.conf ]; then
             if [ ! -f /etc/rsyslog.d/xnut-nospam.conf ] || ! cmp -s /etc/nut/xnut-nospam.conf /etc/rsyslog.d/xnut-nospam.conf; then
