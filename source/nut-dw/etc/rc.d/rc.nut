@@ -269,7 +269,7 @@ write_config() {
     if [ "$SYSLOGFILTER" == "enable" ]; then
         if [ -f /etc/nut/xnut-nospam.conf ]; then
             if [ ! -f /etc/rsyslog.d/xnut-nospam.conf ] || ! cmp -s /etc/nut/xnut-nospam.conf /etc/rsyslog.d/xnut-nospam.conf; then
-                echo "Adding NUT rule-based filters to SYSLOG configuration..."
+                echo "Adding NUT rule-based message filters to SYSLOG configuration..."
                 cp -f /etc/nut/xnut-nospam.conf /etc/rsyslog.d/xnut-nospam.conf
                 /etc/rc.d/rc.rsyslogd restart
                 sleep 1
@@ -277,7 +277,7 @@ write_config() {
         fi
     else
         if [ -f /etc/rsyslog.d/xnut-nospam.conf ]; then
-            echo "Removing NUT rule-based filters from SYSLOG configuration..."
+            echo "Removing NUT rule-based message filters from SYSLOG configuration..."
             rm -f /etc/rsyslog.d/xnut-nospam.conf
             /etc/rc.d/rc.rsyslogd restart
             sleep 1
