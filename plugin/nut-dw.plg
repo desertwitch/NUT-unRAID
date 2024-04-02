@@ -713,7 +713,7 @@ fi
 if [ -f /etc/rsyslog.d/xnut-nospam.conf ]; then
     rm -f /etc/rsyslog.d/xnut-nospam.conf
     sleep 1
-    /etc/rc.d/rc.rsyslogd restart
+    /etc/rc.d/rc.rsyslogd restart >/dev/null 2>&amp;1
     sleep 1
 fi
 
