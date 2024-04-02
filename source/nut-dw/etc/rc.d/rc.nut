@@ -39,7 +39,7 @@ error_at_start() {
 }
 
 start_driver() {
-    /usr/sbin/upsdrvctl -u root start 2>&1 || error_at_start
+    /usr/sbin/upsdrvctl -u root start || error_at_start
 }
 
 start_upsd() {
@@ -178,33 +178,13 @@ write_config() {
         fi
 
         # add mode standalone/netserver
-        sed -i "1 s/.*/MODE=${MODE}/" /etc/nut/nut.conf
+        sed -i "1 s/.*/MODE = ${MODE}/" /etc/nut/nut.conf
 
         # Set monitor ip address, user, password and mode
         if [ "$MODE" == "slave" ]; then
             MONITOR="slave"
         else
             MONITOR="master"
-        fi
-
-        # check for old USERNAME in the config then convert it
-        if [ -v USERNAME ]; then
-            if [ ! -v MONUSER ]; then
-                MONUSER=$USERNAME
-                sed -i "/USERNAME/c\MONUSER=\"${MONUSER}\"" $CONFIG
-            else
-                sed -i "/USERNAME/d" $CONFIG
-            fi
-        fi
-
-        # check for old PASSWORD in the config then convert it
-        if [ -v PASSWORD ]; then
-            if [ ! -v MONPASS ]; then
-                MONPASS="$(echo "$PASSWORD" | base64)"
-                sed -i "/PASSWORD/c\MONPASS=\"${MONPASS}\"" $CONFIG
-            else
-                sed -i "/PASSWORD/d" $CONFIG
-            fi
         fi
 
         # decode monitor passwords
@@ -216,10 +196,10 @@ write_config() {
 
         # Set if the ups should be turned off
         if [ "$UPSKILL" == "enable" ]; then
-            var8='POWERDOWNFLAG /etc/nut/killpower'
+            var8='POWERDOWNFLAG "/etc/nut/killpower"'
             sed -i "3 s,.*,$var8," /etc/nut/upsmon.conf
         else
-            var9='POWERDOWNFLAG /etc/nut/no_killpower'
+            var9='POWERDOWNFLAG "/etc/nut/no_killpower"'
             sed -i "3 s,.*,$var9," /etc/nut/upsmon.conf
         fi
 
@@ -234,15 +214,17 @@ write_config() {
 
         sed -i "8 s/.*/$var24/" /etc/nut/upsmon.conf
 
-        # Set upsd users
-        var18="[${MONUSER}]"
-        var19="password=${MONPASS}"
-        var21="[${SLAVEUSER}]"
-        var22="password=${SLAVEPASS}"
-        sed -i "6 s,.*,$var18," /etc/nut/upsd.users
-        sed -i "7 s,.*,$var19," /etc/nut/upsd.users
-        sed -i "9 s,.*,$var21," /etc/nut/upsd.users
-        sed -i "10 s,.*,$var22," /etc/nut/upsd.users
+        if [ "$MODE" != "slave" ]; then
+            # Set upsd users
+            var18="[${MONUSER}]"
+            var19="password = ${MONPASS}"
+            var21="[${SLAVEUSER}]"
+            var22="password = ${SLAVEPASS}"
+            sed -i "6 s,.*,$var18," /etc/nut/upsd.users
+            sed -i "7 s,.*,$var19," /etc/nut/upsd.users
+            sed -i "9 s,.*,$var21," /etc/nut/upsd.users
+            sed -i "10 s,.*,$var22," /etc/nut/upsd.users
+        fi
     fi
     
     # save conf files to flash drive regardless of mode
@@ -274,13 +256,32 @@ write_config() {
 
     # Link shutdown scripts for poweroff in rc.6
     if [ "$( grep -ic "/etc/rc.d/rc.nut restart_udev" /etc/rc.d/rc.6 )" -eq 0 ]; then
-        echo "Adding UDEV lines to rc.6 for NUT"
+        echo "Adding UDEV lines to rc.6 for NUT..."
         sed -i '/\/bin\/mount -v -n -o remount,ro \//a [ -x /etc/rc.d/rc.nut ] && /etc/rc.d/rc.nut restart_udev' /etc/rc.d/rc.6
     fi
 
     if [ "$( grep -ic "/etc/rc.d/rc.nut shutdown" /etc/rc.d/rc.6 )" -eq 0 ]; then
-        echo "Adding UPS shutdown lines to rc.6 for NUT"
+        echo "Adding UPS shutdown lines to rc.6 for NUT..."
          sed -i -e '/# Now halt /a [ -x /etc/rc.d/rc.nut ] && /etc/rc.d/rc.nut shutdown' -e //N /etc/rc.d/rc.6
+    fi
+
+    # NUT Frequent Event Filtering (SYSLOG Anti-Spam)
+    if [ "$SYSLOGFILTER" == "enable" ]; then
+        if [ -f /etc/nut/xnut-nospam.conf ]; then
+            if [ ! -f /etc/rsyslog.d/xnut-nospam.conf ] || ! cmp -s /etc/nut/xnut-nospam.conf /etc/rsyslog.d/xnut-nospam.conf; then
+                echo "Adding NUT anti-spam filters to SYSLOG configuration..."
+                cp -f /etc/nut/xnut-nospam.conf /etc/rsyslog.d/xnut-nospam.conf
+                /etc/rc.d/rc.rsyslogd restart
+                sleep 1
+            fi
+        fi
+    else
+        if [ -f /etc/rsyslog.d/xnut-nospam.conf ]; then
+            echo "Removing NUT anti-spam filters from SYSLOG configuration..."
+            rm -f /etc/rsyslog.d/xnut-nospam.conf
+            /etc/rc.d/rc.rsyslogd restart
+            sleep 1
+        fi
     fi
 
     # NUT Runtime Statistics Module

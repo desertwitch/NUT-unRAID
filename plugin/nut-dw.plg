@@ -3,14 +3,14 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "nut-dw">
 <!ENTITY author    "desertwitch">
-<!ENTITY version   "2024.03.28">
+<!ENTITY version   "2024.04.02">
 <!ENTITY launch    "Settings/NUTsettings">
 <!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/master">
 <!ENTITY pluginURL "&gitURL;/plugin/&name;.plg">
 <!ENTITY pkgURL    "&gitURL;/packages">
 <!ENTITY plgPATH   "/boot/config/plugins/&name;">
-<!ENTITY plgNAME   "nut-plugin-2024.03.28-x86_64-1">
-<!ENTITY plgMD5    "5a988ae9e434090ca1ce9565fe6ed0a0">
+<!ENTITY plgNAME   "nut-plugin-2024.04.02-x86_64-1">
+<!ENTITY plgMD5    "3a515ff105659ff091b3120d170eb7ab">
 <!ENTITY emhttp    "/usr/local/emhttp/plugins/&name;">
 ]>
 
@@ -18,6 +18,15 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
+###2024.04.02
+- new: default backend updated from previous NUT 2.8.1 stable release to new NUT 2.8.2 stable release
+- new: added a new "previous" backend for users wishing to remain on the previous NUT 2.8.1 stable release
+- new: added a setting to filter specific repetitive UPS connection events from the SYSLOG to reduce spamming
+- fix: overhauled logging of NUT start, stop and restart for better diagnosis of occuring errors through SYSLOG
+- fix: added a warning symbol for any NUT passwords using special characters as this caused issues for some users
+- fix: dropped some legacy code and hardened GUI code some more against Cross-Site Scripting (XSS) vulnerabilities
+- fix: streamlined configuration file layouts for better readability and following of layouts advised in NUT manuals 
+- fix: added txt file extension to most files in NUT debug package for better readability on the go (on mobile devices) 
 ###2024.03.28
 - new: shortened UPS statuses removing some previous lengthy explanations for better dashboard displaying
 - new: present the dynamic output power factor in the dashboards instead of the static nominal power factor
@@ -355,6 +364,10 @@ if [ -x /etc/rc.d/rc.nutstats ]; then
     fi 
 fi
 
+if [ ! -f /boot/config/plugins/nut-dw/migration-failed ] &amp;&amp; [ -d /boot/config/plugins/nut-old ]; then
+    rm -rf /boot/config/plugins/nut-old
+fi
+
 if [ -d /boot/config/plugins/nut ] &amp;&amp; [ ! -d /boot/config/plugins/nut-dw ]; then
     MIGRATIONFAILED="NO"
     echo "Now migrating previous NUT configuration layout to new NUT configuration layout..."
@@ -417,6 +430,12 @@ exit 0
 </FILE>
 
 <!-- slack15.1 default -->
+<FILE Name="&plgPATH;/nut-2.8.2-x86_64-1stable.ssl31.txz" Min="6.13">
+<URL>&pkgURL;/nut-2.8.2-x86_64-1stable.ssl31.txz</URL>
+<MD5>35b740e9e92b6d42cde6600724e57417</MD5>
+</FILE>
+
+<!-- slack15.1 previous -->
 <FILE Name="&plgPATH;/nut-2.8.1-x86_64-3stable.ssl31.txz" Min="6.13">
 <URL>&pkgURL;/nut-2.8.1-x86_64-3stable.ssl31.txz</URL>
 <MD5>ed16442a55705053d3413ff756c64ea7</MD5>
@@ -445,6 +464,9 @@ if [ -e "$CONFIG" ]; then
         upgradepkg --install-new &plgPATH;/nut-2.8.1-x86_64-5master.ssl31.txz
     elif [ "$BACKEND" == "default" ]; then
         echo "Installing DEFAULT backend for NUT..."
+        upgradepkg --install-new &plgPATH;/nut-2.8.2-x86_64-1stable.ssl31.txz
+    elif [ "$BACKEND" == "previous" ]; then
+        echo "Installing user-configured PREVIOUS backend for NUT..."
         upgradepkg --install-new &plgPATH;/nut-2.8.1-x86_64-3stable.ssl31.txz
     elif [ "$BACKEND" == "stable" ]; then
         echo "Installing user-configured STABLE backend for NUT..."
@@ -454,11 +476,11 @@ if [ -e "$CONFIG" ]; then
         upgradepkg --install-new &plgPATH;/nut-2.7.4.20200318-x86_64-1.txz
     else
         echo "Installing DEFAULT backend for NUT..."
-        upgradepkg --install-new &plgPATH;/nut-2.8.1-x86_64-3stable.ssl31.txz
+        upgradepkg --install-new &plgPATH;/nut-2.8.2-x86_64-1stable.ssl31.txz
     fi
 else
     echo "Installing DEFAULT backend for NUT..."
-    upgradepkg --install-new &plgPATH;/nut-2.8.1-x86_64-3stable.ssl31.txz
+    upgradepkg --install-new &plgPATH;/nut-2.8.2-x86_64-1stable.ssl31.txz
 fi
 echo ""
 </INLINE>
@@ -471,6 +493,12 @@ echo ""
 </FILE>
 
 <!-- slack15.0 default -->
+<FILE Name="&plgPATH;/nut-2.8.2-x86_64-1stable.ssl11.txz" Min="6.10" Max="6.12.99">
+<URL>&pkgURL;/nut-2.8.2-x86_64-1stable.ssl11.txz</URL>
+<MD5>83e33e9efa44c8a652b07acf5a76a3c4</MD5>
+</FILE>
+
+<!-- slack15.0 previous -->
 <FILE Name="&plgPATH;/nut-2.8.1-x86_64-2stable.ssl11.txz" Min="6.10" Max="6.12.99">
 <URL>&pkgURL;/nut-2.8.1-x86_64-2stable.ssl11.txz</URL>
 <MD5>c27e063a311ffee9426aae6dcce8ee48</MD5>
@@ -499,6 +527,9 @@ if [ -e "$CONFIG" ]; then
         upgradepkg --install-new &plgPATH;/nut-2.8.1-x86_64-4master.ssl11.txz
     elif [ "$BACKEND" == "default" ]; then
         echo "Installing DEFAULT backend for NUT..."
+        upgradepkg --install-new &plgPATH;/nut-2.8.2-x86_64-1stable.ssl11.txz
+    elif [ "$BACKEND" == "previous" ]; then
+        echo "Installing user-configured PREVIOUS backend for NUT..."
         upgradepkg --install-new &plgPATH;/nut-2.8.1-x86_64-2stable.ssl11.txz
     elif [ "$BACKEND" == "stable" ]; then
         echo "Installing user-configured STABLE backend for NUT..."
@@ -508,11 +539,11 @@ if [ -e "$CONFIG" ]; then
         upgradepkg --install-new &plgPATH;/nut-2.7.4.20200318-x86_64-1.txz
     else
         echo "Installing DEFAULT backend for NUT..."
-        upgradepkg --install-new &plgPATH;/nut-2.8.1-x86_64-2stable.ssl11.txz
+        upgradepkg --install-new &plgPATH;/nut-2.8.2-x86_64-1stable.ssl11.txz
     fi
 else
     echo "Installing DEFAULT backend for NUT..."
-    upgradepkg --install-new &plgPATH;/nut-2.8.1-x86_64-2stable.ssl11.txz
+    upgradepkg --install-new &plgPATH;/nut-2.8.2-x86_64-1stable.ssl11.txz
 fi
 echo ""
 </INLINE>
@@ -588,19 +619,29 @@ echo "Determining if NUT services should be started..."
 
 if [ "$MODE" != "slave" ] &amp;&amp; [ "$DRIVER" == "snmp-ups" ]; then
     if [ "$SERVICE" == "enable" ]; then
-        echo "SNMP driver is configured, starting NUT services in background instead (see syslog)..."
-        at -M now &lt;&lt;&lt; "/etc/rc.d/rc.nut start | logger"
+        echo "SNMP driver is configured, starting NUT services in background instead (see SYSLOG)..."
+        at -M now &lt;&lt;&lt; "/etc/rc.d/rc.nut start 2>&amp;1 | logger -t \"rc.nut\""
     elif [ "$STATISTICS" == "enable" ]; then
-        echo "SNMP driver is configured, starting NUT statistic services in background instead (see syslog)..."
-        at -M now &lt;&lt;&lt; "/etc/rc.d/rc.nutstats check | logger"
+        echo "SNMP driver is configured, starting NUT statistic services in background instead (see SYSLOG)..."
+        at -M now &lt;&lt;&lt; "/etc/rc.d/rc.nutstats check 2>&amp;1 | logger -t \"rc.nutstats\""
     fi
 else
     if [ "$SERVICE" == "enable" ]; then
         echo "Starting NUT services..."
-        /etc/rc.d/rc.nut start
+        /etc/rc.d/rc.nut start 2>&amp;1 | logger -t "rc.nut"
+        if [ "${PIPESTATUS[0]}" -eq 0 ]; then
+            echo "NUT services have been started successfully."
+        else
+            echo "WARNING: NUT services failed to start, check your configuration and the SYSLOG."
+        fi
     elif [ "$STATISTICS" == "enable" ]; then
         echo "Starting NUT statistic services..."
-        /etc/rc.d/rc.nutstats check
+        /etc/rc.d/rc.nutstats check 2>&amp;1 | logger -t "rc.nutstats"
+        if [ "${PIPESTATUS[0]}" -eq 0 ]; then
+            echo "NUT statistic services have been started successfully."
+        else
+            echo "WARNING: NUT statistic services failed to start, check your configuration and the SYSLOG."
+        fi
     fi
 fi
 

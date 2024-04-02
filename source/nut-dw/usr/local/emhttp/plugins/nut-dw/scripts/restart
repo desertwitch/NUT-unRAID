@@ -15,4 +15,4 @@
 #
 
 echo "Restarting NUT services..."
-/etc/rc.d/rc.nut restart | logger
+/etc/rc.d/rc.nut restart 2>&1 | logger -t "rc.nut"

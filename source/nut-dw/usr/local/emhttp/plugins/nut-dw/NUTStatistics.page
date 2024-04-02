@@ -38,9 +38,7 @@ Cond="isset(parse_ini_file('/boot/config/plugins/nut-dw/nut-dw.cfg')['STATISTICS
 <script src="<?autov('/webGui/javascript/jquery.apexcharts.js')?>"></script>
 
 <p>For performance reasons the statistics are only preserved for the duration the module is loaded.<br>
-This means that a reboot will clear your statistics, the same applies for enabling and disabling the module via the settings.<br>
-Some values may be missing or erroneous depending on what your UPS reports - enabling and disabling the module might fix such problems.
-</p>
+This means that a reboot will clear your statistics, the same applies for enabling and disabling the module via the settings.</p>
 
 <?
 if(isset($display['theme']) && $display['theme']) {

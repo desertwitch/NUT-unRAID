@@ -1,13 +1,13 @@
 [admin]
-password=adminpass
-actions=set
-actions=fsd
-instcmds=all
+password = adminpass
+actions = set
+actions = fsd
+instcmds = all
 [monuser]
-password=monpass
+password = monpass
 upsmon master
 [slaveuser]
-password=slavepass
+password = slavepass
 upsmon slave
 
 

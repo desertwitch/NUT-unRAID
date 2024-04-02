@@ -15,7 +15,7 @@
 #
 
 echo "Clearing NUT statistics..."
-/etc/rc.d/rc.nutstats disable | logger
+/etc/rc.d/rc.nutstats disable | logger -t "rc.nutstats"
 sleep 1
 echo "Writing NUT statistics configuration..."
-/etc/rc.d/rc.nut write_config | logger
+/etc/rc.d/rc.nut write_config | logger -t "rc.nut"

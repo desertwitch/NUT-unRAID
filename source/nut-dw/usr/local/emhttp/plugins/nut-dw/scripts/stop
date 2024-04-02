@@ -15,4 +15,4 @@
 #
 
 echo "Stopping NUT services..."
-/etc/rc.d/rc.nut stop | logger
+/etc/rc.d/rc.nut stop 2>&1 | logger -t "rc.nut"

@@ -67,7 +67,7 @@ $developer_message = nut_get_dev_message();
 
 <?if ($developer_message):?>
 <fieldset style="border: 1px black solid;color:gray;display:none;" id="nutdevmsg">
-<legend><strong>Important Message from the Plugin Maintainers</strong></legend>
+<legend><strong>Important Message from the Plugin Maintainer</strong></legend>
 <span style="float:right;font-size:x-small;cursor:pointer;"><span id="hidenutdevmsg"><u>Dismiss Until Next Message</u></span></span>
 <?=$developer_message?>
 </fieldset><br>
@@ -98,13 +98,15 @@ $developer_message = nut_get_dev_message();
                 if(isset($URversion) && $URversion) {
                     if (version_compare($URversion, '6.12.99', '>')) {
                         echo(mk_option($nut_backend, "preview", "preview (latest build)"));
-                        echo(mk_option($nut_backend, "default", "default (2.8.1 stable)"));
+                        echo(mk_option($nut_backend, "default", "default (2.8.2 stable)"));
+                        echo(mk_option($nut_backend, "previous", "previous (2.8.1 stable)"));
                         echo(mk_option($nut_backend, "stable", "release (2.8.0 stable)"));
                         echo(mk_option($nut_backend, "legacy", "legacy (2.7.4 w/o SNMP)"));
                     }    
                     elseif (version_compare($URversion, '6.10.0', '>') && version_compare($URversion, '6.12.99', '<')) {
                         echo(mk_option($nut_backend, "preview", "preview (latest build)"));
-                        echo(mk_option($nut_backend, "default", "default (2.8.1 stable)"));
+                        echo(mk_option($nut_backend, "default", "default (2.8.2 stable)"));
+                        echo(mk_option($nut_backend, "previous", "previous (2.8.1 stable)"));
                         echo(mk_option($nut_backend, "stable", "release (2.8.0 stable)"));
                         echo(mk_option($nut_backend, "legacy", "legacy (2.7.4 stable)"));
                     }
@@ -148,7 +150,7 @@ $developer_message = nut_get_dev_message();
                 <?=mk_option($nut_usb_override, "disable", "No");?>
                 <?=mk_option($nut_usb_override, "enable", "Yes");?>
             </select>
-            <i class="fa fa-exclamation-triangle" title="System-Wide Setting"></i>
+            <i class="fa fa-exclamation-triangle" title="System-Wide Setting" style="cursor:help;"></i>
         </dd>
     </dl>
 
@@ -202,7 +204,7 @@ $developer_message = nut_get_dev_message();
         <dl>
             <dt>NUT Master IP Address:</dt>
             <dd>
-                <input id="IPADDR" type="text" class="narrow nut-run nut-ipaddr" name="IPADDR" value="<?=htmlspecialchars($nut_ip);?>" maxlength="15">
+                <input id="IPADDR" type="text" class="narrow nut-run nut-ipaddr" name="IPADDR" value="<?=$nut_ip?>" maxlength="15">
             </dd>
         </dl>
 
@@ -214,7 +216,7 @@ $developer_message = nut_get_dev_message();
         <dl>
             <dt>NUT Monitor Username:</dt>
             <dd>
-                <input id="MONUSER" type="text" class="narrow nut-run nut-monuser" name="MONUSER" maxlength="30" value="<?=htmlspecialchars($nut_monuser);?>">
+                <input id="MONUSER" type="text" class="narrow nut-run nut-monuser" name="MONUSER" maxlength="30" value="<?=$nut_monuser?>">
             </dd>
         </dl>
 
@@ -226,12 +228,14 @@ $developer_message = nut_get_dev_message();
         <dl>
             <dt>NUT Monitor Password:</dt>
             <dd>
-                <input id="MONPASS" type="password" class="narrow nut-run" name="MONPASS" maxlength="66" value="<?=htmlspecialchars($nut_monpass);?>">
+                <input id="MONPASS" type="password" class="narrow nut-run" name="MONPASS" maxlength="66" value="<?=$nut_monpass?>">
+                <i id="monpass-htext" class="fa fa-hand-paper-o" title="If possible use only letters and numbers!" style="display:none;color:red;cursor:help;"></i>
             </dd>
         </dl>
 
         <blockquote class="inline_help">
             <p>The password to access the NUT master server.</p>
+            <p>It is recommended to use <strong>only letters and numbers</strong> for the password (no spaces or special symbols).</p>
         </blockquote>
 
         <dl>
@@ -260,7 +264,7 @@ $developer_message = nut_get_dev_message();
             <dl>
                 <dt>NUT Slave Username:</dt>
                 <dd>
-                    <input id="SLAVEUSER" type="text" class="narrow nut-run nut-slaveuser" name="SLAVEUSER" maxlength="30" value="<?=htmlspecialchars($nut_slaveuser);?>">
+                    <input id="SLAVEUSER" type="text" class="narrow nut-run nut-slaveuser" name="SLAVEUSER" maxlength="30" value="<?=$nut_slaveuser?>">
                 </dd>
             </dl>
 
@@ -273,12 +277,14 @@ $developer_message = nut_get_dev_message();
             <dl>
                 <dt>NUT Slave Password:</dt>
                 <dd>
-                    <input id="SLAVEPASS" type="password" class="narrow nut-run" name="SLAVEPASS" maxlength="66" value="<?=htmlspecialchars($nut_slavepass);?>">
+                    <input id="SLAVEPASS" type="password" class="narrow nut-run" name="SLAVEPASS" maxlength="66" value="<?=$nut_slavepass?>">
+                    <i id="slavepass-htext" class="fa fa-hand-paper-o" title="If possible use only letters and numbers!" style="display:none;color:red;cursor:help;"></i>
                 </dd>
             </dl>
 
             <blockquote class="inline_help">
                 <p>The password for NUT slaves to use connecting to the NUT master server.</p>
+                <p>It is recommended to use <strong>only letters and numbers</strong> for the password (no spaces or special symbols).</p>
                 <p><u>Note:</u> NUT is configured to listen on all interfaces (<strong><em>0.0.0.0</em></strong>).</p>
             </blockquote>
         </div>
@@ -288,7 +294,7 @@ $developer_message = nut_get_dev_message();
         <dl>
             <dt>UPS Name:</dt>
             <dd>
-                <input id="NAME" type="text" class="narrow nut-run nut-name" name="NAME" maxlength="30" value="<?=htmlspecialchars($nut_name);?>">
+                <input id="NAME" type="text" class="narrow nut-run nut-name" name="NAME" maxlength="30" value="<?=$nut_name?>">
             </dd>
         </dl>
 
@@ -318,7 +324,7 @@ $developer_message = nut_get_dev_message();
                     <?=mk_option($nut_driver, 'custom', 'custom (not listed)');?>
                     </select>
                     <input type="hidden" class="narrow serial nut-run" id="SERIAL" name="SERIAL" placeholder="driver name" maxlength="40" value="<?=$nut_serial;?>">
-                    <i class="fa fa-search" title="Scan for Devices" id="SCANDRIVERS"></i>
+                    <i class="fa fa-search" title="Scan for Devices" id="SCANDRIVERS" style="cursor:pointer;"></i>
                 </dd>
             </dl>
 
@@ -446,7 +452,7 @@ $developer_message = nut_get_dev_message();
             <dl>
                 <dt>Battery Runtime Left to initiate Shutdown:</dt>
                 <dd>
-                    <input id="SECONDS" type="text" class="narrow nut-run" name="SECONDS" maxlength="5" value="<?=htmlspecialchars($nut_seconds);?>">
+                    <input id="SECONDS" type="text" class="narrow nut-run" name="SECONDS" maxlength="5" value="<?=$nut_seconds?>">
                 </dd>
             </dl>
 
@@ -509,6 +515,24 @@ $developer_message = nut_get_dev_message();
             <p>By default this notification will be sent every 12 hours until the batteries are replaced.</p>
         </blockquote>  
     </div>
+
+   <dl>
+        <dt>Enable Repetitive Event Filtering (in Syslog):</dt>
+        <dd>
+            <select class="nut-run" id="SYSLOGFILTER" name="SYSLOGFILTER" size="1">
+                <?=mk_option($nut_syslog_filter, "disable", "No");?>
+                <?=mk_option($nut_syslog_filter, "enable", "Yes");?>
+            </select>
+            <i class="fa fa-exclamation-triangle" title="System-Wide Setting" style="cursor:help;"></i>
+        </dd>
+    </dl>
+
+    <blockquote class="inline_help">
+        <p>NUT - by design - is a very talkative software package, this is generally very valuable for diagnosing any encountered operational problems.</p>
+        <p>Repetitive UPS data staleness and UPS connection drops can however quickly fill up the SYSLOG and make diagnosing other unrelated problems harder.</p>
+        <p>This <strong>in most cases not recommended setting</strong> filters out specific repeating UPS status messages from the SYSLOG and directs them to <strong><em>/var/log/nut-spam</em></strong> instead.</p>
+        <p>Please be aware that previous messages (which have already been logged to the SYSLOG) will not be removed, rather only future encountered messages are affected by this setting.</p> 
+    </blockquote>
 
     <br>
 
@@ -579,7 +603,7 @@ $developer_message = nut_get_dev_message();
     <dl>
         <dt>NUT Automatic GUI Refresh Interval:</dt>
         <dd>
-            <input id="INTERVAL" type="text" class="narrow nut-power" name="INTERVAL" maxlength="5" value="<?=htmlspecialchars($nut_interval);?>">
+            <input id="INTERVAL" type="text" class="narrow nut-power" name="INTERVAL" maxlength="5" value="<?=$nut_interval?>">
         </dd>
     </dl>
 
@@ -644,85 +668,85 @@ $developer_message = nut_get_dev_message();
             <dl>
                 <dt><em>Statistics Chart 1 - UPS Variable:</em></dt>
                 <dd>
-                    <input id="STATSCHART1VAR" type="text" name="STATSCHART1VAR" value="<?=htmlspecialchars($nut_stats_c1_var);?>">
+                    <input id="STATSCHART1VAR" type="text" name="STATSCHART1VAR" value="<?=$nut_stats_c1_var?>">
                 </dd>
             </dl>
             <dl>
                 <dt><em>Statistics Chart 1 - Description Text:</em></dt>
                 <dd>
-                    <input id="STATSCHART1TXT" type="text" name="STATSCHART1TXT" value="<?=htmlspecialchars($nut_stats_c1_txt);?>">
+                    <input id="STATSCHART1TXT" type="text" name="STATSCHART1TXT" value="<?=$nut_stats_c1_txt?>">
                 </dd>
             </dl>
             <dl>
                 <dt><em>Statistics Chart 2 - UPS Variable:</em></dt>
                 <dd>
-                    <input id="STATSCHART2VAR" type="text" name="STATSCHART2VAR" value="<?=htmlspecialchars($nut_stats_c2_var);?>">
+                    <input id="STATSCHART2VAR" type="text" name="STATSCHART2VAR" value="<?=$nut_stats_c2_var?>">
                 </dd>
             </dl>
             <dl>
                 <dt><em>Statistics Chart 2 - Description Text:</em></dt>
                 <dd>
-                    <input id="STATSCHART2TXT" type="text" name="STATSCHART2TXT" value="<?=htmlspecialchars($nut_stats_c2_txt);?>">
+                    <input id="STATSCHART2TXT" type="text" name="STATSCHART2TXT" value="<?=$nut_stats_c2_txt?>">
                 </dd>
             </dl>
             <dl>
                 <dt><em>Statistics Chart 3 - UPS Variable:</em></dt>
                 <dd>
-                    <input id="STATSCHART3VAR" type="text" name="STATSCHART3VAR" value="<?=htmlspecialchars($nut_stats_c3_var);?>">
+                    <input id="STATSCHART3VAR" type="text" name="STATSCHART3VAR" value="<?=$nut_stats_c3_var?>">
                 </dd>
             </dl>
             <dl>
                 <dt><em>Statistics Chart 3 - Description Text:</em></dt>
                 <dd>
-                    <input id="STATSCHART3TXT" type="text" name="STATSCHART3TXT" value="<?=htmlspecialchars($nut_stats_c3_txt);?>">
+                    <input id="STATSCHART3TXT" type="text" name="STATSCHART3TXT" value="<?=$nut_stats_c3_txt?>">
                 </dd>
             </dl>
             <dl>
                 <dt><em>Statistics Chart 4 - UPS Variable:</em></dt>
                 <dd>
-                    <input id="STATSCHART4VAR" type="text" name="STATSCHART4VAR" value="<?=htmlspecialchars($nut_stats_c4_var);?>">
+                    <input id="STATSCHART4VAR" type="text" name="STATSCHART4VAR" value="<?=$nut_stats_c4_var?>">
                 </dd>
             </dl>
             <dl>
                 <dt><em>Statistics Chart 4 - Description Text:</em></dt>
                 <dd>
-                    <input id="STATSCHART4TXT" type="text" name="STATSCHART4TXT" value="<?=htmlspecialchars($nut_stats_c4_txt);?>">
+                    <input id="STATSCHART4TXT" type="text" name="STATSCHART4TXT" value="<?=$nut_stats_c4_txt?>">
                 </dd>
             </dl>
             <dl>
                 <dt><em>Statistics Chart 5 - UPS Variable:</em></dt>
                 <dd>
-                    <input id="STATSCHART5VAR" type="text" name="STATSCHART5VAR" value="<?=htmlspecialchars($nut_stats_c5_var);?>">
+                    <input id="STATSCHART5VAR" type="text" name="STATSCHART5VAR" value="<?=$nut_stats_c5_var?>">
                 </dd>
             </dl>
             <dl>
                 <dt><em>Statistics Chart 5 - Description Text:</em></dt>
                 <dd>
-                    <input id="STATSCHART5TXT" type="text" name="STATSCHART5TXT" value="<?=htmlspecialchars($nut_stats_c5_txt);?>">
+                    <input id="STATSCHART5TXT" type="text" name="STATSCHART5TXT" value="<?=$nut_stats_c5_txt?>">
                 </dd>
             </dl>
             <dl>
                 <dt><em>Statistics Chart 6 - UPS Variable:</em></dt>
                 <dd>
-                    <input id="STATSCHART6VAR" type="text" name="STATSCHART6VAR" value="<?=htmlspecialchars($nut_stats_c6_var);?>">
+                    <input id="STATSCHART6VAR" type="text" name="STATSCHART6VAR" value="<?=$nut_stats_c6_var?>">
                 </dd>
             </dl>
             <dl>
                 <dt><em>Statistics Chart 6 - Description Text:</em></dt>
                 <dd>
-                    <input id="STATSCHART6TXT" type="text" name="STATSCHART6TXT" value="<?=htmlspecialchars($nut_stats_c6_txt);?>">
+                    <input id="STATSCHART6TXT" type="text" name="STATSCHART6TXT" value="<?=$nut_stats_c6_txt?>">
                 </dd>
             </dl>
             <dl>
                 <dt><em>Statistics Chart 7 - UPS Variable:</em></dt>
                 <dd>
-                    <input id="STATSCHART7VAR" type="text" name="STATSCHART7VAR" value="<?=htmlspecialchars($nut_stats_c7_var);?>">
+                    <input id="STATSCHART7VAR" type="text" name="STATSCHART7VAR" value="<?=$nut_stats_c7_var?>">
                 </dd>
             </dl>
             <dl>
                 <dt><em>Statistics Chart 7 - Description Text:</em></dt>
                 <dd>
-                    <input id="STATSCHART7TXT" type="text" name="STATSCHART7TXT" value="<?=htmlspecialchars($nut_stats_c7_txt);?>">
+                    <input id="STATSCHART7TXT" type="text" name="STATSCHART7TXT" value="<?=$nut_stats_c7_txt?>">
                 </dd>
             </dl>      
         </div>
@@ -748,7 +772,7 @@ $developer_message = nut_get_dev_message();
         <dl>
             <dt>UPS Output Volt Ampere Capacity (VA):</dt>
             <dd>
-                <input id="POWERVA" type="text" class="narrow nut-power" name="POWERVA" maxlength="5" value="<?=htmlspecialchars($nut_powerva);?>">
+                <input id="POWERVA" type="text" class="narrow nut-power" name="POWERVA" maxlength="5" value="<?=$nut_powerva?>">
             </dd>
         </dl>
 
@@ -759,7 +783,7 @@ $developer_message = nut_get_dev_message();
         <dl>
             <dt>UPS Output Watt Capacity (W):</dt>
             <dd>
-                <input id="POWERW" type="text" class="narrow nut-power" name="POWERW" maxlength="4" value="<?=htmlspecialchars($nut_powerw);?>">
+                <input id="POWERW" type="text" class="narrow nut-power" name="POWERW" maxlength="4" value="<?=$nut_powerw?>">
             </dd>
         </dl>
 
@@ -940,6 +964,14 @@ function checkPOWER() {
 function decData() {
     $('#MONPASS').val(atob($('#MONPASS').val()));
     $('#SLAVEPASS').val(atob($('#SLAVEPASS').val()));
+    
+    var format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    if(format.test($('#MONPASS').val())) {
+        $('#monpass-htext').show();
+    }
+    if(format.test($('#SLAVEPASS').val())) {
+        $('#slavepass-htext').show();
+    }
 }
 
 function Restart() {

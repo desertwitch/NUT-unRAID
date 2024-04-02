@@ -15,4 +15,4 @@
 #
 
 echo "Starting NUT services..."
-/etc/rc.d/rc.nut start | logger
+/etc/rc.d/rc.nut start 2>&1 | logger -t "rc.nut"
