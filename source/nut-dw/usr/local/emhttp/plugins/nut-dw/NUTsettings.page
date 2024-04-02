@@ -156,9 +156,28 @@ $developer_message = nut_get_dev_message();
 
     <blockquote class="inline_help">
         <p>Some UPS devices or drivers have USB implementations that cannot handle USB power management (auto hibernation) without resulting in connection problems.</p>
-        <p>This <strong>in most cases not recommended setting</strong> disables USB power management <strong>for all USB hubs and devices (system-wide)</strong>, setting them to <strong><em>always on</em></strong> mode.</p>
+        <p>This <strong>in most cases <u>not recommended</u> setting</strong> disables USB power management <strong>for all USB hubs and devices (system-wide)</strong>, setting them to <strong><em>always on</em></strong> mode.</p>
         <p>Enabling this setting will prevent any connected USB hubs and devices from going into auto hibernation (which could alleviate UPS connection instabilities).</p>
         <p>Please be aware after disabling this setting again a full system reboot will be required to return your system to its default USB power management behavior.</p>
+    </blockquote>
+
+   <dl>
+        <dt>Enable Rule-Based Syslog Filters:</dt>
+        <dd>
+            <select class="nut-run" id="SYSLOGFILTER" name="SYSLOGFILTER" size="1">
+                <?=mk_option($nut_syslog_filter, "disable", "No");?>
+                <?=mk_option($nut_syslog_filter, "enable", "Yes");?>
+            </select>
+            <i class="fa fa-exclamation-triangle" title="System-Wide Setting" style="cursor:help;"></i>
+        </dd>
+    </dl>
+
+    <blockquote class="inline_help">
+        <p>NUT - by design - is a rather talkative software package, this is generally extremely valuable for diagnosing any encountered operational problems.</p>
+        <p>However, often repeating UPS events such as connection drops or data staleness can fill up the SYSLOG and make diagnosing other unrelated problems more difficult.</p>
+        <p>This <strong>in most cases <u>not recommended</u> setting</strong> filters out commonly encountered repetitive messages from the SYSLOG and directs them to <strong><em>/var/log/nut-spam</em></strong> instead.</p>
+        <p>Advanced users can extend the predefined rules for commonly encountered repetitive messages by editing <strong><em>/etc/nut/xnut-nospam.conf</em></strong> using the NUT Configuration Editor.</p>
+        <p>Please be aware that previous messages (which have already been logged to the SYSLOG) will not be removed, rather only future encountered messages are affected by this setting.</p> 
     </blockquote>
 
     <dl>
@@ -515,25 +534,6 @@ $developer_message = nut_get_dev_message();
             <p>By default this notification will be sent every 12 hours until the batteries are replaced.</p>
         </blockquote>  
     </div>
-
-   <dl>
-        <dt>Enable Rule-Based Syslog Filtering for NUT:</dt>
-        <dd>
-            <select class="nut-run" id="SYSLOGFILTER" name="SYSLOGFILTER" size="1">
-                <?=mk_option($nut_syslog_filter, "disable", "No");?>
-                <?=mk_option($nut_syslog_filter, "enable", "Yes");?>
-            </select>
-            <i class="fa fa-exclamation-triangle" title="System-Wide Setting" style="cursor:help;"></i>
-        </dd>
-    </dl>
-
-    <blockquote class="inline_help">
-        <p>NUT - by design - is a rather talkative software package, this is generally extremely valuable for diagnosing any encountered operational problems.</p>
-        <p>However, often repeating UPS events such as connection drops or data staleness can fill up the SYSLOG and make diagnosing other unrelated problems more difficult.</p>
-        <p>This <strong>in most cases not recommended setting</strong> filters out commonly encountered repetitive messages from the SYSLOG and directs them to <strong><em>/var/log/nut-spam</em></strong> instead.</p>
-        <p>Advanced users can extend the predefined rules for commonly encountered repetitive messages by editing <strong><em>/etc/nut/xnut-nospam.conf</em></strong> using the NUT Configuration Editor.</p>
-        <p>Please be aware that previous messages (which have already been logged to the SYSLOG) will not be removed, rather only future encountered messages are affected by this setting.</p> 
-    </blockquote>
 
     <br>
 
