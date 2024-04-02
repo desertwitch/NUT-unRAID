@@ -175,7 +175,7 @@ $developer_message = nut_get_dev_message();
     <blockquote class="inline_help">
         <p>NUT - by design - is a rather talkative software package, this is generally extremely valuable for diagnosing any encountered operational problems.</p>
         <p>However, often repeating UPS events such as connection drops or data staleness can fill up the SYSLOG and make diagnosing other unrelated problems more difficult.</p>
-        <p>This <strong>in most cases <u>not recommended</u> setting</strong> filters out commonly encountered repetitive messages from the SYSLOG and directs them to <strong><em>/var/log/nut-spam</em></strong> instead.</p>
+        <p>This <strong>in most cases <u>not recommended</u> setting</strong> filters out commonly encountered repetitive messages from the SYSLOG and directs them to <strong><em><a href="/plugins/nut-dw/include/nut_spamlog_helper.php" target="_blank">/var/log/nut-spam</a></em></strong> instead.</p>
         <p>Advanced users can extend the predefined rules for commonly encountered repetitive messages by editing <strong><em>/etc/nut/xnut-nospam.conf</em></strong> using the NUT Configuration Editor.</p>
         <p>Please be aware that previous messages (which have already been logged to the SYSLOG) will not be removed, rather only future encountered messages are affected by this setting.</p> 
     </blockquote>
