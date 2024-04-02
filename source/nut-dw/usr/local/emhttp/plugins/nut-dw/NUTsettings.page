@@ -517,7 +517,7 @@ $developer_message = nut_get_dev_message();
     </div>
 
    <dl>
-        <dt>Enable Repetitive Event Filtering (in Syslog):</dt>
+        <dt>Enable Rule-Based Syslog Filtering for NUT:</dt>
         <dd>
             <select class="nut-run" id="SYSLOGFILTER" name="SYSLOGFILTER" size="1">
                 <?=mk_option($nut_syslog_filter, "disable", "No");?>
@@ -528,9 +528,10 @@ $developer_message = nut_get_dev_message();
     </dl>
 
     <blockquote class="inline_help">
-        <p>NUT - by design - is a very talkative software package, this is generally very valuable for diagnosing any encountered operational problems.</p>
-        <p>Repetitive UPS data staleness and UPS connection drops can however quickly fill up the SYSLOG and make diagnosing other unrelated problems harder.</p>
-        <p>This <strong>in most cases not recommended setting</strong> filters out specific repeating UPS status messages from the SYSLOG and directs them to <strong><em>/var/log/nut-spam</em></strong> instead.</p>
+        <p>NUT - by design - is a rather talkative software package, this is generally extremely valuable for diagnosing any encountered operational problems.</p>
+        <p>However, often repeating UPS events such as connection drops or data staleness can fill up the SYSLOG and make diagnosing other unrelated problems more difficult.</p>
+        <p>This <strong>in most cases not recommended setting</strong> filters out commonly encountered repetitive SYSLOG messages and directs them to <strong><em>/var/log/nut-spam</em></strong> instead.</p>
+        <p>Advanced users can extend the predefined set of commonly encountered repetitive messages by editing <strong><em>/etc/nut/xnut-nospam.conf</em></strong> using the NUT Configuration Editor.</p>
         <p>Please be aware that previous messages (which have already been logged to the SYSLOG) will not be removed, rather only future encountered messages are affected by this setting.</p> 
     </blockquote>
 
