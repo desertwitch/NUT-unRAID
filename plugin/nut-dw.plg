@@ -710,6 +710,13 @@ if [ -f /boot/config/plugins/dynamix/nutstats.cron ]; then
     sleep 1
 fi
 
+if [ -f /etc/rsyslog.d/xnut-nospam.conf ]; then
+    rm -f /etc/rsyslog.d/xnut-nospam.conf
+    sleep 1
+    /etc/rc.d/rc.rsyslogd restart
+    sleep 1
+fi
+
 echo ""
 echo "-----------------------------------------------------------"
 echo " Network UPS Tools (NUT) for UNRAID has been removed."
