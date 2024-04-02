@@ -1,5 +1,3 @@
-c27e063a311ffee9426aae6dcce8ee48 *nut-2.8.1-x86_64-2stable.ssl11.txz
-7e4af2667739b62f104ec4a376f69814 *nut-2.8.1-x86_64-2stable.ssl31.txz
 1af8973e517c8210bc305e0d0df5cddd *nut-2.8.1-x86_64-1stable.ssl31.txz
 d85d38dbb8b3ef1aa325392599fe4cb5 *nut-2.8.1-x86_64-1stable.ssl11.txz
 a44a7e50eb81ccb232d8b12aa76afdda *nut-2.8.0-x86_64-12master.ssl31.txz
@@ -37,6 +35,8 @@ ef1393ccb4f49f5b977da2d0a9eca6b0 *nut-2.7.4.20190303-x86_64-1.txz
 a7a7125af78c8744c721c9dce79ca0d9 *nut-2.7.4-x86_64-1gds.txz
 ae46b12abd4add9014e49e24acb23e24 *nut-2.7.4-x86_64-2_slonly.txz
 2c7a37ac49a3c752536b7f4f43777cc2 *nut-2.8.0-x86_64-1.txz
+83e33e9efa44c8a652b07acf5a76a3c4 *nut-2.8.2-x86_64-1stable.ssl11.txz
+35b740e9e92b6d42cde6600724e57417 *nut-2.8.2-x86_64-1stable.ssl31.txz
 63c06646d01daaa8389e885ac2f8778e *libmodbus-3.1.10-x86_64-2usb.txz
 766d0e0fa3a2ecf42e439b012d8b6614 *nut-2.8.0-x86_64-3stable.ssl31.txz
 ed16442a55705053d3413ff756c64ea7 *nut-2.8.1-x86_64-3stable.ssl31.txz
@@ -51,3 +51,5 @@ a6af7922f4bc9a5012cb0b1f8bef39e6 *nut-2.8.1-x86_64-2master.ssl11.txz
 ff9a8a88ae1ff030260d4e5b7138333e *nut-2.8.0-x86_64-2stable.ssl31.txz
 0f6c4f988c55359ed2ae00a4dd60f9d0 *nut-2.8.1-x86_64-1master.ssl11.txz
 9614c616fae2b7ae09ac2f485cd9441d *nut-2.8.1-x86_64-1master.ssl31.txz
+c27e063a311ffee9426aae6dcce8ee48 *nut-2.8.1-x86_64-2stable.ssl11.txz
+7e4af2667739b62f104ec4a376f69814 *nut-2.8.1-x86_64-2stable.ssl31.txz
