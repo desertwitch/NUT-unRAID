@@ -18,6 +18,10 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
+###2024.04.03
+- fix: important changes to plugin removal routine to also remove any active rule-based syslog filters
+- fix: made optical changes regarding wording, positioning and helptext of the rule-based syslog filters
+- new: added a possibility to view the NUT spam-log from the GUI when rule-based syslog filters are active
 ###2024.04.02
 - new: default backend updated from previous NUT 2.8.1 stable release to new NUT 2.8.2 stable release
 - new: added a new "previous" backend for users wishing to remain on the previous NUT 2.8.1 stable release
