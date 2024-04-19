@@ -27,6 +27,7 @@ if(!empty($debug_result)) {
 			header("Content-Length: " . filesize($debugFile));
 			header("Connection: close");
 			readfile($debugFile);
+			unlink($debugFile);
 			exit;
 		} else {
 			echo("ERROR: The NUT Debug Package Generation Script has failed - bash backend returned filename, php could not find file.");
