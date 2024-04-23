@@ -25,8 +25,8 @@ Markdown="false"
 ?>
 
 <link type="text/css" rel="stylesheet" href="<?=autov('/webGui/styles/jquery.filetree.css');?>">
-<link type="text/css" rel="stylesheet" href="<?=autov('/plugins/nut-dw/css/codemirror.css');?>">
-<link type="text/css" rel="stylesheet" href="<?=autov('/plugins/nut-dw/css/dracula.css');?>">
+<link type="text/css" rel="stylesheet" href="<?=autov('/plugins/nut-dw/css/codemirror.min.css');?>">
+<link type="text/css" rel="stylesheet" href="<?=autov('/plugins/nut-dw/css/dracula.min.css');?>">
 <style type="text/css">
     .CodeMirror { border: 1px solid #eee; cursor: text; margin-top: 15px; margin-bottom: 10px; }
     .CodeMirror pre.CodeMirror-placeholder { color: #999; }
@@ -62,9 +62,9 @@ Markdown="false"
 </form>
 
 <script src="<?=autov('/webGui/javascript/jquery.filetree.js');?>"></script>
-<script src="<?=autov('/plugins/nut-dw/js/codemirror.js');?>"></script>
-<script src="<?=autov('/plugins/nut-dw/js/autorefresh.js');?>"></script>
-<script src="<?=autov('/plugins/nut-dw/js/properties.js');?>"></script>
+<script src="<?=autov('/plugins/nut-dw/js/codemirror.min.js');?>"></script>
+<script src="<?=autov('/plugins/nut-dw/js/autorefresh.min.js');?>"></script>
+<script src="<?=autov('/plugins/nut-dw/js/properties.min.js');?>"></script>
 
 <script type="text/javascript">
 $(function(){
