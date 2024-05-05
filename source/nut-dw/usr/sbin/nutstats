@@ -35,7 +35,7 @@ if [ "$SERVICE" == "disable" ]; then
       exit 0
 fi
 
-if /usr/bin/pgrep upsmon >/dev/null 2>&1; then
+if /usr/bin/pgrep -x upsmon >/dev/null 2>&1; then
       echo "NUTSTATS: Service checks finished, starting to collect statistics..."
 else
       echo "NUTSTATS: NUT upsmon is not (yet) running... exiting"
