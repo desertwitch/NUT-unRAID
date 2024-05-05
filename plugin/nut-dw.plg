@@ -428,9 +428,9 @@ exit 0
 </FILE>
 
 <!-- slack15.1 preview -->
-<FILE Name="&plgPATH;/nut-2.8.1-x86_64-5master.ssl31.txz" Min="6.13">
-<URL>&pkgURL;/nut-2.8.1-x86_64-5master.ssl31.txz</URL>
-<MD5>987ae232925eae9fd7bd8e9fa2d65466</MD5>
+<FILE Name="&plgPATH;/nut-2.8.2-x86_64-1master.ssl31.txz" Min="6.13">
+<URL>&pkgURL;/nut-2.8.2-x86_64-1master.ssl31.txz</URL>
+<MD5>d3053d8085dffd88613276c6da15781b</MD5>
 </FILE>
 
 <!-- slack15.1 default -->
@@ -465,7 +465,7 @@ if [ -e "$CONFIG" ]; then
     source "$CONFIG"
     if [ "$BACKEND" == "preview" ]; then
         echo "Installing user-configured PREVIEW backend for NUT..."
-        upgradepkg --install-new &plgPATH;/nut-2.8.1-x86_64-5master.ssl31.txz
+        upgradepkg --install-new &plgPATH;/nut-2.8.2-x86_64-1master.ssl31.txz
     elif [ "$BACKEND" == "default" ]; then
         echo "Installing DEFAULT backend for NUT..."
         upgradepkg --install-new &plgPATH;/nut-2.8.2-x86_64-1stable.ssl31.txz
@@ -491,9 +491,9 @@ echo ""
 </FILE>
 
 <!-- slack15.0 preview -->
-<FILE Name="&plgPATH;/nut-2.8.1-x86_64-4master.ssl11.txz" Min="6.10" Max="6.12.99">
-<URL>&pkgURL;/nut-2.8.1-x86_64-4master.ssl11.txz</URL>
-<MD5>85b385375f2bf66dc95cca71f9035347</MD5>
+<FILE Name="&plgPATH;/nut-2.8.2-x86_64-1master.ssl11.txz" Min="6.10" Max="6.12.99">
+<URL>&pkgURL;/nut-2.8.2-x86_64-1master.ssl11.txz</URL>
+<MD5>e159087c89763e4a3c8045134b22b135</MD5>
 </FILE>
 
 <!-- slack15.0 default -->
@@ -528,7 +528,7 @@ if [ -e "$CONFIG" ]; then
     source "$CONFIG"
     if [ "$BACKEND" == "preview" ]; then
         echo "Installing user-configured PREVIEW backend for NUT..."
-        upgradepkg --install-new &plgPATH;/nut-2.8.1-x86_64-4master.ssl11.txz
+        upgradepkg --install-new &plgPATH;/nut-2.8.2-x86_64-1master.ssl11.txz
     elif [ "$BACKEND" == "default" ]; then
         echo "Installing DEFAULT backend for NUT..."
         upgradepkg --install-new &plgPATH;/nut-2.8.2-x86_64-1stable.ssl11.txz
