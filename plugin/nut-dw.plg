@@ -18,6 +18,10 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
+###2024.05.05
+- new: the preview (latest build) backend was updated to the most recent master branch as of 05.05.2024
+- new: minified the GUI dependencies to reduce the package size and also the page load times within the GUI
+- fix: minor fixes across shell scripts regarding process selecting and handling of generated debug packages
 ###2024.04.03
 - fix: important changes to plugin removal routine to also remove any active rule-based syslog filters
 - fix: made optical changes regarding wording, positioning and helptext of the rule-based syslog filters
