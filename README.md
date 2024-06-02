@@ -21,3 +21,5 @@ Copyrights NUT for UNRAID (frontend): macester, gfjardim, dmacias72, SimonF
 Copyrights UNRAID Plugin System: Dan Landon, Bergware International, Lime Technology 
 
 This project continues to be licensed under GPL2 and/or GPL3 - see LICENSE files for information!
+
+<sub>Network UPS Tools Source Code: https://github.com/networkupstools/nut</sub>
