@@ -249,9 +249,9 @@ write_config() {
         chown root:nut /etc/nut/*
         chmod 640 /etc/nut/*
         chown root:nut /var/run/nut
-        chmod 0770 /var/run/nut
+        chmod 770 /var/run/nut
         chown root:nut /var/state/ups
-        chmod 0770 /var/state/ups
+        chmod 770 /var/state/ups
     fi
 
     # Link shutdown scripts for poweroff in rc.6
