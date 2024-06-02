@@ -27,7 +27,7 @@ if [ "$( grep -ic "218" /etc/passwd )" -eq 0 ]; then
 fi
 
 # Update file permissions of scripts
-chmod +0755 $DOCROOT/scripts/* \
+chmod 755 $DOCROOT/scripts/* \
         /etc/rc.d/rc.nut \
         /etc/rc.d/rc.nutstats \
         /usr/sbin/nut-notify \
@@ -66,7 +66,7 @@ if [ -d /etc/nut ]; then
     chown root:nut /etc/nut/*
     chmod 640 /etc/nut/*
     chown root:nut /var/run/nut
-    chmod 0770 /var/run/nut
+    chmod 770 /var/run/nut
     chown root:nut /var/state/ups
-    chmod 0770 /var/state/ups
+    chmod 770 /var/state/ups
 fi
