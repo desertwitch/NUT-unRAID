@@ -18,6 +18,8 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
+###2024.06.23
+- fix: renamed generic function names to avoid declaration collisions with other plugins
 ###2024.05.05
 - new: the preview (latest build) backend was updated to the most recent master branch as of 05.05.2024
 - new: minified the GUI dependencies to reduce the package size and also the page load times within the GUI
