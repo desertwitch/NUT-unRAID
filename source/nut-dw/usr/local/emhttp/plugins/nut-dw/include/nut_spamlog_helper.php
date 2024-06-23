@@ -22,5 +22,5 @@
 <div><strong>WARNING:</strong> Log files can contain <strong>sensitive information</strong> - please <strong>copy only the relevant lines when sharing</strong> with others!</div>
 <hr>
 <pre>
-<?=file_exists("/var/log/nut-spam")?file_get_contents("/var/log/nut-spam"):"... requested syslog file is either empty or does not exist (yet)"?>
+<?=file_exists("/var/log/nut-spam")?htmlspecialchars(file_get_contents("/var/log/nut-spam") ?? ""):"... requested syslog file is either empty or does not exist (yet)"?>
 </pre>

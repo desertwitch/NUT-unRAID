@@ -25,5 +25,5 @@
 <div><strong>WARNING:</strong> Log files can contain <strong>sensitive information</strong> - please <strong>copy only the relevant lines when sharing</strong> with others!</div>
 <hr>
 <pre>
-<?=file_exists("/boot/logs/syslog")?file_get_contents("/boot/logs/syslog"):"no syslog mirror found on USB - is syslog mirroring activated ?"?>
+<?=file_exists("/boot/logs/syslog")?htmlspecialchars(file_get_contents("/boot/logs/syslog") ?? ""):"no syslog mirror found on USB - is syslog mirroring activated ?"?>
 </pre>
