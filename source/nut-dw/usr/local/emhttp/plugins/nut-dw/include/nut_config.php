@@ -73,11 +73,11 @@ $nut_stats_c7_var       = trim(isset($nut_cfg['STATSCHART7VAR'])      ? htmlspec
 $nut_stats_c7_txt       = trim(isset($nut_cfg['STATSCHART7TXT'])      ? htmlspecialchars($nut_cfg ['STATSCHART7TXT'])       : 'Output Frequency (in Hz)');
 $nut_rtunit             = trim(isset($nut_cfg['RTUNIT'])              ? htmlspecialchars($nut_cfg ['RTUNIT'])               : 'seconds');
 
-$nut_running      = (intval(trim(htmlspecialchars(shell_exec( "[ -f /proc/`cat /var/run/nut/upsmon.pid 2> /dev/null`/exe ] && echo 1 || echo 0 2> /dev/null" )))) === 1 );
-$nut_installed_backend = trim(htmlspecialchars(shell_exec("find /var/log/packages/ -type f -iname 'nut*' ! -iname 'nut-plugin*' -printf '%f\n' 2> /dev/null")));
+$nut_running      = (intval(trim(shell_exec( "[ -f /proc/`cat /var/run/nut/upsmon.pid 2> /dev/null`/exe ] && echo 1 || echo 0 2> /dev/null" ))) === 1 );
+$nut_installed_backend = htmlspecialchars(trim(shell_exec("find /var/log/packages/ -type f -iname 'nut*' ! -iname 'nut-plugin*' -printf '%f\n' 2> /dev/null")));
 
-$apc_running      = (intval(trim(htmlspecialchars(shell_exec( "[ -f /proc/`cat /var/run/apcupsd.pid 2> /dev/null`/exe ] && echo 1 || echo 0 2> /dev/null" )))) === 1 );
-$powertop_installed = (intval(trim(htmlspecialchars(shell_exec( "[ -n \"`find /var/log/packages/ -type f -iname 'powertop*' -printf '%f\n' 2> /dev/null`\" ] && echo 1 || echo 0 2> /dev/null" )))) === 1 );
+$apc_running      = (intval(trim(shell_exec( "[ -f /proc/`cat /var/run/apcupsd.pid 2> /dev/null`/exe ] && echo 1 || echo 0 2> /dev/null" ))) === 1 );
+$powertop_installed = (intval(trim(shell_exec( "[ -n \"`find /var/log/packages/ -type f -iname 'powertop*' -printf '%f\n' 2> /dev/null`\" ] && echo 1 || echo 0 2> /dev/null" ))) === 1 );
 
 # debug constant to overwrite ups.status
 // define('NUT_STATUS_DEBUG', 'OB DISCHRG BYPASS CAL');

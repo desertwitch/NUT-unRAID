@@ -30,7 +30,7 @@ $green  = "green-text";
 $orange = "orange-text";
 $black  = "black-text";
 
-function get_ups($name, $ip="127.0.0.1")
+function nut_get_ups($name, $ip="127.0.0.1")
 {
   $output = [];
   $alarm = 0;
@@ -46,18 +46,18 @@ function get_ups($name, $ip="127.0.0.1")
   return $output;
 }
 
-function array_key_exists_wildcard ( $arr, $nee ) {
+function nut_array_key_exists_wildcard ( $arr, $nee ) {
   $nee = str_replace( '\\*', '.*?', preg_quote( $nee, '/' ) );
   return array_values(preg_grep( '/^' . $nee . '$/i', array_keys( $arr ) ));
 }
 
-function format_time($repTime, $repUnit) {
+function nut_format_time($repTime, $repUnit) {
   $t = ($repUnit == "minutes" ? round($repTime*60) : round($repTime));
   return gmdate("H:i:s" ,$t );
 }
 
 $status = [];
-$ups_status = get_ups($nut_name, $nut_ip);
+$ups_status = nut_get_ups($nut_name, $nut_ip);
 if (count($ups_status)) {
   $online           = (array_key_exists("ups.status", $ups_status) ? nut_ups_status([$ups_status["ups.status"]], true) : false );
   $battery          = (array_key_exists("battery.charge",$ups_status)) ? intval(strtok($ups_status['battery.charge'],' ')) : false;
@@ -78,7 +78,7 @@ if (count($ups_status)) {
       $realPower = 0;
   }
 
-  $ups_alarm = array_key_exists_wildcard($ups_status, 'ups.alarm*');
+  $ups_alarm = nut_array_key_exists_wildcard($ups_status, 'ups.alarm*');
   if (count($ups_alarm)) {
     $alarms = "";
     foreach ($ups_alarm as $al) {
@@ -87,7 +87,7 @@ if (count($ups_status)) {
     $status[3] = "<span id='nut_alarm' class='tooltip-nut $orange' data=\"$alarms\"><i class='fa fa-bell faa-ring animated'></i></span>";
   }
 
-  $battery_runtime = array_key_exists($nut_runtime, $ups_status) ? format_time($ups_status[$nut_runtime],$nut_rtunit) : "n/a";
+  $battery_runtime = array_key_exists($nut_runtime, $ups_status) ? nut_format_time($ups_status[$nut_runtime],$nut_rtunit) : "n/a";
   $css_class = $online['severity'] > 0 ? $nut_msgSeverity[$online['severity']]['css_class'] : ($nut_footer_style == 1 ? $black : $green);
   $fa_icon = '';
   $statusTooltipData = '';
