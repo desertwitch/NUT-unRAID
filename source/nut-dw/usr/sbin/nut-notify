@@ -61,11 +61,11 @@ then
         if [ "$SHUTDOWN" != "none" ]; then
             if [ "$SHUTDOWN" == "sec_timer" ]; then
                 # Loop with one second interval to allow SIGTERM reception.
-                let "n = $TIMEOUT"
+                (( n = TIMEOUT ))
                 while [ $n -ne 0 ]
                 do
                         sleep 1
-                        let "n--"
+                        (( n-- ))
                 done
             else
                 timer="$( /usr/bin/upsc "$NAME"@"$IPADDR" "$BATTERY" 2>/dev/null )"
