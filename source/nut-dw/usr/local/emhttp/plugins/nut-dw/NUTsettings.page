@@ -390,6 +390,21 @@ $developer_message = nut_get_dev_message();
         
             <div id="snmp" style="display: none;">
                 <dl>
+                    <dt>SNMP Version:</dt>
+                    <dd>
+                        <select class="nut-run" id="SNMPVER" name="SNMPVER" size="1">
+                            <?=mk_option($nut_snmpver, 'v1', 'v1');?>
+                            <?=mk_option($nut_snmpver, 'v2c', 'v2c');?>
+                            <?=mk_option($nut_snmpver, 'v3', 'v3');?>
+                        </select>
+                    </dd>
+                </dl>
+
+                <blockquote class="inline_help">
+                    <p>The SNMP version to use to communicate with your UPS SNMP agent.</p>
+                </blockquote>
+
+                <dl>
                     <dt>SNMP Community:</dt>
                     <dd>
                         <input type="text" name="COMMUNITY" class="narrow nut-run" maxlength="40" value="<?=$nut_community;?>">
@@ -398,6 +413,51 @@ $developer_message = nut_get_dev_message();
 
                 <blockquote class="inline_help">
                     <p>The name of the read community of your UPS SNMP agent.</p>
+                </blockquote>
+
+                <dl>
+                    <dt>SNMP Definition MIB:</dt>
+                    <dd>
+                        <select class="nut-run" id="SNMPMIB" name="SNMPMIB" size="1">
+                            <?=mk_option($nut_snmpmib, 'auto', 'auto');?>
+                            <?=mk_option($nut_snmpmib, 'ietf', 'ietf');?>
+                            <?=mk_option($nut_snmpmib, 'apc_ats', 'apc_ats');?>
+                            <?=mk_option($nut_snmpmib, 'apc_pdu', 'apc_pdu');?>
+                            <?=mk_option($nut_snmpmib, 'apc', 'apc');?>
+                            <?=mk_option($nut_snmpmib, 'apcc', 'apcc');?>
+                            <?=mk_option($nut_snmpmib, 'baytech', 'baytech');?>
+                            <?=mk_option($nut_snmpmib, 'bestpower', 'bestpower');?>
+                            <?=mk_option($nut_snmpmib, 'cpqpower', 'cpqpower');?>
+                            <?=mk_option($nut_snmpmib, 'cyberpower', 'cyberpower');?>
+                            <?=mk_option($nut_snmpmib, 'delta_ups', 'delta_ups');?>
+                            <?=mk_option($nut_snmpmib, 'eaton_ats16_nmc', 'eaton_ats16_nmc');?>
+                            <?=mk_option($nut_snmpmib, 'eaton_ats16_nm2', 'eaton_ats16_nm2');?>
+                            <?=mk_option($nut_snmpmib, 'eaton_ats30', 'eaton_ats30');?>
+                            <?=mk_option($nut_snmpmib, 'eaton_epdu', 'eaton_epdu');?>
+                            <?=mk_option($nut_snmpmib, 'eaton_pdu_nlogic', 'eaton_pdu_nlogic');?>
+                            <?=mk_option($nut_snmpmib, 'eaton_pxg_ups', 'eaton_pxg_ups');?>
+                            <?=mk_option($nut_snmpmib, 'eaton_pw_nm2', 'eaton_pw_nm2');?>
+                            <?=mk_option($nut_snmpmib, 'emerson_avocent_pdu', 'emerson_avocent_pdu');?>
+                            <?=mk_option($nut_snmpmib, 'aphel_revelation', 'aphel_revelation');?>
+                            <?=mk_option($nut_snmpmib, 'aphel_genesisII', 'aphel_genesisII');?>
+                            <?=mk_option($nut_snmpmib, 'pulizzi_switched1', 'pulizzi_switched1');?>
+                            <?=mk_option($nut_snmpmib, 'pulizzi_switched2', 'pulizzi_switched2');?>
+                            <?=mk_option($nut_snmpmib, 'hpe_epdu', 'hpe_epdu');?>
+                            <?=mk_option($nut_snmpmib, 'hpe_pdu3_cis', 'hpe_pdu3_cis');?>
+                            <?=mk_option($nut_snmpmib, 'huawei', 'huawei');?>
+                            <?=mk_option($nut_snmpmib, 'mge', 'mge');?>
+                            <?=mk_option($nut_snmpmib, 'netvision', 'netvision');?>
+                            <?=mk_option($nut_snmpmib, 'raritan', 'raritan');?>
+                            <?=mk_option($nut_snmpmib, 'raritan-px2', 'raritan-px2');?>
+                            <?=mk_option($nut_snmpmib, 'xppc', 'xppc');?>
+                            <?=mk_option($nut_snmpmib, 'tripplite', 'tripplite');?>
+                        </select>
+                    </dd>
+                </dl>
+
+                <blockquote class="inline_help">
+                    <p>The SNMP definition MIB to use to communicate with your UPS SNMP agent.</p>
+                    <p>It is recommended to leave this option on <strong><em>auto</em></strong>, unless this does not work for your UPS.</p>
                 </blockquote>
 
                 <dl>

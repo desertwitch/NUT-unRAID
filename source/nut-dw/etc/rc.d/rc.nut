@@ -153,28 +153,39 @@ write_config() {
         
             # Add SNMP-specific config
             if [ "$DRIVER" == "snmp-ups" ]; then
+                [ -z "$SNMPVER" ] && SNMPVER="v2c"
+                [ -z "$SNMPMIB" ] && SNMPMIB="auto"
+                
                 var10="pollfreq = ${POLL}"
                 var11="community = ${COMMUNITY}"
-                var12='snmp_version = v2c'
+                var12="snmp_version = ${SNMPVER}"
+
+                if [ "$SNMPMIB" == "auto" ]; then
+                    var13=''
+                else
+                    var13="mibs = \"${SNMPMIB}\""
+                fi
             else
                 var10=''
                 var11=''
                 var12=''
+                var13=''
             fi
 
             # UPS Driver Debug Level
             if [ "$DEBLEVEL" == "default" ]; then
-                var13=''
+                var14=''
             elif [ -n "$DEBLEVEL" ]; then
-                var13="debug_min = ${DEBLEVEL}"
+                var14="debug_min = ${DEBLEVEL}"
             else
-                var13=''
+                var14=''
             fi
 
             sed -i "4 s/.*/$var10/" /etc/nut/ups.conf
             sed -i "5 s/.*/$var11/" /etc/nut/ups.conf
             sed -i "6 s/.*/$var12/" /etc/nut/ups.conf
             sed -i "7 s/.*/$var13/" /etc/nut/ups.conf
+            sed -i "8 s/.*/$var14/" /etc/nut/ups.conf
         fi
 
         # add mode standalone/netserver
