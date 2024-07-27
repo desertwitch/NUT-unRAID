@@ -16,12 +16,6 @@ My vision for this plugin, which basically acts as a frontend to NUT, can be sum
 
 * Frequent updates of the NUT frontend with meaningful changes improving both stability and ease of use.
 
-Copyrights NUT (backend): Jim Klimov et. al. (see https://github.com/networkupstools/)
-
-Copyrights NUT for UNRAID (frontend): macester, gfjardim, dmacias72, SimonF
-
-Copyrights UNRAID Plugin System: Dan Landon, Bergware International, Lime Technology 
-
 This project continues to be licensed under GPL2 and/or GPL3 - see LICENSE files for information!
 
 <sub>Network UPS Tools Source Code: https://github.com/networkupstools/nut</sub>
