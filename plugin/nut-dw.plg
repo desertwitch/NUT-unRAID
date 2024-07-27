@@ -18,6 +18,10 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
+###2024.07.27
+- new: added GUI settings to configure SNMP version and MIB
+- new: scanning mechanisms and auto configure now also detect SNMP devices
+- fix: refactored some legacy code in backend bash scripts to better standards
 ###2024.06.23
 - fix: renamed generic function names to avoid declaration collisions with other plugins
 ###2024.05.05
