@@ -402,6 +402,7 @@ $developer_message = nut_get_dev_message();
 
                 <blockquote class="inline_help">
                     <p>The SNMP version to use to communicate with your UPS SNMP agent.</p>
+                    <p>Please note that <strong><em>v3</em></strong> requires for <a href="https://networkupstools.org/docs/man/snmp-ups.html" target="_blank">additional settings</a> to be put into the <strong><em>UPS.CONF</em> file.</strong></p>
                 </blockquote>
 
                 <dl>
