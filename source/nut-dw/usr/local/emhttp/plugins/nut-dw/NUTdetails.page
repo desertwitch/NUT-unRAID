@@ -2,16 +2,16 @@ Menu="NUTsettings:1"
 Title="NUT Details"
 Tag="file"
 ---
-<?PHP
-/* Copyright Derek Macias
- * Copyright macester
- * Copyright gfjardim
- * Copyright SimonF
- * Copyright desertwitch
+<?
+/* Copyright Derek Macias (parts of code from NUT package)
+ * Copyright macester (parts of code from NUT package)
+ * Copyright gfjardim (parts of code from NUT package)
+ * Copyright SimonF (parts of code from NUT package)
+ * Copyright Dan Landon (parts of code from Web GUI)
+ * Copyright Bergware International (parts of code from Web GUI)
+ * Copyright Lime Technology (any and all other parts of Unraid)
  *
- * Copyright Dan Landon
- * Copyright Bergware International
- * Copyright Lime Technology
+ * Copyright desertwitch (as author and maintainer of this file)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License 2
@@ -22,7 +22,7 @@ Tag="file"
  *
  */
 ?>
-<?PHP
+<?
 require_once '/usr/local/emhttp/plugins/nut-dw/include/nut_config.php';
 $update_details = ($nut_refresh == "enable" ? true : false);
 ?>
