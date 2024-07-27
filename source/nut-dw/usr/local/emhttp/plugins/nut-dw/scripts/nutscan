@@ -75,7 +75,7 @@ if [ "$SCANFAILED" == "no" ]; then
 
     echo ""
     echo "NUT Scanner has finished configuring NUT - please attempt to start your NUT services now."
-    echo "If multiple UPS were detected, remove any not needed UPS sections from UPS.CONF using the GUI configuration editor."
+    echo "If multiple UPS were detected, remove any unneeded UPS sections from UPS.CONF using the GUI configuration editor first."
 else
     echo "NUT Scanner has finished without configuring NUT - no settings were changed."
     echo ""
