@@ -45,7 +45,7 @@ echo "NUT Scanner is now searching for UPS devices..."
 echo "#####################################################"
 echo ""
 
-SCANRESULT=$(/usr/bin/nut-scanner -N ${SNMPSTART:+"-s"} ${SNMPSTART:+"${SNMPSTART}"} ${SNMPEND:+"-e"} ${SNMPEND:+"${SNMPEND}"} 2>/dev/null)
+SCANRESULT=$(/usr/bin/nut-scanner -U -N ${SNMPSTART:+"-S"} ${SNMPSTART:+"-s"} ${SNMPSTART:+"${SNMPSTART}"} ${SNMPEND:+"-e"} ${SNMPEND:+"${SNMPEND}"} 2>/dev/null)
 
 if [ -z "$SCANRESULT" ]; then
     echo "NO DEVICES FOUND"
