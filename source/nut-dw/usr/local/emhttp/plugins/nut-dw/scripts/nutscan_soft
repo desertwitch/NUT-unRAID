@@ -18,7 +18,7 @@ echo "Reading the existing network configuration..."
 # shellcheck disable=SC1091
 [ -e "/boot/config/network.cfg" ] && source "/boot/config/network.cfg" 2>&1
 # shellcheck disable=SC2001
-if [ -n "${IPADDR[0]}" ] && [[ "${IPADDR[0]}" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+if [ -n "${IPADDR[0]}" ] && [[ "${IPADDR[0]}" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+ ]]; then
     SNMPSTART=$(sed 's:[^.]*$:1:' <<< "${IPADDR[0]}")
     SNMPEND=$(sed 's:[^.]*$:255:' <<< "${IPADDR[0]}")
     echo "Also scanning for SNMP on detected IP range: ${SNMPSTART} - ${SNMPEND} ..."
