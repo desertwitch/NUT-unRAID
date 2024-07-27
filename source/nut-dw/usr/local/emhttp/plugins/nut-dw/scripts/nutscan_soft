@@ -14,30 +14,45 @@
 # included in all copies or substantial portions of the Software.
 #
 
+echo "-----------------------------------------------------"
+echo "INFO: The NUT Scanner is also available from the terminal with more advanced settings."
+echo "INFO: You can use 'nut-scanner -h' to see all available options for searching UPS devices."
+echo "-----------------------------------------------------"
+echo ""
+
 echo "Reading the system network configuration..."
+
 # shellcheck disable=SC1091
 [ -e "/boot/config/network.cfg" ] && source <(fromdos <"/boot/config/network.cfg") 2>&1
+
 # shellcheck disable=SC2001
 if [ -n "${IPADDR[0]}" ] && [[ "${IPADDR[0]}" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-    SNMPSTART=$(sed 's:[^.]*$:1:' <<< "${IPADDR[0]}")
-    SNMPEND=$(sed 's:[^.]*$:255:' <<< "${IPADDR[0]}")
+    SNMPSTART=$(sed 's:[^.]*$:1:' 2>/dev/null <<< "${IPADDR[0]}")
+    SNMPEND=$(sed 's:[^.]*$:255:' 2>/dev/null <<< "${IPADDR[0]}")
     echo "Also scanning for SNMP devices on detected IP range: ${SNMPSTART} - ${SNMPEND} ..."
 fi
 
-SCANRESULT=$(/usr/bin/nut-scanner -U -N ${SNMPSTART:+"-S"} ${SNMPSTART:+"-s"} ${SNMPSTART:+"${SNMPSTART}"} ${SNMPEND:+"-e"} ${SNMPEND:+"${SNMPEND}"} 2>/dev/null)
+if [[ "$SNMPSTART" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]] && [[ "$SNMPEND" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+    SCANRESULT=$(/usr/bin/nut-scanner -U -N -S -s "$SNMPSTART" -e "$SNMPEND" 2>/dev/null)
+else
+    SCANRESULT=$(/usr/bin/nut-scanner -U -N 2>/dev/null)
+fi
+
+echo ""
+echo "NUT Scanner is now searching for UPS devices..."
+echo "#####################################################"
+echo ""
 
 if [ -z "$SCANRESULT" ]; then
-    echo ""
     echo "NO DEVICES FOUND"
     echo ""
     echo "Please visit the 'Driver Guide' and manually choose the recommended driver for your UPS."
     echo "In case of persisting problems please try another physical port, cable or the 'Support Thread'."
     echo ""
 else
-    echo ""
     echo "${SCANRESULT}"
     echo ""
-    echo "-----------------------------------"
+    echo "#####################################################"
     echo "HOW TO INTERPRET THESE RESULTS:"
     echo ""
     echo "Please select the UPS Driver, reported as 'driver' here, for your UPS inside the NUT Settings."

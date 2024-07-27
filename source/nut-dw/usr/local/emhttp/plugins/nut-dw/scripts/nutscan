@@ -31,12 +31,14 @@ echo "Reading the existing NUT configuration..."
 [ -e "$CONFIG" ] && source $CONFIG 2>&1
 
 echo "Reading the system network configuration..."
+
 # shellcheck disable=SC1091
 [ -e "/boot/config/network.cfg" ] && source <(fromdos <"/boot/config/network.cfg") 2>&1
+
 # shellcheck disable=SC2001
 if [ -n "${IPADDR[0]}" ] && [[ "${IPADDR[0]}" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-    SNMPSTART=$(sed 's:[^.]*$:1:' <<< "${IPADDR[0]}")
-    SNMPEND=$(sed 's:[^.]*$:255:' <<< "${IPADDR[0]}")
+    SNMPSTART=$(sed 's:[^.]*$:1:' 2>/dev/null <<< "${IPADDR[0]}")
+    SNMPEND=$(sed 's:[^.]*$:255:' 2>/dev/null <<< "${IPADDR[0]}")
     echo "Also scanning for SNMP devices on detected IP range: ${SNMPSTART} - ${SNMPEND} ..."
 fi
 
@@ -45,7 +47,11 @@ echo "NUT Scanner is now searching for UPS devices..."
 echo "#####################################################"
 echo ""
 
-SCANRESULT=$(/usr/bin/nut-scanner -U -N ${SNMPSTART:+"-S"} ${SNMPSTART:+"-s"} ${SNMPSTART:+"${SNMPSTART}"} ${SNMPEND:+"-e"} ${SNMPEND:+"${SNMPEND}"} 2>/dev/null)
+if [[ "$SNMPSTART" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]] && [[ "$SNMPEND" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+    SCANRESULT=$(/usr/bin/nut-scanner -U -N -S -s "$SNMPSTART" -e "$SNMPEND" 2>/dev/null)
+else
+    SCANRESULT=$(/usr/bin/nut-scanner -U -N 2>/dev/null)
+fi
 
 if [ -z "$SCANRESULT" ]; then
     echo "NO DEVICES FOUND"
