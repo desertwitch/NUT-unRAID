@@ -21,7 +21,7 @@
 ###2024.08.07
 - new: the preview (latest build) backend was updated to the most recent master branch as of 07.08.2024
 - fix: the preview backend additionally includes a prospective fix for the APC BX series issues (NUT GitHub PR #2565)
-- release note: please report back on the Unraid forums if the preview backend resolves any APC BX series issues for you
+- release note: please report back on the Unraid forums if the preview backend resolves any APC BX series issues (or not)
 ###2024.07.27
 - new: added GUI settings to configure SNMP version and MIB
 - new: scanning mechanisms and auto configure now also detect SNMP devices
