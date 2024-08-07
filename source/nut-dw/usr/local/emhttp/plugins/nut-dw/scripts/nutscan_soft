@@ -34,16 +34,16 @@ if [ -n "${IPADDR[0]}" ] && [[ "${IPADDR[0]}" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+
     echo "Also scanning for SNMP devices on detected IP range: ${SNMPSTART} - ${SNMPEND} ..."
 fi
 
+echo ""
+echo "NUT Scanner is now searching for UPS devices..."
+echo "#####################################################"
+echo ""
+
 if [[ "$SNMPSTART" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]] && [[ "$SNMPEND" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
     SCANRESULT=$(/usr/bin/nut-scanner -U -N -S -s "$SNMPSTART" -e "$SNMPEND" 2>/dev/null)
 else
     SCANRESULT=$(/usr/bin/nut-scanner -U -N 2>/dev/null)
 fi
-
-echo ""
-echo "NUT Scanner is now searching for UPS devices..."
-echo "#####################################################"
-echo ""
 
 if [ -z "$SCANRESULT" ]; then
     echo "NO DEVICES FOUND"
