@@ -68,7 +68,7 @@ $developer_message = nut_get_dev_message();
 <?if ($developer_message):?>
 <fieldset style="border: 1px black solid;color:gray;display:none;" id="nutdevmsg">
 <legend><strong>Important Message from the Plugin Maintainer</strong></legend>
-<span style="float:right;font-size:x-small;cursor:pointer;"><span id="hidenutdevmsg"><u>Dismiss Until Next Message</u></span></span>
+<span style="float:right;font-size:x-small;cursor:pointer;margin-left:5px;"><span id="hidenutdevmsg"><u>Dismiss Until Next Message</u></span></span>
 <?=$developer_message?>
 </fieldset><br>
 <?endif;?>
@@ -81,7 +81,7 @@ $developer_message = nut_get_dev_message();
     <dl>
         <dt>Network UPS Tools Backend:</dt>
         <dd>
-	        <strong><?= isset($nut_installed_backend) && $nut_installed_backend ? $nut_installed_backend : "n/a" ?></strong>
+            <strong><?= isset($nut_installed_backend) && $nut_installed_backend ? $nut_installed_backend : "n/a" ?></strong>
         </dd>
     </dl>
 
@@ -120,7 +120,7 @@ $developer_message = nut_get_dev_message();
                 ?>
             </select>
             <em>requires reboot</em>
-	    </dd>
+        </dd>
     </dl>
 
     <blockquote class="inline_help">
@@ -600,7 +600,7 @@ $developer_message = nut_get_dev_message();
 
     <dl>
         <dt>
-            <input id="DEFAULT" class="nut-run" type="submit" name="#default" value="Default">
+            <input class="nut-run" type="submit" name="#default" value="Default">
             <input id="RESETCONF" class="nut-run" type="button" value="Reset Config">
             <input id="SCAN" class="nut-run" type="button" value="Auto Config">
         </dt>
@@ -872,7 +872,7 @@ $developer_message = nut_get_dev_message();
 
     <dl>
         <dt>
-            <input id="DEFAULT" type="submit" name="#default" value="Default">
+            <input type="submit" name="#default" value="Default">
             <input id="USBDIAGS" type="button" value="USB Diagnostics">
         </dt>
         <dd>
@@ -1140,12 +1140,8 @@ $(function() {
     }
     <?endif;?>
 
-    // dynamix plugin update api
-    <?if (function_exists('plugin_update_available') && $version = plugin_update_available('nut-dw')):?>
-    showNotice('NUT <?=htmlspecialchars($version);?> available. <a>Update</a>','nut-dw');
-    $('#user-notice a').on('click', function () {
-        $('#user-notice').empty();
-    });
-    <?endif;?>
+    if ( typeof caPluginUpdateCheck === "function" ) {
+        caPluginUpdateCheck("nut-dw.plg",{name:"NUT"});
+    }
 });
 </script>
