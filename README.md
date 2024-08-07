@@ -2,6 +2,7 @@ Network UPS Tools (NUT) for UNRAID
 ================
 _A refactored, modernized version of the original NUT plugin with a focus on frequent updates._
 
+![GitHub Tag](https://img.shields.io/github/v/tag/desertwitch/NUT-unRAID?label=release&color=peru)
 [![CodeFactor](https://www.codefactor.io/repository/github/desertwitch/nut-unraid/badge)](https://www.codefactor.io/repository/github/desertwitch/nut-unraid)
 
 The NUT plugin for UNRAID has been developed by various people since 2015.
