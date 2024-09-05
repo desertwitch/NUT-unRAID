@@ -66,8 +66,8 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
 <fieldset style="border: 1px black solid;color:gray;display:none;" id="nutdevmsg">
 <legend><strong>Important Message from the Plugin Maintainer</strong></legend>
 <span style="float:right;font-size:x-small;cursor:pointer;margin-left:5px;"><span id="hidenutdevmsg"><u>Dismiss Until Next Message</u></span></span>
-<span id="nutdevmsg0" data-md5=""></span><br>
-</fieldset>
+<span id="nutdevmsg0" data-md5=""></span>
+</fieldset><br>
 
 <form markdown="0" id="nut-settings" name="nut_settings" method="POST" action="/update.php" target="progressFrame">
     <input type="hidden" name="#file" value="<?=$sName?>/<?=$sName?>.cfg">
