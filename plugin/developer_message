@@ -1,4 +1,3 @@
-NODISPLAY
 <strong>APC series BX users:</strong><br>Thank you to everyone who tested our then prospective fixes for the bogus status issues with the APC series BX, the results were promising and the changes have since been merged into the NUT master branch. When selecting the "<em>preview (latest build)</em>" backend inside NUT Settings, you can switch to the latest NUT version with those fixes already built in (reminder: changing the backend requires either reinstallation of the plugin or a full system reboot). If you are still experiencing bogus status issues, despite being on the "<em>preview (latest build)</em>" backend (as distinguishable by the "<em>master</em>" suffix), read further. In such cases you can try adding the following configuration lines <u>to the end</u> of the <em>UPS.CONF</em> file (make sure to put them <u>below line 8</u> so they are not overwritten by GUI settings), using the GUI configuration editor on this page:
 <pre>
 pollonly
