@@ -63,7 +63,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
 </div><br>
 <?endif;?>
 
-<div style="border: 1px black solid;color:gray;margin-bottom:20px;display:none;" id="nutdevmsg">
+<div style="color:gray;margin-bottom:15px;display:none;" id="nutdevmsg">
 <fieldset>
 <legend><strong>Important Message from the Plugin Maintainer</strong></legend>
 <span style="float:right;font-size:x-small;cursor:pointer;margin-left:5px;"><span id="hidenutdevmsg"><u>Dismiss Until Next Message</u></span></span>
