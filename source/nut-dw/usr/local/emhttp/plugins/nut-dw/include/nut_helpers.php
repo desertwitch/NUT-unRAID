@@ -112,7 +112,7 @@ function nut_download_url($url, $conn_timeout = 15, $timeout = 45) {
 function nut_get_dev_message() {
     try {
         $dev_message_url = "https://raw.githubusercontent.com/desertwitch/NUT-unRAID/master/plugin/developer_message";
-        $raw_dev_message = nut_download_url($dev_message_url, 10, 15);
+        $raw_dev_message = nut_download_url($dev_message_url, 30, 45);
         if($raw_dev_message && strpos($raw_dev_message, "NODISPLAY") === false) {
             return $raw_dev_message;
         } else {

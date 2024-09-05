@@ -36,8 +36,6 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
     unlink('/usr/local/emhttp/plugins/nut-dw/misc/start-failed');
 }
 
-$developer_message = nut_get_dev_message();
-
 ?>
 
 <table class="tablesorter shift nut" <?if (!$nut_running):?>style="display:none"<?endif;?>>
@@ -65,13 +63,11 @@ $developer_message = nut_get_dev_message();
 </div><br>
 <?endif;?>
 
-<?if ($developer_message):?>
 <fieldset style="border: 1px black solid;color:gray;display:none;" id="nutdevmsg">
 <legend><strong>Important Message from the Plugin Maintainer</strong></legend>
 <span style="float:right;font-size:x-small;cursor:pointer;margin-left:5px;"><span id="hidenutdevmsg"><u>Dismiss Until Next Message</u></span></span>
-<?=$developer_message?>
-</fieldset><br>
-<?endif;?>
+<span id="nutdevmsg0" data-md5=""></span><br>
+</fieldset>
 
 <form markdown="0" id="nut-settings" name="nut_settings" method="POST" action="/update.php" target="progressFrame">
     <input type="hidden" name="#file" value="<?=$sName?>/<?=$sName?>.cfg">
@@ -1058,13 +1054,29 @@ function USBDiagnostics() {
     openBox('/plugins/nut-dw/scripts/usbdiagnostics', 'NUT USB Diagnostics', 600, 600, false);
 }
 
-<?if ($developer_message):?>
+function loadDevMessage() {
+    $.getJSON('/plugins/nut-dw/include/nut_devmsg.php', function (data) {
+        if(data && data.hasOwnProperty(html) && data.hasOwnProperty(md5)) {
+            $('#nutdevmsg0').html(data.html);
+            $('#nutdevmsg0').attr("data-md5", data.md5);
+            if ($.cookie('nutdevmsg')!==undefined) {
+                var msgMD5 = data.md5;
+                if($.cookie('nutdevmsg') !== msgMD5) {
+                    $('#nutdevmsg').show();
+                } 
+            } else {
+                $('#nutdevmsg').show();
+            }
+            $('#hidenutdevmsg').click(hideDevMessage);
+        }
+    });
+}
+
 function hideDevMessage() {
-    var msgMD5 = "<?=md5($developer_message)?>";
+    var msgMD5 = $('#nutdevmsg0').attr("data-md5");
     $.cookie('nutdevmsg', msgMD5, { expires: 3650 });
     $('#nutdevmsg').hide();
 }
-<?endif;?>
 
 $(function() {
     showStatus('upsmon');
@@ -1122,24 +1134,13 @@ $(function() {
     checkNUTSTATsettings(false);
 
     decData();
+    loadDevMessage();
 
     <?if ($lastStartFailed):?>
     $('#SERVICE').val('disable');
     checkRUNNING();
     <?endif;?>
     
-    <?if ($developer_message):?>
-    $('#hidenutdevmsg').click(hideDevMessage);
-    if ($.cookie('nutdevmsg')!==undefined) {
-        var msgMD5 = "<?=md5($developer_message)?>";
-        if($.cookie('nutdevmsg') !== msgMD5) {
-            $('#nutdevmsg').show();
-        } 
-    } else {
-        $('#nutdevmsg').show();
-    }
-    <?endif;?>
-
     if ( typeof caPluginUpdateCheck === "function" ) {
         caPluginUpdateCheck("nut-dw.plg",{name:"NUT"});
     }
