@@ -1056,7 +1056,7 @@ function USBDiagnostics() {
 
 function loadDevMessage() {
     $.getJSON('/plugins/nut-dw/include/nut_devmsg.php', function (data) {
-        if(data && data.hasOwnProperty(html) && data.hasOwnProperty(md5)) {
+        if(data && data.hasOwnProperty('html') && data.hasOwnProperty('md5')) {
             $('#nutdevmsg0').html(data.html);
             $('#nutdevmsg0').attr("data-md5", data.md5);
             if ($.cookie('nutdevmsg')!==undefined) {
