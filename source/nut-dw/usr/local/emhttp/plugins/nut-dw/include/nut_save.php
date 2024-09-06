@@ -31,12 +31,6 @@ if(file_exists($editfile) && array_key_exists('editdata', $_POST)){
         mkdir($plgpath);
     }
 
-    // get previous config file contents and save them
-    if(file_exists($plgfile)){
-        $plgfile_old = file_get_contents($plgfile);
-        file_put_contents($plgfile.'.old', $plgfile_old);
-    }
-
     // save conf file to flash drive regardless of mode
     file_put_contents($plgfile, $editdata);
 
