@@ -18,6 +18,11 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
+###2024.09.06
+- new: the preview (latest build) backend was updated to the most recent master branch as of 06.09.2024
+- new: custom scripting to execute commands when a UPS status is encountered (see GUI configuration editor)
+- fix: refactored UPS status handling routines to be more efficient and resilient when encountering null values
+- fix: reduced loading time of NUT Settings page by outsourcing functions from PHP to JavaScript where possible
 ###2024.08.14
 - new: the preview (latest build) backend was updated to the most recent master branch as of 14.08.2024
 - fix: the preview backend now includes the final fix for the APC BX series issues (merged NUT GitHub PR #2565)
