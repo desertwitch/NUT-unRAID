@@ -26,12 +26,15 @@ RUNTIME="battery.runtime"
 # read our configuration
 [ -e "$CONFIG" ] && source $CONFIG
 
+# shellcheck disable=SC1091
+[ -e "/etc/nut/xnotify-hooks.sh" ] && source "/etc/nut/xnotify-hooks.sh"
+
 SUBJECT="[${HOST}] NUT: [${NAME}] UPS"
 
 if [ "$SHUTDOWN" == "batt_level" ]; then
-        TIMER=$BATTERYLEVEL
-        MESSAGE="The system will shutdown when the UPS battery charge reaches ${BATTERYLEVEL}%."
-        BATTERY="battery.charge"
+    TIMER=$BATTERYLEVEL
+    MESSAGE="The system will shutdown when the UPS battery charge reaches ${BATTERYLEVEL}%."
+    BATTERY="battery.charge"
 fi
 
 if [ "$SHUTDOWN" == "batt_timer" ]; then
@@ -49,6 +52,9 @@ fi
 trap "exit 0" SIGTERM
 if [ "$NOTIFYTYPE" == "ONLINE" ]
 then
+        if [ "$(type -t "ONLINE")" == "function" ]; then
+            ( ONLINE 2>&1 | logger -t "xnotify-hooks.sh" ) &
+        fi
         echo "[${NAME}] UPS is online, any planned shutdowns were cancelled." | tee >(wall) >(logger -t "nut-notify")
         $NOTIFY -e "${EVENT}" -s "Notice ${SUBJECT} Online" -d "UPS is online, any planned shutdowns were cancelled." -i "normal"
 
@@ -57,53 +63,34 @@ then
 
 elif [ "$NOTIFYTYPE" == "ONBATT" ]
 then
+        if [ "$(type -t "ONBATT")" == "function" ]; then
+            ( ONBATT 2>&1 | logger -t "xnotify-hooks.sh" ) &
+        fi
         echo "[${NAME}] UPS is on battery. ${MESSAGE}" | tee >(wall) >(logger -t "nut-notify")
         $NOTIFY -e "${EVENT}" -s "Alert ${SUBJECT} On Battery" -d "UPS is on battery. ${MESSAGE}" -i "alert"
 
         if [ "$SHUTDOWN" != "none" ]; then
             if [ "$SHUTDOWN" == "sec_timer" ]; then
-                # Loop with one second interval to allow SIGTERM reception.
                 (( n = TIMEOUT ))
+                # Loop with one second interval to allow SIGTERM reception.
                 while [ $n -ne 0 ]
                 do
                         sleep 1
                         (( n-- ))
                 done
             else
-                timer="$( /usr/bin/upsc "$NAME"@"$IPADDR" "$BATTERY" 2>/dev/null )"
-
-                # Loop in case of null return value until return value is no longer null
-                # In the worst case (continous null return) NUT will always set FSD on LOWBATT event
-                while [ -z "$timer" ]
+                timer=$(/usr/bin/upsc "$NAME"@"$IPADDR" "$BATTERY" 2>/dev/null)
+                # Loop with one second interval to allow SIGTERM reception.
+                while [ -z "$timer" ] || [ "$timer" -gt "$TIMER" ]
                 do
-                    # Loop with one second interval to allow SIGTERM reception.
                     sleep 1
-                    timer="$( /usr/bin/upsc "$NAME"@"$IPADDR" "$BATTERY" 2>/dev/null )"
-                done
-
-                # Proceed to actual comparison here when return value is definitely not null
-                while [ "$timer" -gt "$TIMER" ]
-                do
-                    # Loop with one second interval to allow SIGTERM reception.
-                    sleep 1
-
-                    # Intermediate variable to check for null return value
-                    intermediatetimer="$( /usr/bin/upsc "$NAME"@"$IPADDR" "$BATTERY" 2>/dev/null )"
-
-                    # Loop in case of null return value until return value is no longer null
-                    # In the worst case (continous null return) NUT will always set FSD on LOWBATT event
-                    while [ -z "$intermediatetimer" ]
-                    do
-                        # Loop with one second interval to allow SIGTERM reception.
-                        sleep 1
-                        intermediatetimer="$( /usr/bin/upsc "$NAME"@"$IPADDR" "$BATTERY" 2>/dev/null )"
-                    done
-                    
-                    # Return value is definitely not null at this point, return it to actual comparison
-                    timer="$intermediatetimer"
+                    timer=$(/usr/bin/upsc "$NAME"@"$IPADDR" "$BATTERY" 2>/dev/null)
                 done
             fi
 
+            if [ "$(type -t "ONBATT_SHUTDOWN")" == "function" ]; then
+                ( ONBATT_SHUTDOWN 2>&1 | logger -t "xnotify-hooks.sh" ) &
+            fi
             echo "[${NAME}] UNRAID is being gracefully shutdown from a UPS power event." | tee >(wall) >(logger -t "nut-notify")
             $NOTIFY -e "${EVENT}" -s "Alert ${SUBJECT} Shutdown" -d "UNRAID is being gracefully shutdown from a UPS power event." -i "alert"
             /usr/sbin/upsmon -c fsd
@@ -112,12 +99,18 @@ then
 elif [ "$NOTIFYTYPE" == "REPLBATT" ] 
 then
         if [ "$REPLBATTMSG" == "enable" ]; then
+            if [ "$(type -t "REPLBATT")" == "function" ]; then
+                ( REPLBATT 2>&1 | logger -t "xnotify-hooks.sh" ) &
+            fi
             echo "[${NAME}] UPS reports that its batteries need replacement." | tee >(wall) >(logger -t "nut-notify")
             $NOTIFY -e "${EVENT}" -s "Alert ${SUBJECT} Battery Replacement" -d "UPS reports that its batteries need replacement." -i "alert"
         fi
 
 # for any other status messages the user has configured to be reported
 else
+        if [ "$(type -t "$NOTIFYTYPE")" == "function" ]; then
+            ( eval "$NOTIFYTYPE" 2>&1 | logger -t "xnotify-hooks.sh" ) &
+        fi
         echo "[${NAME}] ${1}" | tee >(wall) >(logger -t "nut-notify")
         $NOTIFY -e "${EVENT}" -s "Alert ${SUBJECT}" -d "$1" -i "alert"
 fi

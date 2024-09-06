@@ -49,6 +49,7 @@ chown root:nut /etc/nut
 chmod 750 /etc/nut
 chown root:nut /etc/nut/*
 chmod 640 /etc/nut/*
+chmod +x /etc/nut/*.sh
 
 if [ -x /etc/rc.d/rc.nut ]; then
     /etc/rc.d/rc.nut write_config 1>/dev/null
