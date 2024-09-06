@@ -45,7 +45,7 @@ Markdown="false"
 <form id="editform" method="POST">
 
 <img id="editfolder" style="cursor:pointer;margin-left: 10px;" src="/webGui/images/explore.png" >
-<input id="editfile" type="text" name="editfile" value="" readonly="" data-picktop="/etc/nut" data-pickcloseonfile="true" data-pickfilter="conf,users" data-pickroot="/etc/nut" data-pickfolders="false" required="required" >
+<input id="editfile" type="text" name="editfile" value="" readonly="" data-picktop="/etc/nut" data-pickcloseonfile="true" data-pickfilter="conf,users,sh" data-pickroot="/etc/nut" data-pickfolders="false" required="required" >
 
 <textarea id="editdata" name="editdata" placeholder="Select Configuration File" autofocus></textarea>
 <input type="hidden" name="commit" value="1" />
