@@ -4,8 +4,9 @@
 # ESPECIALLY DO NOT TOUCH THIS FILE IF YOU HAVE NEVER USED A LINUX TERMINAL
 #
 # This file defines custom commands to be run when certain UPS statuses are
-# encountered. The commands run non-blocking, meaning NUT does not wait for
-# them to complete before proceeding with its internal (shutdown) routines.
+# encountered. The commands run NON-BLOCKING, meaning NUT does NOT WAIT for
+# them to complete before proceeding with its internal (shutdown) routines,
+# to ensure safe shutdowns regardless of any errors induced by this script.
 #
 # DO NOT PUT ANY COMMANDS OR STATEMENTS OUTSIDE OF THE ALREADY DEFINED FUNCTIONS
 # BEWARE THAT FUNCTIONS CANNOT BE EMPTY SO KEEP THE ECHO STATEMENT IN EACH FUNCTION
