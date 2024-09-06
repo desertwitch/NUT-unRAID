@@ -46,5 +46,5 @@ REPLBATT () {
 #
 # You can define additional functions here, if you configured for additional statuses to be notified of.
 # The name of the function needs to be the respective UPS event, these can be found listed e.g. in the manual:
-# https://networkupstools.org/docs/man/upsmon.conf.html -> refer to the section NOTIFYMSG for possible types.
+# https://networkupstools.org/docs/man/upsmon.html -> refer to the section 'NOTIFY EVENTS' for various events.
 #
