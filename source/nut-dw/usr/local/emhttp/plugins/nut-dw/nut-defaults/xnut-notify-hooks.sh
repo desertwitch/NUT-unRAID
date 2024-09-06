@@ -13,7 +13,7 @@
 #
 
 ONLINE () {
-    echo "ONLINE commands are now executing in background..."
+    echo "NUT: ONLINE commands are now executing in background..."
     # Put commands to run when the UPS is first back ON LINE in this function:
     # Note that these may also get executed during short flickers or returning to ONLINE from other statuses.
 
@@ -21,7 +21,7 @@ ONLINE () {
 }
 
 ONBATT () {
-    echo "ONBATT commands are now executing in background..."
+    echo "NUT: ONBATT commands are now executing in background..."
     # Put commands to run when the UPS is first seen ON BATTERY in this function:
     # Note that these may also get executed during short flickers or returning to ONBATT from other statuses.
 
@@ -29,7 +29,7 @@ ONBATT () {
 }
 
 ONBATT_SHUTDOWN () {
-    echo "ONBATT_SHUTDOWN commands are now executing in background..."
+    echo "NUT: ONBATT_SHUTDOWN commands are now executing in background..."
     # Put commands to run when the UPS is about to SHUTDOWN from an ON BATTERY event in this function:
     # Note that these do not get executed during an emergency shutdown e.g. due to premature battery failure.
 
@@ -37,7 +37,7 @@ ONBATT_SHUTDOWN () {
 }
 
 REPLBATT () {
-    echo "REPLBATT commands are now executing in background..."
+    echo "NUT: REPLBATT commands are now executing in background..."
     # Put commands to run when the UPS reports that BATTERIES NEED REPLACEMENT in this function:
     # Note that these may also get executed every RBWARNTIME and whenever the UPS firmware emits this status.
 
