@@ -27,7 +27,7 @@ RUNTIME="battery.runtime"
 [ -e "$CONFIG" ] && source $CONFIG
 
 # shellcheck disable=SC1091
-[ -e "/etc/nut/xnotify-hooks.sh" ] && source "/etc/nut/xnotify-hooks.sh"
+[ -e "/etc/nut/xnut-notify-hooks.sh" ] && source "/etc/nut/xnut-notify-hooks.sh"
 
 SUBJECT="[${HOST}] NUT: [${NAME}] UPS"
 
@@ -53,7 +53,7 @@ trap "exit 0" SIGTERM
 if [ "$NOTIFYTYPE" == "ONLINE" ]
 then
         if [ "$(type -t "ONLINE")" == "function" ]; then
-            ( ONLINE 2>&1 | logger -t "xnotify-hooks.sh" ) &
+            ( ONLINE 2>&1 | logger -t "xnut-notify-hooks.sh" ) &
         fi
         echo "[${NAME}] UPS is online, any planned shutdowns were cancelled." | tee >(wall) >(logger -t "nut-notify")
         $NOTIFY -e "${EVENT}" -s "Notice ${SUBJECT} Online" -d "UPS is online, any planned shutdowns were cancelled." -i "normal"
@@ -64,7 +64,7 @@ then
 elif [ "$NOTIFYTYPE" == "ONBATT" ]
 then
         if [ "$(type -t "ONBATT")" == "function" ]; then
-            ( ONBATT 2>&1 | logger -t "xnotify-hooks.sh" ) &
+            ( ONBATT 2>&1 | logger -t "xnut-notify-hooks.sh" ) &
         fi
         echo "[${NAME}] UPS is on battery. ${MESSAGE}" | tee >(wall) >(logger -t "nut-notify")
         $NOTIFY -e "${EVENT}" -s "Alert ${SUBJECT} On Battery" -d "UPS is on battery. ${MESSAGE}" -i "alert"
@@ -89,7 +89,7 @@ then
             fi
 
             if [ "$(type -t "ONBATT_SHUTDOWN")" == "function" ]; then
-                ( ONBATT_SHUTDOWN 2>&1 | logger -t "xnotify-hooks.sh" ) &
+                ( ONBATT_SHUTDOWN 2>&1 | logger -t "xnut-notify-hooks.sh" ) &
             fi
             echo "[${NAME}] UNRAID is being gracefully shutdown from a UPS power event." | tee >(wall) >(logger -t "nut-notify")
             $NOTIFY -e "${EVENT}" -s "Alert ${SUBJECT} Shutdown" -d "UNRAID is being gracefully shutdown from a UPS power event." -i "alert"
@@ -100,7 +100,7 @@ elif [ "$NOTIFYTYPE" == "REPLBATT" ]
 then
         if [ "$REPLBATTMSG" == "enable" ]; then
             if [ "$(type -t "REPLBATT")" == "function" ]; then
-                ( REPLBATT 2>&1 | logger -t "xnotify-hooks.sh" ) &
+                ( REPLBATT 2>&1 | logger -t "xnut-notify-hooks.sh" ) &
             fi
             echo "[${NAME}] UPS reports that its batteries need replacement." | tee >(wall) >(logger -t "nut-notify")
             $NOTIFY -e "${EVENT}" -s "Alert ${SUBJECT} Battery Replacement" -d "UPS reports that its batteries need replacement." -i "alert"
@@ -109,7 +109,7 @@ then
 # for any other status messages the user has configured to be reported
 else
         if [ "$(type -t "$NOTIFYTYPE")" == "function" ]; then
-            ( eval "$NOTIFYTYPE" 2>&1 | logger -t "xnotify-hooks.sh" ) &
+            ( eval "$NOTIFYTYPE" 2>&1 | logger -t "xnut-notify-hooks.sh" ) &
         fi
         echo "[${NAME}] ${1}" | tee >(wall) >(logger -t "nut-notify")
         $NOTIFY -e "${EVENT}" -s "Alert ${SUBJECT}" -d "$1" -i "alert"
