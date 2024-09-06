@@ -19,7 +19,7 @@
  */
 require_once '/usr/local/emhttp/plugins/nut-dw/include/nut_helpers.php';
 
-$devmsg = nut_get_dev_message();
+$devmsg = nut_get_dev_message() ?? false;
 $devret = [];
 
 if($devmsg) {
