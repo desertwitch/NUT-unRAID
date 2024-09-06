@@ -14,7 +14,7 @@
 
 ONLINE () {
     echo "ONLINE commands are executing..."
-    # Put commands to run when the UPS is first seen ON LINE in this function:
+    # Put commands to run when the UPS is first back ON LINE in this function:
     # Note that these may also get executed during short flickers or returning to ONLINE from other statuses.
 
 
