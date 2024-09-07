@@ -1,0 +1,208 @@
+Menu="NUTsettings:3"
+Title="NUT Command Center"
+Tag="hand-paper-o"
+Markdown="false"
+---
+<?
+/* Copyright Derek Macias (parts of code from NUT package)
+ * Copyright macester (parts of code from NUT package)
+ * Copyright gfjardim (parts of code from NUT package)
+ * Copyright SimonF (parts of code from NUT package)
+ * Copyright Dan Landon (parts of code from Web GUI)
+ * Copyright Bergware International (parts of code from Web GUI)
+ * Copyright Lime Technology (any and all other parts of Unraid)
+ *
+ * Copyright desertwitch (as author and maintainer of this file)
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License 2
+ * as published by the Free Software Foundation.
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ */
+require_once '/usr/local/emhttp/plugins/nut-dw/include/nut_config.php';
+?>
+
+<style type="text/css">
+#nutcmdstbl > thead > tr > th:nth-child(1) {
+    width: 15%;
+}
+
+#nutcmdstbl > thead > tr > th:nth-child(2) {
+    width: 35%;
+}
+
+#nutcmdstbl > thead > tr > th:nth-child(3) {
+    width: 15%;
+    text-align: right;
+}
+
+#nutcmdstbl > tbody > tr > td:nth-child(1) {
+    font-weight: bold;
+}
+
+#nutcmdstbl > tbody > tr > td:nth-child(3) {
+    text-align: right;
+}
+</style>
+
+<form id="nutcmds" method="POST">
+    <input type="hidden" id="nutcmdname" name="nutcmdname" value="">
+    <table class="tablesorter shift">
+        <thead>
+            <tr>
+                <th>General Information / Settings</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    This section lets you interact with your connected UPS device through the listed software commands, where applicable and supported.
+                    <span style="float:right;"><a href="https://networkupstools.org/docs/man/upscmd.html" target="_blank" title="upscmd User Manual"><i class="fa fa-file-text-o"></i> <u>Command-Line User Manual</u></a></span><br> 
+                    The username and password are pre-filled with the defaults and only need to be changed if these values were modified (inside <em>upsd.users</em>)<br>
+                    <strong>Username:</strong> <input type="text" name="nutcmduser" value="admin" class="narrow">
+                    <strong>Password:</strong> <input type="password" name="nutcmdpass" value="adminpass" class="narrow">
+                    <input type="checkbox" name="nutcmdwait" id="nutcmdwait">
+                    <label for="nutcmdwait">Wait for Driver Response</label><br>
+                    <strong>Additional Argument:</strong> <input type="text" name="nutcmdarg" id="nutcmdarg" value=""> (as optional/required by some commands)<br>
+                    Not every UPS will support all listed commands, they are always dependent on the implementation in both the driver and the UPS firmware itself.<br>
+                    <span style="color:red;font-weight:bold;"><i class="fa fa-exclamation-triangle"></i> Some of these commands can <u>disrupt the power to your server</u> without confirmation, always <u>read the descriptions</u> before executing commands.</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table id="nutcmdstbl" class="tablesorter">
+        <thead>
+            <tr>
+                <th>UPS Command</th>
+                <th>Description</th>
+                <th>Configured For: <strong><?=$nut_name?>@<?=$nut_ip?></strong></th>
+            </tr>
+        </thead>
+        <tbody>
+        <?
+        try {
+            if($nut_running) {
+                $nut_cmds_retarr = [];
+                $nut_cmds_retval = -1;
+
+                exec("upscmd -l " . escapeshellarg($nut_name) . "@" . escapeshellarg($nut_ip) . " 2>/dev/null", $nut_cmds_retarr, $nut_cmds_retval);
+
+                if($nut_cmds_retval === 0 && !empty($nut_cmds_retarr)) {
+                    $nut_cmds_matches = [];
+                    preg_match_all('/^(.*?) - (.*?)$/m', implode(PHP_EOL, $nut_cmds_retarr), $nut_cmds_matches, PREG_SET_ORDER);
+
+                    if(count($nut_cmds_matches) > 0) {
+                        $nutcmd_countIndex = 0;
+                        foreach($nut_cmds_matches as $nut_cmds_match) {
+                            $nutcmd_countIndex++;
+                            $nut_cmds_match = array_map("htmlspecialchars", $nut_cmds_match);
+                            echo <<<END
+                            <tr>
+                                <td>$nut_cmds_match[1]</td>
+                                <td>$nut_cmds_match[2]</td>
+                                <td>
+                                    <input type="button" id="nutcmd-$nutcmd_countIndex" data-cmd="$nut_cmds_match[1]" class="nutcmdbutton" value="Execute Command" disabled><br>
+                                    <input type="checkbox" id="nutcmd-$nutcmd_countIndex-cb" data-relbutt="nutcmd-$nutcmd_countIndex" class="nutcmdconfirmbox">
+                                    <label for="nutcmd-$nutcmd_countIndex-cb">I'm sure about this command</label>
+                                </td>
+                            </tr>
+END;
+                        }
+                    } else {
+                        echo("<tr><td colspan='3'>No commands are available for the connected UPS device.</td></tr>");
+                    }
+                } else {
+                    echo("<tr><td colspan='3'>There was an error retrieving the available commands for the connected UPS device (return code: $nut_cmds_retval).</td></tr>");
+                }
+            } else {
+                echo("<tr><td colspan='3'>The required service is not running, so no commands are available (yet).</td></tr>");
+            }
+        }
+        catch (\Throwable $t) {
+            error_log($t);
+            echo("<tr><td colspan='3'>There was an error retrieving the available commands for the connected UPS device (check the PHP logs).</td></tr>");
+        }
+        ?>
+        </tbody>
+    </table>
+</form>
+
+<script type="text/javascript">
+function defaultNutCmdState() {
+    $(".nutcmdconfirmbox").prop("disabled", false);
+    $(".nutcmdconfirmbox").prop("checked", false);
+    $(".nutcmdbutton").prop("disabled", true);
+    $(".nutcmdbutton").val("Execute Command");
+    $("#nutcmdname").val("");
+}
+$(function() {
+    $(".nutcmdconfirmbox").on("change", function() {
+        if(this.checked) {
+            var NUTcmdCheckbox = this;
+            defaultNutCmdState();
+
+	        $(NUTcmdCheckbox).prop("checked", true);
+            var NUTcmdWanted = "#" + $.escapeSelector($(NUTcmdCheckbox).attr("data-relbutt"));
+	        $(NUTcmdWanted).prop("disabled", false);
+        } else {
+	        defaultNutCmdState();
+	    }
+    });
+    $(".nutcmdbutton").on("click", function() {
+        var NUTcmdButton = this;
+        defaultNutCmdState();
+
+        $(".nutcmdconfirmbox").prop("disabled", true);
+        $(NUTcmdButton).val("Please wait...");
+        $("#nutcmdname").val($(NUTcmdButton).attr("data-cmd"));
+
+        $.post('/plugins/nut-dw/include/nut_commands.php', $("#nutcmds").serializeArray(), function (data) {
+            if(data) {
+                if(data.success) {
+                    if(data.success.response) {
+                        swal({
+                        title: "UPS Driver Response",
+                        text: "The backend driver has responded with the following message:<br><pre>" + data.success.response + "</pre>Further details may be found in the system log, where applicable.",
+                        type: "info",
+                        confirmButtonText: 'Close',
+                        html: true
+                        });
+                    } else {
+                        swal("UPS Driver Response", "The backend driver has not returned any further details.\nFurther details may be found in the system log, where applicable.", "info");
+                    }
+                    $("#nutcmdarg").val("");
+                    defaultNutCmdState();
+                }
+                else if(data.error) {
+                    if(data.error.response) {
+                        swal({
+                        title: "UPS Driver Response",
+                        text: "The backend driver has responded with the following error message:<br><pre>" + data.error.response + "</pre>Further details may be found in the system log, where applicable.",
+                        type: "error",
+                        confirmButtonText: 'Close',
+                        html: true
+                        });
+                    } else {
+                        swal("UPS Driver Response", "The backend driver has not returned an error message.\nFurther details may be found in the system log, where applicable.", "error");
+                    }
+                    $("#nutcmdarg").val("");
+                    defaultNutCmdState();
+                } else {
+                    swal("UPS Driver Response", "The backend driver has not returned an error message.\nFurther details may be found in the system log, where applicable.", "error");
+                    $("#nutcmdarg").val("");
+                    defaultNutCmdState();
+                }
+            } else {
+                swal("UPS Driver Response", "The backend driver has not returned an error message.\nFurther details may be found in the system log, where applicable.", "error");
+                $("#nutcmdarg").val("");
+                defaultNutCmdState();
+            }
+        }, 'json');
+    });
+    defaultNutCmdState();
+});
+</script>

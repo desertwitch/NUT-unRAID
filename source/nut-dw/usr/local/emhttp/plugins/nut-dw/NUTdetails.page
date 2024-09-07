@@ -26,14 +26,6 @@ Tag="file"
 require_once '/usr/local/emhttp/plugins/nut-dw/include/nut_config.php';
 $update_details = ($nut_refresh == "enable" ? true : false);
 ?>
-<style type="text/css">
-table.tablesorter tbody tr:nth-child(odd) {
-    background-color: #<?=($display['theme'] == 'white' || $display['theme'] == 'azure') ? 'F0F0F0' : '212421';?>;
-}
-table.tablesorter tbody tr:nth-child(even) {
-    background-color: #<?=($display['theme'] == 'white' || $display['theme'] == 'azure') ? 'e4e2e4' : '1b1d1b';?>;
-}
-</style>
 
 <table class="tablesorter shift">
 <thead><tr><th style="width:15%">Key</th><th style="width:35%">Value</th><th style="width:15%">Key</th><th style="width:35%">Value</th></tr></thead>

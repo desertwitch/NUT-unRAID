@@ -92,6 +92,7 @@ SLAVEPASSDEC="$(echo "$SLAVEPASS" | base64 --decode)"
 # include UPS information in package, if NUT services are running
 if pgrep -x upsmon >/dev/null 2>&1; then
     [ -x /usr/bin/upsc ] && /usr/bin/upsc "$NAME"@"$IPADDR" > $DEBUGROOT/PLUGIN/"$NAME".dev.txt 2>&1
+    [ -x /usr/bin/upscmd ] && /usr/bin/upscmd -l "$NAME"@"$IPADDR" > $DEBUGROOT/PLUGIN/"$NAME".cmd.txt 2>&1
     [ -f $DEBUGROOT/PLUGIN/"$NAME".dev.txt ] && sed -i '/device.serial/c\device.serial: REMOVED' $DEBUGROOT/PLUGIN/"$NAME".dev.txt 2>&1
     [ -f $DEBUGROOT/PLUGIN/"$NAME".dev.txt ] && sed -i '/device.macaddr/c\device.macaddr: REMOVED' $DEBUGROOT/PLUGIN/"$NAME".dev.txt 2>&1
     [ -f $DEBUGROOT/PLUGIN/"$NAME".dev.txt ] && sed -i '/ups.serial/c\ups.serial: REMOVED' $DEBUGROOT/PLUGIN/"$NAME".dev.txt 2>&1

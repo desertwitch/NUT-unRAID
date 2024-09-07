@@ -3,14 +3,14 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "nut-dw">
 <!ENTITY author    "desertwitch">
-<!ENTITY version   "2024.09.06">
+<!ENTITY version   "2024.09.07">
 <!ENTITY launch    "Settings/NUTsettings">
 <!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/master">
 <!ENTITY pluginURL "&gitURL;/plugin/&name;.plg">
 <!ENTITY pkgURL    "&gitURL;/packages">
 <!ENTITY plgPATH   "/boot/config/plugins/&name;">
-<!ENTITY plgNAME   "nut-plugin-2024.09.06-x86_64-1">
-<!ENTITY plgMD5    "85bda663c0f51b63651b7b608baa766f">
+<!ENTITY plgNAME   "nut-plugin-2024.09.07-x86_64-1">
+<!ENTITY plgMD5    "8fb78614c06cb4150dfa546ce35a7465">
 <!ENTITY emhttp    "/usr/local/emhttp/plugins/&name;">
 ]>
 
@@ -18,6 +18,9 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
+###2024.09.07
+- new: added "NUT Command Center" in GUI to execute software-based commands on supported UPS devices
+- fix: removed some legacy CSS stylesheets and re-factored minor outdated code passages to better standards
 ###2024.09.06
 - new: the preview (latest build) backend was updated to the most recent master branch as of 06.09.2024
 - new: custom scripting to execute commands when a UPS status is encountered (see GUI configuration editor)
