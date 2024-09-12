@@ -825,7 +825,8 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
     <blockquote class="inline_help">
         <p>Enables collection of <strong>anonymized</strong> plugin usage statistics through the plugin usage metrics API.</p>
         <p>This aids prioritization of bug reports, development of UPS drivers and planning for plugin updates/deprecation.</p>
-        <p><em>Attributes: Metric ID, Plugin Version, Unraid Version, NUT Backend Version, NUT Driver (Runtime), UPS Manufacturer and UPS Model (<strong>no serial numbers</strong>).</em></p> 
+        <p><em>Attributes: Metric ID, Plugin Version, Unraid Version, NUT Backend Version, NUT Driver (Runtime), UPS Manufacturer and UPS Model (<strong>no serial numbers</strong>).</em></p>
+        <p><strong><i class="fa fa-heart" style="color:red;"></i> If possible, please keep this setting <u>enabled</u> to support the continued development of this plugin - thank you!</strong></p> 
     </blockquote>
 
     <dl>
