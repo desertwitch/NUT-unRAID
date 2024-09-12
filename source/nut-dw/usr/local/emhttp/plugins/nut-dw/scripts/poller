@@ -78,7 +78,9 @@ NUT_BACKEND=$(find /var/log/packages/ -type f -iname 'nut*' ! -iname 'nut-plugin
 if pgrep -x upsmon >/dev/null 2>&1; then
 	UPSMON_RUNNING=1
 	UPS_MANUFACTURER=$(upsc "$NAME"@"$IPADDR" ups.mfr)
+	[ -z "$UPS_MANUFACTURER" ] && UPS_MANUFACTURER=$(upsc "$NAME"@"$IPADDR" device.mfr)
 	UPS_MODEL=$(upsc "$NAME"@"$IPADDR" ups.model)
+	[ -z "$UPS_MODEL" ] && UPS_MODEL=$(upsc "$NAME"@"$IPADDR" device.model)
 	UPSMON_RUNTIME=$(ps -p "$(cat /var/run/nut/upsmon.pid)" -o etimes | awk 'NR==2 {print $1}')
 else
 	UPSMON_RUNNING=0
