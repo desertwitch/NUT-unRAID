@@ -1,0 +1,133 @@
+#!/bin/bash
+#
+# Copyright Derek Macias (parts of code from NUT package)
+# Copyright macester (parts of code from NUT package)
+# Copyright gfjardim (parts of code from NUT package)
+# Copyright SimonF (parts of code from NUT package)
+# Copyright Lime Technology (any and all other parts of Unraid)
+#
+# Copyright desertwitch (as author and maintainer of this file)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License 2
+# as published by the Free Software Foundation.
+#
+# The above copyright notice and this permission notice shall be
+# included in all copies or substantial portions of the Software.
+#
+# This script does a secure, anonymized collection of basic plugin usage metrics.
+# The collection of such metrics can be disabled through the respective plugin settings.
+#
+
+sanitize_fval() {
+    local unclean=$(cat)
+    local cleaned=$(echo "$unclean" | sed "s/[;\"']/ /g")
+    cleaned=$(echo "$cleaned" | sed 's/  */ /g' | sed 's/^ *//; s/ *$//')
+    echo "$cleaned"
+}
+
+# shellcheck disable=SC1091
+source /boot/config/plugins/nut-dw/nut-dw.cfg >/dev/null 2>&1
+
+case "$1" in
+	"devtest")
+		[ "$METRICSAPI" == "disable" ] && echo "Metrics disabled, exiting..." && exit 0
+		;;
+	"conntest")
+		[ "$VERBOSEMETRICS" != "1" ] && exec &>/dev/null
+		[ "$METRICSAPI" == "disable" ] && echo "Metrics disabled, exiting..." && exit 0
+		SLEEPTIME=120
+		[[ ! $SLEEPTIME =~ ^[0-9]+$ ]] && SLEEPTIME=10
+		echo "Sleeping for ${SLEEPTIME}s..."
+		sleep $SLEEPTIME
+		;;
+	*)
+		[ "$VERBOSEMETRICS" != "1" ] && exec &>/dev/null
+		[ "$METRICSAPI" == "disable" ] && echo "Metrics disabled, exiting..." && exit 0
+		SLEEPTIME=$((RANDOM % 600))
+		[[ ! $SLEEPTIME =~ ^[0-9]+$ ]] && SLEEPTIME=10
+		echo "Randomized sleeping for ${SLEEPTIME}s..."
+		sleep $SLEEPTIME
+		;;
+esac
+
+METRIC_ENDPOINT="https://plugin-stats.desertwitch.workers.dev"
+METRIC_AUTHTOKEN=$(curl -fsS -m 180 --retry 5 --retry-delay 180 --retry-connrefused "${METRIC_ENDPOINT}/?connect")
+if [ $? -ne 0 ]; then
+	echo "$METRIC_AUTHTOKEN"
+	echo "Failed to retrieve authorization token from endpoint."
+	exit 0
+fi
+[ "$1" == "conntest"] && echo "Connection tested: OK (not sending metrics), exiting..." && exit 0
+
+# shellcheck disable=SC1091
+source /var/local/emhttp/var.ini >/dev/null 2>&1
+
+CLIENTID_ANONYMIZED=$(echo -n "${flashGUID}" | md5sum | awk '{print $1}')
+CLIENTID_UNRAID_VERSION="$version"
+
+# shellcheck disable=SC1091
+source /boot/config/plugins/nut-dw/nut-dw.cfg >/dev/null 2>&1
+
+# ---------------------------------------------------------------------------------------
+
+METRIC_PLUGIN="nut"
+NUT_PLUGIN_VERSION=$(find /var/log/packages/ -type f -iname 'nut-plugin*' -printf '%f\n')
+NUT_BACKEND=$(find /var/log/packages/ -type f -iname 'nut*' ! -iname 'nut-plugin*' -printf '%f\n')
+
+if pgrep -x upsmon >/dev/null 2>&1; then
+	UPSMON_RUNNING=1
+	UPS_MANUFACTURER=$(upsc "$NAME"@"$IPADDR" ups.mfr)
+	UPS_MODEL=$(upsc "$NAME"@"$IPADDR" ups.model)
+	UPSMON_RUNTIME=$(ps -p "$(cat /var/run/nut/upsmon.pid)" -o etimes | awk 'NR==2 {print $1}')
+else
+	UPSMON_RUNNING=0
+	UPSMON_RUNTIME=-1
+fi
+
+# ${SERIAL} = driver field for UPS connected by SERIAL cable (-NOT- the UPS serial number).
+[ "$DRIVER" == "custom" ] && DRIVER="${DRIVER}_${SERIAL}"
+
+if [ "$UPSMON_RUNNING" -eq 1 ]; then
+	if curl \
+		-fsS -m 180 --retry 5 --retry-delay 180 --retry-connrefused \
+		--write-out "%{http_code} " -o /dev/null \
+		-H "User-Agent: plugin-metrics/1.0.0" \
+		-H "Authorization: Bearer ${METRIC_AUTHTOKEN}" \
+		-F "clientid=$( sanitize_fval <<< ${CLIENTID_ANONYMIZED} )" \
+		-F "plugin=${METRIC_PLUGIN}" \
+		-F "plugin_version=$( sanitize_fval <<< ${NUT_PLUGIN_VERSION} )" \
+		-F "unraid_version=$( sanitize_fval <<< ${CLIENTID_UNRAID_VERSION} )" \
+		-F "str1=$( sanitize_fval <<< ${BACKEND} )" \
+		-F "str2=$( sanitize_fval <<< ${NUT_BACKEND} )" \
+		-F "str3=$( sanitize_fval <<< ${DRIVER} )" \
+		-F "str4=$( sanitize_fval <<< ${UPS_MANUFACTURER} )" \
+		-F "str5=$( sanitize_fval <<< ${UPS_MODEL} )" \
+		-F "num1=$( sanitize_fval <<< ${UPSMON_RUNTIME} )" \
+	"${METRIC_ENDPOINT}"
+	then
+		echo "=> OK"
+	else
+		echo "=> FAILURE"
+	fi
+else
+	if curl \
+		-fsS -m 180 --retry 5 --retry-delay 180 --retry-connrefused \
+		--write-out "%{http_code} " -o /dev/null \
+		-H "User-Agent: plugin-metrics/1.0.0" \
+		-H "Authorization: Bearer ${METRIC_AUTHTOKEN}" \
+		-F "clientid=$( sanitize_fval <<< ${CLIENTID_ANONYMIZED} )" \
+		-F "plugin=${METRIC_PLUGIN}" \
+		-F "plugin_version=$( sanitize_fval <<< ${NUT_PLUGIN_VERSION} )" \
+		-F "unraid_version=$( sanitize_fval <<< ${CLIENTID_UNRAID_VERSION} )" \
+		-F "str1=$( sanitize_fval <<< ${BACKEND} )" \
+		-F "str2=$( sanitize_fval <<< ${NUT_BACKEND} )" \
+		-F "str3=$( sanitize_fval <<< ${DRIVER} )" \
+		-F "num1=$( sanitize_fval <<< ${UPSMON_RUNTIME} )" \
+	"${METRIC_ENDPOINT}"
+	then
+		echo "=> OK"
+	else
+		echo "=> FAILURE"
+	fi
+fi

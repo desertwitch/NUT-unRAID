@@ -3,14 +3,14 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "nut-dw">
 <!ENTITY author    "desertwitch">
-<!ENTITY version   "2024.09.07">
+<!ENTITY version   "2024.09.12">
 <!ENTITY launch    "Settings/NUTsettings">
 <!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/master">
 <!ENTITY pluginURL "&gitURL;/plugin/&name;.plg">
 <!ENTITY pkgURL    "&gitURL;/packages">
 <!ENTITY plgPATH   "/boot/config/plugins/&name;">
-<!ENTITY plgNAME   "nut-plugin-2024.09.07-x86_64-1">
-<!ENTITY plgMD5    "8fb78614c06cb4150dfa546ce35a7465">
+<!ENTITY plgNAME   "nut-plugin-2024.09.12-x86_64-1">
+<!ENTITY plgMD5    "67d8a88c97e4ecacacb62d7a474e4aef">
 <!ENTITY emhttp    "/usr/local/emhttp/plugins/&name;">
 ]>
 
@@ -18,6 +18,11 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
+###2024.09.12
+- fix: made optical changes regarding wording, positioning and helptexts on the NUT Settings page
+- fix: refactored some minor code parts in the backend bash scripts to better standards and less verbosity
+- new: use of plugin usage metric functions to aid plugin (UPS driver) development and planning (toggleable)
+- new: the preview (latest build) backend was updated to the most recent master branch as of 12.09.2024
 ###2024.09.07
 - new: added "NUT Command Center" in GUI to execute software-based commands on supported UPS devices
 - fix: removed some legacy CSS stylesheets and re-factored minor outdated code passages to better standards
@@ -381,7 +386,8 @@ if [ -x /etc/rc.d/rc.nut ]; then
         echo "WARNING: The NUT installation script was not able to stop all NUT services gracefully."
         echo "WARNING: IN CASE OF PROBLEMS, please REBOOT YOUR SYSTEM to complete any upgrades."
         echo "WARNING:"
-    fi 
+    fi
+    killall nut-poller >/dev/null 2>&amp;1 
 fi
 
 if [ -x /etc/rc.d/rc.nutstats ]; then
@@ -453,9 +459,9 @@ exit 0
 </FILE>
 
 <!-- slack15.1 preview -->
-<FILE Name="&plgPATH;/nut-2.8.2-x86_64-4master.ssl31.txz" Min="6.13">
-<URL>&pkgURL;/nut-2.8.2-x86_64-4master.ssl31.txz</URL>
-<MD5>8a8d9189530a56ca4165ad3f7bfc5c6f</MD5>
+<FILE Name="&plgPATH;/nut-2.8.2-x86_64-5master.ssl31.txz" Min="6.13">
+<URL>&pkgURL;/nut-2.8.2-x86_64-5master.ssl31.txz</URL>
+<MD5>0826973199a18b4fb3fe70a0ade94f19</MD5>
 </FILE>
 
 <!-- slack15.1 default -->
@@ -490,7 +496,7 @@ if [ -e "$CONFIG" ]; then
     source "$CONFIG"
     if [ "$BACKEND" == "preview" ]; then
         echo "Installing user-configured PREVIEW backend for NUT..."
-        upgradepkg --install-new &plgPATH;/nut-2.8.2-x86_64-4master.ssl31.txz
+        upgradepkg --install-new &plgPATH;/nut-2.8.2-x86_64-5master.ssl31.txz
     elif [ "$BACKEND" == "default" ]; then
         echo "Installing DEFAULT backend for NUT..."
         upgradepkg --install-new &plgPATH;/nut-2.8.2-x86_64-1stable.ssl31.txz
@@ -516,9 +522,9 @@ echo ""
 </FILE>
 
 <!-- slack15.0 preview -->
-<FILE Name="&plgPATH;/nut-2.8.2-x86_64-4master.ssl11.txz" Min="6.10" Max="6.12.99">
-<URL>&pkgURL;/nut-2.8.2-x86_64-4master.ssl11.txz</URL>
-<MD5>2a21915e78d6522f8b796ede83608aa5</MD5>
+<FILE Name="&plgPATH;/nut-2.8.2-x86_64-5master.ssl11.txz" Min="6.10" Max="6.12.99">
+<URL>&pkgURL;/nut-2.8.2-x86_64-5master.ssl11.txz</URL>
+<MD5>e2ff4ffe7075a07c5948f6214c8b7154</MD5>
 </FILE>
 
 <!-- slack15.0 default -->
@@ -553,7 +559,7 @@ if [ -e "$CONFIG" ]; then
     source "$CONFIG"
     if [ "$BACKEND" == "preview" ]; then
         echo "Installing user-configured PREVIEW backend for NUT..."
-        upgradepkg --install-new &plgPATH;/nut-2.8.2-x86_64-4master.ssl11.txz
+        upgradepkg --install-new &plgPATH;/nut-2.8.2-x86_64-5master.ssl11.txz
     elif [ "$BACKEND" == "default" ]; then
         echo "Installing DEFAULT backend for NUT..."
         upgradepkg --install-new &plgPATH;/nut-2.8.2-x86_64-1stable.ssl11.txz
@@ -693,7 +699,8 @@ if [ -x /etc/rc.d/rc.nut ]; then
         echo "WARNING: The NUT uninstallation script was not able to stop all NUT services gracefully."
         echo "WARNING: IN CASE OF PROBLEMS, please REBOOT YOUR SYSTEM to remove any remaining packages."
         echo "WARNING:"
-    fi 
+    fi
+    killall nut-poller >/dev/null 2>&amp;1
 fi
 
 if [ -x /etc/rc.d/rc.nutstats ]; then
@@ -745,6 +752,8 @@ if [ -f /etc/rsyslog.d/xnut-nospam.conf ]; then
     /etc/rc.d/rc.rsyslogd restart >/dev/null 2>&amp;1
     sleep 1
 fi
+
+rm -f /etc/cron.daily/nut-poller >/dev/null 2>&amp;1
 
 echo ""
 echo "-----------------------------------------------------------"
