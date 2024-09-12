@@ -3,14 +3,14 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "nut-dw">
 <!ENTITY author    "desertwitch">
-<!ENTITY version   "2024.09.12">
+<!ENTITY version   "2024.09.12a">
 <!ENTITY launch    "Settings/NUTsettings">
 <!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/master">
 <!ENTITY pluginURL "&gitURL;/plugin/&name;.plg">
 <!ENTITY pkgURL    "&gitURL;/packages">
 <!ENTITY plgPATH   "/boot/config/plugins/&name;">
-<!ENTITY plgNAME   "nut-plugin-2024.09.12-x86_64-1">
-<!ENTITY plgMD5    "67d8a88c97e4ecacacb62d7a474e4aef">
+<!ENTITY plgNAME   "nut-plugin-2024.09.12-x86_64-2">
+<!ENTITY plgMD5    "b142237a5afc56419d11748a8813629c">
 <!ENTITY emhttp    "/usr/local/emhttp/plugins/&name;">
 ]>
 
@@ -18,7 +18,7 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
-###2024.09.12
+###2024.09.12a
 - fix: made optical changes regarding wording, positioning and helptexts on the NUT Settings page
 - fix: refactored some minor code parts in the backend bash scripts to better standards and less verbosity
 - new: use of plugin usage metric functions to aid plugin (UPS driver) development and planning (toggleable)
