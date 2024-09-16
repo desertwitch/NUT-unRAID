@@ -23,37 +23,37 @@
 #
 
 sanitize_fval() {
-	local unclean
-	local cleaned
-	unclean=$(cat)
-	cleaned=$(echo "$unclean" | sed "s/[;\"']/ /g")
-	cleaned=$(echo "$cleaned" | sed 's/  */ /g' | sed 's/^ *//; s/ *$//')
-	echo "$cleaned"
+    local unclean
+    local cleaned
+    unclean=$(cat)
+    cleaned=$(echo "$unclean" | sed "s/[;\"']/ /g")
+    cleaned=$(echo "$cleaned" | sed 's/  */ /g' | sed 's/^ *//; s/ *$//')
+    echo "$cleaned"
 }
 
 source /boot/config/plugins/nut-dw/nut-dw.cfg >/dev/null 2>&1
 
 case "$1" in
-	"devtest")
-		[ "$METRICSAPI" == "disable" ] && echo "Metrics disabled, exiting..." && exit 0
-		set -x
-		;;
-	"conntest")
-		[ "$VERBOSEMETRICS" != "1" ] && exec &>/dev/null
-		[ "$METRICSAPI" == "disable" ] && echo "Metrics disabled, exiting..." && exit 0
-		SLEEPTIME=120
-		[[ ! $SLEEPTIME =~ ^[0-9]+$ ]] && SLEEPTIME=10
-		echo "Sleeping for ${SLEEPTIME}s..."
-		sleep $SLEEPTIME
-		;;
-	*)
-		[ "$VERBOSEMETRICS" != "1" ] && exec &>/dev/null
-		[ "$METRICSAPI" == "disable" ] && echo "Metrics disabled, exiting..." && exit 0
-		SLEEPTIME=$((RANDOM % 1800))
-		[[ ! $SLEEPTIME =~ ^[0-9]+$ ]] && SLEEPTIME=10
-		echo "Randomized sleeping for ${SLEEPTIME}s..."
-		sleep $SLEEPTIME
-		;;
+    "devtest")
+        [ "$METRICSAPI" == "disable" ] && echo "Metrics disabled, exiting..." && exit 0
+        set -x
+        ;;
+    "conntest")
+        [ "$VERBOSEMETRICS" != "1" ] && exec &>/dev/null
+        [ "$METRICSAPI" == "disable" ] && echo "Metrics disabled, exiting..." && exit 0
+        SLEEPTIME=120
+        [[ ! $SLEEPTIME =~ ^[0-9]+$ ]] && SLEEPTIME=10
+        echo "Sleeping for ${SLEEPTIME}s..."
+        sleep $SLEEPTIME
+        ;;
+    *)
+        [ "$VERBOSEMETRICS" != "1" ] && exec &>/dev/null
+        [ "$METRICSAPI" == "disable" ] && echo "Metrics disabled, exiting..." && exit 0
+        SLEEPTIME=$((RANDOM % 1800))
+        [[ ! $SLEEPTIME =~ ^[0-9]+$ ]] && SLEEPTIME=10
+        echo "Randomized sleeping for ${SLEEPTIME}s..."
+        sleep $SLEEPTIME
+        ;;
 esac
 
 METRIC_ENDPOINT="https://plugin-stats.desertwitch.workers.dev"
@@ -61,18 +61,18 @@ METRIC_AUTHTOKEN=$(curl -fsS -m 300 --retry 5 --retry-delay 300 --retry-connrefu
 
 # shellcheck disable=SC2181
 if [ $? -ne 0 ] || [ -z "$METRIC_AUTHTOKEN" ]; then
-	echo "$METRIC_AUTHTOKEN"
-	echo "Failed to retrieve authorization token from endpoint, exiting..."
-	exit 0
+    echo "$METRIC_AUTHTOKEN"
+    echo "Failed to retrieve authorization token from endpoint, exiting..."
+    exit 0
 fi
 
 source /var/local/emhttp/var.ini >/dev/null 2>&1
 
 (( counter = 300 ))
 while [ -z "${flashGUID}" ] && [ $counter -ne 0 ]; do
-	sleep 1
-	source /var/local/emhttp/var.ini >/dev/null 2>&1
-	(( counter-- ))
+    sleep 1
+    source /var/local/emhttp/var.ini >/dev/null 2>&1
+    (( counter-- ))
 done
 [ -z "${flashGUID}" ] && echo "Could not establish client ID within 5 minutes, exiting..." && exit 0
 
@@ -91,13 +91,13 @@ source /boot/config/plugins/nut-dw/nut-dw.cfg >/dev/null 2>&1
 NUT_BACKEND=$(find /var/log/packages/ -type f -iname 'nut*' ! -iname 'nut-plugin*' ! -iname '*upgraded*' -printf '%f\n')
 
 if pgrep -x upsmon >/dev/null 2>&1; then
-	UPS_MANUFACTURER=$(upsc "$NAME"@"$IPADDR" ups.mfr)
-	[ -z "$UPS_MANUFACTURER" ] && UPS_MANUFACTURER=$(upsc "$NAME"@"$IPADDR" device.mfr)
-	UPS_MODEL=$(upsc "$NAME"@"$IPADDR" ups.model)
-	[ -z "$UPS_MODEL" ] && UPS_MODEL=$(upsc "$NAME"@"$IPADDR" device.model)
-	UPSMON_RUNTIME=$(ps -p "$(cat /var/run/nut/upsmon.pid)" -o etimes | awk 'NR==2 {print $1}')
+    UPS_MANUFACTURER=$(upsc "$NAME"@"$IPADDR" ups.mfr)
+    [ -z "$UPS_MANUFACTURER" ] && UPS_MANUFACTURER=$(upsc "$NAME"@"$IPADDR" device.mfr)
+    UPS_MODEL=$(upsc "$NAME"@"$IPADDR" ups.model)
+    [ -z "$UPS_MODEL" ] && UPS_MODEL=$(upsc "$NAME"@"$IPADDR" device.model)
+    UPSMON_RUNTIME=$(ps -p "$(cat /var/run/nut/upsmon.pid)" -o etimes | awk 'NR==2 {print $1}')
 else
-	UPSMON_RUNTIME=-1
+    UPSMON_RUNTIME=-1
 fi
 
 # ${SERIAL} = driver field for UPS connected by SERIAL cable (-NOT- the UPS serial number).
@@ -118,15 +118,15 @@ postfields=()
 [ -n "${UPSMON_RUNTIME}" ] && postfields+=("-F" "num1=$( sanitize_fval <<< "${UPSMON_RUNTIME}" )")
 
 if curl \
-	-fsS -m 300 --retry 5 --retry-delay 300 --retry-connrefused \
-	--write-out "%{http_code} " -o /dev/null \
-	-H "User-Agent: plugin-metrics/1.0.0" \
-	-H "Authorization: Bearer ${METRIC_AUTHTOKEN}" \
-	"${postfields[@]}" "${METRIC_ENDPOINT}"
+    -fsS -m 300 --retry 5 --retry-delay 300 --retry-connrefused \
+    --write-out "%{http_code} " -o /dev/null \
+    -H "User-Agent: plugin-metrics/1.0.0" \
+    -H "Authorization: Bearer ${METRIC_AUTHTOKEN}" \
+    "${postfields[@]}" "${METRIC_ENDPOINT}"
 then
-	echo "=> OK"
+    echo "=> OK"
 else
-	echo "=> FAILURE"
+    echo "=> FAILURE"
 fi
 
 [ "$1" == "devtest" ] && set +x
