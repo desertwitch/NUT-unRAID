@@ -3,14 +3,14 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "nut-dw">
 <!ENTITY author    "desertwitch">
-<!ENTITY version   "2024.09.13">
+<!ENTITY version   "2024.09.16">
 <!ENTITY launch    "Settings/NUTsettings">
 <!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/master">
 <!ENTITY pluginURL "&gitURL;/plugin/&name;.plg">
 <!ENTITY pkgURL    "&gitURL;/packages">
 <!ENTITY plgPATH   "/boot/config/plugins/&name;">
-<!ENTITY plgNAME   "nut-plugin-2024.09.13-x86_64-1">
-<!ENTITY plgMD5    "ba02f85a24fbec3b9da7219605fec361">
+<!ENTITY plgNAME   "nut-plugin-2024.09.16-x86_64-1">
+<!ENTITY plgMD5    "85a57e6b160d11cbb99475a910306bda">
 <!ENTITY emhttp    "/usr/local/emhttp/plugins/&name;">
 ]>
 
@@ -18,6 +18,11 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
+###2024.09.16
+- new: the preview (latest build) backend was updated to the most recent master branch as of 16.09.2024
+- new: moved "NUT Command Center" to seperate page (shown when NUT is running) for better logical separation
+- new: do not show "powertop" warning in GUI as that is included in any user-generated debug packages anyway
+- fix: reworked certain bash scripts to better standards with more safety for strange configurational states
 ###2024.09.13
 - important fix: address possible flock condition causing installation script to stall (thanks AgentXXL)
 ###2024.09.12a
@@ -461,9 +466,9 @@ exit 0
 </FILE>
 
 <!-- slack15.1 preview -->
-<FILE Name="&plgPATH;/nut-2.8.2-x86_64-5master.ssl31.txz" Min="6.13">
-<URL>&pkgURL;/nut-2.8.2-x86_64-5master.ssl31.txz</URL>
-<MD5>0826973199a18b4fb3fe70a0ade94f19</MD5>
+<FILE Name="&plgPATH;/nut-2.8.2-x86_64-6master.ssl31.txz" Min="6.13">
+<URL>&pkgURL;/nut-2.8.2-x86_64-6master.ssl31.txz</URL>
+<MD5>22bc34383a493bf3834e5c64d69fedb2</MD5>
 </FILE>
 
 <!-- slack15.1 default -->
@@ -498,7 +503,7 @@ if [ -e "$CONFIG" ]; then
     source "$CONFIG"
     if [ "$BACKEND" == "preview" ]; then
         echo "Installing user-configured PREVIEW backend for NUT..."
-        upgradepkg --install-new &plgPATH;/nut-2.8.2-x86_64-5master.ssl31.txz
+        upgradepkg --install-new &plgPATH;/nut-2.8.2-x86_64-6master.ssl31.txz
     elif [ "$BACKEND" == "default" ]; then
         echo "Installing DEFAULT backend for NUT..."
         upgradepkg --install-new &plgPATH;/nut-2.8.2-x86_64-1stable.ssl31.txz
@@ -524,9 +529,9 @@ echo ""
 </FILE>
 
 <!-- slack15.0 preview -->
-<FILE Name="&plgPATH;/nut-2.8.2-x86_64-5master.ssl11.txz" Min="6.10" Max="6.12.99">
-<URL>&pkgURL;/nut-2.8.2-x86_64-5master.ssl11.txz</URL>
-<MD5>e2ff4ffe7075a07c5948f6214c8b7154</MD5>
+<FILE Name="&plgPATH;/nut-2.8.2-x86_64-6master.ssl11.txz" Min="6.10" Max="6.12.99">
+<URL>&pkgURL;/nut-2.8.2-x86_64-6master.ssl11.txz</URL>
+<MD5>f4555efc5b4951893bfb84abe77d8f70</MD5>
 </FILE>
 
 <!-- slack15.0 default -->
@@ -561,7 +566,7 @@ if [ -e "$CONFIG" ]; then
     source "$CONFIG"
     if [ "$BACKEND" == "preview" ]; then
         echo "Installing user-configured PREVIEW backend for NUT..."
-        upgradepkg --install-new &plgPATH;/nut-2.8.2-x86_64-5master.ssl11.txz
+        upgradepkg --install-new &plgPATH;/nut-2.8.2-x86_64-6master.ssl11.txz
     elif [ "$BACKEND" == "default" ]; then
         echo "Installing DEFAULT backend for NUT..."
         upgradepkg --install-new &plgPATH;/nut-2.8.2-x86_64-1stable.ssl11.txz

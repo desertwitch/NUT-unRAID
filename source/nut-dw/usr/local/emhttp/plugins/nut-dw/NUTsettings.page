@@ -56,13 +56,6 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
 </div><br>
 <?endif;?>
 
-<?if ($powertop_installed):?>
-<div style="border: 1px solid gray;padding: 5px;color: gray;">
-    'powertop' was detected on your system and is known to cause instabilities with some UPS (changing the auto-hibernation of USB devices).<br>
-    In case you are having intermittent UPS connection problems, please consider this as a possible source for any such problems you are experiencing.
-</div><br>
-<?endif;?>
-
 <div style="color:gray;margin-bottom:15px;display:none;" id="nutdevmsg">
 <fieldset>
 <legend><strong>Important Message from the Plugin Maintainer</strong></legend>

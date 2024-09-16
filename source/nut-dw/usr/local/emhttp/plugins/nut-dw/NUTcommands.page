@@ -1,7 +1,10 @@
-Menu="NUTsettings:3"
-Title="NUT Command Center"
+Menu="OtherSettings"
+Type="xmenu"
+Title="NUT Commands"
+Icon="hand-paper-o"
 Tag="hand-paper-o"
 Markdown="false"
+Cond="shell_exec('pgrep -x upsmon')"
 ---
 <?
 /* Copyright Derek Macias (parts of code from NUT package)

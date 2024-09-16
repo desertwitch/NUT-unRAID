@@ -1,4 +1,5 @@
 #!/bin/bash
+# shellcheck disable=SC2129
 #
 # Copyright Derek Macias (parts of code from NUT package)
 # Copyright macester (parts of code from NUT package)

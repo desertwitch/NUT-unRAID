@@ -1,8 +1,8 @@
-Menu="NUTsettings:5"
-Title="NUT Runtime Statistics"
-Tag="map-o"
+Menu="NUTsettings:4"
+Title="NUT Commands"
+Tag="hand-paper-o"
 Markdown="false"
-Cond="isset(parse_ini_file('/boot/config/plugins/nut-dw/nut-dw.cfg')['STATISTICS']) && parse_ini_file('/boot/config/plugins/nut-dw/nut-dw.cfg')['STATISTICS'] == 'enable'"
+Cond="shell_exec('pgrep -x upsmon')"
 ---
 <?
 /* Copyright Derek Macias (parts of code from NUT package)
@@ -24,4 +24,4 @@ Cond="isset(parse_ini_file('/boot/config/plugins/nut-dw/nut-dw.cfg')['STATISTICS
  *
  */
 ?>
-<p>The NUT Runtime Statistics have been moved to <a href="/Settings/NUTStatistics">a seperate page</a> for performance reasons.</p>
+<p>The NUT Commands have been moved to <a href="/Settings/NUTcommands">a seperate page</a> for performance reasons.</p>
