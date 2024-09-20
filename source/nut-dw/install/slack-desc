@@ -1,13 +1,11 @@
+          |-----handy-ruler------------------------------------------------------|
+nut-plugin:
 nut-plugin: Network UPS Tools (NUT) for UNRAID
 nut-plugin:
 nut-plugin: The Network UPS Tools is a collection of programs which provide a
 nut-plugin: common interface for monitoring and administering UPS hardware. It
 nut-plugin: users a layered approach to connect all the components. Drivers are
-nut-plugin: provided for a wide assortment of equipment. The primary goal of
-nut-plugin: the NUT project is to provide reliable monitoring of UPS hardware
-nut-plugin: and ensure safe shutdowns of the systems which are connected.
-nut-plugin: This package includes the tools needed to monitor your UPS over the
-nut-plugin: web and it also includes the upsclient library.
+nut-plugin: provided for a wide assortment of equipment.
 nut-plugin:
 nut-plugin: compiled and packaged by desertwitch on Slackware 15.1 (x86_64)
 nut-plugin: intended for use on UNRAID installations WITHOUT ANY WARRANTIES
