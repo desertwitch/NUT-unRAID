@@ -1,4 +1,4 @@
-Menu="OtherSettings"
+Menu="Utilities"
 Type="xmenu"
 Title="NUT Commands"
 Icon="hand-paper-o"
@@ -63,7 +63,7 @@ require_once '/usr/local/emhttp/plugins/nut-dw/include/nut_config.php';
             <tr>
                 <td>
                     This section lets you interact with your connected UPS device through the listed software commands, where applicable and supported.
-                    <span style="float:right;"><a href="https://networkupstools.org/docs/man/upscmd.html" target="_blank" title="upscmd User Manual"><i class="fa fa-file-text-o"></i> <u>Command-Line User Manual</u></a></span><br> 
+                    <span style="float:right;"><a href="https://networkupstools.org/docs/man/upscmd.html" target="_blank" title="upscmd User Manual"><i class="fa fa-file-text-o"></i> <u>Command-Line User Manual</u></a></span><br>
                     The username and password are pre-filled with the defaults and only need to be changed if these values were modified (inside <em>upsd.users</em>)<br>
                     <strong>Username:</strong> <input type="text" name="nutcmduser" value="admin" class="narrow">
                     <strong>Password:</strong> <input type="password" name="nutcmdpass" value="adminpass" class="narrow">
