@@ -58,8 +58,8 @@ then
 
         # If script is running, cancel it
         if pgrep -x "$(basename "$0")" > /dev/null; then
-            echo "[${NAME}] UPS is online, any planned shutdowns were cancelled." | tee >(wall) >(logger -t "nut-notify")
-            $NOTIFY -e "${EVENT}" -s "Notice ${SUBJECT} Online" -d "UPS is online, any planned shutdowns were cancelled." -i "normal"
+            echo "[${NAME}] UPS power restored, any planned shutdowns were cancelled." | tee >(wall) >(logger -t "nut-notify")
+            $NOTIFY -e "${EVENT}" -s "Notice ${SUBJECT} Online" -d "UPS power restored, any planned shutdowns were cancelled." -i "normal"
             killall -s SIGTERM "$(basename "$0")"
         fi
 
