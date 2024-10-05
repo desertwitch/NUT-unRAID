@@ -56,8 +56,8 @@ then
             ( ONLINE 2>&1 | logger -t "xnut-notify-hooks.sh" ) &
         fi
 
-        # If script is running, cancel it
-        if pgrep -x "$(basename "$0")" > /dev/null; then
+        # If script is running, cancel it (excluding this PID)
+        if pgrep -x "$(basename "$0")" | grep -v "$$" > /dev/null; then
             echo "[${NAME}] UPS power restored, any planned shutdowns were cancelled." | tee >(wall) >(logger -t "nut-notify")
             $NOTIFY -e "${EVENT}" -s "Notice ${SUBJECT} Online" -d "UPS power restored, any planned shutdowns were cancelled." -i "normal"
             killall -s SIGTERM "$(basename "$0")"
