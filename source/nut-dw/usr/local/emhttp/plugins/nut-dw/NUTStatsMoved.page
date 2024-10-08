@@ -1,5 +1,5 @@
 Menu="NUTsettings:5"
-Title="NUT Runtime Statistics"
+Title="NUT Statistics"
 Tag="map-o"
 Markdown="false"
 Cond="($nutc = @parse_ini_file('/boot/config/plugins/nut-dw/nut-dw.cfg')) !== false && isset($nutc['STATISTICS']) && $nutc['STATISTICS'] == 'enable'"
@@ -24,4 +24,4 @@ Cond="($nutc = @parse_ini_file('/boot/config/plugins/nut-dw/nut-dw.cfg')) !== fa
  *
  */
 ?>
-<p>The NUT Runtime Statistics have been moved to <a href="/Settings/NUTStatistics">a seperate page</a> for performance reasons.</p>
+<p>The NUT Statistics have been moved to <a href="/Settings/NUTStatistics">a seperate page</a> for performance reasons.</p>
