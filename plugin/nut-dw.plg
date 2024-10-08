@@ -18,6 +18,9 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
+###2024.10.08
+- new: introduced a setting to disable the "NUT Commands" module
+- fix: moved "NUT Commands" and "NUT Statistics" to "Utilities" area of "Settings"
 ###2024.09.16
 - new: the preview (latest build) backend was updated to the most recent master branch as of 16.09.2024
 - new: moved "NUT Command Center" to seperate page (shown when NUT is running) for better logical separation
@@ -66,8 +69,8 @@
 - fix: overhauled logging of NUT start, stop and restart for better diagnosis of occuring errors through SYSLOG
 - fix: added a warning symbol for any NUT passwords using special characters as this caused issues for some users
 - fix: dropped some legacy code and hardened GUI code some more against Cross-Site Scripting (XSS) vulnerabilities
-- fix: streamlined configuration file layouts for better readability and following of layouts advised in NUT manuals 
-- fix: added txt file extension to most files in NUT debug package for better readability on the go (on mobile devices) 
+- fix: streamlined configuration file layouts for better readability and following of layouts advised in NUT manuals
+- fix: added txt file extension to most files in NUT debug package for better readability on the go (on mobile devices)
 ###2024.03.28
 - new: shortened UPS statuses removing some previous lengthy explanations for better dashboard displaying
 - new: present the dynamic output power factor in the dashboards instead of the static nominal power factor
@@ -394,7 +397,7 @@ if [ -x /etc/rc.d/rc.nut ]; then
         echo "WARNING: IN CASE OF PROBLEMS, please REBOOT YOUR SYSTEM to complete any upgrades."
         echo "WARNING:"
     fi
-    killall nut-poller >/dev/null 2>&amp;1 
+    killall nut-poller >/dev/null 2>&amp;1
 fi
 
 if [ -x /etc/rc.d/rc.nutstats ]; then
@@ -403,7 +406,7 @@ if [ -x /etc/rc.d/rc.nutstats ]; then
         echo "WARNING: The NUT installation script was not able to stop all NUT statistic services gracefully."
         echo "WARNING: IN CASE OF PROBLEMS, please REBOOT YOUR SYSTEM to complete any upgrades."
         echo "WARNING:"
-    fi 
+    fi
 fi
 
 if [ ! -f /boot/config/plugins/nut-dw/migration-failed ] &amp;&amp; [ -d /boot/config/plugins/nut-old ]; then
@@ -413,7 +416,7 @@ fi
 if [ -d /boot/config/plugins/nut ] &amp;&amp; [ ! -d /boot/config/plugins/nut-dw ]; then
     MIGRATIONFAILED="NO"
     echo "Now migrating previous NUT configuration layout to new NUT configuration layout..."
-    
+
     mkdir -p /boot/config/plugins/nut-dw 2>&amp;1 || MIGRATIONFAILED="YES"
     cp -rf /boot/config/plugins/nut/* /boot/config/plugins/nut-dw/ 2>&amp;1 || MIGRATIONFAILED="YES"
     mv -f /boot/config/plugins/nut-dw/nut.cfg /boot/config/plugins/nut-dw/nut-dw.cfg 2>&amp;1 || MIGRATIONFAILED="YES"
@@ -717,7 +720,7 @@ if [ -x /etc/rc.d/rc.nutstats ]; then
         echo "WARNING: The NUT uninstallation script was not able to stop all NUT statistic services gracefully."
         echo "WARNING: IN CASE OF PROBLEMS, please REBOOT YOUR SYSTEM to remove any remaining packages."
         echo "WARNING:"
-    fi 
+    fi
 fi
 
 # check if net-snmp is used by another plugin
