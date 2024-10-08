@@ -2,7 +2,7 @@ Menu="NUTsettings:4"
 Title="NUT Commands"
 Tag="hand-paper-o"
 Markdown="false"
-Cond="shell_exec('pgrep -x upsmon')"
+Cond="@shell_exec('pgrep -x upsmon') && (($nutc = @parse_ini_file('/boot/config/plugins/nut-dw/nut-dw.cfg')) === false || !isset($nutc['COMMANDS']) || $nutc['COMMANDS'] !== 'disable')"
 ---
 <?
 /* Copyright Derek Macias (parts of code from NUT package)

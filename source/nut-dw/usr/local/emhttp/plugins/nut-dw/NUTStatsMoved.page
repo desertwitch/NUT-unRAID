@@ -2,7 +2,7 @@ Menu="NUTsettings:5"
 Title="NUT Runtime Statistics"
 Tag="map-o"
 Markdown="false"
-Cond="isset(parse_ini_file('/boot/config/plugins/nut-dw/nut-dw.cfg')['STATISTICS']) && parse_ini_file('/boot/config/plugins/nut-dw/nut-dw.cfg')['STATISTICS'] == 'enable'"
+Cond="($nutc = @parse_ini_file('/boot/config/plugins/nut-dw/nut-dw.cfg')) !== false && isset($nutc['STATISTICS']) && $nutc['STATISTICS'] == 'enable'"
 ---
 <?
 /* Copyright Derek Macias (parts of code from NUT package)
