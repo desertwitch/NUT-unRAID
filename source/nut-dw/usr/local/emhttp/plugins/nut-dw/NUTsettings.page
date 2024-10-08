@@ -677,7 +677,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
     <blockquote class="inline_help">
         <p>Enable or disable the NUT Command Center Module.</p>
         <p>The module will show supported UPS commands for execution on a seperate <strong><em>NUT Commands</em></strong> page.</p>
-        <p>Please note that this page will only be shown when NUT is enabled and the NUT Monitor Service (upsmon) is also running.</p>
+        <p>Please note that this page will only be visible when NUT is enabled and the NUT Monitor Service (upsmon) is also running.</p>
     </blockquote>
 
     <div id="STATPREFS" style="<?=($showStatPrefs ? '' : 'display:none;');?>">
