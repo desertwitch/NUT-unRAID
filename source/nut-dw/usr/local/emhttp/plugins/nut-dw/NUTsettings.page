@@ -93,7 +93,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
                         echo(mk_option($nut_backend, "previous", "previous (2.8.1 stable)"));
                         echo(mk_option($nut_backend, "stable", "release (2.8.0 stable)"));
                         echo(mk_option($nut_backend, "legacy", "legacy (2.7.4 w/o SNMP)"));
-                    }    
+                    }
                     elseif (version_compare($URversion, '6.10.0', '>') && version_compare($URversion, '6.12.99', '<')) {
                         echo(mk_option($nut_backend, "preview", "preview (latest build)"));
                         echo(mk_option($nut_backend, "default", "default (2.8.2 stable)"));
@@ -168,7 +168,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
         <p>However, often repeating UPS events such as connection drops or data staleness can fill up the SYSLOG and make diagnosing other unrelated problems more difficult.</p>
         <p>This <strong>in most cases not recommended setting</strong> filters out commonly encountered repetitive messages from the SYSLOG and directs them to <strong><em><a href="/plugins/nut-dw/include/nut_spamlog_helper.php" target="_blank">/var/log/nut-spam</a></em></strong> instead.</p>
         <p>Advanced users can extend the predefined rules for commonly encountered repetitive messages by editing <strong><em>/etc/nut/xnut-nospam.conf</em></strong> using the NUT Configuration Editor.</p>
-        <p>Please be aware that previous messages (which have already been logged to the SYSLOG) will not be removed, rather only future encountered messages are affected by this setting.</p> 
+        <p>Please be aware that previous messages (which have already been logged to the SYSLOG) will not be removed, rather only future encountered messages are affected by this setting.</p>
     </blockquote>
 
     <dl>
@@ -311,7 +311,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
         <blockquote class="inline_help">
             <p>The name of the UPS configured in NUT (on the master server).</p>
             <p>It is recommended to leave this setting as it is, unless connecting to a UPS with a different name in <strong><em>Slave</em></strong> mode.</p>
-            <p>In <strong><em>manual configuration</em></strong> mode, this setting controls which of your (possibly multiple) configured UPS the GUI dashboards will show information for.</p>            
+            <p>In <strong><em>manual configuration</em></strong> mode, this setting controls which of your (possibly multiple) configured UPS the GUI dashboards will show information for.</p>
         </blockquote>
     </div>
 
@@ -378,7 +378,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
                 <p>If you want your SYSLOG to survive system reboots (for diagnostics), you can set this elsewhere - see <a href="/Settings/SyslogSettings" target="_blank">Settings->Syslog Server->Mirror syslog to flash</a>.</p>
                 <p>You will then find a mirror of the SYSLOG file on your USB drive (<a href="/plugins/nut-dw/include/nut_syslog_helper.php" target="_blank">HERE</a> or inside <strong><em>/boot/logs/</em></strong>), please be aware that mirroring will increase wear to your USB drive.</p>
             </blockquote>
-        
+
             <div id="snmp" style="display: none;">
                 <dl>
                     <dt>SNMP Version:</dt>
@@ -570,7 +570,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
                 <p><u>Warning:</u> Not all UPS devices support this setting, in the worst case it will have no effect.</p>
             </blockquote>
         </div>
-        
+
         <dl>
             <dt>Battery Replacement Notification:</dt>
             <dd>
@@ -584,7 +584,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
         <blockquote class="inline_help">
             <p>Set to <strong><em>Yes</em></strong> to receive a notification when the UPS reports the batteries as needing replacement.</p>
             <p>By default this notification will be sent every 12 hours until the batteries are replaced.</p>
-        </blockquote>  
+        </blockquote>
     </div>
 
     <br>
@@ -662,6 +662,22 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
 
     <blockquote class="inline_help">
         <p>Interval for the automatic NUT dashboard, chart and footer refreshes (in seconds).</p>
+    </blockquote>
+
+    <dl>
+        <dt>NUT Command Center Module:</dt>
+        <dd>
+            <select id="COMMANDS" name="COMMANDS" size="1">
+                <?=mk_option($nut_commands, 'disable', 'No');?>
+                <?=mk_option($nut_commands, 'enable', 'Yes');?>
+            </select>
+        </dd>
+    </dl>
+
+    <blockquote class="inline_help">
+        <p>Enable or disable the NUT Command Center Module.</p>
+        <p>The module will show supported UPS commands for execution on a seperate <strong><em>NUT Commands</em></strong> page.</p>
+        <p>Please note that this page will only be shown when NUT is enabled and the NUT Monitor Service (upsmon) is also running.</p>
     </blockquote>
 
     <div id="STATPREFS" style="<?=($showStatPrefs ? '' : 'display:none;');?>">
@@ -801,7 +817,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
                 <dd>
                     <input id="STATSCHART7TXT" type="text" name="STATSCHART7TXT" value="<?=$nut_stats_c7_txt?>">
                 </dd>
-            </dl>      
+            </dl>
         </div>
     </div>
 
@@ -819,7 +835,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
         <p>Enables collection of <strong>anonymized</strong> plugin usage statistics through the plugin usage metrics API.</p>
         <p>This aids prioritization of bug reports, development of UPS drivers and planning for plugin updates/deprecation.</p>
         <p><em>Attributes: Metric ID, Plugin Version, Unraid Version, NUT Backend Version, NUT Driver (Runtime), UPS Manufacturer and UPS Model (<strong>no serial numbers</strong>).</em></p>
-        <p><strong><i class="fa fa-heart" style="color:red;"></i> If possible, please keep this setting <u>enabled</u> to support the continued development of this plugin - thank you!</strong></p> 
+        <p><strong><i class="fa fa-heart" style="color:red;"></i> If possible, please keep this setting <u>enabled</u> to support the continued development of this plugin - thank you!</strong></p>
     </blockquote>
 
     <dl>
@@ -959,7 +975,7 @@ function checkNUTsettings() {
             $('#IPADDR').val('127.0.0.1');
             $('#IPADDR').attr('readonly', true);
             $('#UPSKILL').show();
-            
+
             $('#DRIVERS').show();
 
             if ($('#DRIVER').val() == 'custom' ) {
@@ -1034,7 +1050,7 @@ function checkPOWER() {
 function decData() {
     $('#MONPASS').val(atob($('#MONPASS').val()));
     $('#SLAVEPASS').val(atob($('#SLAVEPASS').val()));
-    
+
     var format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
     if(format.test($('#MONPASS').val())) {
         $('#monpass-htext').show();
@@ -1075,7 +1091,7 @@ function loadDevMessage() {
                 var msgMD5 = data.md5;
                 if($.cookie('nutdevmsg') !== msgMD5) {
                     $('#nutdevmsg').show();
-                } 
+                }
             } else {
                 $('#nutdevmsg').show();
             }
@@ -1103,7 +1119,7 @@ $(function() {
 
     $('.nut-power').mask('ZZZZZ', {translation:  {'Z': {pattern: /[0-9]/, optional: true}}});
 
-    if (typeof swal === "function") { 
+    if (typeof swal === "function") {
         $('#SCAN').click(function(){ swal({title:"Warning",text:"Please always attempt to (manually) set up your respective UPS Driver with the UPS Port on 'auto' first, this is more flexible and preferable to running the 'Auto Config' program straight after installation.<br><br>This tool is for cases where the UPS driver fails to otherwise find your UPS device, even with the correct UPS Driver and UPS Port on 'auto'.<br><br>Beware that 'Auto Config' will make your UPS Driver blind to anything else than that specific UPS device it detected on that specific USB port (that means you cannot change the USB port afterwards).<br><br>In case 'Auto Config' detects a UPS but still does not work for you, please make sure to always 'Reset Config' to start with a fresh configuration before attemping anything else configuration-wise.",type:"warning",html:true,showCancelButton:true}, ScanUPS); });
         $('#RESETCONF').click(function(){ swal({title:"Are you sure?",text:"This action will return any existing NUT configuration to their defaults!",type:"warning",html:true,showCancelButton:true}, ResetConfig); });
     } else {
@@ -1113,7 +1129,7 @@ $(function() {
 
     $('#SCANDRIVERS').click(ScanDrivers);
     $('#USBDIAGS').click(USBDiagnostics);
-    
+
     $('form input:not([type="submit"])').keydown(function(e) {
         if (e.keyCode == 13) {
             e.preventDefault();
@@ -1152,7 +1168,7 @@ $(function() {
     $('#SERVICE').val('disable');
     checkRUNNING();
     <?endif;?>
-    
+
     if ( typeof caPluginUpdateCheck === "function" ) {
         caPluginUpdateCheck("nut-dw.plg",{name:"NUT"});
     }

@@ -4,7 +4,7 @@ Title="NUT Commands"
 Icon="hand-paper-o"
 Tag="hand-paper-o"
 Markdown="false"
-Cond="shell_exec('pgrep -x upsmon')"
+Cond="@shell_exec('pgrep -x upsmon') && (($nutc = @parse_ini_file('/boot/config/plugins/nut-dw/nut-dw.cfg')) === false || !isset($nutc['COMMANDS']) || $nutc['COMMANDS'] !== 'disable')"
 ---
 <?
 /* Copyright Derek Macias (parts of code from NUT package)
@@ -62,7 +62,7 @@ require_once '/usr/local/emhttp/plugins/nut-dw/include/nut_config.php';
         <tbody>
             <tr>
                 <td>
-                    This section lets you interact with your connected UPS device through the listed software commands, where applicable and supported.
+                    This module lets you interact with your connected UPS device through the listed software commands, where applicable and supported.
                     <span style="float:right;"><a href="https://networkupstools.org/docs/man/upscmd.html" target="_blank" title="upscmd User Manual"><i class="fa fa-file-text-o"></i> <u>Command-Line User Manual</u></a></span><br>
                     The username and password are pre-filled with the defaults and only need to be changed if these values were modified (inside <em>upsd.users</em>)<br>
                     <strong>Username:</strong> <input type="text" name="nutcmduser" value="admin" class="narrow">
