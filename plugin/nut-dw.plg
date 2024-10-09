@@ -18,6 +18,8 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
+###2024.10.09
+- fix: no longer scroll down automatically the "NUT Settings" page
 ###2024.10.08
 - new: introduced a setting to disable the "NUT Commands" module
 - fix: moved "NUT Commands" and "NUT Statistics" to "Utilities" area of "Settings"
