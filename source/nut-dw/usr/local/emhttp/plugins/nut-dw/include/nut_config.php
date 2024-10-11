@@ -78,9 +78,9 @@ $nut_rtunit             = trim(isset($nut_cfg['RTUNIT'])              ? htmlspec
 $nut_metricsapi         = trim(isset($nut_cfg['METRICSAPI'])          ? htmlspecialchars($nut_cfg['METRICSAPI'])            : 'enable');
 
 $nut_running      = !empty(shell_exec("pgrep -x upsmon 2>/dev/null"));
-$nut_installed_backend = htmlspecialchars(trim(shell_exec("find /var/log/packages/ -type f -iname 'nut*' ! -iname 'nut-plugin*' -printf '%f\n' 2>/dev/null")));
-
 $apc_running      = !empty(shell_exec("pgrep -x apcupsd 2>/dev/null"));
+
+$nut_installed_backend = htmlspecialchars(trim(shell_exec("find /var/log/packages/ -type f -iname 'nut*' ! -iname 'nut-plugin*' -printf '%f\n' 2>/dev/null")));
 
 # debug constant to overwrite ups.status
 // define('NUT_STATUS_DEBUG', 'OB DISCHRG BYPASS CAL');
