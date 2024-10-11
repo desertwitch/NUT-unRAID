@@ -99,6 +99,8 @@ $nut_states = [
     'BOOST'   => ['severity' => 1, 'msg' => 'Boosting Input'],
     'OFF'     => ['severity' => 2, 'msg' => 'UPS is Offline'],
     'FSD'     => ['severity' => 2, 'msg' => 'Forcing Shutdown'],
+    'ALARM'   => ['severity' => 2, 'msg' => 'Alarm'],
+    'ECO'     => ['severity' => 0, 'msg' => 'Eco Mode'],
 ];
 $nut_msgSeverity = [
     0 => ['label' => 'info',    'css_class' => 'green-text'],
