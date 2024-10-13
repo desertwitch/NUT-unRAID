@@ -101,6 +101,7 @@ $nut_states = [
     'FSD'     => ['severity' => 2, 'msg' => 'Forcing Shutdown'],
     'ALARM'   => ['severity' => 2, 'msg' => 'Active Alarm(s)'],
     'ECO'     => ['severity' => 0, 'msg' => 'Eco Mode'],
+    'HE'      => ['severity' => 0, 'msg' => 'High Efficiency Mode'],
 ];
 $nut_msgSeverity = [
     0 => ['label' => 'info',    'css_class' => 'green-text'],
