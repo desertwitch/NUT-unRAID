@@ -214,7 +214,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
         <?if ($nut_running && $nut_manual == "disable" && $nut_mode == "netserver"):?>
         <dl>
             <dt><strong>NUT Connected Clients:</strong></dt>
-            <dd><span id="nutclients"><i class="fa fa-spinner fa-spin"></i></span></dd>
+            <dd><span id="nutclients"><i class="fa fa-spinner fa-spin"></i> <em>Please wait...</em></span></dd>
         </dl>
 
         <blockquote class="inline_help">
