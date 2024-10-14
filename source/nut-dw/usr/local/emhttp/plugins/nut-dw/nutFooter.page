@@ -108,6 +108,8 @@ Link="nav-user"
           $('#nut_footer').html(data.success.response);
         }
         $.each(hovered, function(k,v){ if(v.length) { $("#"+v).trigger("mouseenter");} });
+      } else {
+        $("#nut_footer").html("<i class='fa fa-times-circle' style='color:red;' title='NUT Footer Error (check logs)'></i>");
       }
     }, 'json');
     clearTimeout(timers.getNUTfooter);
@@ -213,6 +215,15 @@ EOT;
         } else {
           $(".nutdcc").text("-");
         }
+      } else {
+        $(".nutdsicon").attr("class","nutdsicon fa fa-times-circle red-text");
+        $(".nutdsicon").attr("title","Error (check logs)");
+        $(".nutdcc").html("<i class='fa fa-times-circle' style='color:red;'></i>");
+        $("#tblUPSNUTDash").find('.nut_status').html("<i class='fa fa-times-circle' style='color:red;'></i> <em>Error (check logs)</em>");
+        $("#tblUPSNUTDash").find('.nut_bcharge').html("<i class='fa fa-times-circle' style='color:red;'></i> <em>Error (check logs)</em>");
+        $("#tblUPSNUTDash").find('.nut_timeleft').html("<i class='fa fa-times-circle' style='color:red;'></i> <em>Error (check logs)</em>");
+        $("#tblUPSNUTDash").find('.nut_nompower').html("<i class='fa fa-times-circle' style='color:red;'></i> <em>Error (check logs)</em>");
+        $("#tblUPSNUTDash").find('.nut_loadpct').html("<i class='fa fa-times-circle' style='color:red;'></i>");
       }
     }, 'json');
     clearTimeout(updateNUTDashboard);
@@ -292,6 +303,15 @@ $(function(){
         } else {
           $(".nutdcc").text("-");
         }
+      } else {
+        $(".nutdsicon").attr("class","nutdsicon fa fa-times-circle red-text");
+        $(".nutdsicon").attr("title","Error (check logs)");
+        $(".nutdcc").html("<i class='fa fa-times-circle' style='color:red;'></i>");
+        $("#db-box1").find('.nut_status').html("<i class='fa fa-times-circle' style='color:red;'></i> <em>Error (check logs)</em>");
+        $("#db-box1").find('.nut_bcharge').html("<i class='fa fa-times-circle' style='color:red;'></i> <em>Error (check logs)</em>");
+        $("#db-box1").find('.nut_timeleft').html("<i class='fa fa-times-circle' style='color:red;'></i> <em>Error (check logs)</em>");
+        $("#db-box1").find('.nut_nompower').html("<i class='fa fa-times-circle' style='color:red;'></i> <em>Error (check logs)</em>");
+        $("#db-box1").find('.nut_loadpct').html("<i class='fa fa-times-circle' style='color:red;'></i>");
       }
     }, 'json');
     clearTimeout(timers.getNUTDashboard);
