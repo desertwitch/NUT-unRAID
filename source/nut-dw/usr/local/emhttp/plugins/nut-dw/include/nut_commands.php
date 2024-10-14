@@ -61,8 +61,14 @@ try {
     }
 }
 catch (\Throwable $t) {
+    error_log($t);
     $resp = [];
     $resp["error"]["response"] = $t->getMessage();
+}
+catch (\Exception $e) {
+    error_log($e);
+    $resp = [];
+    $resp["error"]["response"] = $e->getMessage();
 }
 
 echo(json_encode($resp));

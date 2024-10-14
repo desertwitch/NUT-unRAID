@@ -27,8 +27,9 @@ function nut_get_battery_options($selected=20){
         $options .= "<option value='$level'";
 
         // set saved option as selected
-        if (intval($selected) === $level)
+        if (intval($selected) === $level) {
             $options .= " selected";
+        }
 
         $options .= ">$level</option>";
     }
@@ -40,8 +41,10 @@ function nut_get_minute_options($time){
     $options = '';
         for($i = 1; $i <= 60; $i++){
             $options .= '<option value="'.($i*60).'"';
-            if(intval($time) === ($i*60))
+
+            if(intval($time) === ($i*60)) {
                 $options .= ' selected';
+            }
 
             $options .= '>'.$i.'</option>';
         }
@@ -55,20 +58,24 @@ function nut_ups_status($rows, $valueOnly = false)
     $severity = 0;
     $status_values = [];
     $status_fulltext = [];
+
     array_walk($rows, function($row) use (&$severity, &$status_fulltext, &$status_values, $nut_states, $valueOnly) {
-        # if only ups.status value as param
-        if ($valueOnly)
+        if ($valueOnly) {
+            # if only ups.status value as param
             $status_values = explode(' ', $row);
-        # if status array as param, find ups.status
-        elseif (preg_match('/^ups.status:\s*([^$]+)/i', $row, $matches))
+        }
+        elseif (preg_match('/^ups.status:\s*([^$]+)/i', $row, $matches)) {
+            # if status array as param, find ups.status
             $status_values = explode(' ', $matches[1]);
-        # skip everything else
-        else
+        } else {
+            # skip everything else
             return;
+        }
 
         # if debug constant defined, overwrite ups.status values
-        if (defined('NUT_STATUS_DEBUG'))
+        if (defined('NUT_STATUS_DEBUG')) {
             $status_values = explode(' ', NUT_STATUS_DEBUG);
+        }
 
         # replace ups.status flags with full text message.
         $status_fulltext = array_map(function($var) use (&$severity, $nut_states) {
@@ -76,8 +83,8 @@ function nut_ups_status($rows, $valueOnly = false)
                 # keep the highest severity message level
                 $severity = max($severity, $nut_states[$var]['severity']);
                 return $nut_states[$var]['msg'];
-            # if unknown status flag, return it
             } else {
+                # if unknown status flag, return it
                 return $var;
             }
         }, $status_values);
@@ -102,9 +109,9 @@ function nut_download_url($url, $conn_timeout = 15, $timeout = 45) {
         $out = curl_exec($ch) ?: false;
         curl_close($ch);
         return $out;
-    } catch (Throwable $e) { // For PHP 7
+    } catch (\Throwable $t) { // For PHP 7
         return false;
-    } catch (Exception $e) { // For PHP 5
+    } catch (\Exception $e) { // For PHP 5
         return false;
     }
 }
@@ -118,9 +125,9 @@ function nut_get_dev_message() {
         } else {
             return false;
         }
-    } catch (Throwable $e) { // For PHP 7
+    } catch (\Throwable $t) { // For PHP 7
         return false;
-    } catch (Exception $e) { // For PHP 5
+    } catch (\Exception $e) { // For PHP 5
         return false;
     }
 }

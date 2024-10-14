@@ -64,6 +64,7 @@ try {
             $row = array_map('trim', explode(':', $rows[$i], 2));
             $key = $row[0];
             $val = $row[1];
+
             switch ($key) {
                 case 'ups.status':
                     if ($upsStatus['fulltext']) {
@@ -101,6 +102,7 @@ try {
                     $load      = strtok($val,' ');
                     break;
             }
+
             if ($all) {
                 if ($i%2==0) $result[] = "<tr>";
                 $result[]= "<td><strong>$key</strong></td><td>$val</td>";

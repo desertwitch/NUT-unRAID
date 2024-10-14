@@ -90,30 +90,30 @@ try {
         $fa_icon = '';
         $statusTooltipData = '';
         $batteryText = $battery . "&thinsp;%";
-        # if no battery info
+
         if ($battery === false) {
+            # if no battery info
             $batteryText = " n/a";
             $fa_icon = "fa-battery-empty";
             $online['fulltext'][] = 'Battery info not available';
-        # if ups.status contain CHRG
         } elseif (is_array($online) && in_array('CHRG', $online['value'])) {
+            # if ups.status contain CHRG
             $fa_icon = "fa-battery-charging";
-        # if ups.status contain DISCHRG
         } elseif (is_array($online) && in_array('DISCHRG', $online['value'])) {
+            # if ups.status contain DISCHRG
             $fa_icon = "fa-battery-discharging";
             $online['fulltext'][] = "Est. " . $battery_runtime . " left";
-        # if ups.status contain OB
         } elseif (is_array($online) && in_array('OB', $online['value'])) {
-        $fa_icon = "fa-battery-discharging";
-        $online['fulltext'][] = "Est. " . $battery_runtime . " left";
-        # other ups.status messages
+            # if ups.status contain OB
+            $fa_icon = "fa-battery-discharging";
+            $online['fulltext'][] = "Est. " . $battery_runtime . " left";
         } elseif (is_array($online) && $online['value']) {
+            # other ups.status messages
             $fa_icon = "fa-battery-full";
             # blink battery icon if ups.status contain RB (Replace Battery)
-            if (in_array('RB', $online['value']))
-            $fa_icon .= ' fa-blink';
-        # unknown status
+            if (in_array('RB', $online['value'])) $fa_icon .= ' fa-blink';
         } else {
+            # unknown status
             $fa_icon = "fa-battery-empty";
             $online['fulltext'][] = 'Battery status unknown';
         }
@@ -139,20 +139,21 @@ try {
 
         $powerText = '';
         $powerTooltipData = '';
-        # display load, real and apparent power
+
         if ($realPower > 0 && $apparentPower > 0) {
+            # display load, real and apparent power
             $powerText = "{$realPower}&thinsp;W&thinsp;({$apparentPower}&thinsp;VA)";
             $powerTooltipData = "Load: $load&thinsp;% - Real power: $realPower&thinsp;W - Apparent power: $apparentPower&thinsp;VA";
-        # display load and real power
         } elseif ($realPower > 0 && $load) {
+            # display load and real power
             $powerText = "{$realPower}&thinsp;W";
             $powerTooltipData = "Load: $load&thinsp;% - Real power: $realPower&thinsp;W";
-        # display load and apparent power
         } elseif ($apparentPower > 0 && $load) {
+            # display load and apparent power
             $powerText = "{$apparentPower}&thinsp;VA";
             $powerTooltipData = "Load: $load&thinsp;% - Apparent power: $apparentPower&thinsp;VA";
-        # display load
         } elseif ($load) {
+            # display load
             $powerText = "{$load}&thinsp;%";
             $powerTooltipData = "Load: $load&thinsp;%";
         }
