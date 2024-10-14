@@ -622,7 +622,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
     <input type="hidden" name="#file" value="<?=$sName?>/<?=$sName?>.cfg">
     <input type="hidden" id="command2" name="#command" value="/usr/local/emhttp/plugins/nut-dw/scripts/write_config" />
     <dl>
-        <dt>NUT Page Footer:</dt>
+        <dt>NUT Footer:</dt>
         <dd>
             <select name="FOOTER" size="1">
                 <?=mk_option($nut_footer, 'disable', 'No');?>
