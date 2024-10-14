@@ -192,6 +192,8 @@ if (count($ups_status)) {
 
   $status[1] = "<span id='".($nut_footer_style == 0 ? "nut_power" : "")."' class='tooltip-nut " . ($load >= 90 ? $red : ($nut_footer_style == 1 ? $black : $green)) . "'" . $powerTooltipData . "><i class='fa fa-plug'></i>&thinsp;" . $powerText . "</span>";
 
+  ksort($status);
+
   echo "<span style='margin:0 6px 0 12px'>".implode('</span><span style="margin:0 6px 0 6px">', $status)."</span>";
 } else {
   echo "<span style='margin:0 6px 0 12px' id='nut_power' class='tooltip-nut' data='$nut_name: UPS info not availabe, check your settings'><i class='fa fa-battery-empty'></i>&nbsp;n/a</span>";
