@@ -78,7 +78,7 @@ try {
 
         $ups_alarm = nut_array_key_exists_wildcard($ups_status, 'ups.alarm*');
         if (count($ups_alarm)) {
-            $alarms = "<b>Active UPS Alarm(s):</b>";
+            $alarms = "<b>NUT Active UPS Alarm(s):</b>";
             foreach ($ups_alarm as $al) {
                 $alarms .= "<br>- ".$ups_status[$al];
             }
@@ -118,7 +118,7 @@ try {
             $online['fulltext'][] = 'Battery status unknown';
         }
 
-        $statusTooltipData = ' data="[' . $nut_name . '] ' . implode(' - ', $online['fulltext']) . '"';
+        $statusTooltipData = ' data="<b>NUT Device Status:</b><br>[' . $nut_name . '] ' . implode(' - ', $online['fulltext']) . '"';
 
         $status[1] = "<span id='" . ($nut_footer_style == 0 ? "nut_battery" : "") . "' class='".($nut_footer_style == 0 || $online['severity'] > 0 ? "tooltip-nut" : "")." " . $css_class . "'" . $statusTooltipData . "><i class='fa " . $fa_icon . "' style='vertical-align: baseline;'></i>&thinsp;" . $batteryText . "</span>";
 
@@ -158,7 +158,7 @@ try {
             $powerTooltipData = "Load: $load&thinsp;%";
         }
 
-        $powerTooltipData = " data='[{$nut_name}] " . $powerTooltipData . "'";
+        $powerTooltipData = " data='<b>NUT Power Metrics:</b><br>[{$nut_name}] " . $powerTooltipData . "'";
 
         # show connected clients in netserver mode
         if ($nut_manual == "disable" && $nut_mode == "netserver" && $nut_footer_conns !== "disable") {
