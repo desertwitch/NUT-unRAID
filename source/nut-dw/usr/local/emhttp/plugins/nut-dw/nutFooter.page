@@ -109,7 +109,7 @@ Link="nav-user"
         }
         $.each(hovered, function(k,v){ if(v.length) { $("#"+v).trigger("mouseenter");} });
       } else {
-        $("#nut_footer").html("<i class='fa fa-times-circle' style='color:red;' title='NUT Footer Error (check logs)'></i>");
+        $("#nut_footer").html("<i class='fa fa-times-circle' style='color:red;' title='NUT: Error (check logs)'></i>");
       }
     }, 'json');
     clearTimeout(timers.getNUTfooter);
