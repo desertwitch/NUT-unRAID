@@ -661,7 +661,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
     </dl>
 
     <blockquote class="inline_help">
-        <p>This setting controls if connected NUT clients should be shown in the NUT footer (when in NUT <em>netserver</em> mode).</p>
+        <p>This setting controls if connected NUT clients should be shown in the NUT footer (when in <strong><em>Netserver</em></strong> mode).</p>
     </blockquote>
 
     <dl>
