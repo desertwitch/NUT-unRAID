@@ -218,7 +218,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
             </dl>
 
             <blockquote class="inline_help">
-                <p>Shows the IP addresses of NUT clients logged into the NUT server.</p>
+                <p>Shows the IP addresses of NUT clients logged into the NUT netserver.</p>
             </blockquote>
         </div>
 
