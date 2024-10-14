@@ -169,19 +169,23 @@ if (count($ups_status)) {
   }
 
   # enable tooltip on Default footer style
-  if ($nut_footer_style == 0)
+  if ($nut_footer_style == 0) {
     $powerTooltipData = " data='[{$nut_name}] " . $powerTooltipData . "'";
+  } else {
+    $powerTooltipData = "";
+  }
 
   # show connected clients in netserver mode
   if ($nut_manual == "disable" && $nut_mode == "netserver") {
     try {
       exec("/usr/bin/upsc -c ".escapeshellarg($nut_name)."@".escapeshellarg($nut_ip)." 2>/dev/null", $nutc_rows);
       if(!empty($nutc_rows) && $nut_footer_style == 0) {
-        $status[3] = "<span id='nut_clients' class='tooltip-nut $green' data=\"<b>NUT Connected Clients:</b><br>- ".implode("<br>- ",array_map('htmlspecialchars', $nutc_rows))."\"><i class='fa fa-user-circle'></i></span>";
+        $nutc_count = count($nutc_rows);
+        $status[3] = "<span id='nut_clients' class='tooltip-nut $green' data=\"<b>NUT Connected Clients:</b><br>- ".implode("<br>- ",array_map('htmlspecialchars', $nutc_rows))."\"><i class='fa fa-user-circle'></i> $nutc_count</span>";
       }
       elseif(!empty($nutc_rows)) {
         $nutc_count = count($nutc_rows);
-        $status[3] = "<span id='nut_clients'><i class='fa fa-user-circle'></i>$nutc_count</span>";
+        $status[3] = "<span id='nut_clients'><i class='fa fa-user-circle'></i> $nutc_count</span>";
       }
     }
     catch (\Exception $e) {
