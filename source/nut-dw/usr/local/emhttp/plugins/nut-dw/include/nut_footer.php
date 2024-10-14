@@ -150,7 +150,7 @@ if (count($ups_status)) {
   $powerTooltipData = '';
   # display load, real and apparent power
   if ($realPower > 0 && $apparentPower > 0) {
-    $powerText = "{$realPower}&thinsp;W ({$apparentPower}&thinsp;VA)";
+    $powerText = "{$realPower}&thinsp;W&thinsp;({$apparentPower}&thinsp;VA)";
     $powerTooltipData = "Load: $load&thinsp;% - Real power: $realPower&thinsp;W - Apparent power: $apparentPower&thinsp;VA";
   # display load and real power
   } else if ($realPower > 0 && $load) {
@@ -174,7 +174,7 @@ if (count($ups_status)) {
       exec("/usr/bin/upsc -c ".escapeshellarg($nut_name)."@".escapeshellarg($nut_ip)." 2>/dev/null", $nutc_rows);
       if(!empty($nutc_rows)) {
         $nutc_count = count($nutc_rows);
-        $status[3] = "<span id='nut_clients' class='tooltip-nut ".($nut_footer_style == 0 ? "$green" : "$black")."' data=\"<b>NUT Connected Clients:</b><br>- ".implode("<br>- ",array_map('htmlspecialchars', $nutc_rows))."\"><i class='fa fa-user-circle'></i> $nutc_count</span>";
+        $status[3] = "<span id='nut_clients' class='tooltip-nut ".($nut_footer_style == 0 ? "$green" : "$black")."' data=\"<b>NUT Connected Clients:</b><br>- ".implode("<br>- ",array_map('htmlspecialchars', $nutc_rows))."\"><i class='fa fa-user-circle'></i>&thinsp;$nutc_count</span>";
       }
     }
     catch (\Exception $e) {
