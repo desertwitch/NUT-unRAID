@@ -177,7 +177,7 @@ if (count($ups_status)) {
     try {
       exec("/usr/bin/upsc -c ".escapeshellarg($nut_name)."@".escapeshellarg($nut_ip)." 2>/dev/null", $nutc_rows);
       if(!empty($nutc_rows) && $nut_footer_style == 0) {
-        $status[3] = "<span id='nut_clients' class='tooltip-nut $green' data=\"".implode("\n",array_map('htmlspecialchars', $nutc_rows))."\"><i class='fa fa-user-circle'></i></span>";
+        $status[3] = "<span id='nut_clients' class='tooltip-nut $green' data=\"<b>NUT Connected Clients:</b><br>- ".implode("<br>- ",array_map('htmlspecialchars', $nutc_rows))."\"><i class='fa fa-user-circle'></i></span>";
       }
       elseif(!empty($nutc_rows)) {
         $nutc_count = count($nutc_rows);
