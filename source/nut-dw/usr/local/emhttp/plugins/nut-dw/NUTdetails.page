@@ -24,7 +24,6 @@ Tag="file"
 ?>
 <?
 require_once '/usr/local/emhttp/plugins/nut-dw/include/nut_config.php';
-$update_details = ($nut_refresh == "enable" ? true : false);
 ?>
 
 <table class="tablesorter shift">
@@ -44,7 +43,7 @@ function getNUTstatus() {
     }
   });
   clearTimeout(timers.getNUTstatus);
-  <?if ($update_details):?>
+  <?if($nut_refresh == "enable"):?>
   timers.getNUTstatus = setTimeout(getNUTstatus, <?=max(abs(isset($display['refresh']) ? $display['refresh'] : 0),($nut_interval * 1000))?>);
   <?endif;?>
 }

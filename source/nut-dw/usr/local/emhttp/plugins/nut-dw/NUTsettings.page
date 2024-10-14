@@ -1124,7 +1124,7 @@ function getNUTclients() {
     }
   }, 'json');
   clearTimeout(timers.getNUTclients);
-  <?if ($update_details):?>
+  <?if($nut_refresh == "enable"):?>
   timers.getNUTclients = setTimeout(getNUTclients, <?=max(abs(isset($display['refresh']) ? $display['refresh'] : 0),($nut_interval * 1000))?>);
   <?endif;?>
 }
