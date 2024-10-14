@@ -181,7 +181,7 @@ if (count($ups_status)) {
       }
       elseif(!empty($nutc_rows)) {
         $nutc_count = count($nutc_rows);
-        $status[3] = "<span id='nut_clients' class='$green'><i class='fa fa-user-circle'></i>$nutc_count</span>";
+        $status[3] = "<span id='nut_clients'><i class='fa fa-user-circle'></i>$nutc_count</span>";
       }
     }
     catch (\Exception $e) {
