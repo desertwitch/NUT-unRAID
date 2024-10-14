@@ -624,7 +624,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
     <dl>
         <dt>NUT Page Footer:</dt>
         <dd>
-            <select class="" name="FOOTER" size="1">
+            <select name="FOOTER" size="1">
                 <?=mk_option($nut_footer, 'disable', 'No');?>
                 <?=mk_option($nut_footer, 'enable', 'Yes');?>
             </select>
@@ -638,7 +638,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
     <dl>
         <dt>NUT Footer Style:</dt>
         <dd>
-            <select class="" name="FOOTER_STYLE" size="1">
+            <select name="FOOTER_STYLE" size="1">
                 <?=mk_option($nut_footer_style, '0', 'Default');?>
                 <?=mk_option($nut_footer_style, '1', 'Minimal');?>
             </select>
@@ -651,9 +651,23 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
     </blockquote>
 
     <dl>
+        <dt>NUT Footer Show Clients:</dt>
+        <dd>
+            <select name="FOOTER_CONNS" size="1">
+                <?=mk_option($nut_footer_conns, 'disable', 'No');?>
+                <?=mk_option($nut_footer_conns, 'enable', 'Yes');?>
+            </select>
+        </dd>
+    </dl>
+
+    <blockquote class="inline_help">
+        <p>This setting controls if connected NUT clients should be shown in the NUT footer (in <em>netserver</em> mode).</p>
+    </blockquote>
+
+    <dl>
         <dt>NUT Automatic GUI Refresh:</dt>
         <dd>
-            <select class="" name="REFRESH" size="1">
+            <select name="REFRESH" size="1">
                 <?=mk_option($nut_refresh, 'disable', 'No');?>
                 <?=mk_option($nut_refresh, 'enable', 'Yes');?>
             </select>
@@ -835,7 +849,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
     <dl>
         <dt>NUT Plugin Usage Metric Functions:</dt>
         <dd>
-            <select class="" name="METRICSAPI" size="1">
+            <select name="METRICSAPI" size="1">
                 <?=mk_option($nut_metricsapi, 'disable', 'No');?>
                 <?=mk_option($nut_metricsapi, 'enable', 'Yes');?>
             </select>

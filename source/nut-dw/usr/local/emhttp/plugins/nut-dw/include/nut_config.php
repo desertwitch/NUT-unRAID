@@ -52,6 +52,7 @@ $nut_community          = trim(isset($nut_cfg['COMMUNITY'])           ? htmlspec
 $nut_snmpmib            = trim(isset($nut_cfg['SNMPMIB'])             ? htmlspecialchars($nut_cfg['SNMPMIB'])               : 'auto');
 $nut_footer             = trim(isset($nut_cfg['FOOTER'])              ? htmlspecialchars($nut_cfg['FOOTER'])                : 'disable');
 $nut_footer_style       = trim(isset($nut_cfg['FOOTER_STYLE'])        ? htmlspecialchars($nut_cfg['FOOTER_STYLE'])          : '0');
+$nut_footer_conns       = trim(isset($nut_cfg['FOOTER_CONNS'])        ? htmlspecialchars($nut_cfg['FOOTER_CONNS'])          : 'enable');
 $nut_refresh            = trim(isset($nut_cfg['REFRESH'])             ? htmlspecialchars($nut_cfg['REFRESH'])               : 'disable');
 $nut_interval           = trim(isset($nut_cfg['INTERVAL'])            ? intval(htmlspecialchars($nut_cfg['INTERVAL']))      : 15 );
 $nut_runtime            = trim(isset($nut_cfg['RUNTIME'])             ? htmlspecialchars($nut_cfg['RUNTIME'])               : 'battery.runtime');

@@ -161,7 +161,7 @@ try {
         $powerTooltipData = " data='[{$nut_name}] " . $powerTooltipData . "'";
 
         # show connected clients in netserver mode
-        if ($nut_manual == "disable" && $nut_mode == "netserver") {
+        if ($nut_manual == "disable" && $nut_mode == "netserver" && $nut_footer_conns !== "disable") {
             try {
                 exec("/usr/bin/upsc -c ".escapeshellarg($nut_name)."@".escapeshellarg($nut_ip)." 2>/dev/null", $nutc_rows);
                 if(!empty($nutc_rows)) {
