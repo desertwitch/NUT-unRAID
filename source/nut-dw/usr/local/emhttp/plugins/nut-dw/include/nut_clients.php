@@ -25,7 +25,12 @@ try {
     if($nut_running && $nut_manual == "disable" && $nut_mode == "netserver") {
         exec("/usr/bin/upsc -c ".escapeshellarg($nut_name)."@".escapeshellarg($nut_ip)." 2>/dev/null", $nutc_rows);
         if(!empty($nutc_rows)) {
-            $nutc_response["success"]["response"] = "<i class='fa fa-user-circle'></i> " . implode("<br><i class='fa fa-user-circle'></i> ", array_map('htmlspecialchars', $nutc_rows));
+            $nutc_rows = array_diff($nutc_rows, ["127.0.0.1"]);
+            if(!empty($nutc_rows)) {
+                $nutc_response["success"]["response"] = "<i class='fa fa-user-circle'></i> " . implode("<br><i class='fa fa-user-circle'></i> ", array_map('htmlspecialchars', $nutc_rows));
+            } else {
+                $nutc_response["success"]["response"] = "<i class='fa fa-user-times'></i> No Active Connections";
+            }
         } else {
             $nutc_response["error"]["response"] = "NUT upsc has come back with a null response.";
         }
