@@ -1094,7 +1094,7 @@ function USBDiagnostics() {
 }
 
 function loadDevMessage() {
-    $.getJSON('/plugins/nut-dw/include/nut_devmsg.php', function (data) {
+    $.get('/plugins/nut-dw/include/nut_devmsg.php', function (data) {
         if(data && data.html && data.md5) {
             $('#nutdevmsg0').html(data.html);
             $('#nutdevmsg0').attr("data-md5", data.md5);
@@ -1108,7 +1108,7 @@ function loadDevMessage() {
             }
             $('#hidenutdevmsg').click(hideDevMessage);
         }
-    });
+    }, 'json');
 }
 
 function hideDevMessage() {

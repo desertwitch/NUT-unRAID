@@ -38,6 +38,11 @@ try {
         $nutc_response["error"]["response"] = "NUT not running or not in GUI netserver mode.";
     }
 }
+catch (\Throwable $t) {
+    error_log($t);
+    $nutc_response = [];
+    $nutc_response["error"]["response"] = $t->getMessage();
+}
 catch (\Exception $e) {
     error_log($e);
     $nutc_response = [];

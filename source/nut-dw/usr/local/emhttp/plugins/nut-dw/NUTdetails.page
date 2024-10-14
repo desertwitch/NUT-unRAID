@@ -36,12 +36,12 @@ require_once '/usr/local/emhttp/plugins/nut-dw/include/nut_config.php';
 <script type="text/javascript">
 function getNUTstatus() {
   $.get('/plugins/nut-dw/include/nut_status.php',{all:'true'},function(data) {
-    if (data) {
-      data = data.split(/\n/);
-      $('#nut_summary').html(data[0]);
-      $('#nut_status').html(data[1]);
+    if (data && data.success && data.success.response) {
+      datax = data.success.response.split(/\n/);
+      $('#nut_summary').html(datax[0]);
+      $('#nut_status').html(datax[1]);
     }
-  });
+  }, 'json');
   clearTimeout(timers.getNUTstatus);
   <?if($nut_refresh == "enable"):?>
   timers.getNUTstatus = setTimeout(getNUTstatus, <?=max(abs(isset($display['refresh']) ? $display['refresh'] : 0),($nut_interval * 1000))?>);
