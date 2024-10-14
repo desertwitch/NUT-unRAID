@@ -29,12 +29,12 @@ $rows = [];
 
 if ($nut_running) {
 
-  exec("/usr/bin/upsc ".escapeshellarg($nut_name)."@$nut_ip 2>/dev/null", $rows);
-  
-  if (isset($_GET['diagsave']) && $_GET['diagsave'] == "true") { 
+  exec("/usr/bin/upsc ".escapeshellarg($nut_name)."@".escapeshellarg($nut_ip)." 2>/dev/null", $rows);
+
+  if (isset($_GET['diagsave']) && $_GET['diagsave'] == "true") {
 
     $diagarray = $rows;
-  
+
     array_walk($diagarray, function(&$var) {
       if (preg_match('/^(device|ups)\.(serial|macaddr):/i', $var, $matches)) {
         $var = $matches[1] . '.' . $matches[2] . ': REMOVED';
@@ -49,7 +49,7 @@ if ($nut_running) {
     die($diagstring);
 
   }
-  
+
   $upsStatus = nut_ups_status($rows);
 
   $runtime = 0;
@@ -129,7 +129,7 @@ if ($nut_running) {
     if($load1 > 1 && $load1 < 101)
       $load = $load1;
     if($load2 > 1 && $load2 < 101)
-      $load = $load2;    
+      $load = $load2;
   }
 
   if ($load > 0)

@@ -211,6 +211,13 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
             <p><strong><em>Slave</em></strong> - Your UPS is connected to another NUT master server and you want your UNRAID server to connect to it as a NUT slave.</p>
         </blockquote>
 
+        <?if ($nut_running && $nut_manual == "disable" && $nut_mode == "netserver"):?>
+        <dl>
+            <dt>NUT Connected IPs:</dt>
+            <dd><span id="nutclients"></span></dd>
+        </dl>
+        <?endif;?>
+
         <dl>
             <dt>NUT Master IP Address:</dt>
             <dd>
@@ -1106,6 +1113,23 @@ function hideDevMessage() {
     $('#nutdevmsg').hide();
 }
 
+<?if ($nut_running && $nut_manual == "disable" && $nut_mode == "netserver"):?>
+function getNUTclients() {
+  $.get('/plugins/nut-dw/include/nut_clients.php', function(data) {
+    if (data && data.success && data.success.response) {
+      $('#nutclients').html(data.success.response);
+    }
+    else {
+      $('#nutclients').html("<em>An error has occured querying the connected clients.</em>");
+    }
+  }, 'json');
+  clearTimeout(timers.getNUTclients);
+  <?if ($update_details):?>
+  timers.getNUTclients = setTimeout(getNUTclients, <?=max(abs(isset($display['refresh']) ? $display['refresh'] : 0),($nut_interval * 1000))?>);
+  <?endif;?>
+}
+<?endif;?>
+
 $(function() {
     showStatus('upsmon');
 
@@ -1163,6 +1187,10 @@ $(function() {
 
     decData();
     loadDevMessage();
+
+    <?if ($nut_running && $nut_manual == "disable" && $nut_mode == "netserver"):?>
+    getNUTclients();
+    <?endif;?>
 
     <?if ($lastStartFailed):?>
     $('#SERVICE').val('disable');
