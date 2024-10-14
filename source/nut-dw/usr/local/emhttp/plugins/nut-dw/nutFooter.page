@@ -215,6 +215,9 @@ EOT;
         } else {
           $(".nutdcc").text("-");
         }
+        if (typeof $.fn.tooltipster === 'function') {
+            $(".nutdsicon").tooltipster();
+        }
       } else {
         $(".nutdsicon").attr("class","nutdsicon fa fa-times-circle red-text");
         $(".nutdsicon").attr("title","Error (check logs)");
