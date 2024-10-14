@@ -36,10 +36,9 @@ require_once '/usr/local/emhttp/plugins/nut-dw/include/nut_config.php';
 <script type="text/javascript">
 function getNUTstatus() {
   $.get('/plugins/nut-dw/include/nut_status.php',{all:'true'},function(data) {
-    if (data && data.success && data.success.response) {
-      datax = data.success.response.split(/\n/);
-      $('#nut_summary').html(datax[0]);
-      $('#nut_status').html(datax[1]);
+    if (data && data.success && data.success.response && data.success.responseall) {
+      $('#nut_summary').html(data.success.response);
+      $('#nut_status').html(data.success.responseall);
     }
   }, 'json');
   clearTimeout(timers.getNUTstatus);

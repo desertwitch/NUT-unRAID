@@ -167,7 +167,8 @@ try {
     if ($all && !$rows) $result[] = "<tr><td colspan='4' style='text-align:center'>No information available</td></tr>";
 
     if($all) {
-        $nuts_response["success"]["response"] = "<tr>".implode('', $status)."</tr>" . "\n" . implode('', $result);
+        $nuts_response["success"]["response"] = "<tr>".implode('', $status)."</tr>";
+        $nuts_response["success"]["responseall"] = implode('', $result);
     } else {
         $nuts_response["success"]["response"] = "<tr>".implode('', $status)."</tr>";
     }
