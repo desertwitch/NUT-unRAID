@@ -1123,8 +1123,10 @@ function hideDevMessage() {
 function getNUTclients() {
   $.get('/plugins/nut-dw/include/nut_clients.php', function(data) {
     if (data && data.success && data.success.response) {
-      $('#nutclients0').html(data.success.response);
-      $('#nutclients').show();
+        $('#nutclients0').html(data.success.response);
+        $('#nutclients').show();
+    } else {
+        $('#nutclients0').html("<em>Failed to Query</em>");
     }
   }, 'json');
   clearTimeout(timers.getNUTclients);
