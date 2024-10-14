@@ -84,7 +84,7 @@ if (count($ups_status)) {
     foreach ($ups_alarm as $al) {
       $alarms .= "<div><i class='fa fa-exclamation-circle orange-text'></i>&nbsp;".$ups_status[$al]."</div>";
     }
-    $status[3] = "<span id='nut_alarm' class='tooltip-nut $orange' data=\"$alarms\"><i class='fa fa-bell faa-ring animated'></i></span>";
+    $status[2] = "<span id='nut_alarm' class='tooltip-nut $orange' data=\"$alarms\"><i class='fa fa-bell faa-ring animated'></i></span>";
   }
 
   $battery_runtime = array_key_exists($nut_runtime, $ups_status) ? nut_format_time($ups_status[$nut_runtime],$nut_rtunit) : "n/a";
@@ -177,16 +177,16 @@ if (count($ups_status)) {
     try {
       exec("/usr/bin/upsc -c ".escapeshellarg($nut_name)."@".escapeshellarg($nut_ip)." 2>/dev/null", $nutc_rows);
       if(!empty($nutc_rows) && $nut_footer_style == 0) {
-        $status[2] = "<span id='nut_clients' class='tooltip-nut $green' data=\"".implode("\n",array_map('htmlspecialchars', $nutc_rows))."\"><i class='fa fa-user-circle'></i></span>";
+        $status[3] = "<span id='nut_clients' class='tooltip-nut $green' data=\"".implode("\n",array_map('htmlspecialchars', $nutc_rows))."\"><i class='fa fa-user-circle'></i></span>";
       }
       elseif(!empty($nutc_rows)) {
         $nutc_count = count($nutc_rows);
-        $status[2] = "<span id='nut_clients' class='$green'><i class='fa fa-user-circle'></i>$nutc_count</span>";
+        $status[3] = "<span id='nut_clients' class='$green'><i class='fa fa-user-circle'></i>$nutc_count</span>";
       }
     }
     catch (\Exception $e) {
       error_log($e);
-      unset($status[2]);
+      unset($status[3]);
     }
   }
 
