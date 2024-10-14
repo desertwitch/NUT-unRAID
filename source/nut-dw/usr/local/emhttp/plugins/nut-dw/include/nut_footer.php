@@ -120,11 +120,9 @@ if (count($ups_status)) {
     $online['fulltext'][] = 'Battery status unknown';
   }
 
-  # enable tooltip on Default footer style
-  if ($nut_footer_style == 0)
-    $statusTooltipData = ' data="[' . $nut_name . '] ' . implode(' - ', $online['fulltext']) . '"';
+  $statusTooltipData = ' data="[' . $nut_name . '] ' . implode(' - ', $online['fulltext']) . '"';
 
-  $status[0] = "<span id='" . ($nut_footer_style == 0 ? "nut_battery" : "") . "' class='tooltip-nut " . $css_class . "'" . $statusTooltipData . "><i class='fa " . $fa_icon . "' style='vertical-align: baseline;'></i>&thinsp;" . $batteryText . "</span>";
+  $status[0] = "<span id='" . ($nut_footer_style == 0 ? "nut_battery" : "") . "' class='".($nut_footer_style == 0 ? "tooltip-nut" : "")." " . $css_class . "'" . $statusTooltipData . "><i class='fa " . $fa_icon . "' style='vertical-align: baseline;'></i>&thinsp;" . $batteryText . "</span>";
 
   # if no ups.load compute from ups.power(.nominal) or ups.realpower(.nominal)
   if ($load <= 0) {
