@@ -40,8 +40,8 @@ function getNUTstatus() {
       $('#nut_summary').html(data.success.response);
       $('#nut_status').html(data.success.responseall);
     } else {
-      $('#nut_summary').html('<tr><td colspan="7" style="text-align:center"><i class="fa fa-times-circle"></i><em>Failed to retrieve UPS information (check PHP log).</em></td></tr>');
-      $('#nut_status').html('<tr><td colspan="4" style="text-align:center"><i class="fa fa-times-circle"></i><em>Failed to retrieve UPS information (check PHP log).</em></td></tr>');
+      $('#nut_summary').html('<tr><td colspan="7" style="text-align:center"><i class="fa fa-times-circle"></i> <em>Failed to retrieve information (check logs).</em></td></tr>');
+      $('#nut_status').html('<tr><td colspan="4" style="text-align:center"><i class="fa fa-times-circle"></i> <em>Failed to retrieve information (check logs).</em></td></tr>');
     }
   }, 'json');
   clearTimeout(timers.getNUTstatus);
