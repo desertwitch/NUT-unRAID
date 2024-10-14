@@ -211,16 +211,16 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
             <p><strong><em>Slave</em></strong> - Your UPS is connected to another NUT master server and you want your UNRAID server to connect to it as a NUT slave.</p>
         </blockquote>
 
-        <div id="nutclients" style="display:none;">
-            <dl>
-                <dt><strong>NUT Connected Clients:</strong></dt>
-                <dd><span id="nutclients0"></span></dd>
-            </dl>
+        <?if ($nut_running && $nut_manual == "disable" && $nut_mode == "netserver"):?>
+        <dl>
+            <dt><strong>NUT Connected Clients:</strong></dt>
+            <dd><span id="nutclients"><i class="fa fa-spinner fa-spin"></i></span></dd>
+        </dl>
 
-            <blockquote class="inline_help">
-                <p>Shows the IP addresses of NUT clients logged into the NUT netserver.</p>
-            </blockquote>
-        </div>
+        <blockquote class="inline_help">
+            <p>Shows the IP addresses of NUT clients logged into the NUT netserver.</p>
+        </blockquote>
+        <?endif;?>
 
         <dl>
             <dt>NUT Master IP Address:</dt>
@@ -1131,13 +1131,13 @@ function hideDevMessage() {
     $('#nutdevmsg').hide();
 }
 
+<?if ($nut_running && $nut_manual == "disable" && $nut_mode == "netserver"):?>
 function getNUTclients() {
   $.get('/plugins/nut-dw/include/nut_clients.php', function(data) {
     if (data && data.success && data.success.response) {
-        $('#nutclients0').html(data.success.response);
-        $('#nutclients').show();
+        $('#nutclients').html(data.success.response);
     } else {
-        $('#nutclients0').html("<em>n/a</em>");
+        $('#nutclients').html("<i class='fa fa-times-circle' style='color:red;'></i> <em>Error (check logs)</em>");
     }
   }, 'json');
   clearTimeout(timers.getNUTclients);
@@ -1145,6 +1145,7 @@ function getNUTclients() {
   timers.getNUTclients = setTimeout(getNUTclients, <?=max(abs(isset($display['refresh']) ? $display['refresh'] : 0),($nut_interval * 1000))?>);
   <?endif;?>
 }
+<?endif;?>
 
 $(function() {
     showStatus('upsmon');
