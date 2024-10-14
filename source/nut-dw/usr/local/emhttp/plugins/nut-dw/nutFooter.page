@@ -157,15 +157,15 @@ $mytiles[$pluginname]['column2'] =
 <tbody id="tblUPSNUTDash" title="_(UPS(NUT))_">
 <tr><td>
 <i class="icon-ups f32"></i>
-<div class="section">_(UPS(NUT))_<br><span><span style="margin-right:6px;">Status: <i class="nutdsicon fa fa-question-circle black-text"></i></span><span style="margin-right:6px;">Battery: <span class="nutdcc green-text"></span></span><span>Load: <span class="nut_loadpct"></span></span></span>
+<div class="section">_(UPS(NUT))_<br><span><span style="margin-right:6px;">Status: <i class="nutdsicon fa fa-question-circle black-text"></i></span><span style="margin-right:6px;">Battery: <span class="nutdcc green-text"><i class="fa fa-spinner fa-spin icon" style="color:black;"></i></span></span><span>Load: <span class="nut_loadpct"><i class="fa fa-spinner fa-spin icon"></i></span></span></span>
 <br><br>
 </div>
 <a href="/Dashboard/NUTsettings" title="_(Go to NUT Settings)_"><i class="fa fa-fw fa-cog control"></i></a>
 </td></tr>
 <tr><td style="display: flex;"><span class="w36 ups">UPS Status:</span><span class="nut_status" style="flex: 1; white-space: normal;"></span></td></tr>
-<tr><td><span class="w36 ups">Battery Charge:</span><span class="nut_bcharge"></span></td></tr>
-<tr><td><span class="w36 ups">Runtime Left:</span><span class="nut_timeleft"></span></td></tr>
-<tr><td><span class="w36 ups">Nominal Power:</span><span class="nut_nompower"></span></td></tr>
+<tr><td><span class="w36 ups">Battery Charge:</span><span class="nut_bcharge"><i class="fa fa-spinner fa-spin"></i> <em>Please wait, retrieving UPS information...</em></span></td></tr>
+<tr><td><span class="w36 ups">Runtime Left:</span><span class="nut_timeleft"><i class="fa fa-spinner fa-spin"></i> <em>Please wait, retrieving UPS information...</em></span></td></tr>
+<tr><td><span class="w36 ups">Nominal Power:</span><span class="nut_nompower"><i class="fa fa-spinner fa-spin"></i> <em>Please wait, retrieving UPS information...</em></span></td></tr>
 </tbody>
 EOT;
 ?>
@@ -235,16 +235,16 @@ $(function(){
 <tbody sort='' class='sortable'>
 <tr><td></td><td colspan='3' class='next'><i class='icon-ups'></i><div class='section'>UPS(NUT)<br>
 <span style="margin-right:6px;">Status: <i class="nutdsicon fa fa-question-circle black-text"></i></span>
-<span style="margin-right:6px;">Battery: <span class="nutdcc green-text"></span></span>
-<span>Load: <span class='nut_loadpct'></span></span><br><br></div>
+<span style="margin-right:6px;">Battery: <span class="nutdcc green-text"><i class="fa fa-spinner fa-spin icon" style="color:black;"></i></span></span>
+<span>Load: <span class='nut_loadpct'><i class="fa fa-spinner fa-spin icon"></i></span></span><br><br></div>
 <i class='fa fa-fw chevron' id='nut_view' onclick='toggleChevron("nut_view",0)'></i>
 <a href='/Dashboard/NUTsettings' title='Go to NUT Settings'><i class='fa fa-fw fa-cog chevron'></i></a>
 </td><td></td></tr>
 <tr class='nut_view' style="display:none"><td></td><td colspan='3'>
-<span class='ups'>UPS Status:</span><span class='nut_status'></span><br>
-<span class='ups'>Battery Charge:</span><span class='nut_bcharge'></span><br>
-<span class='ups'>Runtime Left:</span><span class='nut_timeleft'></span><br>
-<span class='ups'>Nominal Power:</span><span class='nut_nompower'></span><br>
+<span class='ups'>UPS Status:</span><span class='nut_status'><i class="fa fa-spinner fa-spin"></i> <em>Please wait, retrieving UPS information...</em></span><br>
+<span class='ups'>Battery Charge:</span><span class='nut_bcharge'><i class="fa fa-spinner fa-spin"></i> <em>Please wait, retrieving UPS information...</em></span><br>
+<span class='ups'>Runtime Left:</span><span class='nut_timeleft'><i class="fa fa-spinner fa-spin"></i> <em>Please wait, retrieving UPS information...</em></span><br>
+<span class='ups'>Nominal Power:</span><span class='nut_nompower'><i class="fa fa-spinner fa-spin"></i> <em>Please wait, retrieving UPS information...</em></span><br>
 </td><td></td></tr>
 </tbody>
 </table>

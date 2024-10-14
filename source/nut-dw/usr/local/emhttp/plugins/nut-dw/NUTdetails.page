@@ -28,7 +28,7 @@ require_once '/usr/local/emhttp/plugins/nut-dw/include/nut_config.php';
 
 <table class="tablesorter shift">
 <thead><tr><th style="width:15%">Key</th><th style="width:35%">Value</th><th style="width:15%">Key</th><th style="width:35%">Value</th></tr></thead>
-<tbody id="nut_status"><tr><td colspan="4" style="text-align:center"><i class="fa fa-spinner fa-spin icon"></i><em>Please wait, retrieving UPS information...</em></td></tr></tbody>
+<tbody id="nut_status"><tr><td colspan="4" style="text-align:center"><i class="fa fa-spinner fa-spin"></i> <em>Please wait, retrieving UPS information...</em></td></tr></tbody>
 </table>
 
 <div style="font-size:x-small;font-weight:bold;"><i class="fa fa-download"></i> <a href="/plugins/nut-dw/include/nut_debug.php">NUT Debug Package (.zip)</a><?if ($nut_running):?> / <i class="fa fa-download"></i> <a href="/plugins/nut-dw/include/nut_status.php?diagsave=true&all=true">UPS Data File (.dev)</a><?endif;?></div>
@@ -39,6 +39,9 @@ function getNUTstatus() {
     if (data && data.success && data.success.response && data.success.responseall) {
       $('#nut_summary').html(data.success.response);
       $('#nut_status').html(data.success.responseall);
+    } else {
+      $('#nut_summary').html('<tr><td colspan="7" style="text-align:center"><i class="fa fa-times-circle"></i><em>Failed to retrieve UPS information (check PHP log).</em></td></tr>');
+      $('#nut_status').html('<tr><td colspan="4" style="text-align:center"><i class="fa fa-times-circle"></i><em>Failed to retrieve UPS information (check PHP log).</em></td></tr>');
     }
   }, 'json');
   clearTimeout(timers.getNUTstatus);
