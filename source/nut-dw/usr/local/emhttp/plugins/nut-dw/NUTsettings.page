@@ -1126,7 +1126,7 @@ function getNUTclients() {
         $('#nutclients0').html(data.success.response);
         $('#nutclients').show();
     } else {
-        $('#nutclients0').html("<em>Failed to Query</em>");
+        $('#nutclients0').html("<em>n/a</em>");
     }
   }, 'json');
   clearTimeout(timers.getNUTclients);
