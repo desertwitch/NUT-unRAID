@@ -18,6 +18,14 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
+###2024.10.15
+- new: when in NUT netserver mode, show connected clients in GUI (settings/footer)
+- new: ups.alarm variables are now colored on the NUT settings page for more visibility
+- new: reworked the NUT footer to display information in a more organized and improved manner
+- new: reworked severity of reported UPS statuses and dropped TRIM, BOOST, OL DISCHRG down to green
+- new: introduced handling of reported UPS statuses for previously unhandled ALARM, HE and ECO statuses
+- fix: major refactor of the frontend code and frontend-backend communication
+- fix: improved the error handling when communication with backend scripts fails
 ###2024.10.09
 - fix: no longer scroll down automatically the "NUT Settings" page
 ###2024.10.08
