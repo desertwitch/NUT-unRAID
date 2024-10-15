@@ -218,7 +218,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
         </dl>
 
         <blockquote class="inline_help">
-            <p>Shows the IP addresses of NUT secondaries/slaves currently logged into the <strong><em>Netserver</em></strong>.</p>
+            <p>Shows the IP addresses of currently logged in NUT Slaves when in <strong><em>Netserver</em></strong> mode.</p>
             <p>Please note that this will not show clients who are merely querying NUT for metrics/information (e.g. Home Assistant, PRTG, ...).</p>
         </blockquote>
         <?endif;?>
@@ -662,7 +662,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
     </dl>
 
     <blockquote class="inline_help">
-        <p>Shows the count/IP addresses of logged in NUT secondaries/slaves when in <strong><em>Netserver</em></strong> mode.</p>
+        <p>Shows the count/IP addresses of currently logged in NUT Slaves when in <strong><em>Netserver</em></strong> mode.</p>
         <p>Please note that this will not show clients who are merely querying NUT for metrics/information (e.g. Home Assistant, PRTG, ...).</p>
     </blockquote>
 
