@@ -168,9 +168,9 @@ try {
                     $nutc_rows = array_diff($nutc_rows, ["127.0.0.1"]);
                     $nutc_count = count($nutc_rows);
                     if(!empty($nutc_rows)) {
-                        $status[3] = "<span id='nut_clients' class='tooltip-nut ".($nut_footer_style == 0 ? "$green" : "$black")."' data=\"<b>NUT Connected Clients:</b><br>- ".implode("<br>- ",array_map('htmlspecialchars', $nutc_rows))."\"><i class='fa fa-user-circle'></i>&thinsp;$nutc_count</span>";
+                        $status[3] = "<span id='nut_clients' class='tooltip-nut ".($nut_footer_style == 0 ? "$green" : "$black")."' data=\"<b>NUT Connected Slaves:</b><br>- ".implode("<br>- ",array_map('htmlspecialchars', $nutc_rows))."\"><i class='fa fa-user-circle'></i>&thinsp;$nutc_count</span>";
                     } else {
-                        $status[3] = "<span id='nut_clients' class='tooltip-nut ".($nut_footer_style == 0 ? "$green" : "$black")."' data=\"<b>NUT Connected Clients:</b><br>(No Active Connections)\"><i class='fa fa-user-circle'></i>&thinsp;$nutc_count</span>";
+                        $status[3] = "<span id='nut_clients' class='tooltip-nut ".($nut_footer_style == 0 ? "$green" : "$black")."' data=\"<b>NUT Connected Slaves:</b><br>(No Active Connections)\"><i class='fa fa-user-circle'></i>&thinsp;$nutc_count</span>";
                     }
                 }
             }

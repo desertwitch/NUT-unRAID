@@ -213,7 +213,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
 
         <?if ($nut_running && $nut_manual == "disable" && $nut_mode == "netserver"):?>
         <dl>
-            <dt><strong>NUT Connected Clients:</strong></dt>
+            <dt><strong>NUT Connected Slaves:</strong></dt>
             <dd><span id="nutclients"><i class="fa fa-spinner fa-spin"></i> <em>Please wait...</em></span></dd>
         </dl>
 
@@ -652,7 +652,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
     </blockquote>
 
     <dl>
-        <dt>NUT Footer Show Clients:</dt>
+        <dt>NUT Footer Show Slaves:</dt>
         <dd>
             <select name="FOOTER_CONNS" size="1">
                 <?=mk_option($nut_footer_conns, 'disable', 'No');?>
