@@ -40,10 +40,10 @@ function getNUTstatus() {
       $('#nut_summary').html(data.success.response);
       $('#nut_status').html(data.success.responseall);
       $('#nut_status td:contains("ups.alarm")')
-        .css('background-color', '#ffe5e5')
+        .css('background-color', 'rgba(255, 0, 0, 0.1)')
         .next()
         .css({
-          'background-color': '#ffe5e5',
+          'background-color': 'rgba(255, 0, 0, 0.1)',
           'font-weight': 'bold'
         });
     } else {
