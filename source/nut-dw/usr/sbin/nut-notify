@@ -81,7 +81,8 @@ then
             else
                 timer=$(/usr/bin/upsc "$NAME"@"$IPADDR" "$BATTERY" 2>/dev/null)
                 # Loop with one second interval to allow SIGTERM reception.
-                while [ -z "$timer" ] || [ "$timer" -gt "$TIMER" ]
+                # Continue looping if `upsc` output is null or non-numeric until not or `upsmon` sets FSD (LB).
+                while [ -z "$timer" ] || [[ ! "$timer" =~ ^[0-9]+([.][0-9]+)?$ ]] || [ "$(printf "%.0f" "$timer")" -gt "$TIMER" ]
                 do
                     sleep 1
                     timer=$(/usr/bin/upsc "$NAME"@"$IPADDR" "$BATTERY" 2>/dev/null)
@@ -96,7 +97,7 @@ then
             /usr/sbin/upsmon -c fsd
         fi
 
-elif [ "$NOTIFYTYPE" == "REPLBATT" ] 
+elif [ "$NOTIFYTYPE" == "REPLBATT" ]
 then
         if [ "$REPLBATTMSG" == "enable" ]; then
             if [ "$(type -t "REPLBATT")" == "function" ]; then
