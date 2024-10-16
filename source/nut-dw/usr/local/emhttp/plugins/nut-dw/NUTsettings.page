@@ -213,8 +213,13 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
 
         <?if ($nut_running && $nut_manual == "disable" && $nut_mode == "netserver"):?>
         <dl>
-            <dt><strong>NUT Connected Slaves:</strong></dt>
-            <dd><span id="nutclients"><i class="fa fa-spinner fa-spin"></i> <em>Please wait...</em></span></dd>
+            <dt>
+                <strong>NUT Connected Slaves:</strong>
+                <span id="nutclientsleft"></span>
+            </dt>
+            <dd>
+                <span id="nutclientsright"><i class="fa fa-spinner fa-spin"></i> <em>Please wait...</em></span>
+            </dd>
         </dl>
 
         <blockquote class="inline_help">
@@ -1136,12 +1141,19 @@ function hideDevMessage() {
 }
 
 <?if ($nut_running && $nut_manual == "disable" && $nut_mode == "netserver"):?>
+function extractAndChainBrTags(inputString) {
+    const brTags = inputString.match(/<br\s*\/?>/gi);
+    if (!brTags) { return ''; }
+    return brTags.join('');
+}
+
 function getNUTclients() {
   $.get('/plugins/nut-dw/include/nut_clients.php', function(data) {
     if (data && data.success && data.success.response) {
-        $('#nutclients').html(data.success.response);
+        $('#nutclientsleft').html(extractAndChainBrTags(data.success.response));
+        $('#nutclientsright').html(data.success.response);
     } else {
-        $('#nutclients').html("<i class='fa fa-times-circle' style='color:red;'></i> <em>Error (check logs)</em>");
+        $('#nutclientsright').html("<i class='fa fa-times-circle' style='color:red;'></i> <em>Error (check logs)</em>");
     }
   }, 'json');
   clearTimeout(timers.getNUTclients);
