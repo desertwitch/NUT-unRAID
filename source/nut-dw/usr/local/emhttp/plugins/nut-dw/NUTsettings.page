@@ -44,13 +44,13 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
 </table>
 
 <?if ($lastStartFailed):?>
-<div style="border: 1px solid red;padding: 5px;color: red;">
+<div class="red-text" style="border: 1px solid red;padding: 5px;">
     NUT was not able to start successfully - please check the <a href="/Tools/Syslog" target="_blank">SYSLOG</a> for more information.
 </div><br>
 <?endif;?>
 
 <?if ($apc_running):?>
-<div style="border: 1px solid red;padding: 5px;color: red;">
+<div class="red-text" style="border: 1px solid red;padding: 5px;">
     APCUPSD also seems to be enabled, this is not recommended and will lead to both unexpected UPS behaviour and system instabilities.<br>
     Please visit the <a href="/Settings/UPSsettings" target="_blank">UPS Settings</a> and disable the APC UPS daemon before using and trusting NUT to protect your server from power failures.
 </div><br>

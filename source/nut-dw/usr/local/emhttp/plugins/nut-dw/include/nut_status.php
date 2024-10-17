@@ -51,6 +51,14 @@ try {
             die($diagstring);
         }
 
+        for ($z=0; $z<count($rows); $z++) {
+            $arow = array_map('trim', explode(':', $rows[$z], 2));
+            $aprop = $arow[0];
+            if (stripos($aprop, "ups.alarm")!== false) {
+                $nuts_response["success"]["alarms"][] = htmlspecialchars($arow[1]);
+            }
+        }
+
         $upsStatus = nut_ups_status($rows);
 
         $runtime = 0;
@@ -170,7 +178,7 @@ try {
 
     if($all) {
         $nuts_response["success"]["response"] = "<tr>".implode('', $status)."</tr>";
-        $nuts_response["success"]["responseall"] = implode('', $result);
+        $nuts_response["success"]["allvars"] = implode('', $result);
     } else {
         $nuts_response["success"]["response"] = "<tr>".implode('', $status)."</tr>";
     }

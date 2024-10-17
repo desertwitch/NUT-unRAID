@@ -76,7 +76,7 @@ try {
             if ($realPowerNominal > 0) $realPower = 0;
         }
 
-        $ups_alarm = nut_array_key_exists_wildcard($ups_status, 'ups.alarm*');
+        $ups_alarm = nut_array_key_exists_wildcard($ups_status, '*ups.alarm*');
         if (count($ups_alarm)) {
             $alarms = "<b>NUT Active UPS Alarm(s):</b>";
             foreach ($ups_alarm as $al) {

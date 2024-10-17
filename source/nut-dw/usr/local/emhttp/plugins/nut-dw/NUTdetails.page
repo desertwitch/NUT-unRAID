@@ -36,9 +36,9 @@ require_once '/usr/local/emhttp/plugins/nut-dw/include/nut_config.php';
 <script type="text/javascript">
 function getNUTstatus() {
   $.get('/plugins/nut-dw/include/nut_status.php',{all:'true'},function(data) {
-    if (data && data.success && data.success.response && data.success.responseall) {
+    if (data && data.success && data.success.response && data.success.allvars) {
       $('#nut_summary').html(data.success.response);
-      $('#nut_status').html(data.success.responseall);
+      $('#nut_status').html(data.success.allvars);
       $('#nut_status td:contains("ups.alarm")')
         .css('background-color', 'rgba(255, 0, 0, 0.1)')
         .next()
