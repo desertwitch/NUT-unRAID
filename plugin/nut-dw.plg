@@ -18,6 +18,11 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
+###2024.10.17
+- fix: address page layout breaking displaying more than 2 slaves
+- fix: support for floating-point UPS variables (thanks to edusteinhorst)
+- fix: added further clarifications for new "NUT Connected Clients" settings
+- new: show active UPS alarms also in the dashboards and on the "NUT Settings" page
 ###2024.10.15
 - fix: major refactor of the frontend code and frontend-backend communication
 - fix: improved the error handling when communication with backend scripts fails
