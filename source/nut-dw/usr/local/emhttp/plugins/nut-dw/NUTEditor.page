@@ -89,28 +89,23 @@ $(function(){
         var Editfile = $('#editfile').val();
         $.getJSON('/plugins/nut-dw/include/nut_edit.php', {editfile: Editfile}, function (data) {
                 editor.setValue(data);
-            }
-        );
+        });
     });
 
     $('#editfile').val("/etc/nut/ups.conf");
     var EditfileDefault = $('#editfile').val();
     $.getJSON('/plugins/nut-dw/include/nut_edit.php', {editfile: EditfileDefault}, function (data) {
             editor.setValue(data);
-        }
-    );
+    });
 
     $('#btnSubmit').click(function () {
         editor.save();
         $.post('/plugins/nut-dw/include/nut_save.php', $('#editform').serializeArray(), function (data) {
             var Title = 'Configuration ';
-
             if(data.success)
-                swal({title: Title+'Saved', text: data.saved+'\n\nAny changes will be active on next NUT restart.', timer: 3500, showConfirmButton: false, type:'success'
-                });
+                swal({title: Title+'Saved', text: data.saved+'\n\nAny changes will be active on next NUT restart.', timer: 3500, showConfirmButton: false, type:'success'});
             if(data.error)
                 swal({title:Title+'Error', text: data.error+'\n\nThere was an error saving the configuration file.', type:'error'});
-
         }, 'json');
     });
 });
