@@ -35,26 +35,34 @@ require_once '/usr/local/emhttp/plugins/nut-dw/include/nut_config.php';
 
 <script type="text/javascript">
 function getNUTstatus() {
-  $.get('/plugins/nut-dw/include/nut_status.php',{all:'true'},function(data) {
-    if (data && data.success && data.success.response && data.success.allvars) {
-      $('#nut_summary').html(data.success.response);
-      $('#nut_status').html(data.success.allvars);
-      $('#nut_status td:contains("ups.alarm")')
-        .css('background-color', 'rgba(255, 0, 0, 0.1)')
-        .next()
-        .css({
-          'background-color': 'rgba(255, 0, 0, 0.1)',
-          'font-weight': 'bold'
-        });
-    } else {
-      $('#nut_summary').html('<tr><td colspan="7" style="text-align:center"><i class="fa fa-times-circle" style="color:red;"></i> <em>Failed to retrieve information (check logs).</em></td></tr>');
-      $('#nut_status').html('<tr><td colspan="4" style="text-align:center"><i class="fa fa-times-circle" style="color:red;"></i> <em>Failed to retrieve information (check logs).</em></td></tr>');
-    }
-  }, 'json');
-  clearTimeout(timers.getNUTstatus);
-  <?if($nut_refresh == "enable"):?>
-  timers.getNUTstatus = setTimeout(getNUTstatus, <?=max(abs(isset($display['refresh']) ? $display['refresh'] : 0),($nut_interval * 1000))?>);
-  <?endif;?>
+    $.get('/plugins/nut-dw/include/nut_status.php', { all: 'true' }, function(data) {
+        if(data && data.success && data.success.response && data.success.allvars) {
+            $('#nut_summary').html(data.success.response);
+            $('#nut_status').html(data.success.allvars);
+            $('#nut_status td:contains("ups.alarm")')
+                .css('background-color', 'rgba(255, 0, 0, 0.1)')
+                .next()
+                .css({
+                    'background-color': 'rgba(255, 0, 0, 0.1)',
+                    'font-weight': 'bold'
+                });
+            if(data.success.alarms) {
+                $(".nutalarmrow").remove();
+                let nutalarms = data.success.alarms;
+                let nutalarmrows = "<tr class='nutalarmrow'><td colspan='7' class='red-text'><i class='fa fa-bell faa-ring animated'></i> <strong>Alarm:</strong> " + nutalarms.join("<br><i class='fa fa-bell faa-ring animated'></i> <strong>Alarm:</strong> ") + "</td></tr>";
+                $('#nut_summary').append(nutalarmrows);
+            } else {
+                $(".nutalarmrow").remove();
+            }
+        } else {
+            $('#nut_summary').html('<tr><td colspan="7" style="text-align:center"><i class="fa fa-times-circle" style="color:red;"></i> <em>Failed to retrieve information (check logs).</em></td></tr>');
+            $('#nut_status').html('<tr><td colspan="4" style="text-align:center"><i class="fa fa-times-circle" style="color:red;"></i> <em>Failed to retrieve information (check logs).</em></td></tr>');
+        }
+    }, 'json');
+    clearTimeout(timers.getNUTstatus);
+    <?if($nut_refresh == "enable"): ?>
+    timers.getNUTstatus = setTimeout(getNUTstatus, <?=max(abs(isset($display['refresh']) ? $display['refresh'] : 0), ($nut_interval * 1000))?>);
+    <?endif;?>
 }
 $(getNUTstatus);
 </script>
