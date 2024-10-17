@@ -190,7 +190,7 @@ EOT;
 function updateNUTDashboard() {
     $.get('/plugins/nut-dw/include/nut_status.php', { all: 'false' }, function(data) {
         if(data && data.success && data.success.response) {
-            datax = data.success.response.replace(/<\/?tr>/g, '').replace(/<td/g, '<span').replace(/td>/g, 'span>').split('</span>');
+            let datax = data.success.response.replace(/<\/?tr>/g, '').replace(/<td/g, '<span').replace(/td>/g, 'span>').split('</span>');
             $("#tblUPSNUTDash").find('.nut_status').html(datax[0]);
             $("#tblUPSNUTDash").find('.nut_bcharge').html(datax[1]);
             $("#tblUPSNUTDash").find('.nut_timeleft').html(datax[2]);
@@ -302,7 +302,7 @@ $(function() {
 function getNUTDashboard() {
     $.get('/plugins/nut-dw/include/nut_status.php', { all: 'false' }, function(data) {
         if(data && data.success && data.success.response) {
-            datax = data.success.response.replace(/<\/?tr>/g, '').replace(/<td/g, '<span').replace(/td>/g, 'span>').split('</span>');
+            let datax = data.success.response.replace(/<\/?tr>/g, '').replace(/<td/g, '<span').replace(/td>/g, 'span>').split('</span>');
             $("#db-box1").find('.nut_status').html(datax[0]);
             $("#db-box1").find('.nut_bcharge').html(datax[1]);
             $("#db-box1").find('.nut_timeleft').html(datax[2]);
