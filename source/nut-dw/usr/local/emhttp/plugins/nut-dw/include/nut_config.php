@@ -90,7 +90,7 @@ $nut_states = [
     'OB'      => ['severity' => 1, 'msg' => 'On Battery'],
     'BYPASS'  => ['severity' => 1, 'msg' => 'On Bypass'],
     'CHRG'    => ['severity' => 0, 'msg' => 'Charging Battery'],
-    'DISCHRG' => ['severity' => 0, 'msg' => 'Discharging Battery'],
+    'DISCHRG' => ['severity' => 1, 'msg' => 'Discharging Battery'],
     'LB'      => ['severity' => 2, 'msg' => 'Low Battery'],
     'HB'      => ['severity' => 2, 'msg' => 'High Battery'],
     'RB'      => ['severity' => 2, 'msg' => 'Replace Battery'],
