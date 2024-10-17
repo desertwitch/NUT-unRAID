@@ -143,15 +143,15 @@ try {
         if ($realPower > 0 && $apparentPower > 0) {
             # display load, real and apparent power
             $powerText = "{$realPower}&thinsp;W&thinsp;({$apparentPower}&thinsp;VA)";
-            $powerTooltipData = "Load: $load&thinsp;% - Real power: $realPower&thinsp;W - Apparent power: $apparentPower&thinsp;VA";
+            $powerTooltipData = "Load: $load&thinsp;% - Real Power: $realPower&thinsp;W - Apparent Power: $apparentPower&thinsp;VA";
         } elseif ($realPower > 0 && $load) {
             # display load and real power
             $powerText = "{$realPower}&thinsp;W";
-            $powerTooltipData = "Load: $load&thinsp;% - Real power: $realPower&thinsp;W";
+            $powerTooltipData = "Load: $load&thinsp;% - Real Power: $realPower&thinsp;W";
         } elseif ($apparentPower > 0 && $load) {
             # display load and apparent power
             $powerText = "{$apparentPower}&thinsp;VA";
-            $powerTooltipData = "Load: $load&thinsp;% - Apparent power: $apparentPower&thinsp;VA";
+            $powerTooltipData = "Load: $load&thinsp;% - Apparent Power: $apparentPower&thinsp;VA";
         } elseif ($load) {
             # display load
             $powerText = "{$load}&thinsp;%";
