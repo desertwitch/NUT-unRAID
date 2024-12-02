@@ -115,6 +115,8 @@ postfields=()
 [ -n "${DRIVER}" ] && postfields+=("-F" "str3=$( sanitize_fval <<< "${DRIVER}" )")
 [ -n "${UPS_MANUFACTURER}" ] && postfields+=("-F" "str4=$( sanitize_fval <<< "${UPS_MANUFACTURER}" )")
 [ -n "${UPS_MODEL}" ] && postfields+=("-F" "str5=$( sanitize_fval <<< "${UPS_MODEL}" )")
+[ -n "${SYSLOGMETHOD}" ] && postfields+=("-F" "str6=$( sanitize_fval <<< "${SYSLOGMETHOD}" )")
+[ -n "${SYSLOGFILTER}" ] && postfields+=("-F" "str7=$( sanitize_fval <<< "${SYSLOGFILTER}" )")
 [ -n "${UPSMON_RUNTIME}" ] && postfields+=("-F" "num1=$( sanitize_fval <<< "${UPSMON_RUNTIME}" )")
 
 if curl \

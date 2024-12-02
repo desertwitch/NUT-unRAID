@@ -3,14 +3,14 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "nut-dw">
 <!ENTITY author    "desertwitch">
-<!ENTITY version   "2024.10.17">
+<!ENTITY version   "2024.12.02">
 <!ENTITY launch    "Settings/NUTsettings">
 <!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/master">
 <!ENTITY pluginURL "&gitURL;/plugin/&name;.plg">
 <!ENTITY pkgURL    "&gitURL;/packages">
 <!ENTITY plgPATH   "/boot/config/plugins/&name;">
-<!ENTITY plgNAME   "nut-plugin-2024.10.17-x86_64-1">
-<!ENTITY plgMD5    "7ec23376878a41a712b75cb469260313">
+<!ENTITY plgNAME   "nut-plugin-2024.12.02-x86_64-1">
+<!ENTITY plgMD5    "7edb491c65c43954bb09383393a41100">
 <!ENTITY emhttp    "/usr/local/emhttp/plugins/&name;">
 ]>
 
@@ -18,6 +18,9 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
+###2024.12.02
+- new: added setting to redirect all NUT service output to a separate logfile
+- fix: refined logic around NUT syslog filters and rotating of produced logfiles
 ###2024.10.17
 - fix: address page layout breaking displaying more than 2 slaves
 - fix: support for floating-point UPS variables (thanks to edusteinhorst)
@@ -772,12 +775,39 @@ if [ -f /boot/config/plugins/dynamix/nutstats.cron ]; then
     sleep 1
 fi
 
+RESTARTSYSLOG="NO"
+if [ -f /etc/logrotate.d/nut ]; then
+    rm -f /etc/logrotate.d/nut
+    RESTARTSYSLOG="YES"
+fi
+if [ -f /etc/logrotate.d/nut-spam ]; then
+    rm -f /etc/logrotate.d/nut-spam
+    RESTARTSYSLOG="YES"
+fi
 if [ -f /etc/rsyslog.d/xnut-nospam.conf ]; then
     rm -f /etc/rsyslog.d/xnut-nospam.conf
+    RESTARTSYSLOG="YES"
+fi
+if [ -f /etc/rsyslog.d/98-nut-nospam.conf ]; then
+    rm -f /etc/rsyslog.d/98-nut-nospam.conf
+    RESTARTSYSLOG="YES"
+fi
+if [ -f /etc/rsyslog.d/99-nut-to-both.conf ]; then
+    rm -f /etc/rsyslog.d/99-nut-to-both.conf
+    RESTARTSYSLOG="YES"
+fi
+if [ -f /etc/rsyslog.d/99-nut-to-file.conf ]; then
+    rm -f /etc/rsyslog.d/99-nut-to-file.conf
+    RESTARTSYSLOG="YES"
+fi
+if [ "$RESTARTSYSLOG" == "YES" ]; then
+    echo "Restarting SYSLOG daemon due to configurational changes for NUT..."
     sleep 1
     /etc/rc.d/rc.rsyslogd restart >/dev/null 2>&amp;1
     sleep 1
 fi
+rm -f /var/log/nut.log
+rm -f /var/log/nut-spam
 
 rm -f /etc/cron.daily/nut-poller >/dev/null 2>&amp;1
 

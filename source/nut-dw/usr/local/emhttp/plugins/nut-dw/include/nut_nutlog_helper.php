@@ -19,9 +19,9 @@
  */
 require_once '/usr/local/emhttp/plugins/nut-dw/include/nut_config.php';
 ?>
-<h1>/var/log/nut-spam</h1>
+<h1>/var/log/nut.log</h1>
 <div><strong>WARNING:</strong> Log files can contain <strong>sensitive information</strong> - please <strong>copy only the relevant lines when sharing</strong> with others!</div>
 <hr>
 <pre>
-<?=nut_tailFile("/var/log/nut-spam");?>
+<?=nut_tailFile("/var/log/nut.log");?>
 </pre>

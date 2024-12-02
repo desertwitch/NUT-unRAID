@@ -152,12 +152,12 @@ write_config() {
             else
                 sed -i "3 s~.*~port = auto~" /etc/nut/ups.conf
             fi
-        
+
             # Add SNMP-specific config
             if [ "$DRIVER" == "snmp-ups" ]; then
                 [ -z "$SNMPVER" ] && SNMPVER="v2c"
                 [ -z "$SNMPMIB" ] && SNMPMIB="auto"
-                
+
                 var10="pollfreq = ${POLL}"
                 var11="community = ${COMMUNITY}"
                 var12="snmp_version = ${SNMPVER}"
@@ -239,21 +239,21 @@ write_config() {
             sed -i "10 s,.*,$var22," /etc/nut/upsd.users
         fi
     fi
-    
+
     # save conf files to flash drive regardless of mode
     # also here in case someone directly modified files in /etc/nut
     # flash directory will be created if missing (shouldn't happen)
-	
+
     if [ ! -d $PLGPATH/ups ]; then
         mkdir $PLGPATH/ups
     fi
-	
+
     cp -rf /etc/nut/* $PLGPATH/ups/ >/dev/null 2>&1
 
     # re-create state directories if missing
     [ ! -d /var/state/ups ] && mkdir -p /var/state/ups
     [ ! -d /var/run/nut ] && mkdir -p /var/run/nut
- 
+
     # update permissions
     if [ -d /etc/nut ]; then
         echo "Updating permissions for NUT..."
@@ -279,23 +279,96 @@ write_config() {
          sed -i -e '/# Now halt /a [ -x /etc/rc.d/rc.nut ] && /etc/rc.d/rc.nut shutdown' -e //N /etc/rc.d/rc.6
     fi
 
+    RESTARTSYSLOG="NO"
+
     # NUT Rule-Based Repetitive Message Filtering (SYSLOG Anti-Spam Module)
     if [ "$SYSLOGFILTER" == "enable" ]; then
         if [ -f /etc/nut/xnut-nospam.conf ]; then
-            if [ ! -f /etc/rsyslog.d/xnut-nospam.conf ] || ! cmp -s /etc/nut/xnut-nospam.conf /etc/rsyslog.d/xnut-nospam.conf; then
+            if [ -f /etc/rsyslog.d/xnut-nospam.conf ] && [ ! -f /etc/rsyslog.d/98-nut-nospam.conf ]; then
+                mv -f /etc/rsyslog.d/xnut-nospam.conf /etc/rsyslog.d/98-nut-nospam.conf
+                chmod 644 /etc/rsyslog.d/98-nut-nospam.conf
+                RESTARTSYSLOG="YES"
+            fi
+            if [ ! -f /etc/rsyslog.d/98-nut-nospam.conf ] || ! cmp -s /etc/nut/xnut-nospam.conf /etc/rsyslog.d/98-nut-nospam.conf; then
                 echo "Adding NUT rule-based message filters to SYSLOG configuration..."
-                cp -f /etc/nut/xnut-nospam.conf /etc/rsyslog.d/xnut-nospam.conf
-                /etc/rc.d/rc.rsyslogd restart
-                sleep 1
+                cp -f /etc/nut/xnut-nospam.conf /etc/rsyslog.d/98-nut-nospam.conf
+                chmod 644 /etc/rsyslog.d/98-nut-nospam.conf
+                RESTARTSYSLOG="YES"
+            fi
+            if [ ! -f /etc/logrotate.d/nut-spam ] || ! cmp -s $DOCROOT/misc/nut-spam /etc/logrotate.d/nut-spam; then
+                cp -f $DOCROOT/misc/nut-spam /etc/logrotate.d/nut-spam
+                chmod 644 /etc/logrotate.d/nut-spam
+                RESTARTSYSLOG="YES"
             fi
         fi
     else
+        if [ -f /etc/rsyslog.d/98-nut-nospam.conf ]; then
+            echo "Removing NUT rule-based message filters from SYSLOG configuration..."
+            rm -f /etc/rsyslog.d/98-nut-nospam.conf
+            RESTARTSYSLOG="YES"
+        fi
         if [ -f /etc/rsyslog.d/xnut-nospam.conf ]; then
             echo "Removing NUT rule-based message filters from SYSLOG configuration..."
             rm -f /etc/rsyslog.d/xnut-nospam.conf
-            /etc/rc.d/rc.rsyslogd restart
-            sleep 1
+            RESTARTSYSLOG="YES"
         fi
+        if [ -f /etc/logrotate.d/nut-spam ]; then
+            rm -f /etc/logrotate.d/nut-spam
+            RESTARTSYSLOG="YES"
+        fi
+    fi
+
+    # Destination for NUT Service Logs
+    if [ "$SYSLOGMETHOD" == "file" ]; then
+        if [ -f /etc/rsyslog.d/99-nut-to-both.conf ]; then
+            rm -f /etc/rsyslog.d/99-nut-to-both.conf
+            RESTARTSYSLOG="YES"
+        fi
+        if [ ! -f /etc/logrotate.d/nut ] || ! cmp -s $DOCROOT/misc/nut /etc/logrotate.d/nut; then
+            cp -f $DOCROOT/misc/nut /etc/logrotate.d/nut
+            chmod 644 /etc/logrotate.d/nut
+            RESTARTSYSLOG="YES"
+        fi
+        if [ ! -f /etc/rsyslog.d/99-nut-to-file.conf ] || ! cmp -s $DOCROOT/misc/99-nut-to-file.conf /etc/rsyslog.d/99-nut-to-file.conf; then
+            cp -f $DOCROOT/misc/99-nut-to-file.conf /etc/rsyslog.d/99-nut-to-file.conf
+            chmod 644 /etc/rsyslog.d/99-nut-to-file.conf
+            RESTARTSYSLOG="YES"
+        fi
+    elif [ "$SYSLOGMETHOD" == "both" ]; then
+        if [ -f /etc/rsyslog.d/99-nut-to-file.conf ]; then
+            rm -f /etc/rsyslog.d/99-nut-to-file.conf
+            RESTARTSYSLOG="YES"
+        fi
+        if [ ! -f /etc/logrotate.d/nut ] || ! cmp -s $DOCROOT/misc/nut /etc/logrotate.d/nut; then
+            cp -f $DOCROOT/misc/nut /etc/logrotate.d/nut
+            chmod 644 /etc/logrotate.d/nut
+            RESTARTSYSLOG="YES"
+        fi
+        if [ ! -f /etc/rsyslog.d/99-nut-to-both.conf ] || ! cmp -s $DOCROOT/misc/99-nut-to-both.conf /etc/rsyslog.d/99-nut-to-both.conf; then
+            cp -f $DOCROOT/misc/99-nut-to-both.conf /etc/rsyslog.d/99-nut-to-both.conf
+            chmod 644 /etc/rsyslog.d/99-nut-to-both.conf
+            RESTARTSYSLOG="YES"
+        fi
+    else
+        if [ -f /etc/logrotate.d/nut ]; then
+            rm -f /etc/logrotate.d/nut
+            RESTARTSYSLOG="YES"
+        fi
+        if [ -f /etc/rsyslog.d/99-nut-to-both.conf ]; then
+            rm -f /etc/rsyslog.d/99-nut-to-both.conf
+            RESTARTSYSLOG="YES"
+        fi
+        if [ -f /etc/rsyslog.d/99-nut-to-file.conf ]; then
+            rm -f /etc/rsyslog.d/99-nut-to-file.conf
+            RESTARTSYSLOG="YES"
+        fi
+    fi
+
+    if [ "$RESTARTSYSLOG" == "YES" ]; then
+        echo "Restarting SYSLOG daemon due to configurational changes for NUT..."
+        sleep 1
+        /etc/rc.d/rc.rsyslogd restart
+        sleep 1
     fi
 
     # NUT Runtime Statistics Module

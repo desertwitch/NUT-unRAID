@@ -185,6 +185,12 @@ try {
         }
         $status[2] = "<span id='".($nut_footer_style == 0 ? "nut_power" : "")."' class='".($nut_footer_style == 0 || $load >= 90 ? "tooltip-nut" : "")." " . ($load >= 90 ? $red : ($nut_footer_style == 1 ? $black : $green)) . "'" . $powerTooltipData . "><i class='fa fa-plug'></i>&thinsp;" . $powerText . "</span>";
 
+        if($nut_syslog_method == "file" || $nut_syslog_method == "both") {
+            if(file_exists("/var/log/nut.log")) {
+                $status[4] = "<span id='nut_log' class='tooltip-nut' data='NUT Service Logs'><a class='".($nut_footer_style == 0 ? "$green" : "$black")."' style='cursor:pointer;".($nut_footer_style == 0 ? "" : "color:inherit;")."' onclick=\"openTerminal('log','nut','nut.log')\"><i class='fa fa-book'></i></a></span>";
+            }
+        }
+
         ksort($status);
 
         $nutf_response["success"]["response"] = "<span style='margin:0 6px 0 6px'><span>".implode('</span><span style="margin:0 0 0 6px">', $status)."</span></span>";

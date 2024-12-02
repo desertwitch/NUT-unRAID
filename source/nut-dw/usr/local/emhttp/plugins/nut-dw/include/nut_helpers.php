@@ -132,4 +132,50 @@ function nut_get_dev_message() {
     }
 }
 
+function nut_tailFile($filePath, $lines = 90) {
+    try {
+        if (!file_exists($filePath)) {
+            throw new Exception("... requested syslog file is either empty or does not exist (yet)");
+        }
+
+        $f = fopen($filePath, "r");
+        if (!$f) {
+            throw new Exception("... requested syslog file exists but was not accessible");
+        }
+
+        $buffer = 4096;
+        $lineCount = 0;
+        $position = -1;
+        $text = '';
+
+        fseek($f, 0, SEEK_END);
+
+        while ($lineCount < $lines) {
+            $position -= $buffer;
+            if ($position < -ftell($f)) {
+                $position = -ftell($f);
+            }
+
+            fseek($f, $position, SEEK_END);
+            $chunk = fread($f, $buffer);
+            $text = $chunk . $text;
+            $lineCount = substr_count($text, "\n");
+
+            if ($position == -ftell($f)) {
+                break;
+            }
+        }
+
+        fclose($f);
+
+        $allLines = explode("\n", str_replace("\r\n", "\n", $text));
+        $sanitizedLines = array_map('htmlspecialchars', array_slice($allLines, -$lines));
+        return implode("\n", $sanitizedLines);
+    } catch (\Throwable $t) {
+        return $t->getMessage();
+    } catch (\Exception $e) {
+        return $e->getMessage();
+    }
+}
+
 ?>

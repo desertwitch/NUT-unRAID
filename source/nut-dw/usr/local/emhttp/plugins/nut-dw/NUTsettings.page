@@ -35,8 +35,13 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
     if (!$nut_running) { $lastStartFailed = true; }
     unlink('/usr/local/emhttp/plugins/nut-dw/misc/start-failed');
 }
-
 ?>
+
+<style type="text/css">
+.nut-inactive {
+  opacity: 0.3;
+}
+</style>
 
 <table class="tablesorter shift nut" <?if (!$nut_running):?>style="display:none"<?endif;?>>
 <thead><tr><th>UPS Status</th><th>Battery Charge</th><th>Runtime Left</th><th>Nominal Power</th><th>UPS Load</th><th>UPS Load</th><th>Power Factor</th></tr></thead>
@@ -67,7 +72,14 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
 <form markdown="0" id="nut-settings" name="nut_settings" method="POST" action="/update.php" target="progressFrame">
     <input type="hidden" name="#file" value="<?=$sName?>/<?=$sName?>.cfg">
     <input type="hidden" id="command" name="#command" value="/usr/local/emhttp/plugins/nut-dw/scripts/write_config" />
-    <span style="float:right;margin-right:10px"><a href="https://forums.unraid.net/topic/60217-plugin-nut-v2-network-ups-tools/" target="_blank" title="NUT Support Thread"><i class="fa fa-medkit"></i> <u>Support Thread</u></a> / <a href="http://www.networkupstools.org/docs/user-manual.chunked/" target="_blank" title="NUT User Manual"><i class="fa fa-file-text-o"></i> <u>User Manual</u></a> / <a href="https://networkupstools.org/stable-hcl.html" target="_blank" title="NUT Driver Guide"><i class="fa fa-usb"></i> <u>Driver Guide</u></a></span>
+    <span style="float:right;margin-right:10px">
+    <a href="https://forums.unraid.net/topic/60217-plugin-nut-v2-network-ups-tools/" target="_blank" title="NUT Support Thread"><i class="fa fa-medkit"></i> <u>Support Thread</u></a>
+     / <a href="http://www.networkupstools.org/docs/user-manual.chunked/" target="_blank" title="NUT User Manual"><i class="fa fa-file-text-o"></i> <u>User Manual</u></a>
+     / <a href="https://networkupstools.org/stable-hcl.html" target="_blank" title="NUT Driver Guide"><i class="fa fa-usb"></i> <u>Driver Guide</u></a>
+    <?if(file_exists("/var/log/nut.log") && ($nut_syslog_method == 'file' || $nut_syslog_method == 'both')):?>
+     / <a onclick="openTerminal('log','nut','nut.log')" style="cursor:pointer;" title="NUT Service Logs"><i class="fa fa-book"></i> <u>Service Logs</u></a>
+    <?endif;?>
+    </span>
 
     <dl>
         <dt>Network UPS Tools Backend:</dt>
@@ -152,7 +164,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
         <p>Please be aware after disabling this setting again a full system reboot will be required to return your system to its default USB power management behavior.</p>
     </blockquote>
 
-   <dl>
+    <dl>
         <dt>Enable Rule-Based Syslog Filters:</dt>
         <dd>
             <select class="nut-run" id="SYSLOGFILTER" name="SYSLOGFILTER" size="1">
@@ -160,15 +172,48 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
                 <?=mk_option($nut_syslog_filter, "enable", "Yes");?>
             </select>
             <i class="fa fa-exclamation-triangle" title="System-Wide Setting" style="cursor:help;"></i>
+            <?if(file_exists("/var/log/nut-spam")):?>
+            <a onclick="openTerminal('log','nut-spam','nut-spam')" style="color:inherit;margin-left:3px;cursor:pointer;">
+                <i class="fa fa-book <?=($nut_syslog_filter == 'enable') ? '' : 'nut-inactive';?>" title="NUT Spam Logs<?=($nut_syslog_filter == 'enable') ? '' : ' (Inactive)';?>"></i>
+            </a>
+            <?endif;?>
         </dd>
     </dl>
 
     <blockquote class="inline_help">
         <p>NUT - by design - is a rather talkative software package, this is generally extremely valuable for diagnosing any encountered operational problems.</p>
         <p>However, often repeating UPS events such as connection drops or data staleness can fill up the SYSLOG and make diagnosing other unrelated problems more difficult.</p>
-        <p>This <strong>in most cases not recommended setting</strong> filters out commonly encountered repetitive messages from the SYSLOG and directs them to <strong><em><a href="/plugins/nut-dw/include/nut_spamlog_helper.php" target="_blank">/var/log/nut-spam</a></em></strong> instead.</p>
+        <p>This <strong>in most cases not recommended setting</strong> filters out common repetitive messages from the SYSLOG and directs them to size-controlled <strong><em><a href="/plugins/nut-dw/include/nut_spamlog_helper.php" target="_blank">/var/log/nut-spam</a></em></strong> instead.</p>
         <p>Advanced users can extend the predefined rules for commonly encountered repetitive messages by editing <strong><em>/etc/nut/xnut-nospam.conf</em></strong> using the NUT Configuration Editor.</p>
         <p>Please be aware that previous messages (which have already been logged to the SYSLOG) will not be removed, rather only future encountered messages are affected by this setting.</p>
+    </blockquote>
+
+   <dl>
+        <dt>Destination for NUT Service Logs:</dt>
+        <dd>
+            <select class="nut-run" id="SYSLOGMETHOD" name="SYSLOGMETHOD" size="1">
+                <?=mk_option($nut_syslog_method, "syslog", "Default (to Syslog)");?>
+                <?=mk_option($nut_syslog_method, "file", "File (not to Syslog)");?>
+                <?=mk_option($nut_syslog_method, "both", "File (and to Syslog)");?>
+            </select>
+            <i class="fa fa-exclamation-triangle" title="System-Wide Setting" style="cursor:help;"></i>
+            <?if(file_exists("/var/log/nut.log")):?>
+            <a onclick="openTerminal('log','nut','nut.log')" style="color:inherit;margin-left:3px;cursor:pointer;">
+                <i class="fa fa-book <?=($nut_syslog_method == 'file' || $nut_syslog_method == 'both') ? '' : 'nut-inactive';?>" title="NUT Service Logs<?=($nut_syslog_method == 'file' || $nut_syslog_method == 'both') ? '' : ' (Inactive)';?>"></i>
+            </a>
+            <?endif;?>
+        </dd>
+    </dl>
+
+    <blockquote class="inline_help">
+        <p>NUT - by design - is a rather talkative software package, this is generally extremely valuable for diagnosing any encountered operational problems.</p>
+        <p>However, often repeating UPS events such as connection drops or data staleness can fill up the SYSLOG and make diagnosing other unrelated problems more difficult.</p>
+        <p>This setting lets you choose to write NUT service logs to a separate size-controlled file <strong><em><a href="/plugins/nut-dw/include/nut_nutlog_helper.php" target="_blank">/var/log/nut.log</a></em></strong> instead (or to both locations).</p>
+        <p>For filtering out specific unwanted information, see above for the <strong><em>Rule-Based Syslog Filters</em></strong> (which are processed first, if both settings are active).</p>
+        <p>Please be aware that previous messages (which have already been logged to the SYSLOG) will not be removed, rather only future encountered messages are affected by this setting.</p>
+        <p>Also note that specific very important NUT-related information (such as startup, notification or shutdown events) may still also be recorded to the SYSLOG for better overall visibility.</p>
+        <p><strong><u>Warning:</u> NUT service logs written to a separate file (in RAM) do not persist reboots, so this setting is mostly aimed at problematic/noisy UPSes where this is an acceptable tradeoff.</strong></p>
+        <p><strong>Therefore we recommend to attempt filtering the SYSLOG with the <strong><em>Rule-Based Syslog Filters</em></strong> first, before directing <u>all</u> NUT output to this (non-persistent) separate file (as last resort).</strong></p>
     </blockquote>
 
     <dl>
@@ -868,7 +913,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
     <blockquote class="inline_help">
         <p>Enables collection of <strong>anonymized</strong> plugin usage statistics through the plugin usage metrics API.</p>
         <p>This aids prioritization of bug reports, development of UPS drivers and planning for plugin updates/deprecation.</p>
-        <p><em>Attributes: Metric ID, Plugin Version, Unraid Version, NUT Backend Version, NUT Driver (Runtime), UPS Manufacturer and UPS Model (<strong>no serial numbers</strong>).</em></p>
+        <p><em>Attributes: Metric ID, Plugin Version, Unraid Version, NUT Backend Version, NUT Log Settings, NUT Driver (Runtime), UPS Manufacturer and UPS Model (<strong>no serial numbers</strong>).</em></p>
         <p><strong><i class="fa fa-heart" style="color:red;"></i> If possible, please keep this setting <u>enabled</u> to support the continued development of this plugin - thank you!</strong></p>
     </blockquote>
 

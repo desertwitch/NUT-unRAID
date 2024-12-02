@@ -1,0 +1,9 @@
+/var/log/nut.log {
+    size 1M
+    create 0644 root root
+    nocreate
+    copytruncate
+    missingok
+    notifempty
+    rotate 0
+}

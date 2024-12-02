@@ -26,6 +26,7 @@ $nut_power              = trim(isset($nut_cfg['POWER'])               ? htmlspec
 $nut_powerva            = trim(isset($nut_cfg['POWERVA'])             ? intval(htmlspecialchars($nut_cfg['POWERVA']))       : 0);
 $nut_powerw             = trim(isset($nut_cfg['POWERW'])              ? intval(htmlspecialchars($nut_cfg['POWERW']))        : 0);
 $nut_manual             = trim(isset($nut_cfg['MANUAL'])              ? htmlspecialchars($nut_cfg['MANUAL'])                : 'disable');
+$nut_syslog_method      = trim(isset($nut_cfg['SYSLOGMETHOD'])        ? htmlspecialchars($nut_cfg['SYSLOGMETHOD'])          : 'syslog');
 $nut_syslog_filter      = trim(isset($nut_cfg['SYSLOGFILTER'])        ? htmlspecialchars($nut_cfg['SYSLOGFILTER'])          : 'disable');
 $nut_usb_override       = trim(isset($nut_cfg['ORUSBPOWER'])          ? htmlspecialchars($nut_cfg['ORUSBPOWER'])            : 'disable');
 $nut_name               = trim(isset($nut_cfg['NAME'])                ? htmlspecialchars($nut_cfg['NAME'])                  : 'ups');

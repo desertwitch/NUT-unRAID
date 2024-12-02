@@ -174,7 +174,7 @@ $mytiles[$pluginname]['column2'] =
 <tbody id="tblUPSNUTDash" title="_(UPS(NUT))_">
 <tr><td>
 <i class="icon-ups f32"></i>
-<div class="section">_(UPS(NUT))_<br><span><span style="margin-right:6px;">Status: <span class="nutalarms"></span><i class="nutdsicon fa fa-question-circle black-text"></i></span><span style="margin-right:6px;">Battery: <span class="nutdcc green-text"><i class="fa fa-spinner fa-spin icon" style="color:black;"></i></span></span><span>Load: <span class="nut_loadpct"><i class="fa fa-spinner fa-spin icon"></i></span></span></span>
+<div class="section">_(UPS(NUT))_<br><span><span style="margin-right:6px;">Status: <span class="nutalarms"></span><i class="nutdsicon fa fa-question-circle black-text"></i></span><span style="margin-right:6px;">Battery: <span class="nutdcc green-text"><i class="fa fa-spinner fa-spin icon" style="color:inherit;"></i></span></span><span>Load: <span class="nut_loadpct"><i class="fa fa-spinner fa-spin icon"></i></span></span></span>
 <br><br>
 </div>
 <a href="/Dashboard/NUTsettings" title="_(Go to NUT Settings)_"><i class="fa fa-fw fa-cog control"></i></a>
@@ -285,7 +285,7 @@ $(function() {
 <tbody sort='' class='sortable'>
 <tr><td></td><td colspan='3' class='next'><i class='icon-ups'></i><div class='section'>UPS(NUT)<br>
 <span style="margin-right:6px;">Status: <span id="nutalarms"></span><i class="nutdsicon fa fa-question-circle black-text"></i></span>
-<span style="margin-right:6px;">Battery: <span class="nutdcc green-text"><i class="fa fa-spinner fa-spin icon" style="color:black;"></i></span></span>
+<span style="margin-right:6px;">Battery: <span class="nutdcc green-text"><i class="fa fa-spinner fa-spin icon" style="color:inherit;"></i></span></span>
 <span>Load: <span class='nut_loadpct'><i class="fa fa-spinner fa-spin icon"></i></span></span><br><br></div>
 <i class='fa fa-fw chevron' id='nut_view' onclick='toggleChevron("nut_view",0)'></i>
 <a href='/Dashboard/NUTsettings' title='Go to NUT Settings'><i class='fa fa-fw fa-cog chevron'></i></a>

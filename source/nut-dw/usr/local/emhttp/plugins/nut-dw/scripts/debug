@@ -102,9 +102,23 @@ else
     touch $DEBUGROOT/PLUGIN/upsmon-not-running 2>&1
 fi
 
-# include NUT syslog filters and spam log in package
-[ -f /etc/rsyslog.d/xnut-nospam.conf ] && cp /etc/rsyslog.d/xnut-nospam.conf $DEBUGROOT/PLUGIN/nut-syslog-filters.txt
+# include NUT syslog filters, syslog and spam log in package
+[ -f /etc/logrotate.d/nut ] && cp -f /etc/logrotate.d/nut $DEBUGROOT/PLUGIN/nut-logrotate.txt 2>&1
+[ -f /etc/logrotate.d/nut-spam ] && cp -f /etc/logrotate.d/nut-spam $DEBUGROOT/PLUGIN/nut-logrotate-spam.txt 2>&1
+
+[ -f /etc/rsyslog.d/xnut-nospam.conf ] && cp -f /etc/rsyslog.d/xnut-nospam.conf $DEBUGROOT/PLUGIN/xnut-nospam.conf.txt 2>&1
+[ -f /etc/rsyslog.d/98-nut-nospam.conf ] && cp -f /etc/rsyslog.d/98-nut-nospam.conf $DEBUGROOT/PLUGIN/98-nut-nospam.conf.txt 2>&1
+[ -f /etc/rsyslog.d/99-nut-to-both.conf ] && cp -f /etc/rsyslog.d/99-nut-to-both.conf $DEBUGROOT/PLUGIN/99-nut-to-both.conf.txt 2>&1
+[ -f /etc/rsyslog.d/99-nut-to-file.conf ] && cp -f /etc/rsyslog.d/99-nut-to-file.conf $DEBUGROOT/PLUGIN/99-nut-to-file.conf.txt 2>&1
+
+[ -f /var/log/nut.log ] && cp -f /var/log/nut.log $DEBUGROOT/PLUGIN/nut-syslog-file.txt 2>&1
 [ -f /var/log/nut-spam ] && cp -f /var/log/nut-spam $DEBUGROOT/PLUGIN/nut-syslog-spam.txt 2>&1
+
+[ -f $DEBUGROOT/PLUGIN/nut-syslog-file.txt ] && sed -i "s/${MONUSER}/USER-REMOVED/g" $DEBUGROOT/PLUGIN/nut-syslog-file.txt 2>&1
+[ -f $DEBUGROOT/PLUGIN/nut-syslog-file.txt ] && sed -i "s/${SLAVEUSER}/USER-REMOVED/g" $DEBUGROOT/PLUGIN/nut-syslog-file.txt 2>&1
+[ -f $DEBUGROOT/PLUGIN/nut-syslog-file.txt ] && sed -i "s/${MONPASSDEC}/PASS-REMOVED/g" $DEBUGROOT/PLUGIN/nut-syslog-file.txt 2>&1
+[ -f $DEBUGROOT/PLUGIN/nut-syslog-file.txt ] && sed -i "s/${SLAVEPASSDEC}/PASS-REMOVED/g" $DEBUGROOT/PLUGIN/nut-syslog-file.txt 2>&1
+
 [ -f $DEBUGROOT/PLUGIN/nut-syslog-spam.txt ] && sed -i "s/${MONUSER}/USER-REMOVED/g" $DEBUGROOT/PLUGIN/nut-syslog-spam.txt 2>&1
 [ -f $DEBUGROOT/PLUGIN/nut-syslog-spam.txt ] && sed -i "s/${SLAVEUSER}/USER-REMOVED/g" $DEBUGROOT/PLUGIN/nut-syslog-spam.txt 2>&1
 [ -f $DEBUGROOT/PLUGIN/nut-syslog-spam.txt ] && sed -i "s/${MONPASSDEC}/PASS-REMOVED/g" $DEBUGROOT/PLUGIN/nut-syslog-spam.txt 2>&1
