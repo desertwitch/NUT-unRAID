@@ -3,14 +3,14 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "nut-dw">
 <!ENTITY author    "desertwitch">
-<!ENTITY version   "2024.12.02">
+<!ENTITY version   "2024.12.07">
 <!ENTITY launch    "Settings/NUTsettings">
 <!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/master">
 <!ENTITY pluginURL "&gitURL;/plugin/&name;.plg">
 <!ENTITY pkgURL    "&gitURL;/packages">
 <!ENTITY plgPATH   "/boot/config/plugins/&name;">
-<!ENTITY plgNAME   "nut-plugin-2024.12.02-x86_64-1">
-<!ENTITY plgMD5    "7edb491c65c43954bb09383393a41100">
+<!ENTITY plgNAME   "nut-plugin-2024.12.07-x86_64-1">
+<!ENTITY plgMD5    "5ab51d1b1ebfca480a474e0408e79771">
 <!ENTITY emhttp    "/usr/local/emhttp/plugins/&name;">
 ]>
 
@@ -18,6 +18,11 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
+###2024.12.07
+- new: show description of UPS variables when hovered over inside NUT Details table
+- new: introduced a setting to persist redirected NUT service logs over system reboots
+- new: introduced buttons to download and delete redirected NUT service logs from GUI
+- fix: refactored scripting hooks into the system shutdown routines for improved resilience
 ###2024.12.02
 - new: added setting to redirect all NUT service output to a separate logfile
 - fix: refined logic around NUT syslog filters and rotating of produced logfiles
@@ -808,6 +813,8 @@ if [ "$RESTARTSYSLOG" == "YES" ]; then
 fi
 rm -f /var/log/nut.log
 rm -f /var/log/nut-spam
+rm -f /boot/logs/nut.log
+rm -f /boot/logs/nut-spam
 
 rm -f /etc/cron.daily/nut-poller >/dev/null 2>&amp;1
 

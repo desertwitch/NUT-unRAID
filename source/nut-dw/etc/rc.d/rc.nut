@@ -70,9 +70,6 @@ start() {
             echo "ERROR: NUT has encountered an unexpected result disabling all USB power management: ${OVRESULT}"
         fi
     fi
-    sleep 1
-    write_config
-    sleep 1
     if [ "$MODE" != "slave" ]; then
         start_driver
         sleep 1
@@ -130,11 +127,39 @@ stop() {
 
 }
 
+backup_logs() {
+    if [ "$SYSLOGBACKUP" == "enable" ]; then
+        if [ "$SYSLOGMETHOD" == "file" ] || [ "$SYSLOGMETHOD" == "both" ]; then
+            if [ -f /var/log/nut.log ]; then
+                echo "Backing up last 200KB of NUT service logs to USB..."
+                if ! tail -c 200k /var/log/nut.log > /tmp/nut.log; then
+                    echo "Failed to back up last 200KB of NUT service logs to USB - tail operation failed."
+                    rm -f /tmp/nut.log; rm -f /boot/logs/nut.log
+                elif ! mv -f /tmp/nut.log /boot/logs/nut.log; then
+                    echo "Failed to back up last 200KB of NUT service logs to USB - move operation failed."
+                    rm -f /tmp/nut.log; rm -f /boot/logs/nut.log
+                fi
+            fi
+        fi
+        if [ "$SYSLOGFILTER" == "enable" ]; then
+            if [ -f /var/log/nut-spam ]; then
+                echo "Backing up last 200KB of NUT spam logs to USB..."
+                if ! tail -c 200k /var/log/nut-spam > /tmp/nut-spam; then
+                    echo "Failed to back up last 200KB of NUT spam logs to USB - tail operation failed."
+                    rm -f /tmp/nut-spam; rm -f /boot/logs/nut-spam
+                elif ! mv -f /tmp/nut-spam /boot/logs/nut-spam; then
+                    echo "Failed to back up last 200KB of NUT spam logs to USB - move operation failed."
+                    rm -f /tmp/nut-spam; rm -f /boot/logs/nut-spam
+                fi
+            fi
+        fi
+    fi
+}
+
 write_config() {
     echo "Writing NUT configuration..."
 
     if [ "$MANUAL" == "disable" ] || [ "$MANUAL" == "onlyups" ]; then
-
         if [ "$MANUAL" == "disable" ]; then
             # add the name
             sed -i "1 s~.*~[${NAME}]~" /etc/nut/ups.conf
@@ -276,10 +301,55 @@ write_config() {
 
     if [ "$( grep -ic "/etc/rc.d/rc.nut shutdown" /etc/rc.d/rc.6 )" -eq 0 ]; then
         echo "Adding UPS shutdown lines to rc.6 for NUT..."
-         sed -i -e '/# Now halt /a [ -x /etc/rc.d/rc.nut ] && /etc/rc.d/rc.nut shutdown' -e //N /etc/rc.d/rc.6
+         sed -i '/# Now halt /a [ -x /etc/rc.d/rc.nut ] && /etc/rc.d/rc.nut shutdown' /etc/rc.d/rc.6
     fi
 
     RESTARTSYSLOG="NO"
+
+    # Handle backing up and restoring logs to and from the USB drive
+    if [ "$SYSLOGBACKUP" == "enable" ]; then
+        if [ "$( grep -ic "/etc/rc.d/rc.nut backup_logs" /etc/rc.d/rc.local_shutdown )" -eq 0 ]; then
+            echo "Adding log backup line to rc.local_shutdown for NUT..."
+            sed -i '/# Get time-out setting/i [ -x /etc/rc.d/rc.nut ] && /etc/rc.d/rc.nut backup_logs | logger -t "rc.nut"' /etc/rc.d/rc.local_shutdown
+        fi
+
+        # If none exist - restore any previous logs from the USB drive
+        if [ "$SYSLOGMETHOD" == "file" ] || [ "$SYSLOGMETHOD" == "both" ]; then
+            if [ ! -f /var/log/nut.log ] && [ -f /boot/logs/nut.log ]; then
+                echo "Restoring previous NUT service logs from USB..."
+                if ! mv -f /boot/logs/nut.log /var/log/nut.log; then
+                    echo "Failed to restore previous NUT service logs from USB... move operation failed."
+                    rm -f /boot/logs/nut.log; rm -f /var/log/nut.log
+                else
+                    chown root:root /var/log/nut.log
+                    chmod 644 /var/log/nut.log
+                fi
+                RESTARTSYSLOG="YES"
+            fi
+        else
+            [ -f /boot/logs/nut.log ] && rm -f /boot/logs/nut.log
+        fi
+
+        if [ "$SYSLOGFILTER" == "enable" ]; then
+            if [ ! -f /var/log/nut-spam ] && [ -f /boot/logs/nut-spam ]; then
+                echo "Restoring previous NUT spam logs from USB..."
+                if ! mv -f /boot/logs/nut-spam /var/log/nut-spam; then
+                    echo "Failed to restore previous NUT spam logs from USB... move operation failed."
+                    rm -f /boot/logs/nut-spam; rm -f /var/log/nut-spam
+                else
+                    chown root:root /var/log/nut-spam
+                    chmod 644 /var/log/nut-spam
+                fi
+                RESTARTSYSLOG="YES"
+            fi
+        else
+            [ -f /boot/logs/nut-spam ] && rm -f /boot/logs/nut-spam
+        fi
+
+    else
+        [ -f /boot/logs/nut.log ] && rm -f /boot/logs/nut.log
+        [ -f /boot/logs/nut-spam ] && rm -f /boot/logs/nut-spam
+    fi
 
     # NUT Rule-Based Repetitive Message Filtering (SYSLOG Anti-Spam Module)
     if [ "$SYSLOGFILTER" == "enable" ]; then
@@ -318,7 +388,7 @@ write_config() {
         fi
     fi
 
-    # Destination for NUT Service Logs
+    # Redirection for NUT Service Logs
     if [ "$SYSLOGMETHOD" == "file" ]; then
         if [ -f /etc/rsyslog.d/99-nut-to-both.conf ]; then
             rm -f /etc/rsyslog.d/99-nut-to-both.conf
@@ -383,9 +453,15 @@ case "$1" in
         fi
         ;;
     start)  # starts everything (for a ups server box)
+        sleep 1
+        write_config
+        sleep 1
         start
         ;;
     start_upsmon) # starts upsmon only (for a ups client box)
+        sleep 1
+        write_config
+        sleep 1
         start_upsmon
         ;;
     stop) # stops all UPS-related daemons
@@ -406,6 +482,9 @@ case "$1" in
         /usr/sbin/upsmon -c reload
         ;;
     restart)
+        sleep 1
+        write_config
+        sleep 1
         stop
         sleep 3
         start
@@ -419,6 +498,9 @@ case "$1" in
         ;;
     write_config)
         write_config
+        ;;
+    backup_logs)
+        backup_logs
         ;;
     *)
     echo "Usage: $0 {start|start_upsmon|stop|shutdown|reload|restart|write_config}"

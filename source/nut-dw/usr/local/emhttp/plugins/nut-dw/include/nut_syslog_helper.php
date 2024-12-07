@@ -17,14 +17,23 @@
  * included in all copies or substantial portions of the Software.
  *
  */
+$logFile = "/boot/logs/syslog";
+if(isset($_GET["dl"]) && $_GET["dl"] == "true" && file_exists($logFile)) {
+    header("Content-Disposition: attachment; filename=\"" . basename($logFile) . ".log\"");
+    header("Content-Type: application/octet-stream");
+    header("Content-Length: " . filesize($logFile));
+    header("Connection: close");
+    readfile($logFile);
+    exit;
+}
 require_once '/usr/local/emhttp/plugins/nut-dw/include/nut_config.php';
 ?>
-<h1>/boot/logs/syslog</h1>
+<h1><?=$logFile?></h1>
 <div>If information on this page is missing or outdated, please check if syslog mirroring is activated (<em>Settings->Syslog Server->Mirror syslog to flash</em>).</div>
 <div>Do not forget to disable syslog mirroring after obtaining the required diagnostic information, as this setting will increase wear on your USB drive.</div>
 <br>
 <div><strong>WARNING:</strong> Log files can contain <strong>sensitive information</strong> - please <strong>copy only the relevant lines when sharing</strong> with others!</div>
 <hr>
 <pre>
-<?=nut_tailFile("/boot/logs/syslog");?>
+<?=nut_tailFile($logFile);?>
 </pre>

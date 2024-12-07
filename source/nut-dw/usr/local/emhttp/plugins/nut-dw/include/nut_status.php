@@ -68,6 +68,23 @@ try {
         $powerNominal = 0;
         $load = 0;
 
+        $descriptorMapping = [];
+        $descriptorFilePath = '/usr/share/nut/cmdvartab';
+        try {
+            if (file_exists($descriptorFilePath) && $descriptorFileHandle = fopen($descriptorFilePath, 'r')) {
+                while (($descriptorFileLine = fgets($descriptorFileHandle)) !== false) {
+                    if (preg_match('/^VARDESC\s+([a-zA-Z0-9_.]+)\s+"([^"]+)"$/', trim($descriptorFileLine), $descriptorRegexMatches)) {
+                        $descriptorMapping[$descriptorRegexMatches[1]] = htmlspecialchars($descriptorRegexMatches[2]);
+                    }
+                }
+                fclose($descriptorFileHandle);
+            }
+        } catch (\Throwable $t) {
+            $descriptorMapping = [];
+        } catch (\Exception $e) {
+            $descriptorMapping = [];
+        }
+
         for ($i=0; $i<count($rows); $i++) {
             $row = array_map('trim', explode(':', $rows[$i], 2));
             $key = $row[0];
@@ -113,7 +130,13 @@ try {
 
             if ($all) {
                 if ($i%2==0) $result[] = "<tr>";
-                $result[]= "<td><strong>$key</strong></td><td>$val</td>";
+
+                if(isset($descriptorMapping[$key])) {
+                    $result[]= "<td><span class='tooltip-nutvar' style='cursor:help;' title='$descriptorMapping[$key]'><strong>$key</strong></span></td><td>$val</td>";
+                } else {
+                    $result[]= "<td><strong>$key</strong></td><td>$val</td>";
+                }
+
                 if ($i%2==1) $result[] = "</tr>";
             }
         }

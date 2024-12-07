@@ -68,6 +68,11 @@ function getNUTstatus() {
             } else {
                 $(".nutalarmrow").remove();
             }
+            if(typeof $.fn.tooltipster === 'function') {
+                $('.tooltip-nutvar').tooltipster({
+                    maxWidth: 300
+                });
+            }
         } else {
             $('#nut_summary').html('<tr><td colspan="7" style="text-align:center"><i class="fa fa-times-circle" style="color:red;"></i> <em>Failed to retrieve information (check logs).</em></td></tr>');
             $('#nut_status').html('<tr><td colspan="4" style="text-align:center"><i class="fa fa-times-circle" style="color:red;"></i> <em>Failed to retrieve information (check logs).</em></td></tr>');

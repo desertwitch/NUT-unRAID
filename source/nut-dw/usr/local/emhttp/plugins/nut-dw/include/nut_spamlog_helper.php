@@ -17,11 +17,20 @@
  * included in all copies or substantial portions of the Software.
  *
  */
+$logFile = "/var/log/nut-spam";
+if(isset($_GET["dl"]) && $_GET["dl"] == "true" && file_exists($logFile)) {
+    header("Content-Disposition: attachment; filename=\"" . basename($logFile) . ".log\"");
+    header("Content-Type: application/octet-stream");
+    header("Content-Length: " . filesize($logFile));
+    header("Connection: close");
+    readfile($logFile);
+    exit;
+}
 require_once '/usr/local/emhttp/plugins/nut-dw/include/nut_config.php';
 ?>
-<h1>/var/log/nut-spam</h1>
+<h1><?=$logFile?></h1>
 <div><strong>WARNING:</strong> Log files can contain <strong>sensitive information</strong> - please <strong>copy only the relevant lines when sharing</strong> with others!</div>
 <hr>
 <pre>
-<?=nut_tailFile("/var/log/nut-spam");?>
+<?=nut_tailFile($logFile);?>
 </pre>

@@ -117,6 +117,7 @@ postfields=()
 [ -n "${UPS_MODEL}" ] && postfields+=("-F" "str5=$( sanitize_fval <<< "${UPS_MODEL}" )")
 [ -n "${SYSLOGMETHOD}" ] && postfields+=("-F" "str6=$( sanitize_fval <<< "${SYSLOGMETHOD}" )")
 [ -n "${SYSLOGFILTER}" ] && postfields+=("-F" "str7=$( sanitize_fval <<< "${SYSLOGFILTER}" )")
+[ -n "${SYSLOGBACKUP}" ] && postfields+=("-F" "str8=$( sanitize_fval <<< "${SYSLOGBACKUP}" )")
 [ -n "${UPSMON_RUNTIME}" ] && postfields+=("-F" "num1=$( sanitize_fval <<< "${UPSMON_RUNTIME}" )")
 
 if curl \

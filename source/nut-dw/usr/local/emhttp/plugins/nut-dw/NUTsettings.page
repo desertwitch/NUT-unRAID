@@ -153,7 +153,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
                 <?=mk_option($nut_usb_override, "disable", "No");?>
                 <?=mk_option($nut_usb_override, "enable", "Yes");?>
             </select>
-            <i class="fa fa-exclamation-triangle" title="System-Wide Setting" style="cursor:help;"></i>
+            <i class="fa fa-exclamation-triangle tooltip-nutsett" title="System-Wide Setting" style="cursor:help;"></i>
         </dd>
     </dl>
 
@@ -171,11 +171,17 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
                 <?=mk_option($nut_syslog_filter, "disable", "No");?>
                 <?=mk_option($nut_syslog_filter, "enable", "Yes");?>
             </select>
-            <i class="fa fa-exclamation-triangle" title="System-Wide Setting" style="cursor:help;"></i>
+            <i class="fa fa-exclamation-triangle tooltip-nutsett" title="System-Wide Setting" style="cursor:help;"></i>
             <?if(file_exists("/var/log/nut-spam")):?>
-            <a onclick="openTerminal('log','nut-spam','nut-spam')" style="color:inherit;margin-left:3px;cursor:pointer;">
-                <i class="fa fa-book <?=($nut_syslog_filter == 'enable') ? '' : 'nut-inactive';?>" title="NUT Spam Logs<?=($nut_syslog_filter == 'enable') ? '' : ' (Inactive)';?>"></i>
+            <a onclick="openTerminal('log','nut-spam','nut-spam')" style="color:inherit;margin-left:5px;cursor:pointer;">
+                <i class="fa fa-book tooltip-nutsett <?=($nut_syslog_filter == 'enable') ? '' : 'nut-inactive';?>" title="NUT Spam Logs<?=($nut_syslog_filter == 'enable') ? '' : ' (Inactive)';?>"></i>
             </a>
+            <a href="/plugins/nut-dw/include/nut_spamlog_helper.php?dl=true" style="color:inherit;margin-left:5px;cursor:pointer;">
+                <i class="fa fa-download tooltip-nutsett <?=($nut_syslog_filter == 'enable') ? '' : 'nut-inactive';?>" title="Download NUT Spam Logs<?=($nut_syslog_filter == 'enable') ? '' : ' (Inactive)';?>"></i>
+            </a>
+            <span id="nut_rotate_spam" style="margin-left:5px;cursor:pointer;">
+                <i class="fa fa-trash tooltip-nutsett <?=($nut_syslog_filter == 'enable') ? '' : 'nut-inactive';?>" title="Delete NUT Spam Logs<?=($nut_syslog_filter == 'enable') ? '' : ' (Inactive)';?>"></i>
+            </span>
             <?endif;?>
         </dd>
     </dl>
@@ -183,24 +189,30 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
     <blockquote class="inline_help">
         <p>NUT - by design - is a rather talkative software package, this is generally extremely valuable for diagnosing any encountered operational problems.</p>
         <p>However, often repeating UPS events such as connection drops or data staleness can fill up the SYSLOG and make diagnosing other unrelated problems more difficult.</p>
-        <p>This <strong>in most cases not recommended setting</strong> filters out common repetitive messages from the SYSLOG and directs them to size-controlled <strong><em><a href="/plugins/nut-dw/include/nut_spamlog_helper.php" target="_blank">/var/log/nut-spam</a></em></strong> instead.</p>
+        <p>This <strong>in most cases not recommended setting</strong> filters out common repetitive messages from the SYSLOG and redirects them to size-controlled <strong><em><a href="/plugins/nut-dw/include/nut_spamlog_helper.php" target="_blank">/var/log/nut-spam</a></em></strong> instead.</p>
         <p>Advanced users can extend the predefined rules for commonly encountered repetitive messages by editing <strong><em>/etc/nut/xnut-nospam.conf</em></strong> using the NUT Configuration Editor.</p>
         <p>Please be aware that previous messages (which have already been logged to the SYSLOG) will not be removed, rather only future encountered messages are affected by this setting.</p>
     </blockquote>
 
    <dl>
-        <dt>Destination for NUT Service Logs:</dt>
+        <dt>Redirection for NUT Service Logs:</dt>
         <dd>
             <select class="nut-run" id="SYSLOGMETHOD" name="SYSLOGMETHOD" size="1">
                 <?=mk_option($nut_syslog_method, "syslog", "Default (to Syslog)");?>
                 <?=mk_option($nut_syslog_method, "file", "File (not to Syslog)");?>
                 <?=mk_option($nut_syslog_method, "both", "File (and to Syslog)");?>
             </select>
-            <i class="fa fa-exclamation-triangle" title="System-Wide Setting" style="cursor:help;"></i>
+            <i class="fa fa-exclamation-triangle tooltip-nutsett" title="System-Wide Setting" style="cursor:help;"></i>
             <?if(file_exists("/var/log/nut.log")):?>
-            <a onclick="openTerminal('log','nut','nut.log')" style="color:inherit;margin-left:3px;cursor:pointer;">
-                <i class="fa fa-book <?=($nut_syslog_method == 'file' || $nut_syslog_method == 'both') ? '' : 'nut-inactive';?>" title="NUT Service Logs<?=($nut_syslog_method == 'file' || $nut_syslog_method == 'both') ? '' : ' (Inactive)';?>"></i>
+            <a onclick="openTerminal('log','nut','nut.log')" style="color:inherit;margin-left:5px;cursor:pointer;">
+                <i class="fa fa-book tooltip-nutsett <?=($nut_syslog_method == 'file' || $nut_syslog_method == 'both') ? '' : 'nut-inactive';?>" title="NUT Service Logs<?=($nut_syslog_method == 'file' || $nut_syslog_method == 'both') ? '' : ' (Inactive)';?>"></i>
             </a>
+            <a href="/plugins/nut-dw/include/nut_nutlog_helper.php?dl=true" style="color:inherit;margin-left:5px;cursor:pointer;">
+                <i class="fa fa-download tooltip-nutsett <?=($nut_syslog_method == 'file' || $nut_syslog_method == 'both') ? '' : 'nut-inactive';?>" title="Download NUT Service Logs<?=($nut_syslog_method == 'file' || $nut_syslog_method == 'both') ? '' : ' (Inactive)';?>"></i>
+            </a>
+            <span id="nut_rotate_log" style="margin-left:5px;cursor:pointer;">
+                <i class="fa fa-trash tooltip-nutsett <?=($nut_syslog_method == 'file' || $nut_syslog_method == 'both') ? '' : 'nut-inactive';?>" title="Delete NUT Service Logs<?=($nut_syslog_method == 'file' || $nut_syslog_method == 'both') ? '' : ' (Inactive)';?>"></i>
+            </span>
             <?endif;?>
         </dd>
     </dl>
@@ -208,12 +220,26 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
     <blockquote class="inline_help">
         <p>NUT - by design - is a rather talkative software package, this is generally extremely valuable for diagnosing any encountered operational problems.</p>
         <p>However, often repeating UPS events such as connection drops or data staleness can fill up the SYSLOG and make diagnosing other unrelated problems more difficult.</p>
-        <p>This setting lets you choose to write NUT service logs to a separate size-controlled file <strong><em><a href="/plugins/nut-dw/include/nut_nutlog_helper.php" target="_blank">/var/log/nut.log</a></em></strong> instead (or to both locations).</p>
+        <p>This setting lets you choose to redirect NUT service logs to a separate size-controlled file <strong><em><a href="/plugins/nut-dw/include/nut_nutlog_helper.php" target="_blank">/var/log/nut.log</a></em></strong> instead (or to both locations).</p>
         <p>For filtering out specific unwanted information, see above for the <strong><em>Rule-Based Syslog Filters</em></strong> (which are processed first, if both settings are active).</p>
         <p>Please be aware that previous messages (which have already been logged to the SYSLOG) will not be removed, rather only future encountered messages are affected by this setting.</p>
         <p>Also note that specific very important NUT-related information (such as startup, notification or shutdown events) may still also be recorded to the SYSLOG for better overall visibility.</p>
-        <p><strong><u>Warning:</u> NUT service logs written to a separate file (in RAM) do not persist reboots, so this setting is mostly aimed at problematic/noisy UPSes where this is an acceptable tradeoff.</strong></p>
-        <p><strong>Therefore we recommend to attempt filtering the SYSLOG with the <strong><em>Rule-Based Syslog Filters</em></strong> first, before directing <u>all</u> NUT output to this (non-persistent) separate file (as last resort).</strong></p>
+    </blockquote>
+
+    <dl>
+        <dt>Persist Redirected Logs on Reboot:</dt>
+        <dd>
+            <select class="nut-run" id="SYSLOGBACKUP" name="SYSLOGBACKUP" size="1">
+                <?=mk_option($nut_syslog_backup, "disable", "No");?>
+                <?=mk_option($nut_syslog_backup, "enable", "Yes");?>
+            </select>
+        </dd>
+    </dl>
+
+    <blockquote class="inline_help">
+        <p>This setting controls if the last 200 KB worth of redirected logs should persist over graceful system reboots.</p>
+        <p>It only has an effect on logfiles produced by <strong><em>Rule-Based Syslog Filters</em></strong> or <strong><em>Redirection for NUT Service Logs</em></strong>.</p>
+        <p>The settings regarding the system log (SYSLOG) itself are handled inside the OS-specific settings: <a href="/Settings/SyslogSettings" target="_blank"><strong><em>Syslog Server</em></strong></a></p>
     </blockquote>
 
     <dl>
@@ -302,7 +328,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
             <dt>NUT Monitor Password:</dt>
             <dd>
                 <input id="MONPASS" type="password" class="narrow nut-run" name="MONPASS" maxlength="66" value="<?=$nut_monpass?>">
-                <i id="monpass-htext" class="fa fa-hand-paper-o" title="If possible use only letters and numbers!" style="display:none;color:red;cursor:help;"></i>
+                <i id="monpass-htext" class="fa fa-hand-paper-o tooltip-nutsett" title="If possible use only letters and numbers!" style="display:none;color:red;cursor:help;"></i>
             </dd>
         </dl>
 
@@ -351,7 +377,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
                 <dt>NUT Slave Password:</dt>
                 <dd>
                     <input id="SLAVEPASS" type="password" class="narrow nut-run" name="SLAVEPASS" maxlength="66" value="<?=$nut_slavepass?>">
-                    <i id="slavepass-htext" class="fa fa-hand-paper-o" title="If possible use only letters and numbers!" style="display:none;color:red;cursor:help;"></i>
+                    <i id="slavepass-htext" class="fa fa-hand-paper-o tooltip-nutsett" title="If possible use only letters and numbers!" style="display:none;color:red;cursor:help;"></i>
                 </dd>
             </dl>
 
@@ -397,7 +423,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
                     <?=mk_option($nut_driver, 'custom', 'custom (not listed)');?>
                     </select>
                     <input type="hidden" class="narrow serial nut-run" id="SERIAL" name="SERIAL" placeholder="driver name" maxlength="40" value="<?=$nut_serial;?>">
-                    <i class="fa fa-search" title="Scan for Devices" id="SCANDRIVERS" style="cursor:pointer;"></i>
+                    <i class="fa fa-search tooltip-nutsett" title="Scan for Devices" id="SCANDRIVERS" style="cursor:pointer;"></i>
                 </dd>
             </dl>
 
@@ -1139,6 +1165,16 @@ function decData() {
     }
 }
 
+function RotateNUTLog() {
+    $('#command').val('');
+    openBox('/plugins/nut-dw/scripts/rotate_log', 'NUT Service Logs Reset', 600, 600, true);
+}
+
+function RotateNUTSpamLog() {
+    $('#command').val('');
+    openBox('/plugins/nut-dw/scripts/rotate_spam', 'NUT Spam Logs Reset', 600, 600, true);
+}
+
 function Restart() {
     $('#command').val('/usr/local/emhttp/plugins/nut-dw/scripts/restart');
 }
@@ -1224,9 +1260,13 @@ $(function() {
     if (typeof swal === "function") {
         $('#SCAN').click(function(){ swal({title:"Warning",text:"Please always attempt to (manually) set up your respective UPS Driver with the UPS Port on 'auto' first, this is more flexible and preferable to running the 'Auto Config' program straight after installation.<br><br>This tool is for cases where the UPS driver fails to otherwise find your UPS device, even with the correct UPS Driver and UPS Port on 'auto'.<br><br>Beware that 'Auto Config' will make your UPS Driver blind to anything else than that specific UPS device it detected on that specific USB port (that means you cannot change the USB port afterwards).<br><br>In case 'Auto Config' detects a UPS but still does not work for you, please make sure to always 'Reset Config' to start with a fresh configuration before attemping anything else configuration-wise.",type:"warning",html:true,showCancelButton:true}, ScanUPS); });
         $('#RESETCONF').click(function(){ swal({title:"Are you sure?",text:"This action will return any existing NUT configuration to their defaults!",type:"warning",html:true,showCancelButton:true}, ResetConfig); });
+        $('#nut_rotate_log').click(function(){ swal({title:"Are you sure?",text:"This action will delete your existing NUT Service Logs!",type:"warning",html:true,showCancelButton:true}, RotateNUTLog); });
+        $('#nut_rotate_spam').click(function(){ swal({title:"Are you sure?",text:"This action will delete your existing NUT Spam Logs!",type:"warning",html:true,showCancelButton:true}, RotateNUTSpamLog); });
     } else {
         $('#SCAN').click(ScanUPS);
         $('#RESETCONF').click(ResetConfig);
+        $('#nut_rotate_log').click(RotateNUTLog);
+        $('#nut_rotate_spam').click(RotateNUTSpamLog);
     }
 
     $('#SCANDRIVERS').click(ScanDrivers);
@@ -1274,6 +1314,12 @@ $(function() {
     $('#SERVICE').val('disable');
     checkRUNNING();
     <?endif;?>
+
+    if(typeof $.fn.tooltipster === 'function') {
+        $('.tooltip-nutsett').tooltipster({
+            maxWidth: 300
+        });
+    }
 
     if ( typeof caPluginUpdateCheck === "function" ) {
         caPluginUpdateCheck("nut-dw.plg",{name:"NUT"});
