@@ -28,7 +28,7 @@ if(isset($_GET["dl"]) && $_GET["dl"] == "true" && file_exists($logFile)) {
 }
 require_once '/usr/local/emhttp/plugins/nut-dw/include/nut_config.php';
 ?>
-<h1><?=$logFile?> (last 90 lines - <a href="/plugins/nut-dw/include/nut_nutlog_helper.php?dl=true">download full logfile</a>)</h1>
+<h1><?=$logFile?> <sub>(last 90 lines - <a href="/plugins/nut-dw/include/nut_nutlog_helper.php?dl=true">download full logfile</a>)</sub></h1>
 <div><strong>WARNING:</strong> Log files can contain <strong>sensitive information</strong> - please <strong>copy only the relevant lines when sharing</strong> with others!</div>
 <hr>
 <pre>
