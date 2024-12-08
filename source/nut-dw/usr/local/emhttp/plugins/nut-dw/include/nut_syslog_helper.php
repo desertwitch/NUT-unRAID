@@ -19,7 +19,7 @@
  */
 $logFile = "/boot/logs/syslog";
 if(isset($_GET["dl"]) && $_GET["dl"] == "true" && file_exists($logFile)) {
-    header("Content-Disposition: attachment; filename=\"" . basename($logFile) . ".log\"");
+    header("Content-Disposition: attachment; filename=\"" . basename($logFile) . "-mirror.log\"");
     header("Content-Type: application/octet-stream");
     header("Content-Length: " . filesize($logFile));
     header("Connection: close");
