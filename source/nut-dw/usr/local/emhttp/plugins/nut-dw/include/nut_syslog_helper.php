@@ -28,7 +28,7 @@ if(isset($_GET["dl"]) && $_GET["dl"] == "true" && file_exists($logFile)) {
 }
 require_once '/usr/local/emhttp/plugins/nut-dw/include/nut_config.php';
 ?>
-<h1><?=$logFile?> <sub>(last 90 lines - <a href="/plugins/nut-dw/include/nut_syslog_helper.php?dl=true">download full logfile</a>)</sub></h1>
+<h1><?=$logFile?> (last 90 lines - <a href="/plugins/nut-dw/include/nut_syslog_helper.php?dl=true">download full logfile</a>)</h1>
 <div>If information on this page is missing or outdated, please check if syslog mirroring is activated (<em>Settings->Syslog Server->Mirror syslog to flash</em>).</div>
 <div>Do not forget to disable syslog mirroring after obtaining the required diagnostic information, as this setting will increase wear on your USB drive.</div>
 <br>
