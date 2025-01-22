@@ -18,6 +18,8 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
+###2025.01.22
+- fix: resolved issue with transition between dashboard and settings
 ###2024.12.07
 - new: show description of UPS variables when hovered over inside NUT Details table
 - new: introduced a setting to persist redirected NUT service logs over system reboots

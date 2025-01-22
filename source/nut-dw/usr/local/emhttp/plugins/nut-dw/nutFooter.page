@@ -177,7 +177,7 @@ $mytiles[$pluginname]['column2'] =
 <div class="section">_(UPS(NUT))_<br><span><span style="margin-right:6px;">Status: <span class="nutalarms"></span><i class="nutdsicon fa fa-question-circle black-text"></i></span><span style="margin-right:6px;">Battery: <span class="nutdcc green-text"><i class="fa fa-spinner fa-spin icon" style="color:inherit;"></i></span></span><span>Load: <span class="nut_loadpct"><i class="fa fa-spinner fa-spin icon"></i></span></span></span>
 <br><br>
 </div>
-<a href="/Dashboard/NUTsettings" title="_(Go to NUT Settings)_"><i class="fa fa-fw fa-cog control"></i></a>
+<a href="/Settings/NUTsettings" title="_(Go to NUT Settings)_"><i class="fa fa-fw fa-cog control"></i></a>
 </td></tr>
 <tr><td style="display: flex;"><span class="w36 ups">UPS Status:</span><span class="nut_status" style="flex: 1; white-space: normal;"></span></td></tr>
 <tr><td><span class="w36 ups">Battery Charge:</span><span class="nut_bcharge"><i class="fa fa-spinner fa-spin"></i> <em>Please wait, retrieving UPS information...</em></span></td></tr>
