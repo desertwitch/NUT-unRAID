@@ -60,10 +60,8 @@ cp -nr $DOCROOT/nut-defaults/* $BOOT/ups/ >/dev/null 2>&1
 # copy conf files from flash drive to local system, for our services to use
 cp -rf $BOOT/ups/* /etc/nut/ >/dev/null 2>&1
 
-# set up plugin-specific polling tasks
+# remove (legacy) plugin-specific polling tasks
 rm -f /etc/cron.daily/nut-poller >/dev/null 2>&1
-ln -sf /usr/local/emhttp/plugins/nut-dw/scripts/poller /etc/cron.daily/nut-poller >/dev/null 2>&1
-chmod +x /etc/cron.daily/nut-poller >/dev/null 2>&1
 
 # set up permissions
 if [ -d /etc/nut ]; then

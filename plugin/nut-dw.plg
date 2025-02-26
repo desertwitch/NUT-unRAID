@@ -717,7 +717,6 @@ else
     fi
 fi
 
-/etc/cron.daily/nut-poller conntest >/dev/null 2>&amp;1 &amp;
 echo ""
 echo "-----------------------------------------------------------"
 echo " Network UPS Tools (NUT) for UNRAID has been installed."

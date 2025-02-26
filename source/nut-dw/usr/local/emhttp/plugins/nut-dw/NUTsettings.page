@@ -927,23 +927,6 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
     </div>
 
     <dl>
-        <dt>NUT Plugin Usage Metric Functions:</dt>
-        <dd>
-            <select name="METRICSAPI" size="1">
-                <?=mk_option($nut_metricsapi, 'disable', 'No');?>
-                <?=mk_option($nut_metricsapi, 'enable', 'Yes');?>
-            </select>
-        </dd>
-    </dl>
-
-    <blockquote class="inline_help">
-        <p>Enables collection of <strong>anonymized</strong> plugin usage statistics through the plugin usage metrics API.</p>
-        <p>This aids prioritization of bug reports, development of UPS drivers and planning for plugin updates/deprecation.</p>
-        <p><em>Attributes: Metric ID, Plugin Version, Unraid Version, NUT Backend Version, NUT Log Settings, NUT Driver (Runtime), UPS Manufacturer and UPS Model (<strong>no serial numbers</strong>).</em></p>
-        <p><strong><i class="fa fa-heart" style="color:red;"></i> If possible, please keep this setting <u>enabled</u> to support the continued development of this plugin - thank you!</strong></p>
-    </blockquote>
-
-    <dl>
         <dt>UPS Power and Load Display Settings:</dt>
         <dd>
             <select id="POWER" name="POWER" size="1">
