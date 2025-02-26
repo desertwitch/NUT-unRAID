@@ -18,6 +18,8 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
+###2025.02.26
+- fix: future-proofing changes to base plugin structure
 ###2025.01.30
 - new: the preview (latest build) backend was updated to the most recent master branch as of 30.01.2025
 ###2025.01.22
