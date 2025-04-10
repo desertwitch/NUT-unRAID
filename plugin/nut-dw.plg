@@ -5,7 +5,7 @@
 <!ENTITY author    "desertwitch">
 <!ENTITY version   "2025.02.26">
 <!ENTITY launch    "Settings/NUTsettings">
-<!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/master">
+<!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/pkgs">
 <!ENTITY pluginURL "&gitURL;/plugin/&name;.plg">
 <!ENTITY pkgURL    "&gitURL;/packages">
 <!ENTITY plgPATH   "/boot/config/plugins/&name;">
@@ -18,6 +18,13 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
+###2025.04.10
+- new: preview backend updated (to nut master 3c218a3)
+- new: default backend updated (nut 2.8.2 to nut 2.8.3)
+- new: previous backend updated (nut 2.8.1 to nut 2.8.2)
+- new: release backend updated (nut 2.8.0 to nut 2.8.1)
+- default backend: "default" users wishing to stay on 2.8.2 should switch to "previous" before updating,
+- default backend: for this you just set the backend setting to "previous" and then update (no reinstall/reboot).
 ###2025.02.26
 - fix: future-proofing changes to base plugin structure
 ###2025.01.30
