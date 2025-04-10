@@ -133,7 +133,7 @@ function getNUTfooter() {
     <?endif;?>
 }
 $(function() {
-    var footer = $("<span id='nut_footer'></span>").insertAfter("div#footer > span#copyright");
+    var footer = $("<span id='nut_footer'></span>").insertAfter("#footer > span#copyright");
     <?if ($nut_footer_style == 1): ?>
     footer.addClass('minimal');
     <?endif;?>
