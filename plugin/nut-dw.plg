@@ -25,6 +25,8 @@
 - new: release backend updated (nut 2.8.0 to nut 2.8.1)
 - default backend: "default" users wishing to stay on 2.8.2 should switch to "previous" before updating,
 - default backend: for this you just set the backend setting to "previous" and then update (no reinstall/reboot).
+- other backends: if you want to stay on your current version, switch to respective older backend before updating,
+- other backends: only exception being the "release" branch where nut 2.8.0 is now deprecated and no longer offered.
 ###2025.02.26
 - fix: future-proofing changes to base plugin structure
 ###2025.01.30
