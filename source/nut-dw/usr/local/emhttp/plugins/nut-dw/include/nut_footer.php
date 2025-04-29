@@ -69,11 +69,18 @@ try {
         $powerNominal     = (array_key_exists("ups.power.nominal", $ups_status)) ? intval(strtok($ups_status['ups.power.nominal'],' ')) : NULL;
 
         if ($nut_power == 'manual') {
-            $powerNominal = intval($nut_powerva);
-            $realPowerNominal = intval($nut_powerw);
-
-            if ($powerNominal > 0) $apparentPower = 0;
-            if ($realPowerNominal > 0) $realPower = 0;
+            # If negative, disable override of nominal VA.
+            if(intval($nut_powerva) >= 0) {
+                $powerNominal = intval($nut_powerva);
+                # If 0, do not override UPS reported live VA.
+                if ($powerNominal > 0) $apparentPower = 0;
+            }
+            # If negative, disable override of nominal W.
+            if(intval($nut_powerw) >= 0) {
+                $realPowerNominal = intval($nut_powerw);
+                # If 0, do not override UPS reported live W.
+                if ($realPowerNominal > 0) $realPower = 0;
+            }
         }
 
         $ups_alarm = nut_array_key_exists_wildcard($ups_status, '*ups.alarm*');

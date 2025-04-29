@@ -141,13 +141,19 @@ try {
             }
         }
 
-        # if manual, overwrite values
         if ($nut_power == 'manual') {
-            $powerNominal = intval($nut_powerva);
-            $realPowerNominal = intval($nut_powerw);
-
-            if ($powerNominal > 0) $apparentPower = 0;
-            if ($realPowerNominal > 0) $realPower = 0;
+            # If negative, disable override of nominal VA.
+            if(intval($nut_powerva) >= 0) {
+                $powerNominal = intval($nut_powerva);
+                # If 0, do not override UPS reported live VA.
+                if ($powerNominal > 0) $apparentPower = 0;
+            }
+            # If negative, disable override of nominal W.
+            if(intval($nut_powerw) >= 0) {
+                $realPowerNominal = intval($nut_powerw);
+                # If 0, do not override UPS reported live W.
+                if ($realPowerNominal > 0) $realPower = 0;
+            }
         }
 
         # if no ups.load compute from ups.power(.nominal) or ups.realpower(.nominal)
