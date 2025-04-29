@@ -979,7 +979,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
     </div>
 
     <dl>
-        <dt>UPS Load Calculation Measurement Unit:</dt>
+        <dt>UPS Load Percentage Calculation Unit:</dt>
         <dd>
             <select id="LOADUNIT" name="LOADUNIT" size="1">
                 <?=mk_option($nut_loadunit, "W", "Watt (W)");?>
