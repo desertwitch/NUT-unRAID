@@ -927,7 +927,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
     </div>
 
     <dl>
-        <dt>UPS Power Override Settings:</dt>
+        <dt>UPS Power Display Override Settings:</dt>
         <dd>
             <select id="POWER" name="POWER" size="1">
                 <?=mk_option($nut_power, "auto", "Auto");?>
@@ -937,7 +937,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
     </dl>
 
     <blockquote class="inline_help">
-        <p>Settings for UPS Nominal Watt Capacity (W) and UPS Nominal Volt Ampere Capacity (VA), used to calculate the W/VA consumption and PF:</p>
+        <p>Settings for UPS Nominal Watt Capacity (W) and UPS Nominal Volt Ampere Capacity (VA), used to calculate the W/VA consumption (and PF):</p>
         <p>- <strong><em>Auto</em></strong> if the values reported by your UPS are correct (see <strong><em>NUT Details</em></strong> table).</p>
         <p>- <strong><em>Manual</em></strong> if the values reported by your UPS are incorrect (see <strong><em>NUT Details</em></strong> table).</p>
     </blockquote>
@@ -951,11 +951,13 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
         </dl>
 
         <blockquote class="inline_help">
-            <p>This setting lets you override the UPS nominal W value.</p>
-            <p>A negative value will be treated as positive and override the nominal W value, but will not affect the live W consumption reported by the UPS.</p>
-            <p>A value of -1 will disable the nominal W override and use the UPS-reported nominal W value instead.</p>
-            <p>A value of 0 will disable the nominal W override, but still allow the UPS-reported live W value to be used in calculations.</p>
-            <p>A positive value will override the nominal W value and also affect the live W consumption by forcing recalculation based on load.</p>
+            <p>This setting lets you override the UPS Nominal Watt Capacity (W) value.</p>
+            <p>A <strong>negative</strong> value is treated as positive and overrides the nominal W, but does not affect the UPS-reported live W.</p>
+            <p>A <strong>-1</strong> value disables the nominal W override (if you just want to override nominal VA).</p>
+            <p>A <strong>0</strong> value disables the nominal W completely, but still allows the UPS-reported live W to be used for calculations.</p>
+            <p>A <strong>positive</strong> value overrides the nominal W and also affects the reported live W by forcing recalculation based on load.</p>
+            <p>Use a <strong>negative</strong> value if the nominal W is missing or incorrect, but the reported live W is correct.</p>
+            <p>Use a <strong>positive</strong> value if the live W, or both nominal W and live W, are missing or incorrect.</p>
         </blockquote>
 
         <dl>
@@ -966,11 +968,13 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
         </dl>
 
         <blockquote class="inline_help">
-            <p>This setting lets you override the UPS nominal VA value.</p>
-            <p>A negative value will be treated as positive and override the nominal VA value, but will not affect the live VA consumption reported by the UPS.</p>
-            <p>A value of -1 will disable the nominal VA override and use the UPS-reported nominal VA value instead.</p>
-            <p>A value of 0 will disable the nominal VA override, but still allow the UPS-reported live VA value to be used in calculations.</p>
-            <p>A positive value will override the nominal VA value and also affect the live VA consumption by forcing recalculation based on load.</p>
+            <p>This setting lets you override the UPS Nominal Volt Ampere Capacity (VA) value.</p>
+            <p>A <strong>negative</strong> value is treated as positive and overrides the nominal VA, but does not affect the UPS-reported live VA.</p>
+            <p>A <strong>-1</strong> value disables the nominal VA override (if you just want to override nominal W).</p>
+            <p>A <strong>0</strong> value disables the nominal VA completely, but still allows the UPS-reported live VA to be used for calculations.</p>
+            <p>A <strong>positive</strong> value overrides the nominal VA and also affects the reported live VA by forcing recalculation based on load.</p>
+            <p>Use a <strong>negative</strong> value if the nominal VA is missing or incorrect, but the reported live VA is correct.</p>
+            <p>Use a <strong>positive</strong> value if the live VA, or both nominal VA and live VA, are missing or incorrect.</p>
         </blockquote>
     </div>
 
