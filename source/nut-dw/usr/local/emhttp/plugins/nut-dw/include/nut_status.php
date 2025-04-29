@@ -168,7 +168,8 @@ try {
         }
 
         # if no ups.load compute from ups.power(.nominal) or ups.realpower(.nominal)
-        if ($load <= 0) {
+        # also compute if calculation is otherwise forced by user setting
+        if ($load <= 0 || $nut_loadcalc == "enable") {
             $loadW = 0; $loadVA = 0;
             if ($realPower > 0 && $realPowerNominal > 0) $loadW = round($realPower / $realPowerNominal  * 100);
             if ($apparentPower > 0 && $powerNominal > 0) $loadVA = round($apparentPower / $powerNominal  * 100);

@@ -979,6 +979,21 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
     </div>
 
     <dl>
+        <dt>Force UPS Load Percentage Calculation:</dt>
+        <dd>
+            <select id="LOADCALC" name="LOADCALC" size="1">
+                <?=mk_option($nut_loadcalc, "enable", "Yes");?>
+                <?=mk_option($nut_loadcalc, "disable", "No");?>
+            </select>
+        </dd>
+    </dl>
+
+    <blockquote class="inline_help">
+        <p>This setting controls if UPS load percentage calculation should be forced, disregarding what the UPS reports itself.</p>
+        <p>This may be useful if you want the UPS load percentage to be based on another unit (see below) or if the reported value is incorrect.</p>
+    </blockquote>
+
+    <dl>
         <dt>UPS Load Percentage Calculation Unit:</dt>
         <dd>
             <select id="LOADUNIT" name="LOADUNIT" size="1">
@@ -990,7 +1005,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
 
     <blockquote class="inline_help">
         <p>This setting controls if UPS load percentage calculations should be based on real (W) or apparent (VA) power.</p>
-        <p>This is only relevant for situations where the load is not reported by the UPS and has to be derived from other variables.</p>
+        <p>This is only relevant when the load is not reported (correctly) by the UPS or when the calculation is otherwise forced (see above).</p>
     </blockquote>
 
     <dl>

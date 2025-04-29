@@ -141,7 +141,8 @@ try {
         $status[1] = "<span id='" . ($nut_footer_style == 0 ? "nut_battery" : "") . "' class='".($nut_footer_style == 0 || $online['severity'] > 0 ? "tooltip-nut" : "")." " . $css_class . "'" . $statusTooltipData . "><i class='fa " . $fa_icon . "' style='vertical-align: baseline;'></i>&thinsp;" . $batteryText . "</span>";
 
         # if no ups.load compute from ups.power(.nominal) or ups.realpower(.nominal)
-        if ($load <= 0) {
+        # also compute if calculation is otherwise forced by user setting
+        if ($load <= 0 || $nut_loadcalc == "enable") {
             $loadW = 0; $loadVA = 0;
             if ($realPower > 0 && $realPowerNominal > 0) $loadW = round($realPower / $realPowerNominal  * 100);
             if ($apparentPower > 0 && $powerNominal > 0) $loadVA = round($apparentPower / $powerNominal  * 100);
