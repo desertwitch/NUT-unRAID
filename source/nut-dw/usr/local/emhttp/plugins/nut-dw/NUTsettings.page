@@ -982,8 +982,8 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
         <dt>Force UPS Load Percentage Calculation:</dt>
         <dd>
             <select id="LOADCALC" name="LOADCALC" size="1">
-                <?=mk_option($nut_loadcalc, "enable", "Yes");?>
                 <?=mk_option($nut_loadcalc, "disable", "No");?>
+                <?=mk_option($nut_loadcalc, "enable", "Yes");?>
             </select>
         </dd>
     </dl>
