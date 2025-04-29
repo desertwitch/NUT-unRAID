@@ -18,9 +18,10 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
-###2025.04.29
+###2025.04.29a
 - new: added more advanced control over the nominal power display overrides (see helptexts)
 - new: added a setting to control if a calculated load percentage should be based on W or VA
+- new: added a setting to force load percentage calculation if UPS reported value is incorrect
 ###2025.04.10a
 - new: preview backend updated (to nut master 3c218a3)
 - new: default backend updated (nut 2.8.2 to nut 2.8.3)
