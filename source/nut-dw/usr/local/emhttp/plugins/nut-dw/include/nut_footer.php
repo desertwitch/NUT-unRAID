@@ -69,17 +69,28 @@ try {
         $powerNominal     = (array_key_exists("ups.power.nominal", $ups_status)) ? intval(strtok($ups_status['ups.power.nominal'],' ')) : NULL;
 
         if ($nut_power == 'manual') {
-            # If negative, disable override of nominal VA.
-            if(intval($nut_powerva) >= 0) {
-                $powerNominal = intval($nut_powerva);
-                # If 0, do not override UPS reported live VA.
-                if ($powerNominal > 0) $apparentPower = 0;
+            # handle nominal VA
+            $manual_powerva = intval($nut_powerva);
+            if ($manual_powerva != -1) { # -1 disables override (use UPS nominal)
+                $powerNominal = abs($manual_powerva); # Make it positive
+
+                if ($manual_powerva > 0) {
+                    # Positive value -> override nominal VA and affect live consumption VA
+                    $apparentPower = 0;
+                }
+                # negative or 0 -> override nominal but do not affect live VA
             }
-            # If negative, disable override of nominal W.
-            if(intval($nut_powerw) >= 0) {
-                $realPowerNominal = intval($nut_powerw);
-                # If 0, do not override UPS reported live W.
-                if ($realPowerNominal > 0) $realPower = 0;
+
+            # Handle nominal W
+            $manual_powerw = intval($nut_powerw);
+            if ($manual_powerw != -1) { # -1 disables override (use UPS nominal)
+                $realPowerNominal = abs($manual_powerw); # Make it positive
+
+                if ($manual_powerw > 0) {
+                    # Positive value -> override nominal W and affect live consumption W
+                    $realPower = 0;
+                }
+                # negative or 0 -> override nominal but do not affect live W
             }
         }
 

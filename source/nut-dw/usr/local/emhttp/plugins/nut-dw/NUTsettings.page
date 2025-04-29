@@ -927,7 +927,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
     </div>
 
     <dl>
-        <dt>UPS Power and Load Display Settings:</dt>
+        <dt>UPS Power Override Settings:</dt>
         <dd>
             <select id="POWER" name="POWER" size="1">
                 <?=mk_option($nut_power, "auto", "Auto");?>
@@ -937,34 +937,41 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
     </dl>
 
     <blockquote class="inline_help">
-        <p>Setting for UPS Output Capacity Watts and Volt-Amperes, used to calculate the Power Factor and Watts used:</p>
+        <p>Settings for UPS Nominal Watt Capacity (W) and UPS Nominal Volt Ampere Capacity (VA), used to calculate the W/VA consumption and PF:</p>
         <p>- <strong><em>Auto</em></strong> if the values reported by your UPS are correct (see <strong><em>NUT Details</em></strong> table).</p>
         <p>- <strong><em>Manual</em></strong> if the values reported by your UPS are incorrect (see <strong><em>NUT Details</em></strong> table).</p>
     </blockquote>
 
     <div id="POWER-SETTINGS">
         <dl>
-            <dt>UPS Output Volt Ampere Capacity (VA):</dt>
-            <dd>
-                <input id="POWERVA" type="text" class="narrow nut-power" name="POWERVA" maxlength="5" value="<?=$nut_powerva?>">
-            </dd>
-        </dl>
-
-        <blockquote class="inline_help">
-            <p>Enter your actual UPS Output Capacity in Volt-Amperes.</p>
-        </blockquote>
-
-        <dl>
-            <dt>UPS Output Watt Capacity (W):</dt>
+            <dt>UPS Nominal Watt Capacity (W):</dt>
             <dd>
                 <input id="POWERW" type="text" class="narrow nut-power" name="POWERW" maxlength="4" value="<?=$nut_powerw?>">
             </dd>
         </dl>
 
         <blockquote class="inline_help">
-            <p>Enter your actual UPS Output Capacity in Watts.</p>
+            <p>This setting lets you override the UPS nominal W value.</p>
+            <p>A negative value will be treated as positive and override the nominal W value, but will not affect the live W consumption reported by the UPS.</p>
+            <p>A value of -1 will disable the nominal W override and use the UPS-reported nominal W value instead.</p>
+            <p>A value of 0 will disable the nominal W override, but still allow the UPS-reported live W value to be used in calculations.</p>
+            <p>A positive value will override the nominal W value and also affect the live W consumption by forcing recalculation based on load.</p>
         </blockquote>
 
+        <dl>
+            <dt>UPS Nominal Volt Ampere Capacity (VA):</dt>
+            <dd>
+                <input id="POWERVA" type="text" class="narrow nut-power" name="POWERVA" maxlength="5" value="<?=$nut_powerva?>">
+            </dd>
+        </dl>
+
+        <blockquote class="inline_help">
+            <p>This setting lets you override the UPS nominal VA value.</p>
+            <p>A negative value will be treated as positive and override the nominal VA value, but will not affect the live VA consumption reported by the UPS.</p>
+            <p>A value of -1 will disable the nominal VA override and use the UPS-reported nominal VA value instead.</p>
+            <p>A value of 0 will disable the nominal VA override, but still allow the UPS-reported live VA value to be used in calculations.</p>
+            <p>A positive value will override the nominal VA value and also affect the live VA consumption by forcing recalculation based on load.</p>
+        </blockquote>
     </div>
 
     <dl>
@@ -1238,7 +1245,7 @@ $(function() {
 
     $('.nut-slaveuser').mask('ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ', {translation:  {'Z': {pattern: /[A-Za-z0-9]/, optional: true}}});
 
-    $('.nut-power').mask('ZZZZZ', {translation:  {'Z': {pattern: /[0-9]/, optional: true}}});
+    $('.nut-power').mask('ZZZZZ', {translation:  {'Z': {pattern: /[0-9-]/, optional: true}}});
 
     if (typeof swal === "function") {
         $('#SCAN').click(function(){ swal({title:"Warning",text:"Please always attempt to (manually) set up your respective UPS Driver with the UPS Port on 'auto' first, this is more flexible and preferable to running the 'Auto Config' program straight after installation.<br><br>This tool is for cases where the UPS driver fails to otherwise find your UPS device, even with the correct UPS Driver and UPS Port on 'auto'.<br><br>Beware that 'Auto Config' will make your UPS Driver blind to anything else than that specific UPS device it detected on that specific USB port (that means you cannot change the USB port afterwards).<br><br>In case 'Auto Config' detects a UPS but still does not work for you, please make sure to always 'Reset Config' to start with a fresh configuration before attemping anything else configuration-wise.",type:"warning",html:true,showCancelButton:true}, ScanUPS); });
