@@ -77,6 +77,7 @@ $nut_stats_c6_var       = trim(isset($nut_cfg['STATSCHART6VAR'])      ? htmlspec
 $nut_stats_c6_txt       = trim(isset($nut_cfg['STATSCHART6TXT'])      ? htmlspecialchars($nut_cfg['STATSCHART6TXT'])        : 'Output Voltage (in V)');
 $nut_stats_c7_var       = trim(isset($nut_cfg['STATSCHART7VAR'])      ? htmlspecialchars($nut_cfg['STATSCHART7VAR'])        : 'output.frequency');
 $nut_stats_c7_txt       = trim(isset($nut_cfg['STATSCHART7TXT'])      ? htmlspecialchars($nut_cfg['STATSCHART7TXT'])        : 'Output Frequency (in Hz)');
+$nut_loadunit           = trim(isset($nut_cfg['LOADUNIT'])            ? htmlspecialchars($nut_cfg['LOADUNIT'])              : 'W');
 $nut_rtunit             = trim(isset($nut_cfg['RTUNIT'])              ? htmlspecialchars($nut_cfg['RTUNIT'])                : 'seconds');
 
 $nut_running      = !empty(shell_exec("pgrep -x upsmon 2>/dev/null"));

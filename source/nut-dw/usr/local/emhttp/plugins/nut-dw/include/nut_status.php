@@ -169,11 +169,11 @@ try {
 
         # if no ups.load compute from ups.power(.nominal) or ups.realpower(.nominal)
         if ($load <= 0) {
-            $load1 = 0; $load2 = 0;
-            if ($apparentPower > 0 && $powerNominal > 0) $load1 = round($apparentPower / $powerNominal  * 100);
-            if ($realPower > 0 && $realPowerNominal > 0) $load2 = round($realPower / $realPowerNominal  * 100);
-            if ($load1 > 1 && $load1 < 101) $load = $load1;
-            if ($load2 > 1 && $load2 < 101) $load = $load2;
+            $loadW = 0; $loadVA = 0;
+            if ($realPower > 0 && $realPowerNominal > 0) $loadW = round($realPower / $realPowerNominal  * 100);
+            if ($apparentPower > 0 && $powerNominal > 0) $loadVA = round($apparentPower / $powerNominal  * 100);
+            if ($nut_loadunit == "W" && $loadW > 1 && $loadW < 101) $load = $loadW;
+            if ($nut_loadunit == "VA" && $loadVA > 1 && $loadVA < 101) $load = $loadVA;
         }
 
         if ($load > 0) {

@@ -979,6 +979,21 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
     </div>
 
     <dl>
+        <dt>UPS Load Calculation Measurement Unit:</dt>
+        <dd>
+            <select id="LOADUNIT" name="LOADUNIT" size="1">
+                <?=mk_option($nut_loadunit, "W", "Watt (W)");?>
+                <?=mk_option($nut_loadunit, "VA", "Volt Ampere (VA)");?>
+            </select>
+        </dd>
+    </dl>
+
+    <blockquote class="inline_help">
+        <p>This setting controls if UPS load percentage calculations should be based on real (W) or apparent (VA) power.</p>
+        <p>This is only relevant for situations where the load is not reported by the UPS and has to be derived from other variables.</p>
+    </blockquote>
+
+    <dl>
         <dt>UPS Battery Runtime Measurement Unit:</dt>
         <dd>
             <select id="RTUNIT" name="RTUNIT" size="1">
