@@ -952,12 +952,12 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
 
         <blockquote class="inline_help">
             <p>This setting lets you override the UPS Nominal Watt Capacity (W) value.</p>
-            <p>A <strong>negative</strong> value is treated as positive and overrides the nominal W, but does not affect the UPS-reported live W.</p>
-            <p>A <strong>-1</strong> value disables the nominal W override (if you just want to override nominal VA).</p>
-            <p>A <strong>0</strong> value disables the nominal W completely, but still allows the UPS-reported live W to be used for calculations.</p>
-            <p>A <strong>positive</strong> value overrides the nominal W and also affects the reported live W by forcing recalculation based on load.</p>
-            <p>Use a <strong>negative</strong> value if the nominal W is missing or incorrect, but the reported live W is correct.</p>
-            <p>Use a <strong>positive</strong> value if the live W, or both nominal W and live W, are missing or incorrect.</p>
+            <p>A <strong><em>negative</em></strong> value overrides the nominal W (as positive), but still allows the UPS-reported live W to be used for calculations.</p>
+            <p><strong><em>Use a negative value if the UPS-reported nominal W is missing or incorrect, but the UPS-reported live W is correct.</em></strong></p>
+            <p>A <strong><em>positive</em></strong> value overrides the nominal W and also affects the UPS-reported live W by forcing recalculation based on load.</p>
+            <p><strong><em>Use a positive value if the UPS-reported live W, or both UPS-reported nominal W and live W, are missing or incorrect.</em></strong></p>
+            <p><em>Special Case:</em> A <strong>-1</strong> value disables the nominal W override (if you just want to override nominal VA).</p>
+            <p><em>Special Case:</em> A <strong>0</strong> value hides the nominal W completely, but still allows the UPS-reported live W to be used for calculations.</p>
         </blockquote>
 
         <dl>
@@ -969,12 +969,12 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
 
         <blockquote class="inline_help">
             <p>This setting lets you override the UPS Nominal Volt Ampere Capacity (VA) value.</p>
-            <p>A <strong>negative</strong> value is treated as positive and overrides the nominal VA, but does not affect the UPS-reported live VA.</p>
-            <p>A <strong>-1</strong> value disables the nominal VA override (if you just want to override nominal W).</p>
-            <p>A <strong>0</strong> value disables the nominal VA completely, but still allows the UPS-reported live VA to be used for calculations.</p>
-            <p>A <strong>positive</strong> value overrides the nominal VA and also affects the reported live VA by forcing recalculation based on load.</p>
-            <p>Use a <strong>negative</strong> value if the nominal VA is missing or incorrect, but the reported live VA is correct.</p>
-            <p>Use a <strong>positive</strong> value if the live VA, or both nominal VA and live VA, are missing or incorrect.</p>
+            <p>A <strong><em>negative</em></strong> value overrides the nominal VA (as positive), but still allows the UPS-reported live VA to be used for calculations.</p>
+            <p><strong><em>Use a negative value if the UPS-reported nominal VA is missing or incorrect, but the UPS-reported live VA is correct.</em></strong></p>
+            <p>A <strong><em>positive</em></strong> value overrides the nominal VA and also affects the UPS-reported live VA by forcing recalculation based on load.</p>
+            <p><strong><em>Use a positive value if the UPS-reported live VA, or both UPS-reported nominal VA and live VA, are missing or incorrect.</em></strong></p>
+            <p><em>Special Case:</em> A <strong>-1</strong> value disables the nominal VA override (if you just want to override nominal W).</p>
+            <p><em>Special Case:</em> A <strong>0</strong> value hides the nominal VA completely, but still allows the UPS-reported live VA to be used for calculations.</p>
         </blockquote>
     </div>
 
