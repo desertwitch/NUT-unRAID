@@ -256,7 +256,7 @@
 - new: compiled backend NUT package from current master branch (as of 24.08.2023)
 ###2023.07.26
 - fix: reduce console spam of copy operations by redirecting output to /dev/null, as requested in 2023.07.21 #3 (comment)
-- fix: stop services before a plugin upgrade on the live system to remove any file locks preventing files from getting patched on the running instance. a reboot should now no longer be required for all changes>
+- fix: stop services before a plugin upgrade on the live system to remove any file locks preventing files from getting patched on the running instance. a reboot should now no longer be required for all changes
 - fix: old installation remnants cause updating or transitioning to another nut package on running instance to fail
 - fix: fix a permissions issue causing some drivers in 2.8.0 not to have access to their required folders
 - new: add button for users to be able to save their UPS details into a dummy-ups compliant diagnostics file
