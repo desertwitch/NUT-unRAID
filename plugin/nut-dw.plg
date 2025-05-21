@@ -3,7 +3,7 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "nut-dw">
 <!ENTITY author    "desertwitch">
-<!ENTITY version   "2025.05.21">
+<!ENTITY version   "2025.05.21a">
 <!ENTITY launch    "Settings/NUTsettings">
 <!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/master">
 <!ENTITY pluginURL "&gitURL;/plugin/&name;.plg">
@@ -18,7 +18,7 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
-###2025.05.21
+###2025.05.21a
 - new: the default backend was re-built from the final release version from the NUT website
 - new: the preview (latest build) backend was updated to the most recent master branch as of 21.05.2025
 ###2025.04.29a
@@ -256,7 +256,7 @@
 - new: compiled backend NUT package from current master branch (as of 24.08.2023)
 ###2023.07.26
 - fix: reduce console spam of copy operations by redirecting output to /dev/null, as requested in 2023.07.21 #3 (comment)
-- fix: stop services before a plugin upgrade on the live system to remove any file locks preventing files from getting patched on the running instance. a reboot should now no longer be required for all changes>
+- fix: stop services before a plugin upgrade on the live system to remove any file locks preventing files from getting patched on the running instance. a reboot should now no longer be required for all changes
 - fix: old installation remnants cause updating or transitioning to another nut package on running instance to fail
 - fix: fix a permissions issue causing some drivers in 2.8.0 not to have access to their required folders
 - new: add button for users to be able to save their UPS details into a dummy-ups compliant diagnostics file
@@ -423,6 +423,7 @@ stop already existing services before doing anything
 -->
 <FILE Run="/bin/bash">
 <INLINE>
+<![CDATA[
 echo "Checking for other installed NUT versions..."
 if [ -f /boot/config/plugins/nut.plg ] || [ -f /boot/config/plugins/nut-2.8.0.plg ]; then
     echo ""
@@ -436,17 +437,17 @@ fi
 
 echo "Making sure all existing NUT services are stopped (before install/upgrade)..."
 if [ -x /etc/rc.d/rc.nut ]; then
-    if ! /etc/rc.d/rc.nut stop >/dev/null 2>&amp;1; then
+    if ! /etc/rc.d/rc.nut stop >/dev/null 2>&1; then
         echo "WARNING:"
         echo "WARNING: The NUT installation script was not able to stop all NUT services gracefully."
         echo "WARNING: IN CASE OF PROBLEMS, please REBOOT YOUR SYSTEM to complete any upgrades."
         echo "WARNING:"
     fi
-    killall nut-poller >/dev/null 2>&amp;1
+    killall nut-poller >/dev/null 2>&1
 fi
 
 if [ -x /etc/rc.d/rc.nutstats ]; then
-    if ! /etc/rc.d/rc.nutstats disable >/dev/null 2>&amp;1; then
+    if ! /etc/rc.d/rc.nutstats disable >/dev/null 2>&1; then
         echo "WARNING:"
         echo "WARNING: The NUT installation script was not able to stop all NUT statistic services gracefully."
         echo "WARNING: IN CASE OF PROBLEMS, please REBOOT YOUR SYSTEM to complete any upgrades."
@@ -454,19 +455,19 @@ if [ -x /etc/rc.d/rc.nutstats ]; then
     fi
 fi
 
-if [ ! -f /boot/config/plugins/nut-dw/migration-failed ] &amp;&amp; [ -d /boot/config/plugins/nut-old ]; then
+if [ ! -f /boot/config/plugins/nut-dw/migration-failed ] && [ -d /boot/config/plugins/nut-old ]; then
     rm -rf /boot/config/plugins/nut-old
 fi
 
-if [ -d /boot/config/plugins/nut ] &amp;&amp; [ ! -d /boot/config/plugins/nut-dw ]; then
+if [ -d /boot/config/plugins/nut ] && [ ! -d /boot/config/plugins/nut-dw ]; then
     MIGRATIONFAILED="NO"
     echo "Now migrating previous NUT configuration layout to new NUT configuration layout..."
 
-    mkdir -p /boot/config/plugins/nut-dw 2>&amp;1 || MIGRATIONFAILED="YES"
-    cp -rf /boot/config/plugins/nut/* /boot/config/plugins/nut-dw/ 2>&amp;1 || MIGRATIONFAILED="YES"
-    mv -f /boot/config/plugins/nut-dw/nut.cfg /boot/config/plugins/nut-dw/nut-dw.cfg 2>&amp;1 || MIGRATIONFAILED="YES"
-    [ -d /boot/config/plugins/nut-dw ] 2>&amp;1 || MIGRATIONFAILED="YES"
-    [ -f /boot/config/plugins/nut-dw/nut-dw.cfg ] 2>&amp;1 || MIGRATIONFAILED="YES"
+    mkdir -p /boot/config/plugins/nut-dw 2>&1 || MIGRATIONFAILED="YES"
+    cp -rf /boot/config/plugins/nut/* /boot/config/plugins/nut-dw/ 2>&1 || MIGRATIONFAILED="YES"
+    mv -f /boot/config/plugins/nut-dw/nut.cfg /boot/config/plugins/nut-dw/nut-dw.cfg 2>&1 || MIGRATIONFAILED="YES"
+    [ -d /boot/config/plugins/nut-dw ] 2>&1 || MIGRATIONFAILED="YES"
+    [ -f /boot/config/plugins/nut-dw/nut-dw.cfg ] 2>&1 || MIGRATIONFAILED="YES"
 
     if [ "$MIGRATIONFAILED" == "YES" ]; then
         echo "WARNING:"
@@ -499,10 +500,10 @@ if [ -d /boot/config/plugins/nut ] &amp;&amp; [ ! -d /boot/config/plugins/nut-dw
             update_cron
             sleep 1
         fi
-        touch /boot/config/plugins/nut-dw/migration-failed 2>&amp;1
+        touch /boot/config/plugins/nut-dw/migration-failed 2>&1
     else
         echo "Your NUT configuration layout has been successfully migrated to the new NUT configuration layout."
-        touch /boot/config/plugins/nut-dw/migration-complete 2>&amp;1
+        touch /boot/config/plugins/nut-dw/migration-complete 2>&1
     fi
     rm -f /boot/config/plugins/nut/*.md5
     rm -f /boot/config/plugins/nut/*.txz
@@ -510,6 +511,7 @@ if [ -d /boot/config/plugins/nut ] &amp;&amp; [ ! -d /boot/config/plugins/nut-dw
 fi
 echo ""
 exit 0
+]]>
 </INLINE>
 </FILE>
 
@@ -546,6 +548,7 @@ exit 0
 <!-- slack15.1 backend switch -->
 <FILE Min="6.13" Run="/bin/bash">
 <INLINE>
+<![CDATA[
 CONFIG=&plgPATH;/&name;.cfg
 if [ -e "$CONFIG" ]; then
     source "$CONFIG"
@@ -573,6 +576,7 @@ else
     upgradepkg --install-new &plgPATH;/nut-2.8.3-x86_64-2stable.ssl31.txz
 fi
 echo ""
+]]>
 </INLINE>
 </FILE>
 
@@ -609,6 +613,7 @@ echo ""
 <!-- slack15.0 backend switch -->
 <FILE Min="6.10" Max="6.12.99" Run="/bin/bash">
 <INLINE>
+<![CDATA[
 CONFIG=&plgPATH;/&name;.cfg
 if [ -e "$CONFIG" ]; then
     source "$CONFIG"
@@ -636,6 +641,7 @@ else
     upgradepkg --install-new &plgPATH;/nut-2.8.3-x86_64-2stable.ssl11.txz
 fi
 echo ""
+]]>
 </INLINE>
 </FILE>
 
@@ -691,11 +697,23 @@ echo ""
 <!-- installation -->
 <FILE Run="/bin/bash">
 <INLINE>
+<![CDATA[
 CONFIG=&plgPATH;/&name;.cfg
 
 if [ -d /usr/local/emhttp/plugins/nut ]; then
     echo "Now removing the remaining parts of the previous NUT configuration layout..."
     rm -rf /usr/local/emhttp/plugins/nut
+fi
+
+if [ -n "&plgPATH;" ] && [ -d "&plgPATH;" ] && [ -f "/boot/config/plugins/&name;.plg" ]; then
+    echo "Now checking for remnants of previous plugin versions to delete..."
+    find "&plgPATH;" -maxdepth 1 -name '*.txz' -print0 | while IFS= read -r -d '' f; do
+        fn="$(basename "$f")"
+        base="${fn%.txz}"
+        grep -qF -- "$fn" "/boot/config/plugins/&name;.plg" && continue
+        compgen -G "/var/log/packages/${base}*" >/dev/null 2>&1 && continue
+        printf '%s\0' "$f"
+    done | xargs -0r rm -v 2>&1
 fi
 
 # reading our configuration
@@ -707,18 +725,18 @@ fi
 # determine if config wants NUT services to start
 echo "Determining if NUT services should be started..."
 
-if [ "$MODE" != "slave" ] &amp;&amp; [ "$DRIVER" == "snmp-ups" ]; then
+if [ "$MODE" != "slave" ] && [ "$DRIVER" == "snmp-ups" ]; then
     if [ "$SERVICE" == "enable" ]; then
         echo "SNMP driver is configured, starting NUT services in background instead (see SYSLOG)..."
-        at -M now &lt;&lt;&lt; "/etc/rc.d/rc.nut start 2>&amp;1 | logger -t \"rc.nut\""
+        at -M now <<< "/etc/rc.d/rc.nut start 2>&1 | logger -t \"rc.nut\""
     elif [ "$STATISTICS" == "enable" ]; then
         echo "SNMP driver is configured, starting NUT statistic services in background instead (see SYSLOG)..."
-        at -M now &lt;&lt;&lt; "/etc/rc.d/rc.nutstats check 2>&amp;1 | logger -t \"rc.nutstats\""
+        at -M now <<< "/etc/rc.d/rc.nutstats check 2>&1 | logger -t \"rc.nutstats\""
     fi
 else
     if [ "$SERVICE" == "enable" ]; then
         echo "Starting NUT services..."
-        /etc/rc.d/rc.nut start 2>&amp;1 | logger -t "rc.nut"
+        /etc/rc.d/rc.nut start 2>&1 | logger -t "rc.nut"
         if [ "${PIPESTATUS[0]}" -eq 0 ]; then
             echo "NUT services have been started successfully."
         else
@@ -726,7 +744,7 @@ else
         fi
     elif [ "$STATISTICS" == "enable" ]; then
         echo "Starting NUT statistic services..."
-        /etc/rc.d/rc.nutstats check 2>&amp;1 | logger -t "rc.nutstats"
+        /etc/rc.d/rc.nutstats check 2>&1 | logger -t "rc.nutstats"
         if [ "${PIPESTATUS[0]}" -eq 0 ]; then
             echo "NUT statistic services have been started successfully."
         else
@@ -741,25 +759,27 @@ echo " Network UPS Tools (NUT) for UNRAID has been installed."
 echo " Version: &version; / Plugin Maintainer: &author;"
 echo "-----------------------------------------------------------"
 echo ""
+]]>
 </INLINE>
 </FILE>
 
 <!-- uninstallation -->
 <FILE Run="/bin/bash" Method="remove">
 <INLINE>
+<![CDATA[
 echo "Making sure all existing NUT services are stopped (before uninstall)..."
 if [ -x /etc/rc.d/rc.nut ]; then
-    if ! /etc/rc.d/rc.nut stop >/dev/null 2>&amp;1; then
+    if ! /etc/rc.d/rc.nut stop >/dev/null 2>&1; then
         echo "WARNING:"
         echo "WARNING: The NUT uninstallation script was not able to stop all NUT services gracefully."
         echo "WARNING: IN CASE OF PROBLEMS, please REBOOT YOUR SYSTEM to remove any remaining packages."
         echo "WARNING:"
     fi
-    killall nut-poller >/dev/null 2>&amp;1
+    killall nut-poller >/dev/null 2>&1
 fi
 
 if [ -x /etc/rc.d/rc.nutstats ]; then
-    if ! /etc/rc.d/rc.nutstats disable >/dev/null 2>&amp;1; then
+    if ! /etc/rc.d/rc.nutstats disable >/dev/null 2>&1; then
         echo "WARNING:"
         echo "WARNING: The NUT uninstallation script was not able to stop all NUT statistic services gracefully."
         echo "WARNING: IN CASE OF PROBLEMS, please REBOOT YOUR SYSTEM to remove any remaining packages."
@@ -829,7 +849,7 @@ fi
 if [ "$RESTARTSYSLOG" == "YES" ]; then
     echo "Restarting SYSLOG daemon due to configurational changes for NUT..."
     sleep 1
-    /etc/rc.d/rc.rsyslogd restart >/dev/null 2>&amp;1
+    /etc/rc.d/rc.rsyslogd restart >/dev/null 2>&1
     sleep 1
 fi
 rm -f /var/log/nut.log
@@ -837,7 +857,7 @@ rm -f /var/log/nut-spam
 rm -f /boot/logs/nut.log
 rm -f /boot/logs/nut-spam
 
-rm -f /etc/cron.daily/nut-poller >/dev/null 2>&amp;1
+rm -f /etc/cron.daily/nut-poller >/dev/null 2>&1
 
 echo ""
 echo "-----------------------------------------------------------"
@@ -845,6 +865,7 @@ echo " Network UPS Tools (NUT) for UNRAID has been removed."
 echo " Version: &version; / Plugin Maintainer: &author;"
 echo "-----------------------------------------------------------"
 echo ""
+]]>
 </INLINE>
 </FILE>
 
