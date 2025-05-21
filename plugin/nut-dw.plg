@@ -3,7 +3,7 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "nut-dw">
 <!ENTITY author    "desertwitch">
-<!ENTITY version   "2025.05.21b">
+<!ENTITY version   "2025.05.21c">
 <!ENTITY launch    "Settings/NUTsettings">
 <!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/master">
 <!ENTITY pluginURL "&gitURL;/plugin/&name;.plg">
@@ -18,7 +18,7 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
-###2025.05.21b
+###2025.05.21c
 - new: the default backend was re-built from the final release version from the NUT website
 - new: the preview (latest build) backend was updated to the most recent master branch as of 21.05.2025
 ###2025.04.29a
@@ -514,8 +514,8 @@ exit 0
 </FILE>
 
 <!-- slack15.1 preview -->
-<FILE Name="&plgPATH;/nut-2.8.3-x86_64-1master.ssl31.txz" Min="6.13">
-<URL>&pkgURL;/nut-2.8.3-x86_64-1master.ssl31.txz</URL>
+<FILE Name="&plgPATH;/nut-2.8.3-x86_64-2master.ssl31.txz" Min="6.13">
+<URL>&pkgURL;/nut-2.8.3-x86_64-2master.ssl31.txz</URL>
 <MD5>851555c22c99903419f200a4ba09754e</MD5>
 </FILE>
 
@@ -551,7 +551,7 @@ if [ -e "$CONFIG" ]; then
     source "$CONFIG"
     if [ "$BACKEND" == "preview" ]; then
         echo "Installing user-configured PREVIEW backend for NUT..."
-        upgradepkg --install-new &plgPATH;/nut-2.8.3-x86_64-1master.ssl31.txz
+        upgradepkg --install-new &plgPATH;/nut-2.8.3-x86_64-2master.ssl31.txz
     elif [ "$BACKEND" == "default" ]; then
         echo "Installing DEFAULT backend for NUT..."
         upgradepkg --install-new &plgPATH;/nut-2.8.3-x86_64-2stable.ssl31.txz
@@ -577,8 +577,8 @@ echo ""
 </FILE>
 
 <!-- slack15.0 preview -->
-<FILE Name="&plgPATH;/nut-2.8.3-x86_64-1master.ssl11.txz" Min="6.10" Max="6.12.99">
-<URL>&pkgURL;/nut-2.8.3-x86_64-1master.ssl11.txz</URL>
+<FILE Name="&plgPATH;/nut-2.8.3-x86_64-2master.ssl11.txz" Min="6.10" Max="6.12.99">
+<URL>&pkgURL;/nut-2.8.3-x86_64-2master.ssl11.txz</URL>
 <MD5>7506918d3b089a4c7c14c0619facc784</MD5>
 </FILE>
 
@@ -614,7 +614,7 @@ if [ -e "$CONFIG" ]; then
     source "$CONFIG"
     if [ "$BACKEND" == "preview" ]; then
         echo "Installing user-configured PREVIEW backend for NUT..."
-        upgradepkg --install-new &plgPATH;/nut-2.8.3-x86_64-1master.ssl11.txz
+        upgradepkg --install-new &plgPATH;/nut-2.8.3-x86_64-2master.ssl11.txz
     elif [ "$BACKEND" == "default" ]; then
         echo "Installing DEFAULT backend for NUT..."
         upgradepkg --install-new &plgPATH;/nut-2.8.3-x86_64-2stable.ssl11.txz
