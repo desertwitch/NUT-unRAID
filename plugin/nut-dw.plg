@@ -19,7 +19,7 @@
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
 ###2025.08.11
-- fix: resolved footer no longer appearing in latest OS beta version
+- fix: footer no longer appearing in latest OS beta version
 - new: preview backend updated (to nut master 541c2ec)
 - new: default backend updated (nut 2.8.3 to nut 2.8.4)
 - new: previous backend updated (nut 2.8.2 to nut 2.8.3)
@@ -28,7 +28,7 @@
 - default backend: for this you just set the backend setting to "previous" and then update (no reinstall/reboot).
 - other backends: if you want to stay on your current version, switch to respective older backend before updating,
 - other backends: only exception being the "release" branch where nut 2.8.1 is now deprecated and no longer offered.
-- release note: other minor visual problems in latest OS beta are known and will be improved with OS stable release.
+- release note: other minor visual problems in latest OS beta are known and will eventually be improved with OS stable release.
 ###2025.05.21c
 - new: the default backend was re-built from the final release version from the NUT website
 - new: the preview (latest build) backend was updated to the most recent master branch as of 21.05.2025
