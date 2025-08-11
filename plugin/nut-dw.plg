@@ -3,14 +3,14 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "nut-dw">
 <!ENTITY author    "desertwitch">
-<!ENTITY version   "2025.05.21c">
+<!ENTITY version   "2025.08.11">
 <!ENTITY launch    "Settings/NUTsettings">
 <!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/pkgs">
 <!ENTITY pluginURL "&gitURL;/plugin/&name;.plg">
 <!ENTITY pkgURL    "&gitURL;/packages">
 <!ENTITY plgPATH   "/boot/config/plugins/&name;">
-<!ENTITY plgNAME   "nut-plugin-2025.04.29-x86_64-2">
-<!ENTITY plgMD5    "a0bf525aa62dbfe1ff7483ae7db1bb0d">
+<!ENTITY plgNAME   "nut-plugin-2025.08.11-x86_64-1">
+<!ENTITY plgMD5    "780a9fb5dab3d4c35ded4291fa172d81">
 <!ENTITY emhttp    "/usr/local/emhttp/plugins/&name;">
 ]>
 
