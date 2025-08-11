@@ -133,11 +133,18 @@ function getNUTfooter() {
     <?endif;?>
 }
 $(function() {
+    <?if(version_compare(parse_ini_file('/etc/unraid-version')['version'],'7.1.99', '>')):?>
+    var footer = $("<span id='nut_footer'></span>").appendTo("#footer > div.footer-left:first");
+    <?else:?>
     var footer = $("<span id='nut_footer'></span>").insertAfter("#footer > span#copyright");
+    <?endif;?>
+
     <?if ($nut_footer_style == 1): ?>
     footer.addClass('minimal');
     <?endif;?>
+
     getNUTfooter();
+
     $('body').on('mouseenter', '.tooltip-nut', function() {
         if (!$(this).hasClass("tooltipstered")) {
             $(this).tooltipster({

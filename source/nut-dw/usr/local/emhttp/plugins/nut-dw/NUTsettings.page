@@ -101,16 +101,16 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
                 if(isset($URversion) && $URversion) {
                     if (version_compare($URversion, '6.12.99', '>')) {
                         echo(mk_option($nut_backend, "preview", "preview (latest build)"));
-                        echo(mk_option($nut_backend, "default", "default (2.8.3 stable)"));
-                        echo(mk_option($nut_backend, "previous", "previous (2.8.2 stable)"));
-                        echo(mk_option($nut_backend, "stable", "release (2.8.1 stable)"));
+                        echo(mk_option($nut_backend, "default", "default (2.8.4 stable)"));
+                        echo(mk_option($nut_backend, "previous", "previous (2.8.3 stable)"));
+                        echo(mk_option($nut_backend, "stable", "release (2.8.2 stable)"));
                         echo(mk_option($nut_backend, "legacy", "legacy (2.7.4 w/o SNMP)"));
                     }
                     elseif (version_compare($URversion, '6.10.0', '>') && version_compare($URversion, '6.12.99', '<')) {
                         echo(mk_option($nut_backend, "preview", "preview (latest build)"));
-                        echo(mk_option($nut_backend, "default", "default (2.8.3 stable)"));
-                        echo(mk_option($nut_backend, "previous", "previous (2.8.2 stable)"));
-                        echo(mk_option($nut_backend, "stable", "release (2.8.1 stable)"));
+                        echo(mk_option($nut_backend, "default", "default (2.8.4 stable)"));
+                        echo(mk_option($nut_backend, "previous", "previous (2.8.3 stable)"));
+                        echo(mk_option($nut_backend, "stable", "release (2.8.2 stable)"));
                         echo(mk_option($nut_backend, "legacy", "legacy (2.7.4 stable)"));
                     }
                     else {
