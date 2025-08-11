@@ -577,27 +577,27 @@ echo ""
 </FILE>
 
 <!-- slack15.0 preview -->
-<FILE Name="&plgPATH;/nut-2.8.3-x86_64-2master.ssl11.txz" Min="6.10" Max="6.12.99">
-<URL>&pkgURL;/nut-2.8.3-x86_64-2master.ssl11.txz</URL>
-<MD5>7506918d3b089a4c7c14c0619facc784</MD5>
+<FILE Name="&plgPATH;/nut-2.8.4-x86_64-1master.ssl11.txz" Min="6.10" Max="6.12.99">
+<URL>&pkgURL;/nut-2.8.4-x86_64-1master.ssl11.txz</URL>
+<MD5>b2be0035defeb62db11304752e80223b</MD5>
 </FILE>
 
 <!-- slack15.0 default -->
+<FILE Name="&plgPATH;/nut-2.8.4-x86_64-1stable.ssl11.txz" Min="6.10" Max="6.12.99">
+<URL>&pkgURL;/nut-2.8.4-x86_64-1stable.ssl11.txz</URL>
+<MD5>b2be0035defeb62db11304752e80223b</MD5>
+</FILE>
+
+<!-- slack15.0 previous -->
 <FILE Name="&plgPATH;/nut-2.8.3-x86_64-2stable.ssl11.txz" Min="6.10" Max="6.12.99">
 <URL>&pkgURL;/nut-2.8.3-x86_64-2stable.ssl11.txz</URL>
 <MD5>9c2325611e2e76cb2ef318bc5ed41551</MD5>
 </FILE>
 
-<!-- slack15.0 previous -->
+<!-- slack15.0 stable -->
 <FILE Name="&plgPATH;/nut-2.8.2-x86_64-1stable.ssl11.txz" Min="6.10" Max="6.12.99">
 <URL>&pkgURL;/nut-2.8.2-x86_64-1stable.ssl11.txz</URL>
 <MD5>83e33e9efa44c8a652b07acf5a76a3c4</MD5>
-</FILE>
-
-<!-- slack15.0 stable -->
-<FILE Name="&plgPATH;/nut-2.8.1-x86_64-2stable.ssl11.txz" Min="6.10" Max="6.12.99">
-<URL>&pkgURL;/nut-2.8.1-x86_64-2stable.ssl11.txz</URL>
-<MD5>c27e063a311ffee9426aae6dcce8ee48</MD5>
 </FILE>
 
 <!-- slack15.0 legacy -->
@@ -614,26 +614,26 @@ if [ -e "$CONFIG" ]; then
     source "$CONFIG"
     if [ "$BACKEND" == "preview" ]; then
         echo "Installing user-configured PREVIEW backend for NUT..."
-        upgradepkg --install-new &plgPATH;/nut-2.8.3-x86_64-2master.ssl11.txz
+        upgradepkg --install-new &plgPATH;/nut-2.8.4-x86_64-1master.ssl11.txz
     elif [ "$BACKEND" == "default" ]; then
         echo "Installing DEFAULT backend for NUT..."
-        upgradepkg --install-new &plgPATH;/nut-2.8.3-x86_64-2stable.ssl11.txz
+        upgradepkg --install-new &plgPATH;/nut-2.8.4-x86_64-1stable.ssl11.txz
     elif [ "$BACKEND" == "previous" ]; then
         echo "Installing user-configured PREVIOUS backend for NUT..."
-        upgradepkg --install-new &plgPATH;/nut-2.8.2-x86_64-1stable.ssl11.txz
+        upgradepkg --install-new &plgPATH;/nut-2.8.3-x86_64-2stable.ssl11.txz
     elif [ "$BACKEND" == "stable" ]; then
         echo "Installing user-configured STABLE backend for NUT..."
-        upgradepkg --install-new &plgPATH;/nut-2.8.1-x86_64-2stable.ssl11.txz
+        upgradepkg --install-new &plgPATH;/nut-2.8.2-x86_64-1stable.ssl11.txz
     elif [ "$BACKEND" == "legacy" ]; then
         echo "Installing user-configured LEGACY backend for NUT..."
         upgradepkg --install-new &plgPATH;/nut-2.7.4.20200318-x86_64-1.txz
     else
         echo "Installing DEFAULT backend for NUT..."
-        upgradepkg --install-new &plgPATH;/nut-2.8.3-x86_64-2stable.ssl11.txz
+        upgradepkg --install-new &plgPATH;/nut-2.8.4-x86_64-1stable.ssl11.txz
     fi
 else
     echo "Installing DEFAULT backend for NUT..."
-    upgradepkg --install-new &plgPATH;/nut-2.8.3-x86_64-2stable.ssl11.txz
+    upgradepkg --install-new &plgPATH;/nut-2.8.4-x86_64-1stable.ssl11.txz
 fi
 echo ""
 </INLINE>
