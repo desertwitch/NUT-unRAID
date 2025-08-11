@@ -27,7 +27,7 @@
 - default backend: for this you just set the backend setting to "previous" and then update (no reinstall/reboot).
 - other backends: if you want to stay on your current version, switch to respective older backend before updating,
 - other backends: only exception being the "release" branch where nut 2.8.1 is now deprecated and no longer offered.
-- release note: minor visual problems (footer, ...) in latest OS beta are known and will be fixed with OS stable release.
+- release note: minor visual problems in the latest OS beta are known and will eventually be fixed with the OS stable release.
 ###2025.05.21c
 - new: the default backend was re-built from the final release version from the NUT website
 - new: the preview (latest build) backend was updated to the most recent master branch as of 21.05.2025
