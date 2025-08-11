@@ -5,7 +5,7 @@
 <!ENTITY author    "desertwitch">
 <!ENTITY version   "2025.08.11">
 <!ENTITY launch    "Settings/NUTsettings">
-<!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/pkgs">
+<!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/master">
 <!ENTITY pluginURL "&gitURL;/plugin/&name;.plg">
 <!ENTITY pkgURL    "&gitURL;/packages">
 <!ENTITY plgPATH   "/boot/config/plugins/&name;">
