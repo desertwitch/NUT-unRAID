@@ -134,7 +134,7 @@ function getNUTfooter() {
 }
 $(function() {
     <?if(version_compare(parse_ini_file('/etc/unraid-version')['version'],'7.1.99', '>')):?>
-    var footer = $("<span id='nut_footer'></span>").appendTo("#footer > div.footer-left:first");
+    var footer = $("<span id='nut_footer'></span>").appendTo(".footer-right");
     <?else:?>
     var footer = $("<span id='nut_footer'></span>").insertAfter("#footer > span#copyright");
     <?endif;?>
