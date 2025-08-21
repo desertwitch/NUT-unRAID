@@ -69,7 +69,7 @@ require_once '/usr/local/emhttp/plugins/nut-dw/include/nut_config.php';
                     <strong>Password:</strong> <input type="password" name="nutcmdpass" value="adminpass" class="narrow">
                     <input type="checkbox" name="nutcmdwait" id="nutcmdwait">
                     <label for="nutcmdwait">Wait for Driver Response</label><br>
-                    <strong>Additional Argument:</strong> <input type="text" name="nutcmdarg" id="nutcmdarg" value=""> (as optional/required by some commands)<br>
+                    <strong>Additional Argument:</strong><br><input type="text" name="nutcmdarg" id="nutcmdarg" value=""> (as optional/required by some commands)<br>
                     Not every UPS will support all listed commands, they are always dependent on the implementation in both the driver and the UPS firmware itself.<br>
                     <span style="color:red;font-weight:bold;"><i class="fa fa-exclamation-triangle"></i> Some of these commands can <u>disrupt the power to your server</u> without confirmation, always <u>read the descriptions</u> before executing commands.</span>
                 </td>

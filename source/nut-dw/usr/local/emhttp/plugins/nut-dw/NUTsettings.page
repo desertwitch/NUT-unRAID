@@ -72,6 +72,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
 <form markdown="0" id="nut-settings" name="nut_settings" method="POST" action="/update.php" target="progressFrame">
     <input type="hidden" name="#file" value="<?=$sName?>/<?=$sName?>.cfg">
     <input type="hidden" id="command" name="#command" value="/usr/local/emhttp/plugins/nut-dw/scripts/write_config" />
+
     <span style="float:right;margin-right:10px">
     <a href="https://forums.unraid.net/topic/60217-plugin-nut-v2-network-ups-tools/" target="_blank" title="NUT Support Thread"><i class="fa fa-medkit"></i> <u>Support Thread</u></a>
      / <a href="http://www.networkupstools.org/docs/user-manual.chunked/" target="_blank" title="NUT User Manual"><i class="fa fa-file-text-o"></i> <u>User Manual</u></a>
@@ -79,7 +80,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
     <?if(file_exists("/var/log/nut.log") && ($nut_syslog_method == 'file' || $nut_syslog_method == 'both')):?>
      / <a onclick="openTerminal('log','nut','nut.log')" style="cursor:pointer;" title="NUT Service Logs"><i class="fa fa-book"></i> <u>Service Logs</u></a>
     <?endif;?>
-    </span>
+    </span><br>
 
     <dl>
         <dt>Network UPS Tools Backend:</dt>
@@ -153,7 +154,10 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
                 <?=mk_option($nut_usb_override, "disable", "No");?>
                 <?=mk_option($nut_usb_override, "enable", "Yes");?>
             </select>
-            <i class="fa fa-exclamation-triangle tooltip-nutsett" title="System-Wide Setting" style="cursor:help;"></i>
+            <span>
+                <i class="fa fa-exclamation-triangle tooltip-nutsett" title="System-Wide Setting" style="cursor:help;"></i>
+                <?if(version_compare(parse_ini_file('/etc/unraid-version')['version'],'7.1.99', '>')):?> System-Wide Setting<?endif;?>
+            </span>
         </dd>
     </dl>
 
@@ -171,16 +175,22 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
                 <?=mk_option($nut_syslog_filter, "disable", "No");?>
                 <?=mk_option($nut_syslog_filter, "enable", "Yes");?>
             </select>
-            <i class="fa fa-exclamation-triangle tooltip-nutsett" title="System-Wide Setting" style="cursor:help;"></i>
+            <span>
+                <i class="fa fa-exclamation-triangle tooltip-nutsett" title="System-Wide Setting" style="cursor:help;"></i>
+                <?if(version_compare(parse_ini_file('/etc/unraid-version')['version'],'7.1.99', '>')):?> System-Wide Setting<?endif;?>
+            </span>
             <?if(file_exists("/var/log/nut-spam")):?>
             <a onclick="openTerminal('log','nut-spam','nut-spam')" style="color:inherit;margin-left:5px;cursor:pointer;">
                 <i class="fa fa-book tooltip-nutsett <?=($nut_syslog_filter == 'enable') ? '' : 'nut-inactive';?>" title="NUT Spam Logs<?=($nut_syslog_filter == 'enable') ? '' : ' (Inactive)';?>"></i>
+                <?if(version_compare(parse_ini_file('/etc/unraid-version')['version'],'7.1.99', '>')):?> NUT Spam Logs<?=($nut_syslog_filter == 'enable') ? '' : ' (Inactive)';?><?endif;?>
             </a>
             <a href="/plugins/nut-dw/include/nut_spamlog_helper.php?dl=true" style="color:inherit;margin-left:5px;cursor:pointer;">
                 <i class="fa fa-download tooltip-nutsett <?=($nut_syslog_filter == 'enable') ? '' : 'nut-inactive';?>" title="Download NUT Spam Logs<?=($nut_syslog_filter == 'enable') ? '' : ' (Inactive)';?>"></i>
+                <?if(version_compare(parse_ini_file('/etc/unraid-version')['version'],'7.1.99', '>')):?> Download NUT Spam Logs<?=($nut_syslog_filter == 'enable') ? '' : ' (Inactive)';?><?endif;?>
             </a>
             <span id="nut_rotate_spam" style="margin-left:5px;cursor:pointer;">
                 <i class="fa fa-trash tooltip-nutsett <?=($nut_syslog_filter == 'enable') ? '' : 'nut-inactive';?>" title="Delete NUT Spam Logs<?=($nut_syslog_filter == 'enable') ? '' : ' (Inactive)';?>"></i>
+                <?if(version_compare(parse_ini_file('/etc/unraid-version')['version'],'7.1.99', '>')):?> Delete NUT Spam Logs<?=($nut_syslog_filter == 'enable') ? '' : ' (Inactive)';?><?endif;?>
             </span>
             <?endif;?>
         </dd>
@@ -202,16 +212,22 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
                 <?=mk_option($nut_syslog_method, "file", "File (not to Syslog)");?>
                 <?=mk_option($nut_syslog_method, "both", "File (and to Syslog)");?>
             </select>
-            <i class="fa fa-exclamation-triangle tooltip-nutsett" title="System-Wide Setting" style="cursor:help;"></i>
+            <span>
+                <i class="fa fa-exclamation-triangle tooltip-nutsett" title="System-Wide Setting" style="cursor:help;"></i>
+                <?if(version_compare(parse_ini_file('/etc/unraid-version')['version'],'7.1.99', '>')):?> System-Wide Setting<?endif;?>
+            </span>
             <?if(file_exists("/var/log/nut.log")):?>
             <a onclick="openTerminal('log','nut','nut.log')" style="color:inherit;margin-left:5px;cursor:pointer;">
                 <i class="fa fa-book tooltip-nutsett <?=($nut_syslog_method == 'file' || $nut_syslog_method == 'both') ? '' : 'nut-inactive';?>" title="NUT Service Logs<?=($nut_syslog_method == 'file' || $nut_syslog_method == 'both') ? '' : ' (Inactive)';?>"></i>
+                <?if(version_compare(parse_ini_file('/etc/unraid-version')['version'],'7.1.99', '>')):?> NUT Service Logs<?=($nut_syslog_method == 'file' || $nut_syslog_method == 'both') ? '' : ' (Inactive)';?><?endif;?>
             </a>
             <a href="/plugins/nut-dw/include/nut_nutlog_helper.php?dl=true" style="color:inherit;margin-left:5px;cursor:pointer;">
                 <i class="fa fa-download tooltip-nutsett <?=($nut_syslog_method == 'file' || $nut_syslog_method == 'both') ? '' : 'nut-inactive';?>" title="Download NUT Service Logs<?=($nut_syslog_method == 'file' || $nut_syslog_method == 'both') ? '' : ' (Inactive)';?>"></i>
+                <?if(version_compare(parse_ini_file('/etc/unraid-version')['version'],'7.1.99', '>')):?> Download NUT Service Logs<?=($nut_syslog_method == 'file' || $nut_syslog_method == 'both') ? '' : ' (Inactive)';?><?endif;?>
             </a>
             <span id="nut_rotate_log" style="margin-left:5px;cursor:pointer;">
                 <i class="fa fa-trash tooltip-nutsett <?=($nut_syslog_method == 'file' || $nut_syslog_method == 'both') ? '' : 'nut-inactive';?>" title="Delete NUT Service Logs<?=($nut_syslog_method == 'file' || $nut_syslog_method == 'both') ? '' : ' (Inactive)';?>"></i>
+                <?if(version_compare(parse_ini_file('/etc/unraid-version')['version'],'7.1.99', '>')):?> Delete NUT Service Logs<?=($nut_syslog_method == 'file' || $nut_syslog_method == 'both') ? '' : ' (Inactive)';?><?endif;?>
             </span>
             <?endif;?>
         </dd>
@@ -423,7 +439,10 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
                     <?=mk_option($nut_driver, 'custom', 'custom (not listed)');?>
                     </select>
                     <input type="hidden" class="narrow serial nut-run" id="SERIAL" name="SERIAL" placeholder="driver name" maxlength="40" value="<?=$nut_serial;?>">
-                    <i class="fa fa-search tooltip-nutsett" title="Scan for Devices" id="SCANDRIVERS" style="cursor:pointer;"></i>
+                    <span id="SCANDRIVERS" style="cursor:pointer;">
+                        <i class="fa fa-search tooltip-nutsett" title="Scan for Devices"></i>
+                        <?if(version_compare(parse_ini_file('/etc/unraid-version')['version'],'7.1.99', '>')):?> Scan for Devices<?endif;?>
+                    </span>
                 </dd>
             </dl>
 
@@ -680,12 +699,16 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
 
     <dl>
         <dt>
-            <input class="nut-run" type="submit" name="#default" value="Default">
-            <input id="RESETCONF" class="nut-run" type="button" value="Reset Config">
-            <input id="SCAN" class="nut-run" type="button" value="Auto Config">
+            <span>
+                <input class="nut-run" type="submit" name="#default" value="Default">
+                <input id="RESETCONF" class="nut-run" type="button" value="Reset Config">
+                <input id="SCAN" class="nut-run" type="button" value="Auto Config">
+            </span>
         </dt>
         <dd>
-            <input type="submit" id="btnApply" name="#apply" value="Apply"><input type="button" value="Done" onclick="done()"><input id="RESTART" type="submit" value="Restart Nut" style="margin-bottom:8px;">
+            <span>
+                <input type="submit" id="btnApply" name="#apply" value="Apply"><input type="button" value="Done" onclick="done()"><input id="RESTART" type="submit" value="Restart Nut" style="margin-bottom:8px;">
+            </span>
         </dd>
     </dl>
 </form>
@@ -1025,11 +1048,15 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
 
     <dl>
         <dt>
-            <input type="submit" name="#default" value="Default">
-            <input id="USBDIAGS" type="button" value="USB Diagnostics">
+            <span>
+                <input type="submit" name="#default" value="Default">
+                <input id="USBDIAGS" type="button" value="USB Diagnostics">
+            </span>
         </dt>
         <dd>
-            <input type="submit" value="Apply"><input type="button" value="Done" onclick="done()">
+            <span>
+                <input type="submit" value="Apply"><input type="button" value="Done" onclick="done()">
+            </span>
         </dd>
     </dl>
 </form>
