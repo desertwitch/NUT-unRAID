@@ -90,7 +90,9 @@ Link="nav-user"
 }
 #nut_footer {
   float: right;
+  <?if(version_compare(parse_ini_file('/etc/unraid-version')['version'],'7.1.99', '<')):?>
   margin-right: 6px;
+  <?endif;?>
 }
 #nut_footer.minimal {
   font-family: bitstream;
