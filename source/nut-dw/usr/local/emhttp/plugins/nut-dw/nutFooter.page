@@ -97,7 +97,9 @@ Link="nav-user"
 #nut_footer.minimal {
   font-family: bitstream;
   font-size: 1.1rem;
+  <?if(version_compare(parse_ini_file('/etc/unraid-version')['version'],'7.1.99', '<')):?>
   padding-right: 10px;
+  <?endif;?>
 }
 </style>
 <script type="text/javascript">
