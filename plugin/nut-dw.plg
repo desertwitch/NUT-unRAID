@@ -18,6 +18,8 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
+###2025.08.21
+- fix: make pages and dashboards compliant with new responsive UI
 ###2025.08.12
 - fix: adhere to recommended practice for beta footer placement
 ###2025.08.11
