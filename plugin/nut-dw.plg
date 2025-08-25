@@ -18,6 +18,9 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
+###2025.08.25
+- fix: suppress "service not gracefully stopped" warnings in slave mode
+- fix: allow up to 3 hours for shutdown timers to account for larger batteries
 ###2025.08.21a
 - fix: make pages and dashboards compliant with new responsive UI
 ###2025.08.12
