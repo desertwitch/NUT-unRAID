@@ -39,7 +39,7 @@ function nut_get_battery_options($selected=20){
 /* get options for time intervals */
 function nut_get_minute_options($time){
     $options = '';
-        for($i = 1; $i <= 60; $i++){
+        for($i = 1; $i <= 180; $i++){
             $options .= '<option value="'.($i*60).'"';
 
             if(intval($time) === ($i*60)) {
