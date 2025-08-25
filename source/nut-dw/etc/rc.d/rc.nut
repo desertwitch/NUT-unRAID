@@ -124,7 +124,19 @@ stop() {
     fi
 
     /usr/sbin/upsdrvctl stop
+}
 
+check_down() {
+    for chkfile in /var/run/nut/*.pid; do
+        [ -e "$chkfile" ] || continue
+        chkpid=$(cat "$chkfile" 2>/dev/null)
+
+        if [[ $chkpid =~ ^[0-9]+$ ]]; then
+            kill -0 "$chkpid" &>/dev/null && return 1
+        fi
+    done
+
+    return 0
 }
 
 backup_logs() {
@@ -469,6 +481,8 @@ case "$1" in
         write_config
         sleep 1
         stop
+        sleep 1
+        check_down
         ;;
     reload)
         sleep 1
