@@ -84,7 +84,7 @@ then
 
 elif [ "$NOTIFYTYPE" == "ONBATT" ]
 then
-        if [ "$SHUTDOWN" != "none" ] && {  [[ ! "$TIMER" =~ ^[0-9]+$ ]] || (( TIMER == 0 )); }; then
+        if [ "$SHUTDOWN" != "none" ] && [[ ! "$TIMER" =~ ^[0-9]+$ ]]; then
             SHUTDOWN="sec_timer"; TIMER=30; BATTERY=""
             MESSAGE="The system will shutdown in ${TIMER} seconds (due to malformed shutdown criteria set in GUI)."
             echo "Error: Malformed shutdown criteria, defaulting to ${TIMER} seconds timer..." | logger -t "nut-notify[$$]"
