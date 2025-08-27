@@ -18,6 +18,13 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
+###2025.08.27
+- fix: resolved timing issue with runtime-based shutdown logic
+- fix: refactored and modernized shutdown logic with additional logs
+- fix: added hard timeout for sending OS notifications during power events
+- fix: added fallback mechanism when encountering malformed shutdown settings
+- fix: added additional variable validation for frontend settings in GUI
+- new: added IP address of UPS to OS notifications sent for power events
 ###2025.08.25
 - fix: suppress "service not gracefully stopped" warnings in slave mode
 - fix: allow up to 3 hours for shutdown timers to account for larger batteries
