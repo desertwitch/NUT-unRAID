@@ -74,7 +74,7 @@ then
 
         if [ "$(type -t "ONLINE")" == "function" ]; then
             echo "Executing user's hook scripts for ONLINE (non-blocking)..." | logger -t "nut-notify[$$]"
-            ( ONLINE 2>&1 | logger -t "xnut-notify-hooks.sh" ) &
+            ( ONLINE 2>&1 | logger -t "xnut-notify-hooks.sh[$$]" ) &
         fi
 
         timeout -s9 15 $NOTIFY -e "${EVENT}" -s "Notice ${SUBJECT} Online" -d "UPS is online, any planned shutdowns were cancelled." -i "normal"
@@ -88,7 +88,7 @@ then
 
         if [ "$(type -t "ONBATT")" == "function" ]; then
             echo "Executing user's hook scripts for ONBATT (non-blocking)..." | logger -t "nut-notify[$$]"
-            ( ONBATT 2>&1 | logger -t "xnut-notify-hooks.sh" ) &
+            ( ONBATT 2>&1 | logger -t "xnut-notify-hooks.sh[$$]" ) &
         fi
 
         timeout -s9 15 $NOTIFY -e "${EVENT}" -s "Alert ${SUBJECT} On Battery" -d "UPS is on battery. ${MESSAGE}" -i "alert"
@@ -120,7 +120,7 @@ then
 
             if [ "$(type -t "ONBATT_SHUTDOWN")" == "function" ]; then
                 echo "Executing user's hook scripts for ONBATT_SHUTDOWN (non-blocking)..." | logger -t "nut-notify[$$]"
-                ( ONBATT_SHUTDOWN 2>&1 | logger -t "xnut-notify-hooks.sh" ) &
+                ( ONBATT_SHUTDOWN 2>&1 | logger -t "xnut-notify-hooks.sh[$$]" ) &
             fi
 
             timeout -s9 15 $NOTIFY -e "${EVENT}" -s "Alert ${SUBJECT} Shutdown" -d "UNRAID is being gracefully shutdown from a UPS power event." -i "alert"
@@ -138,7 +138,7 @@ then
 
             if [ "$(type -t "REPLBATT")" == "function" ]; then
                 echo "Executing user's hook scripts for REPLBATT (non-blocking)..." | logger -t "nut-notify[$$]"
-                ( REPLBATT 2>&1 | logger -t "xnut-notify-hooks.sh" ) &
+                ( REPLBATT 2>&1 | logger -t "xnut-notify-hooks.sh[$$]" ) &
             fi
 
             timeout -s9 15 $NOTIFY -e "${EVENT}" -s "Alert ${SUBJECT} Battery Replacement" -d "UPS reports that its batteries need replacement." -i "alert"
@@ -153,7 +153,7 @@ else
 
         if [ "$(type -t "$NOTIFYTYPE")" == "function" ]; then
             echo "Executing user's hook scripts for $NOTIFYTYPE (non-blocking)..." | logger -t "nut-notify[$$]"
-            ( "$NOTIFYTYPE" 2>&1 | logger -t "xnut-notify-hooks.sh" ) &
+            ( "$NOTIFYTYPE" 2>&1 | logger -t "xnut-notify-hooks.sh[$$]" ) &
         fi
 
         timeout -s9 15 $NOTIFY -e "${EVENT}" -s "Alert ${SUBJECT}" -d "$1" -i "alert"
