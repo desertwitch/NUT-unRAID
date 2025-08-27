@@ -76,7 +76,7 @@ then
             ( ONLINE 2>&1 | logger -t "xnut-notify-hooks.sh[$$]" ) &
         fi
 
-        timeout -s9 15 $NOTIFY -e "${EVENT}" -s "Notice ${SUBJECT} Online" -d "UPS is online, any planned shutdowns were cancelled." -i "normal"
+        timeout -s9 15 "$NOTIFY" -e "${EVENT}" -s "Notice ${SUBJECT} Online" -d "UPS is online, any planned shutdowns were cancelled." -i "normal"
         if [ $? -gt 100 ]; then
             echo "OS notifications could not be sent within 15 seconds..." | logger -t "nut-notify[$$]"
         fi
@@ -90,7 +90,7 @@ then
             ( ONBATT 2>&1 | logger -t "xnut-notify-hooks.sh[$$]" ) &
         fi
 
-        timeout -s9 15 $NOTIFY -e "${EVENT}" -s "Alert ${SUBJECT} On Battery" -d "UPS is on battery. ${MESSAGE}" -i "alert"
+        timeout -s9 15 "$NOTIFY" -e "${EVENT}" -s "Alert ${SUBJECT} On Battery" -d "UPS is on battery. ${MESSAGE}" -i "alert"
         if [ $? -gt 100 ]; then
             echo "OS notifications could not be sent within 15 seconds..." | logger -t "nut-notify[$$]"
         fi
@@ -122,7 +122,7 @@ then
                 ( ONBATT_SHUTDOWN 2>&1 | logger -t "xnut-notify-hooks.sh[$$]" ) &
             fi
 
-            timeout -s9 15 $NOTIFY -e "${EVENT}" -s "Alert ${SUBJECT} Shutdown" -d "UNRAID is being gracefully shutdown from a UPS power event." -i "alert"
+            timeout -s9 15 "$NOTIFY" -e "${EVENT}" -s "Alert ${SUBJECT} Shutdown" -d "UNRAID is being gracefully shutdown from a UPS power event." -i "alert"
             if [ $? -gt 100 ]; then
                 echo "OS notifications could not be sent within 15 seconds..." | logger -t "nut-notify[$$]"
             fi
@@ -140,7 +140,7 @@ then
                 ( REPLBATT 2>&1 | logger -t "xnut-notify-hooks.sh[$$]" ) &
             fi
 
-            timeout -s9 15 $NOTIFY -e "${EVENT}" -s "Alert ${SUBJECT} Battery Replacement" -d "UPS reports that its batteries need replacement." -i "alert"
+            timeout -s9 15 "$NOTIFY" -e "${EVENT}" -s "Alert ${SUBJECT} Battery Replacement" -d "UPS reports that its batteries need replacement." -i "alert"
             if [ $? -gt 100 ]; then
                 echo "OS notifications could not be sent within 15 seconds..." | logger -t "nut-notify[$$]"
             fi
@@ -155,7 +155,7 @@ else
             ( "$NOTIFYTYPE" 2>&1 | logger -t "xnut-notify-hooks.sh[$$]" ) &
         fi
 
-        timeout -s9 15 $NOTIFY -e "${EVENT}" -s "Alert ${SUBJECT}" -d "$1" -i "alert"
+        timeout -s9 15 "$NOTIFY" -e "${EVENT}" -s "Alert ${SUBJECT}" -d "$1" -i "alert"
         if [ $? -gt 100 ]; then
             echo "OS notifications could not be sent within 15 seconds..." | logger -t "nut-notify[$$]"
         fi
