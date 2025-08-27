@@ -57,9 +57,9 @@ then
         fi
         echo "[${NAME}] UPS is online, any planned shutdowns were cancelled." | tee >(wall) >(logger -t "nut-notify")
 
-        timeout -s9 10 $NOTIFY -e "${EVENT}" -s "Notice ${SUBJECT} Online" -d "UPS is online, any planned shutdowns were cancelled." -i "normal"
+        timeout -s9 15 $NOTIFY -e "${EVENT}" -s "Notice ${SUBJECT} Online" -d "UPS is online, any planned shutdowns were cancelled." -i "normal"
         if [ $? -gt 100 ]; then
-            echo "OS notification could not be sent within 10 seconds..." | logger -t "nut-notify"
+            echo "OS notification could not be sent within 15 seconds..." | logger -t "nut-notify"
         fi
 
         # Cause all instances of this script to exit.
@@ -72,9 +72,9 @@ then
         fi
         echo "[${NAME}] UPS is on battery. ${MESSAGE}" | tee >(wall) >(logger -t "nut-notify")
 
-        timeout -s9 10 $NOTIFY -e "${EVENT}" -s "Alert ${SUBJECT} On Battery" -d "UPS is on battery. ${MESSAGE}" -i "alert"
+        timeout -s9 15 $NOTIFY -e "${EVENT}" -s "Alert ${SUBJECT} On Battery" -d "UPS is on battery. ${MESSAGE}" -i "alert"
         if [ $? -gt 100 ]; then
-            echo "OS notification could not be sent within 10 seconds..." | logger -t "nut-notify"
+            echo "OS notification could not be sent within 15 seconds..." | logger -t "nut-notify"
         fi
 
         if [ "$SHUTDOWN" != "none" ]; then
@@ -102,9 +102,9 @@ then
             fi
             echo "[${NAME}] UNRAID is being gracefully shutdown from a UPS power event." | tee >(wall) >(logger -t "nut-notify")
 
-            timeout -s9 10 $NOTIFY -e "${EVENT}" -s "Alert ${SUBJECT} Shutdown" -d "UNRAID is being gracefully shutdown from a UPS power event." -i "alert"
+            timeout -s9 15 $NOTIFY -e "${EVENT}" -s "Alert ${SUBJECT} Shutdown" -d "UNRAID is being gracefully shutdown from a UPS power event." -i "alert"
             if [ $? -gt 100 ]; then
-                echo "OS notification could not be sent within 10 seconds..." | logger -t "nut-notify"
+                echo "OS notification could not be sent within 15 seconds..." | logger -t "nut-notify"
             fi
 
             /usr/sbin/upsmon -c fsd
@@ -118,9 +118,9 @@ then
             fi
             echo "[${NAME}] UPS reports that its batteries need replacement." | tee >(wall) >(logger -t "nut-notify")
 
-            timeout -s9 10 $NOTIFY -e "${EVENT}" -s "Alert ${SUBJECT} Battery Replacement" -d "UPS reports that its batteries need replacement." -i "alert"
+            timeout -s9 15 $NOTIFY -e "${EVENT}" -s "Alert ${SUBJECT} Battery Replacement" -d "UPS reports that its batteries need replacement." -i "alert"
             if [ $? -gt 100 ]; then
-                echo "OS notification could not be sent within 10 seconds..." | logger -t "nut-notify"
+                echo "OS notification could not be sent within 15 seconds..." | logger -t "nut-notify"
             fi
         fi
 
@@ -131,8 +131,8 @@ else
         fi
         echo "[${NAME}] ${1}" | tee >(wall) >(logger -t "nut-notify")
 
-        timeout -s9 10 $NOTIFY -e "${EVENT}" -s "Alert ${SUBJECT}" -d "$1" -i "alert"
+        timeout -s9 15 $NOTIFY -e "${EVENT}" -s "Alert ${SUBJECT}" -d "$1" -i "alert"
         if [ $? -gt 100 ]; then
-            echo "OS notification could not be sent within 10 seconds..." | logger -t "nut-notify"
+            echo "OS notification could not be sent within 15 seconds..." | logger -t "nut-notify"
         fi
 fi
