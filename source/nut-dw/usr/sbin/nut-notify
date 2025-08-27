@@ -44,7 +44,7 @@ echo "is now handling ${NOTIFYTYPE:-UNKNOWN}" | logger -t "nut-notify[$$]"
 # shellcheck disable=SC1091
 [ -e "/etc/nut/xnut-notify-hooks.sh" ] && source "/etc/nut/xnut-notify-hooks.sh"
 
-SUBJECT="[${HOST}] NUT: [${NAME}] UPS"
+SUBJECT="[${HOST}] NUT: [${NAME}@${IPADDR}] UPS"
 
 if [ "$SHUTDOWN" == "batt_level" ]; then
     TIMER="$BATTERYLEVEL"
@@ -77,7 +77,7 @@ then
         fi
 
         echo "Sending OS notifications..." | logger -t "nut-notify[$$]"
-        timeout -s9 15 "$NOTIFY" -e "${EVENT}" -s "Notice ${SUBJECT} Online" -d "UPS is online, any planned shutdowns were cancelled." -i "normal"
+        timeout -s9 15 "$NOTIFY" -e "${EVENT}" -s "Notice ${SUBJECT} On Line" -d "UPS is online, any planned shutdowns were cancelled." -i "normal"
         if [ $? -gt 100 ]; then
             echo "OS notifications could not be sent within 15 seconds." | logger -t "nut-notify[$$]"
         fi
@@ -134,7 +134,7 @@ then
             fi
 
             echo "Sending OS notifications..." | logger -t "nut-notify[$$]"
-            timeout -s9 15 "$NOTIFY" -e "${EVENT}" -s "Alert ${SUBJECT} Shutdown" -d "UNRAID is being gracefully shutdown from a UPS power event." -i "alert"
+            timeout -s9 15 "$NOTIFY" -e "${EVENT}" -s "Alert ${SUBJECT} Server Shutdown" -d "UNRAID is being gracefully shutdown from a UPS power event." -i "alert"
             if [ $? -gt 100 ]; then
                 echo "OS notifications could not be sent within 15 seconds." | logger -t "nut-notify[$$]"
             fi
@@ -170,7 +170,7 @@ else
         fi
 
         echo "Sending OS notifications..." | logger -t "nut-notify[$$]"
-        timeout -s9 15 "$NOTIFY" -e "${EVENT}" -s "Alert ${SUBJECT}" -d "$1" -i "alert"
+        timeout -s9 15 "$NOTIFY" -e "${EVENT}" -s "Alert ${SUBJECT} Event ${NOTIFYTYPE}" -d "$1" -i "alert"
         if [ $? -gt 100 ]; then
             echo "OS notifications could not be sent within 15 seconds." | logger -t "nut-notify[$$]"
         fi
