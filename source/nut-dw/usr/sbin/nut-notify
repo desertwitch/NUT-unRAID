@@ -16,7 +16,6 @@
 # included in all copies or substantial portions of the Software.
 #
 
-PROGNAME="$(basename "$(readlink -f "$0")")"
 PLGPATH="/boot/config/plugins/nut-dw"
 CONFIG="$PLGPATH/nut-dw.cfg"
 NOTIFY="/usr/local/emhttp/plugins/dynamix/scripts/notify"
@@ -68,7 +67,8 @@ fi
 
 if [ "$NOTIFYTYPE" == "ONLINE" ]
 then
-        pgrep -f "$PROGNAME" | grep -v "^$$\$" | xargs -rt kill -s SIGTERM 2>&1 | logger -t "nut-notify[$$]"
+        # Terminate any other running instances of this script (by exact path).
+        pgrep -f "/usr/sbin/nut-notify" | grep -v "^$$\$" | xargs -rt kill -s SIGTERM 2>&1 | logger -t "nut-notify[$$]"
 
         echo "[${NAME}] UPS is online, any planned shutdowns were cancelled." | tee >(wall) >(logger -t "nut-notify[$$]")
 
