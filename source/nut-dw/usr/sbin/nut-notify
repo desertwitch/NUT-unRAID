@@ -21,7 +21,6 @@ CONFIG="$PLGPATH/nut-dw.cfg"
 NOTIFY="/usr/local/emhttp/plugins/dynamix/scripts/notify"
 HOST="$(echo "$HOSTNAME" | awk '{print toupper($0)}')"
 EVENT="UPS Status"
-RUNTIME="battery.runtime"
 
 # shellcheck disable=SC2329
 handle_term() {
@@ -48,21 +47,21 @@ echo "is now handling ${NOTIFYTYPE:-UNKNOWN}" | logger -t "nut-notify[$$]"
 SUBJECT="[${HOST}] NUT: [${NAME}] UPS"
 
 if [ "$SHUTDOWN" == "batt_level" ]; then
-    TIMER=$BATTERYLEVEL
+    TIMER="$BATTERYLEVEL"
     MESSAGE="The system will shutdown when the UPS battery charge reaches ${BATTERYLEVEL}%."
     BATTERY="battery.charge"
 fi
 
 if [ "$SHUTDOWN" == "batt_timer" ]; then
-    TIMER=$SECONDS
+    TIMER="$SECONDS"
     MESSAGE="The system will shutdown when there is ${SECONDS} ${RTUNIT} runtime left on the UPS battery."
-    BATTERY=$RUNTIME
+    BATTERY="$RUNTIME"
 fi
 
 if [ "$SHUTDOWN" == "sec_timer" ]; then
-    TIMER=$SECONDS
+    TIMER="$TIMEOUT"
     MESSAGE="The system will shutdown in ${TIMEOUT} seconds."
-    BATTERY=$RUNTIME
+    BATTERY=""
 fi
 
 if [ "$NOTIFYTYPE" == "ONLINE" ]
@@ -85,6 +84,12 @@ then
 
 elif [ "$NOTIFYTYPE" == "ONBATT" ]
 then
+        if [ "$SHUTDOWN" != "none" ] && [[ ! "$TIMER" =~ ^[0-9]+$ ]]; then
+            SHUTDOWN="sec_timer"; TIMER=30; BATTERY=""
+            MESSAGE="The system will shutdown in ${TIMER} seconds (due to malformed shutdown criteria set in GUI)."
+            echo "Error: Malformed shutdown criteria, defaulting to ${TIMER} seconds timer..." | logger -t "nut-notify[$$]"
+        fi
+
         echo "[${NAME}] UPS is on battery. ${MESSAGE}" | tee >(wall) >(logger -t "nut-notify[$$]")
 
         if [ "$(type -t "ONBATT")" == "function" ]; then
@@ -102,7 +107,7 @@ then
             echo "Shutdown criteria are now being monitored..." | logger -t "nut-notify[$$]"
 
             if [ "$SHUTDOWN" == "sec_timer" ]; then
-                (( n = TIMEOUT ))
+                (( n = TIMER ))
                 # Loop with one second interval to allow SIGTERM reception.
                 while [ $n -ne 0 ]
                 do
