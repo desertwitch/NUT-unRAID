@@ -68,7 +68,7 @@ fi
 
 if [ "$NOTIFYTYPE" == "ONLINE" ]
 then
-        pgrep -f "$(basename "$0")" | grep -v "^$$\$" | xargs -rv kill -s SIGTERM 2>&1 | logger -t "nut-notify"
+        pgrep -f "$(basename "$0")" | grep -v "^$$\$" | xargs -rt kill -s SIGTERM 2>&1 | logger -t "nut-notify"
 
         echo "[${NAME}] UPS is online, any planned shutdowns were cancelled." | tee >(wall) >(logger -t "nut-notify")
 
