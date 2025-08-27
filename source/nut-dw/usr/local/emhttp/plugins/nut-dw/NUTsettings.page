@@ -331,7 +331,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
         <dl>
             <dt>NUT Monitor Username:</dt>
             <dd>
-                <input id="MONUSER" type="text" class="narrow nut-run nut-monuser" name="MONUSER" value="<?=$nut_monuser?>">
+                <input id="MONUSER" type="text" class="narrow nut-run nut-alphanumeric" name="MONUSER" value="<?=$nut_monuser?>">
             </dd>
         </dl>
 
@@ -379,7 +379,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
             <dl>
                 <dt>NUT Slave Username:</dt>
                 <dd>
-                    <input id="SLAVEUSER" type="text" class="narrow nut-run nut-slaveuser" name="SLAVEUSER" value="<?=$nut_slaveuser?>">
+                    <input id="SLAVEUSER" type="text" class="narrow nut-run nut-alphanumeric" name="SLAVEUSER" value="<?=$nut_slaveuser?>">
                 </dd>
             </dl>
 
@@ -455,7 +455,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
 
             <dl>
               <dt>UPS Driver Port:</dt>
-              <dd><input type="text" name="PORT" class="narrow nut-run nut-port" value="<?=$nut_port;?>"></dd>
+              <dd><input type="text" name="PORT" class="narrow nut-run" value="<?=$nut_port;?>"></dd>
             </dl>
 
             <blockquote class="inline_help">
@@ -563,7 +563,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
                 <dl>
                     <dt>SNMP Polling Frequency:</dt>
                     <dd>
-                        <input type="text" name="POLL" class="narrow nut-run" value="<?=$nut_poll;?>">
+                        <input type="text" name="POLL" class="narrow nut-run nut-numeric" value="<?=$nut_poll;?>">
                     </dd>
                 </dl>
 
@@ -631,7 +631,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
             <dl>
                 <dt>Battery Runtime Left to initiate Shutdown:</dt>
                 <dd>
-                    <input id="RTVALUE" type="text" class="narrow nut-run" name="RTVALUE" value="<?=$nut_rtvalue?>">
+                    <input id="RTVALUE" type="text" class="narrow nut-run nut-numeric" name="RTVALUE" value="<?=$nut_rtvalue?>">
                 </dd>
             </dl>
 
@@ -784,7 +784,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
     <dl>
         <dt>NUT Automatic GUI Refresh Interval:</dt>
         <dd>
-            <input id="INTERVAL" type="text" class="narrow nut-power" name="INTERVAL" value="<?=$nut_interval?>">
+            <input id="INTERVAL" type="text" class="narrow nut-numeric" name="INTERVAL" value="<?=$nut_interval?>">
         </dd>
     </dl>
 
@@ -969,7 +969,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
         <dl>
             <dt>UPS Nominal Watt Capacity (W):</dt>
             <dd>
-                <input id="POWERW" type="text" class="narrow nut-power" name="POWERW" value="<?=$nut_powerw?>">
+                <input id="POWERW" type="text" class="narrow nut-numeric" name="POWERW" value="<?=$nut_powerw?>">
             </dd>
         </dl>
 
@@ -986,7 +986,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
         <dl>
             <dt>UPS Nominal Volt Ampere Capacity (VA):</dt>
             <dd>
-                <input id="POWERVA" type="text" class="narrow nut-power" name="POWERVA" value="<?=$nut_powerva?>">
+                <input id="POWERVA" type="text" class="narrow nut-numeric" name="POWERVA" value="<?=$nut_powerva?>">
             </dd>
         </dl>
 
@@ -1298,15 +1298,11 @@ function getNUTclients() {
 $(function() {
     showStatus('upsmon');
 
+    $('.nut-name').mask('ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ', {translation:  {'Z': {pattern: /[A-Za-z0-9-]/, optional: true}}});
     $('.nut-ipaddr').mask('0ZZ.0ZZ.0ZZ.0ZZ', {translation:  {'Z': {pattern: /[0-9]/, optional: true}}});
 
-    $('.nut-name').mask('ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ', {translation:  {'Z': {pattern: /[A-Za-z0-9-]/, optional: true}}});
-
-    $('.nut-monuser').mask('ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ', {translation:  {'Z': {pattern: /[A-Za-z0-9]/, optional: true}}});
-
-    $('.nut-slaveuser').mask('ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ', {translation:  {'Z': {pattern: /[A-Za-z0-9]/, optional: true}}});
-
-    $('.nut-power').mask('ZZZZZ', {translation:  {'Z': {pattern: /[0-9-]/, optional: true}}});
+    $('.nut-numeric').mask('ZZZZZZZZZZZZZZZ', {translation:  {'Z': {pattern: /[0-9]/, optional: true}}});
+    $('.nut-alphanumeric').mask('ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ', {translation:  {'Z': {pattern: /[A-Za-z0-9]/, optional: true}}});
 
     if (typeof swal === "function") {
         $('#SCAN').click(function(){ swal({title:"Warning",text:"Please always attempt to (manually) set up your respective UPS Driver with the UPS Port on 'auto' first, this is more flexible and preferable to running the 'Auto Config' program straight after installation.<br><br>This tool is for cases where the UPS driver fails to otherwise find your UPS device, even with the correct UPS Driver and UPS Port on 'auto'.<br><br>Beware that 'Auto Config' will make your UPS Driver blind to anything else than that specific UPS device it detected on that specific USB port (that means you cannot change the USB port afterwards).<br><br>In case 'Auto Config' detects a UPS but still does not work for you, please make sure to always 'Reset Config' to start with a fresh configuration before attemping anything else configuration-wise.",type:"warning",html:true,showCancelButton:true}, ScanUPS); });
