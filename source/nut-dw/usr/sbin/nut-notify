@@ -25,7 +25,7 @@ RUNTIME="battery.runtime"
 
 # shellcheck disable=SC2329
 handle_term() {
-    echo "received a SIGTERM while handling ${NOTIFYTYPE:-UNKNOWN}" | logger -t "nut-notify[$$]"
+    echo "exiting after SIGTERM while handling ${NOTIFYTYPE:-UNKNOWN}" | logger -t "nut-notify[$$]"
     trap - EXIT
     exit 0
 }
