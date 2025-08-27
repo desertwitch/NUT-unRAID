@@ -73,6 +73,7 @@ then
         echo "[${NAME}] UPS is online, any planned shutdowns were cancelled." | tee >(wall) >(logger -t "nut-notify[$$]")
 
         if [ "$(type -t "ONLINE")" == "function" ]; then
+            echo "Executing user's hook scripts for ONLINE (non-blocking)..." | logger -t "nut-notify[$$]"
             ( ONLINE 2>&1 | logger -t "xnut-notify-hooks.sh" ) &
         fi
 
@@ -86,6 +87,7 @@ then
         echo "[${NAME}] UPS is on battery. ${MESSAGE}" | tee >(wall) >(logger -t "nut-notify[$$]")
 
         if [ "$(type -t "ONBATT")" == "function" ]; then
+            echo "Executing user's hook scripts for ONBATT (non-blocking)..." | logger -t "nut-notify[$$]"
             ( ONBATT 2>&1 | logger -t "xnut-notify-hooks.sh" ) &
         fi
 
@@ -117,6 +119,7 @@ then
             echo "[${NAME}] UNRAID is being gracefully shutdown from a UPS power event." | tee >(wall) >(logger -t "nut-notify[$$]")
 
             if [ "$(type -t "ONBATT_SHUTDOWN")" == "function" ]; then
+                echo "Executing user's hook scripts for ONBATT_SHUTDOWN (non-blocking)..." | logger -t "nut-notify[$$]"
                 ( ONBATT_SHUTDOWN 2>&1 | logger -t "xnut-notify-hooks.sh" ) &
             fi
 
@@ -134,6 +137,7 @@ then
             echo "[${NAME}] UPS reports that its batteries need replacement." | tee >(wall) >(logger -t "nut-notify[$$]")
 
             if [ "$(type -t "REPLBATT")" == "function" ]; then
+                echo "Executing user's hook scripts for REPLBATT (non-blocking)..." | logger -t "nut-notify[$$]"
                 ( REPLBATT 2>&1 | logger -t "xnut-notify-hooks.sh" ) &
             fi
 
@@ -148,6 +152,7 @@ else
         echo "[${NAME}] ${1}" | tee >(wall) >(logger -t "nut-notify[$$]")
 
         if [ "$(type -t "$NOTIFYTYPE")" == "function" ]; then
+            echo "Executing user's hook scripts for $NOTIFYTYPE (non-blocking)..." | logger -t "nut-notify[$$]"
             ( "$NOTIFYTYPE" 2>&1 | logger -t "xnut-notify-hooks.sh" ) &
         fi
 
