@@ -25,7 +25,7 @@ RUNTIME="battery.runtime"
 
 # shellcheck disable=SC2329
 handle_term() {
-    echo "has received a termination signal..." | logger -t "nut-notify[$$]"
+    echo "has received a termination signal" | logger -t "nut-notify[$$]"
     exit 0
 }
 
@@ -67,7 +67,7 @@ fi
 
 if [ "$NOTIFYTYPE" == "ONLINE" ]
 then
-        echo "Terminating any monitoring instances of the program..." | logger -t "nut-notify[$$]"
+        echo "Terminating monitoring instances of the program..." | logger -t "nut-notify[$$]"
         pgrep -f "/usr/sbin/nut-notify" | grep -v "^$$\$" | xargs -rt kill -s SIGTERM 2>&1 | logger -t "nut-notify[$$]"
 
         echo "[${NAME}] UPS is online, any planned shutdowns were cancelled." | tee >(wall) >(logger -t "nut-notify[$$]")
@@ -99,7 +99,7 @@ then
         fi
 
         if [ "$SHUTDOWN" != "none" ]; then
-            echo "Monitoring for shutdown criteria to be met..." | logger -t "nut-notify[$$]"
+            echo "Shutdown criteria are now being monitored..." | logger -t "nut-notify[$$]"
 
             if [ "$SHUTDOWN" == "sec_timer" ]; then
                 (( n = TIMEOUT ))
@@ -134,7 +134,7 @@ then
                 echo "OS notifications could not be sent within 15 seconds." | logger -t "nut-notify[$$]"
             fi
 
-            echo "Setting FSD (as point of no return)..." | logger -t "nut-notify[$$]"
+            echo "Setting FSD (= point of no return)..." | logger -t "nut-notify[$$]"
             /usr/sbin/upsmon -c fsd
         fi
 
