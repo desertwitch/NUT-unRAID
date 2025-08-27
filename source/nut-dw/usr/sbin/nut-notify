@@ -25,20 +25,20 @@ RUNTIME="battery.runtime"
 
 # shellcheck disable=SC2329
 handle_term() {
-    echo "PID $$ received SIGTERM while handling ${NOTIFYTYPE:-UNKNOWN}" | logger -t "nut-notify[$$]"
+    echo "received a SIGTERM while handling ${NOTIFYTYPE:-UNKNOWN}" | logger -t "nut-notify[$$]"
     trap - EXIT
     exit 0
 }
 
 # shellcheck disable=SC2329
 handle_end() {
-    echo "PID $$ is now finished with handling ${NOTIFYTYPE:-UNKNOWN}" | logger -t "nut-notify[$$]"
+    echo "is now finished with handling ${NOTIFYTYPE:-UNKNOWN}" | logger -t "nut-notify[$$]"
 }
 
 trap handle_term SIGTERM
 trap handle_end EXIT
 
-echo "PID $$ is now active and handling ${NOTIFYTYPE:-UNKNOWN}" | logger -t "nut-notify[$$]"
+echo "is now active and handling ${NOTIFYTYPE:-UNKNOWN}" | logger -t "nut-notify[$$]"
 
 # read our configuration
 [ -e "$CONFIG" ] && source "$CONFIG"
