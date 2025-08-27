@@ -59,7 +59,7 @@ then
 
         timeout -s9 15 $NOTIFY -e "${EVENT}" -s "Notice ${SUBJECT} Online" -d "UPS is online, any planned shutdowns were cancelled." -i "normal"
         if [ $? -gt 100 ]; then
-            echo "OS notification could not be sent within 15 seconds..." | logger -t "nut-notify"
+            echo "OS notifications could not be sent within 15 seconds..." | logger -t "nut-notify"
         fi
 
         # Cause all instances of this script to exit.
@@ -74,7 +74,7 @@ then
 
         timeout -s9 15 $NOTIFY -e "${EVENT}" -s "Alert ${SUBJECT} On Battery" -d "UPS is on battery. ${MESSAGE}" -i "alert"
         if [ $? -gt 100 ]; then
-            echo "OS notification could not be sent within 15 seconds..." | logger -t "nut-notify"
+            echo "OS notifications could not be sent within 15 seconds..." | logger -t "nut-notify"
         fi
 
         if [ "$SHUTDOWN" != "none" ]; then
@@ -104,7 +104,7 @@ then
 
             timeout -s9 15 $NOTIFY -e "${EVENT}" -s "Alert ${SUBJECT} Shutdown" -d "UNRAID is being gracefully shutdown from a UPS power event." -i "alert"
             if [ $? -gt 100 ]; then
-                echo "OS notification could not be sent within 15 seconds..." | logger -t "nut-notify"
+                echo "OS notifications could not be sent within 15 seconds..." | logger -t "nut-notify"
             fi
 
             /usr/sbin/upsmon -c fsd
@@ -120,7 +120,7 @@ then
 
             timeout -s9 15 $NOTIFY -e "${EVENT}" -s "Alert ${SUBJECT} Battery Replacement" -d "UPS reports that its batteries need replacement." -i "alert"
             if [ $? -gt 100 ]; then
-                echo "OS notification could not be sent within 15 seconds..." | logger -t "nut-notify"
+                echo "OS notifications could not be sent within 15 seconds..." | logger -t "nut-notify"
             fi
         fi
 
@@ -133,6 +133,6 @@ else
 
         timeout -s9 15 $NOTIFY -e "${EVENT}" -s "Alert ${SUBJECT}" -d "$1" -i "alert"
         if [ $? -gt 100 ]; then
-            echo "OS notification could not be sent within 15 seconds..." | logger -t "nut-notify"
+            echo "OS notifications could not be sent within 15 seconds..." | logger -t "nut-notify"
         fi
 fi
