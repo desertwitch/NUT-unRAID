@@ -25,20 +25,20 @@ RUNTIME="battery.runtime"
 
 # shellcheck disable=SC2329
 handle_term() {
-    echo "PID $$ received SIGTERM while handling ${NOTIFYTYPE:-UNKNOWN}" | logger -t "nut-notify"
+    echo "PID $$ received SIGTERM while handling ${NOTIFYTYPE:-UNKNOWN}" | logger -t "nut-notify[$$]"
     trap - EXIT
     exit 0
 }
 
 # shellcheck disable=SC2329
 handle_end() {
-    echo "PID $$ is now finished with handling ${NOTIFYTYPE:-UNKNOWN}" | logger -t "nut-notify"
+    echo "PID $$ is now finished with handling ${NOTIFYTYPE:-UNKNOWN}" | logger -t "nut-notify[$$]"
 }
 
 trap handle_term SIGTERM
 trap handle_end EXIT
 
-echo "PID $$ is now active and handling ${NOTIFYTYPE:-UNKNOWN}" | logger -t "nut-notify"
+echo "PID $$ is now active and handling ${NOTIFYTYPE:-UNKNOWN}" | logger -t "nut-notify[$$]"
 
 # read our configuration
 [ -e "$CONFIG" ] && source "$CONFIG"
@@ -68,9 +68,9 @@ fi
 
 if [ "$NOTIFYTYPE" == "ONLINE" ]
 then
-        pgrep -f "$(basename "$0")" | grep -v "^$$\$" | xargs -rt kill -s SIGTERM 2>&1 | logger -t "nut-notify"
+        pgrep -f "$(basename "$0")" | grep -v "^$$\$" | xargs -rt kill -s SIGTERM 2>&1 | logger -t "nut-notify[$$]"
 
-        echo "[${NAME}] UPS is online, any planned shutdowns were cancelled." | tee >(wall) >(logger -t "nut-notify")
+        echo "[${NAME}] UPS is online, any planned shutdowns were cancelled." | tee >(wall) >(logger -t "nut-notify[$$]")
 
         if [ "$(type -t "ONLINE")" == "function" ]; then
             ( ONLINE 2>&1 | logger -t "xnut-notify-hooks.sh" ) &
@@ -78,12 +78,12 @@ then
 
         timeout -s9 15 $NOTIFY -e "${EVENT}" -s "Notice ${SUBJECT} Online" -d "UPS is online, any planned shutdowns were cancelled." -i "normal"
         if [ $? -gt 100 ]; then
-            echo "OS notifications could not be sent within 15 seconds..." | logger -t "nut-notify"
+            echo "OS notifications could not be sent within 15 seconds..." | logger -t "nut-notify[$$]"
         fi
 
 elif [ "$NOTIFYTYPE" == "ONBATT" ]
 then
-        echo "[${NAME}] UPS is on battery. ${MESSAGE}" | tee >(wall) >(logger -t "nut-notify")
+        echo "[${NAME}] UPS is on battery. ${MESSAGE}" | tee >(wall) >(logger -t "nut-notify[$$]")
 
         if [ "$(type -t "ONBATT")" == "function" ]; then
             ( ONBATT 2>&1 | logger -t "xnut-notify-hooks.sh" ) &
@@ -91,7 +91,7 @@ then
 
         timeout -s9 15 $NOTIFY -e "${EVENT}" -s "Alert ${SUBJECT} On Battery" -d "UPS is on battery. ${MESSAGE}" -i "alert"
         if [ $? -gt 100 ]; then
-            echo "OS notifications could not be sent within 15 seconds..." | logger -t "nut-notify"
+            echo "OS notifications could not be sent within 15 seconds..." | logger -t "nut-notify[$$]"
         fi
 
         if [ "$SHUTDOWN" != "none" ]; then
@@ -114,7 +114,7 @@ then
                 done
             fi
 
-            echo "[${NAME}] UNRAID is being gracefully shutdown from a UPS power event." | tee >(wall) >(logger -t "nut-notify")
+            echo "[${NAME}] UNRAID is being gracefully shutdown from a UPS power event." | tee >(wall) >(logger -t "nut-notify[$$]")
 
             if [ "$(type -t "ONBATT_SHUTDOWN")" == "function" ]; then
                 ( ONBATT_SHUTDOWN 2>&1 | logger -t "xnut-notify-hooks.sh" ) &
@@ -122,7 +122,7 @@ then
 
             timeout -s9 15 $NOTIFY -e "${EVENT}" -s "Alert ${SUBJECT} Shutdown" -d "UNRAID is being gracefully shutdown from a UPS power event." -i "alert"
             if [ $? -gt 100 ]; then
-                echo "OS notifications could not be sent within 15 seconds..." | logger -t "nut-notify"
+                echo "OS notifications could not be sent within 15 seconds..." | logger -t "nut-notify[$$]"
             fi
 
             /usr/sbin/upsmon -c fsd
@@ -131,7 +131,7 @@ then
 elif [ "$NOTIFYTYPE" == "REPLBATT" ]
 then
         if [ "$REPLBATTMSG" == "enable" ]; then
-            echo "[${NAME}] UPS reports that its batteries need replacement." | tee >(wall) >(logger -t "nut-notify")
+            echo "[${NAME}] UPS reports that its batteries need replacement." | tee >(wall) >(logger -t "nut-notify[$$]")
 
             if [ "$(type -t "REPLBATT")" == "function" ]; then
                 ( REPLBATT 2>&1 | logger -t "xnut-notify-hooks.sh" ) &
@@ -139,13 +139,13 @@ then
 
             timeout -s9 15 $NOTIFY -e "${EVENT}" -s "Alert ${SUBJECT} Battery Replacement" -d "UPS reports that its batteries need replacement." -i "alert"
             if [ $? -gt 100 ]; then
-                echo "OS notifications could not be sent within 15 seconds..." | logger -t "nut-notify"
+                echo "OS notifications could not be sent within 15 seconds..." | logger -t "nut-notify[$$]"
             fi
         fi
 
 # for any other status messages the user has configured to be reported
 else
-        echo "[${NAME}] ${1}" | tee >(wall) >(logger -t "nut-notify")
+        echo "[${NAME}] ${1}" | tee >(wall) >(logger -t "nut-notify[$$]")
 
         if [ "$(type -t "$NOTIFYTYPE")" == "function" ]; then
             ( "$NOTIFYTYPE" 2>&1 | logger -t "xnut-notify-hooks.sh" ) &
@@ -153,7 +153,7 @@ else
 
         timeout -s9 15 $NOTIFY -e "${EVENT}" -s "Alert ${SUBJECT}" -d "$1" -i "alert"
         if [ $? -gt 100 ]; then
-            echo "OS notifications could not be sent within 15 seconds..." | logger -t "nut-notify"
+            echo "OS notifications could not be sent within 15 seconds..." | logger -t "nut-notify[$$]"
         fi
 fi
 
