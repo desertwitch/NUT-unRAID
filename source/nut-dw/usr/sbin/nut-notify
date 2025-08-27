@@ -32,7 +32,7 @@ handle_term() {
 
 # shellcheck disable=SC2329
 handle_end() {
-    echo "is now finished with handling ${NOTIFYTYPE:-UNKNOWN}" | logger -t "nut-notify[$$]"
+    echo "exiting after COMPLETION while handling ${NOTIFYTYPE:-UNKNOWN}" | logger -t "nut-notify[$$]"
 }
 
 trap handle_term SIGTERM
