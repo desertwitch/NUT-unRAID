@@ -53,8 +53,8 @@ if [ "$SHUTDOWN" == "batt_level" ]; then
 fi
 
 if [ "$SHUTDOWN" == "batt_timer" ]; then
-    TIMER="$SECONDS"
-    MESSAGE="The system will shutdown when there is ${SECONDS} ${RTUNIT} runtime left on the UPS battery."
+    TIMER="$RTVALUE"
+    MESSAGE="The system will shutdown when there is ${RTVALUE} ${RTUNIT} runtime left on the UPS battery."
     BATTERY="$RUNTIME"
 fi
 

@@ -319,7 +319,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
         <dl>
             <dt>NUT Master IP Address:</dt>
             <dd>
-                <input id="IPADDR" type="text" class="narrow nut-run nut-ipaddr" name="IPADDR" value="<?=$nut_ip?>" maxlength="15">
+                <input id="IPADDR" type="text" class="narrow nut-run nut-ipaddr" name="IPADDR" value="<?=$nut_ip?>">
             </dd>
         </dl>
 
@@ -331,7 +331,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
         <dl>
             <dt>NUT Monitor Username:</dt>
             <dd>
-                <input id="MONUSER" type="text" class="narrow nut-run nut-monuser" name="MONUSER" maxlength="30" value="<?=$nut_monuser?>">
+                <input id="MONUSER" type="text" class="narrow nut-run nut-monuser" name="MONUSER" value="<?=$nut_monuser?>">
             </dd>
         </dl>
 
@@ -343,7 +343,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
         <dl>
             <dt>NUT Monitor Password:</dt>
             <dd>
-                <input id="MONPASS" type="password" class="narrow nut-run" name="MONPASS" maxlength="66" value="<?=$nut_monpass?>">
+                <input id="MONPASS" type="password" class="narrow nut-run" name="MONPASS" value="<?=$nut_monpass?>">
                 <i id="monpass-htext" class="fa fa-hand-paper-o tooltip-nutsett" title="If possible use only letters and numbers!" style="display:none;color:red;cursor:help;"></i>
             </dd>
         </dl>
@@ -379,7 +379,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
             <dl>
                 <dt>NUT Slave Username:</dt>
                 <dd>
-                    <input id="SLAVEUSER" type="text" class="narrow nut-run nut-slaveuser" name="SLAVEUSER" maxlength="30" value="<?=$nut_slaveuser?>">
+                    <input id="SLAVEUSER" type="text" class="narrow nut-run nut-slaveuser" name="SLAVEUSER" value="<?=$nut_slaveuser?>">
                 </dd>
             </dl>
 
@@ -392,7 +392,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
             <dl>
                 <dt>NUT Slave Password:</dt>
                 <dd>
-                    <input id="SLAVEPASS" type="password" class="narrow nut-run" name="SLAVEPASS" maxlength="66" value="<?=$nut_slavepass?>">
+                    <input id="SLAVEPASS" type="password" class="narrow nut-run" name="SLAVEPASS" value="<?=$nut_slavepass?>">
                     <i id="slavepass-htext" class="fa fa-hand-paper-o tooltip-nutsett" title="If possible use only letters and numbers!" style="display:none;color:red;cursor:help;"></i>
                 </dd>
             </dl>
@@ -409,7 +409,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
         <dl>
             <dt>UPS Name:</dt>
             <dd>
-                <input id="NAME" type="text" class="narrow nut-run nut-name" name="NAME" maxlength="30" value="<?=$nut_name?>">
+                <input id="NAME" type="text" class="narrow nut-run nut-name" name="NAME" value="<?=$nut_name?>">
             </dd>
         </dl>
 
@@ -438,7 +438,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
                     <?=mk_option($nut_driver, 'snmp-ups', 'snmp-ups');?>
                     <?=mk_option($nut_driver, 'custom', 'custom (not listed)');?>
                     </select>
-                    <input type="hidden" class="narrow serial nut-run" id="SERIAL" name="SERIAL" placeholder="driver name" maxlength="40" value="<?=$nut_serial;?>">
+                    <input type="hidden" class="narrow serial nut-run" id="SERIAL" name="SERIAL" placeholder="driver name" value="<?=$nut_serial;?>">
                     <span id="SCANDRIVERS" style="cursor:pointer;">
                         <i class="fa fa-search tooltip-nutsett" title="Scan for Devices"></i>
                         <?if(version_compare(parse_ini_file('/etc/unraid-version')['version'],'7.1.99', '>')):?> Scan for Devices<?endif;?>
@@ -455,7 +455,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
 
             <dl>
               <dt>UPS Driver Port:</dt>
-              <dd><input type="text" name="PORT" class="narrow nut-run nut-port" maxlength="40" value="<?=$nut_port;?>"></dd>
+              <dd><input type="text" name="PORT" class="narrow nut-run nut-port" value="<?=$nut_port;?>"></dd>
             </dl>
 
             <blockquote class="inline_help">
@@ -507,7 +507,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
                 <dl>
                     <dt>SNMP Community:</dt>
                     <dd>
-                        <input type="text" name="COMMUNITY" class="narrow nut-run" maxlength="40" value="<?=$nut_community;?>">
+                        <input type="text" name="COMMUNITY" class="narrow nut-run" value="<?=$nut_community;?>">
                     </dd>
                 </dl>
 
@@ -563,7 +563,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
                 <dl>
                     <dt>SNMP Polling Frequency:</dt>
                     <dd>
-                        <input type="text" name="POLL" class="narrow nut-run" maxlength="40" value="<?=$nut_poll;?>">
+                        <input type="text" name="POLL" class="narrow nut-run" value="<?=$nut_poll;?>">
                     </dd>
                 </dl>
 
@@ -631,7 +631,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
             <dl>
                 <dt>Battery Runtime Left to initiate Shutdown:</dt>
                 <dd>
-                    <input id="SECONDS" type="text" class="narrow nut-run" name="SECONDS" maxlength="5" value="<?=$nut_seconds?>">
+                    <input id="RTVALUE" type="text" class="narrow nut-run" name="RTVALUE" value="<?=$nut_rtvalue?>">
                 </dd>
             </dl>
 
@@ -784,7 +784,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
     <dl>
         <dt>NUT Automatic GUI Refresh Interval:</dt>
         <dd>
-            <input id="INTERVAL" type="text" class="narrow nut-power" name="INTERVAL" maxlength="5" value="<?=$nut_interval?>">
+            <input id="INTERVAL" type="text" class="narrow nut-power" name="INTERVAL" value="<?=$nut_interval?>">
         </dd>
     </dl>
 
@@ -969,7 +969,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
         <dl>
             <dt>UPS Nominal Watt Capacity (W):</dt>
             <dd>
-                <input id="POWERW" type="text" class="narrow nut-power" name="POWERW" maxlength="4" value="<?=$nut_powerw?>">
+                <input id="POWERW" type="text" class="narrow nut-power" name="POWERW" value="<?=$nut_powerw?>">
             </dd>
         </dl>
 
@@ -986,7 +986,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
         <dl>
             <dt>UPS Nominal Volt Ampere Capacity (VA):</dt>
             <dd>
-                <input id="POWERVA" type="text" class="narrow nut-power" name="POWERVA" maxlength="5" value="<?=$nut_powerva?>">
+                <input id="POWERVA" type="text" class="narrow nut-power" name="POWERVA" value="<?=$nut_powerva?>">
             </dd>
         </dl>
 
