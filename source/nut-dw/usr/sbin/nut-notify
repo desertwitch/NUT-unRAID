@@ -17,21 +17,31 @@
 #
 
 PLGPATH="/boot/config/plugins/nut-dw"
-CONFIG=$PLGPATH/nut-dw.cfg
+CONFIG="$PLGPATH/nut-dw.cfg"
 NOTIFY="/usr/local/emhttp/plugins/dynamix/scripts/notify"
 HOST="$(echo "$HOSTNAME" | awk '{print toupper($0)}')"
 EVENT="UPS Status"
 RUNTIME="battery.runtime"
 
+# shellcheck disable=SC2329
 handle_term() {
-    echo "PID $$ received SIGTERM while handling $NOTIFYTYPE" | logger -t "nut-notify"
+    echo "PID $$ received SIGTERM while handling ${NOTIFYTYPE:-UNKNOWN}" | logger -t "nut-notify"
+    trap - EXIT
     exit 0
 }
 
-echo "PID $$ is now active and handling $NOTIFYTYPE" | logger -t "nut-notify"
+# shellcheck disable=SC2329
+handle_end() {
+    echo "PID $$ is now finished with handling ${NOTIFYTYPE:-UNKNOWN}" | logger -t "nut-notify"
+}
+
+trap handle_term SIGTERM
+trap handle_end EXIT
+
+echo "PID $$ is now active and handling ${NOTIFYTYPE:-UNKNOWN}" | logger -t "nut-notify"
 
 # read our configuration
-[ -e "$CONFIG" ] && source $CONFIG
+[ -e "$CONFIG" ] && source "$CONFIG"
 
 # shellcheck disable=SC1091
 [ -e "/etc/nut/xnut-notify-hooks.sh" ] && source "/etc/nut/xnut-notify-hooks.sh"
@@ -56,7 +66,6 @@ if [ "$SHUTDOWN" == "sec_timer" ]; then
     BATTERY=$RUNTIME
 fi
 
-trap handle_term SIGTERM
 if [ "$NOTIFYTYPE" == "ONLINE" ]
 then
         pgrep -f "$(basename "$0")" | grep -v "^$$\$" | xargs -rv kill -s SIGTERM 2>&1 | logger -t "nut-notify"
@@ -147,3 +156,5 @@ else
             echo "OS notifications could not be sent within 15 seconds..." | logger -t "nut-notify"
         fi
 fi
+
+exit 0
