@@ -38,8 +38,10 @@ chmod 755 $DOCROOT/scripts/* \
 # copy the default
 cp -n $DOCROOT/default.cfg $BOOT/nut-dw.cfg >/dev/null 2>&1
 
-# fix variable issue (previous NUT versions used reserved SECONDS variable)
-sed -i 's/^SECONDS=/RTVALUE=/' $BOOT/nut-dw.cfg >/dev/null 2>&1
+# replace reserved SECONDS variable (as found in legacy configurations)
+if grep -q '^SECONDS=' "$BOOT/nut-dw.cfg"; then
+    sed -i 's/^SECONDS=/RTVALUE=/' "$BOOT/nut-dw.cfg"
+fi
 
 # remove nut symlink (for legacy packages)
 if [ -L /etc/nut ]; then
