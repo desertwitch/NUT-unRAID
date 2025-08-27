@@ -38,7 +38,7 @@ handle_end() {
 trap handle_term SIGTERM
 trap handle_end EXIT
 
-echo "is now active and handling ${NOTIFYTYPE:-UNKNOWN}" | logger -t "nut-notify[$$]"
+echo "is now handling ${NOTIFYTYPE:-UNKNOWN}" | logger -t "nut-notify[$$]"
 
 # read our configuration
 [ -e "$CONFIG" ] && source "$CONFIG"
