@@ -134,7 +134,7 @@ then
             fi
 
             echo "Sending OS notifications..." | logger -t "nut-notify[$$]"
-            timeout -s9 15 "$NOTIFY" -e "${EVENT}" -s "Alert ${SUBJECT} Server Shutdown" -d "UNRAID is being gracefully shutdown from a UPS power event." -i "alert"
+            timeout -s9 15 "$NOTIFY" -e "${EVENT}" -s "Alert ${SUBJECT} System Shutdown" -d "UNRAID is being gracefully shutdown from a UPS power event." -i "alert"
             if [ $? -gt 100 ]; then
                 echo "OS notifications could not be sent within 15 seconds." | logger -t "nut-notify[$$]"
             fi
