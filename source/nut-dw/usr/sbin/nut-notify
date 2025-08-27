@@ -25,13 +25,13 @@ RUNTIME="battery.runtime"
 
 # shellcheck disable=SC2329
 handle_term() {
-    echo "received SIGTERM" | logger -t "nut-notify[$$]"
+    echo "has received a termination signal (SIGTERM)" | logger -t "nut-notify[$$]"
     exit 0
 }
 
 # shellcheck disable=SC2329
 handle_end() {
-    echo "exiting from handling ${NOTIFYTYPE:-UNKNOWN}" | logger -t "nut-notify[$$]"
+    echo "is now exiting from handling ${NOTIFYTYPE:-UNKNOWN}" | logger -t "nut-notify[$$]"
 }
 
 trap handle_term SIGTERM
