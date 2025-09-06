@@ -18,6 +18,8 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
+###2025.09.06
+- fix: resolved malformed runtime variables breaking dashboards in GUI
 ###2025.08.27
 - fix: resolved timing issue with runtime-based shutdown logic
 - fix: refactored and modernized shutdown logic with additional logs
