@@ -108,6 +108,7 @@ try {
                     }
                     break;
                 case $nut_runtime:
+                    if (!is_numeric($val)) break;
                     $runtime   = $nut_rtunit == "minutes" ? gmdate("H:i:s", round($val*60)) : gmdate("H:i:s", round($val));
                     $status[2] = strtok(($nut_rtunit == "minutes" ? round($val) : round($val/60)),' ')<=5 && !in_array('ups.status: OL', $rows) ? "<td $red>$runtime</td>" : "<td $green>$runtime</td>";
                     break;

@@ -103,7 +103,7 @@ try {
             $status[0] = "<span id='nut_alarm' class='tooltip-nut $red' data=\"$alarms\"><i class='fa fa-bell faa-ring animated'></i></span>";
         }
 
-        $battery_runtime = array_key_exists($nut_runtime, $ups_status) ? nut_format_time($ups_status[$nut_runtime],$nut_rtunit) : "n/a";
+        $battery_runtime = (array_key_exists($nut_runtime, $ups_status) && is_numeric($ups_status[$nut_runtime])) ? nut_format_time($ups_status[$nut_runtime],$nut_rtunit) : "n/a";
         $css_class = $online['severity'] > 0 ? $nut_msgSeverity[$online['severity']]['css_class'] : ($nut_footer_style == 1 ? $black : $green);
         $fa_icon = '';
         $statusTooltipData = '';
