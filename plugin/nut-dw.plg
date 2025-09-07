@@ -3,7 +3,7 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "nut-dw">
 <!ENTITY author    "desertwitch">
-<!ENTITY version   "2025.09.06">
+<!ENTITY version   "2025.09.07">
 <!ENTITY launch    "Settings/NUTsettings">
 <!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/master">
 <!ENTITY pluginURL "&gitURL;/plugin/&name;.plg">
@@ -18,6 +18,9 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
+###2025.09.07
+- new: preview backend updated to nut master 009fbbd
+- new: libmodbus updated to release v3.1.11+rtu_usb-NUTv2.8.4
 ###2025.09.06
 - fix: resolved malformed runtime variables breaking dashboards in GUI
 ###2025.08.27
@@ -541,9 +544,9 @@ exit 0
 </FILE>
 
 <!-- slack15.1 preview -->
-<FILE Name="&plgPATH;/nut-2.8.4-x86_64-1master.ssl31.txz" Min="6.13">
-<URL>&pkgURL;/nut-2.8.4-x86_64-1master.ssl31.txz</URL>
-<MD5>4b04534067a073aa958376ecb2a78fd2</MD5>
+<FILE Name="&plgPATH;/nut-2.8.4-x86_64-2master.ssl31.txz" Min="6.13">
+<URL>&pkgURL;/nut-2.8.4-x86_64-2master.ssl31.txz</URL>
+<MD5>2b7d0ec92cc5384a919c817080c8af93</MD5>
 </FILE>
 
 <!-- slack15.1 default -->
@@ -578,7 +581,7 @@ if [ -e "$CONFIG" ]; then
     source "$CONFIG"
     if [ "$BACKEND" == "preview" ]; then
         echo "Installing user-configured PREVIEW backend for NUT..."
-        upgradepkg --install-new &plgPATH;/nut-2.8.4-x86_64-1master.ssl31.txz
+        upgradepkg --install-new &plgPATH;/nut-2.8.4-x86_64-2master.ssl31.txz
     elif [ "$BACKEND" == "default" ]; then
         echo "Installing DEFAULT backend for NUT..."
         upgradepkg --install-new &plgPATH;/nut-2.8.4-x86_64-1stable.ssl31.txz
@@ -604,9 +607,9 @@ echo ""
 </FILE>
 
 <!-- slack15.0 preview -->
-<FILE Name="&plgPATH;/nut-2.8.4-x86_64-1master.ssl11.txz" Min="6.10" Max="6.12.99">
-<URL>&pkgURL;/nut-2.8.4-x86_64-1master.ssl11.txz</URL>
-<MD5>b2be0035defeb62db11304752e80223b</MD5>
+<FILE Name="&plgPATH;/nut-2.8.4-x86_64-2master.ssl11.txz" Min="6.10" Max="6.12.99">
+<URL>&pkgURL;/nut-2.8.4-x86_64-2master.ssl11.txz</URL>
+<MD5>3f1825a1d4f623bfca2a1a0572c1695e</MD5>
 </FILE>
 
 <!-- slack15.0 default -->
@@ -641,7 +644,7 @@ if [ -e "$CONFIG" ]; then
     source "$CONFIG"
     if [ "$BACKEND" == "preview" ]; then
         echo "Installing user-configured PREVIEW backend for NUT..."
-        upgradepkg --install-new &plgPATH;/nut-2.8.4-x86_64-1master.ssl11.txz
+        upgradepkg --install-new &plgPATH;/nut-2.8.4-x86_64-2master.ssl11.txz
     elif [ "$BACKEND" == "default" ]; then
         echo "Installing DEFAULT backend for NUT..."
         upgradepkg --install-new &plgPATH;/nut-2.8.4-x86_64-1stable.ssl11.txz
@@ -699,14 +702,14 @@ echo ""
 <MD5>b9ef68216b97cb5f0bcd9f3312e5941e</MD5>
 </FILE>
 
-<FILE Name="&plgPATH;/libmodbus-3.1.10-x86_64-2usb.txz" Min="6.13" Run="upgradepkg --install-new">
-<URL>&pkgURL;/libmodbus-3.1.10-x86_64-2usb.txz</URL>
-<MD5>63c06646d01daaa8389e885ac2f8778e</MD5>
+<FILE Name="&plgPATH;/libmodbus-3.1.11-x86_64-1nut_slack15.1.txz" Min="6.13" Run="upgradepkg --install-new">
+<URL>&pkgURL;/libmodbus-3.1.11-x86_64-1nut_slack15.1.txz</URL>
+<MD5>dc31cd937d3ad7eb7c9280121a45f9b6</MD5>
 </FILE>
 
-<FILE Name="&plgPATH;/libmodbus-3.1.10-x86_64-1usb.txz" Min="6.10" Max="6.12.99" Run="upgradepkg --install-new">
-<URL>&pkgURL;/libmodbus-3.1.10-x86_64-1usb.txz</URL>
-<MD5>b833d6ceffad69a19ac871b74be95eb3</MD5>
+<FILE Name="&plgPATH;/libmodbus-3.1.11-x86_64-1nut_slack15.0.txz" Min="6.10" Max="6.12.99" Run="upgradepkg --install-new">
+<URL>&pkgURL;/libmodbus-3.1.11-x86_64-1nut_slack15.0.txz</URL>
+<MD5>d4cdcea511875dd99e155a65688dce73</MD5>
 </FILE>
 
 <!-- plugin package -->
