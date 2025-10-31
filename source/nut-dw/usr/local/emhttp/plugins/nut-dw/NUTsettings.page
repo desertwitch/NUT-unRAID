@@ -315,8 +315,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
             <p>If NUT slaves don't appear, verify the username/password combinations, as NUT clients may display information even without a proper login (e.g., due to incorrect credentials).</p>
         </blockquote>
         <?endif;?>
-    </div>
-    <div id="SETTINGS1">
+
         <dl>
             <dt>NUT Master IP Address[:Port]:</dt>
             <dd>
@@ -328,7 +327,8 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
             <p>The IP address of the NUT master server (the UPS is connected to) to monitor.</p>
             <p>In <strong><em>Standalone</em></strong> and <strong><em>Netserver</em></strong> modes, this setting should be <strong><em>127.0.0.1</em></strong></p>
         </blockquote>
-
+    </div>
+    <div id="SETTINGS1">
         <dl>
             <dt>NUT Monitor Username:</dt>
             <dd>
