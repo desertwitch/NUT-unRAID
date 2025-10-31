@@ -279,7 +279,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
         <p><u>Note:</u> If you run into problems after changing this setting, it might be helpful to start from a fresh configuration using the <strong><em>RESET CONFIG</em></strong> feature.</p>
     </blockquote>
 
-    <div id="SETTINGS1">
+    <div id="MODEIPSETT">
         <dl>
             <dt>NUT Mode:</dt>
             <dd>
@@ -298,7 +298,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
             <p><strong><em>Slave</em></strong> - Your UPS is connected to another NUT master server and you want your UNRAID server to connect to it as a NUT slave.</p>
         </blockquote>
 
-        <?if ($nut_running && $nut_manual == "disable" && $nut_mode == "netserver"):?>
+        <?if ($nut_running && $nut_mode == "netserver"):?>
         <dl>
             <dt>
                 <strong>NUT Connected Slaves:</strong>
@@ -315,9 +315,10 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
             <p>If NUT slaves don't appear, verify the username/password combinations, as NUT clients may display information even without a proper login (e.g., due to incorrect credentials).</p>
         </blockquote>
         <?endif;?>
-
+    </div>
+    <div id="SETTINGS1">
         <dl>
-            <dt>NUT Master IP Address:</dt>
+            <dt>NUT Master IP Address[:Port]:</dt>
             <dd>
                 <input id="IPADDR" type="text" class="narrow nut-run nut-ipaddr" name="IPADDR" value="<?=$nut_ip?>">
             </dd>
@@ -1076,15 +1077,19 @@ function checkNUTsettings() {
     $('#SHUTDOWN1').hide();
     $('#SHUTDOWN2').hide();
     $('#NAMESETT').hide();
+    $('#MODEIPSETT').hide();
 
     if ($('#MANUAL').val() === 'enable') {
         $('#SETTINGS1').hide();
         $('#SETTINGS2').hide();
         $('#NAMESETT').show();
+        $('#MODEIPSETT').show();
+        $('#IPADDR').attr('readonly', false);
     } else if ($('#MANUAL').val() === 'onlyups') {
         $('#SETTINGS1').show();
         $('#SETTINGS2').show();
         $('#NAMESETT').show();
+        $('#MODEIPSETT').show();
 
         var Shutdown = $('#SHUTDOWN')[0].selectedIndex;
         for (var i = 0; i < 3; i++) {
@@ -1116,6 +1121,7 @@ function checkNUTsettings() {
         $('#SETTINGS1').show();
         $('#SETTINGS2').show();
         $('#NAMESETT').show();
+        $('#MODEIPSETT').show();
 
         var Shutdown = $('#SHUTDOWN')[0].selectedIndex;
         for (var i = 0; i < 3; i++) {
@@ -1272,7 +1278,7 @@ function hideDevMessage() {
     $('#nutdevmsg').hide();
 }
 
-<?if ($nut_running && $nut_manual == "disable" && $nut_mode == "netserver"):?>
+<?if ($nut_running && $nut_mode == "netserver"):?>
 function extractAndChainBrTags(inputString) {
     const brTags = inputString.match(/<br\s*\/?>/gi);
     if (!brTags) { return ''; }
@@ -1299,7 +1305,7 @@ $(function() {
     showStatus('upsmon');
 
     $('.nut-name').mask('ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ', {translation:  {'Z': {pattern: /[A-Za-z0-9-]/, optional: true}}});
-    $('.nut-ipaddr').mask('0ZZ.0ZZ.0ZZ.0ZZ', {translation:  {'Z': {pattern: /[0-9]/, optional: true}}});
+    $('.nut-ipaddr').mask('0ZZ.0ZZ.0ZZ.0ZZZZZZZZ', {translation:  {'Z': {pattern: /[0-9:]/, optional: true}}});
 
     $('.nut-numeric').mask('ZZZZZZZZZZZZZZZ', {translation:  {'Z': {pattern: /[0-9]/, optional: true}}});
     $('.nut-alphanumeric').mask('ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ', {translation:  {'Z': {pattern: /[A-Za-z0-9]/, optional: true}}});
@@ -1353,7 +1359,7 @@ $(function() {
     decData();
     loadDevMessage();
 
-    <?if ($nut_running && $nut_manual == "disable" && $nut_mode == "netserver"):?>
+    <?if ($nut_running && $nut_mode == "netserver"):?>
     getNUTclients();
     <?endif;?>
 

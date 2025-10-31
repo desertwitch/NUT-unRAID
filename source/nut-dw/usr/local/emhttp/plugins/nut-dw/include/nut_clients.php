@@ -22,10 +22,10 @@ require_once '/usr/local/emhttp/plugins/nut-dw/include/nut_config.php';
 $nutc_response = [];
 
 try {
-    if($nut_running && $nut_manual == "disable" && $nut_mode == "netserver") {
+    if($nut_running && $nut_mode == "netserver") {
         exec("/usr/bin/upsc -c ".escapeshellarg($nut_name)."@".escapeshellarg($nut_ip)." 2>/dev/null", $nutc_rows);
         if(!empty($nutc_rows)) {
-            $nutc_rows = array_diff($nutc_rows, ["127.0.0.1"]);
+            $nutc_rows = array_diff($nutc_rows, [explode(":", $nut_ip)[0]]);
             if(!empty($nutc_rows)) {
                 $nutc_response["success"]["response"] = "<i class='fa fa-user-circle'></i> " . implode("<br><i class='fa fa-user-circle'></i> ", array_map('htmlspecialchars', $nutc_rows));
             } else {
