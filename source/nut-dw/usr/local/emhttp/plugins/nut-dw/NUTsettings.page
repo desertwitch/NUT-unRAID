@@ -296,6 +296,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
             <p><strong><em>Standalone</em></strong> - Your UPS is connected to your UNRAID server and no external (slave) connections to NUT will be possible.</p>
             <p><strong><em>Netserver</em></strong> - Your UPS is connected to your UNRAID server and external (slave) connections to NUT will be possible.</p>
             <p><strong><em>Slave</em></strong> - Your UPS is connected to another NUT master server and you want your UNRAID server to connect to it as a NUT slave.</p>
+            <p>In <strong><em>manual configuration</em></strong> mode, this setting controls which services of the NUT ecosystem are started alongside your configuration.</p>
         </blockquote>
 
         <?if ($nut_running && $nut_mode == "netserver"):?>
@@ -326,6 +327,7 @@ if (file_exists('/usr/local/emhttp/plugins/nut-dw/misc/start-failed')) {
         <blockquote class="inline_help">
             <p>The IP address of the NUT master server (the UPS is connected to) to monitor.</p>
             <p>In <strong><em>Standalone</em></strong> and <strong><em>Netserver</em></strong> modes, this setting should be <strong><em>127.0.0.1</em></strong></p>
+            <p>In <strong><em>manual configuration</em></strong> mode, this setting controls which NUT master server the GUI dashboards will show information for.</p>
         </blockquote>
     </div>
     <div id="SETTINGS1">
