@@ -32,7 +32,7 @@ try {
     $all    = $_GET['all']=='true';
 
     if ($nut_running) {
-        exec("/usr/bin/upsc ".escapeshellarg($nut_name)."@".escapeshellarg($nut_ip)." 2>/dev/null", $rows);
+        $rows = nut_status_rows($nut_name, $nut_ip);
 
         if (isset($_GET['diagsave']) && $_GET['diagsave'] == "true") {
             $diagarray = $rows;

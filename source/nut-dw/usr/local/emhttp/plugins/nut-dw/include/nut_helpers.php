@@ -18,6 +18,67 @@
  *
  */
 
+function nut_status_rows($name, $ip) {
+    $rows = [];
+    $status = 1;
+
+    $cmd = '/usr/bin/upsc '
+        . escapeshellarg($name) . '@' . escapeshellarg($ip) . ' 2>/dev/null';
+
+    exec($cmd, $rows, $status);
+
+    if ($status === 0 && !empty($rows)) {
+        return $rows;
+    }
+
+    // Fallback for broken NUT protocol implementations
+    // Try to get a number of known important variables one by one...
+    $vars = [
+        'battery.charge',
+        'battery.low',
+        'battery.runtime',
+        'battery.voltage',
+        'input.frequency',
+        'input.transfer.high',
+        'input.transfer.low',
+        'input.voltage.nominal',
+        'input.voltage',
+        'output.current',
+        'output.frequency',
+        'output.power.nominal',
+        'output.power',
+        'output.voltage',
+        'ups.id',
+        'ups.load',
+        'ups.mfr',
+        'ups.model',
+        'ups.serial',
+        'ups.status',
+        'ups.test.date',
+        'ups.test.interval',
+        'ups.test.result',
+        'ups.type',
+    ];
+
+    $rows = [];
+    foreach ($vars as $var) {
+        $out = [];
+        $code = 1;
+
+        $cmd = '/usr/bin/upsc '
+             . escapeshellarg($name) . '@' . escapeshellarg($ip) . ' '
+             . escapeshellarg($var) . ' 2>/dev/null';
+
+        exec($cmd, $out, $code);
+
+        if ($code === 0 && isset($out[0]) && $out[0] !== '') {
+            $rows[] = $var . ': ' . $out[0];
+        }
+    }
+
+    return $rows;
+}
+
 /* get options for battery level */
 function nut_get_battery_options($selected=20){
     $range = [1,99];

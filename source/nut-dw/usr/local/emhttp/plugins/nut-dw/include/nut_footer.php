@@ -32,7 +32,7 @@ function nut_get_ups($name, $ip="127.0.0.1")
 {
     $output = [];
     $alarm = 0;
-    exec("/usr/bin/upsc ".escapeshellarg($name)."@".escapeshellarg($ip)." 2>/dev/null", $rows);
+    $rows = nut_status_rows($name, $ip);
     for ($i=0; $i<count($rows); $i++) {
         $row = array_map('trim', explode(':', $rows[$i], 2));
         $prop = $row[0];
