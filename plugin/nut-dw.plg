@@ -23,7 +23,7 @@
 - new: mitigation for protocol issues with UniFi UPS devices (fallback mode)
 - new: always show NUT mode and IP settings regardless of mode (for GUI configuration)
 - fix: raise the timeout on debug package generation to account for longer IO-caused delays
-- note: UniFi NUT may need auth disabled, IP:Port and random credentials on Unraid side (some users reported)
+- note: UniFi NUT may need auth disabled, IP:Port and any credentials on Unraid side (some users reported)
 ###2025.09.07
 - new: preview backend updated to nut master 009fbbd
 - new: libmodbus updated to release v3.1.11+rtu_usb-NUTv2.8.4
