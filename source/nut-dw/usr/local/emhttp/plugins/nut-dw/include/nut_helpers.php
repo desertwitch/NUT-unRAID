@@ -76,6 +76,10 @@ function nut_status_rows($name, $ip) {
         }
     }
 
+    if(!empty($rows)) {
+        $rows[] = "x.plugin.varfetch: fallback";
+    }
+
     return $rows;
 }
 
