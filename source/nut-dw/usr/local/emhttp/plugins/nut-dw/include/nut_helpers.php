@@ -34,24 +34,27 @@ function nut_status_rows($name, $ip) {
     // Fallback for broken NUT protocol implementations
     // Try to get a number of known important variables one by one...
     $vars = [
+        'battery.charge.low',
         'battery.charge',
-        'battery.low',
+        'battery.low', // according to user reports for UniFi UPS
         'battery.runtime',
         'battery.voltage',
+        'input.current',
         'input.frequency',
-        'input.transfer.high',
-        'input.transfer.low',
-        'input.voltage.nominal',
         'input.voltage',
         'output.current',
         'output.frequency',
-        'output.power.nominal',
-        'output.power',
+        'output.power.nominal', // according to user reports for UniFi UPS
+        'output.power', // according to user reports for UniFi UPS
         'output.voltage',
         'ups.id',
         'ups.load',
         'ups.mfr',
         'ups.model',
+        'ups.power.nominal',
+        'ups.power',
+        'ups.realpower.nominal',
+        'ups.realpower',
         'ups.serial',
         'ups.status',
         'ups.test.date',
