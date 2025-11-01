@@ -18,6 +18,10 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
+###2025.11.01
+- new: allow a port to be added to IP address in manual and slave modes
+- new: mitigation for protocol issues with UniFi UPS devices (fallback mode)
+- new: always show NUT mode and IP settings regardless of mode (for GUI configuration)
 ###2025.09.07
 - new: preview backend updated to nut master 009fbbd
 - new: libmodbus updated to release v3.1.11+rtu_usb-NUTv2.8.4
