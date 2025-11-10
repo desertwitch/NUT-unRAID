@@ -3,7 +3,7 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "nut-dw">
 <!ENTITY author    "desertwitch">
-<!ENTITY version   "2025.11.01b">
+<!ENTITY version   "2025.11.10">
 <!ENTITY launch    "Settings/NUTsettings">
 <!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/master">
 <!ENTITY pluginURL "&gitURL;/plugin/&name;.plg">
@@ -18,6 +18,8 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
+###2025.11.10
+- new: preview backend updated to nut master f8ecd52
 ###2025.11.01b
 - new: allow a port to be added to IP address in manual and slave modes
 - new: mitigation for protocol issues with UniFi UPS devices (fallback mode)
