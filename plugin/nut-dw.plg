@@ -560,9 +560,9 @@ exit 0
 </FILE>
 
 <!-- slack15.1 default -->
-<FILE Name="&plgPATH;/nut-2.8.4-x86_64-1stable.ssl31.txz" Min="6.13">
-<URL>&pkgURL;/nut-2.8.4-x86_64-1stable.ssl31.txz</URL>
-<MD5>4b04534067a073aa958376ecb2a78fd2</MD5>
+<FILE Name="&plgPATH;/nut-2.8.5-x86_64-1stable.ssl31.txz" Min="6.13">
+<URL>&pkgURL;/nut-2.8.5-x86_64-1stable.ssl31.txz</URL>
+<MD5>59a93b0f7653d23e4323c2261b1f1429</MD5>
 </FILE>
 
 <!-- slack15.1 previous -->
@@ -594,7 +594,7 @@ if [ -e "$CONFIG" ]; then
         upgradepkg --install-new &plgPATH;/nut-2.8.5-x86_64-1master.ssl31.txz
     elif [ "$BACKEND" == "default" ]; then
         echo "Installing DEFAULT backend for NUT..."
-        upgradepkg --install-new &plgPATH;/nut-2.8.4-x86_64-1stable.ssl31.txz
+        upgradepkg --install-new &plgPATH;/nut-2.8.5-x86_64-1stable.ssl31.txz
     elif [ "$BACKEND" == "previous" ]; then
         echo "Installing user-configured PREVIOUS backend for NUT..."
         upgradepkg --install-new &plgPATH;/nut-2.8.3-x86_64-2stable.ssl31.txz
@@ -606,11 +606,11 @@ if [ -e "$CONFIG" ]; then
         upgradepkg --install-new &plgPATH;/nut-2.7.4.20200318-x86_64-1.txz
     else
         echo "Installing DEFAULT backend for NUT..."
-        upgradepkg --install-new &plgPATH;/nut-2.8.4-x86_64-1stable.ssl31.txz
+        upgradepkg --install-new &plgPATH;/nut-2.8.5-x86_64-1stable.ssl31.txz
     fi
 else
     echo "Installing DEFAULT backend for NUT..."
-    upgradepkg --install-new &plgPATH;/nut-2.8.4-x86_64-1stable.ssl31.txz
+    upgradepkg --install-new &plgPATH;/nut-2.8.5-x86_64-1stable.ssl31.txz
 fi
 echo ""
 </INLINE>
