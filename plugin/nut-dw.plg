@@ -18,6 +18,15 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
+###2026.04.13
+- new: preview backend updated (to nut master 0e051f9)
+- new: default backend updated (nut 2.8.4 to nut 2.8.5)
+- new: previous backend updated (nut 2.8.3 to nut 2.8.4)
+- new: release backend updated (nut 2.8.2 to nut 2.8.3)
+- default backend: "default" users wishing to stay on 2.8.4 should switch to "previous" before updating,
+- default backend: for this you just set the backend setting to "previous" and then update (no reinstall/reboot).
+- other backends: if you want to stay on your current version, switch to respective older backend before updating,
+- other backends: only exception being the "release" branch where nut 2.8.2 is now deprecated and no longer offered.
 ###2025.12.21
 - fix: allow negative values for some fields in GUI
 ###2025.11.10
