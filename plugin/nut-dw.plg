@@ -18,6 +18,8 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
+###2026.06.18
+- fix: UPS not turning off in newer OS versions
 ###2026.04.13
 - new: preview backend updated (to nut master 0e051f9)
 - new: default backend updated (nut 2.8.4 to nut 2.8.5)
