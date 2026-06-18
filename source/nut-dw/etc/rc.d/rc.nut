@@ -308,12 +308,28 @@ write_config() {
     # Link shutdown scripts for poweroff in rc.6
     if [ "$( grep -ic "/etc/rc.d/rc.nut restart_udev" /etc/rc.d/rc.6 )" -eq 0 ]; then
         echo "Adding UDEV lines to rc.6 for NUT..."
-        sed -i '/\/bin\/mount -v -n -o remount,ro \//a [ -x /etc/rc.d/rc.nut ] && /etc/rc.d/rc.nut restart_udev' /etc/rc.d/rc.6
+        awk '
+        /remount,ro/ { last=NR }
+        { lines[NR]=$0 }
+        END {
+            for (i=1; i<=NR; i++) {
+                print lines[i]
+                if (i==last) print "[ -x /etc/rc.d/rc.nut ] && /etc/rc.d/rc.nut restart_udev"
+            }
+        }' /etc/rc.d/rc.6 > /etc/rc.d/rc.6.new && cat /etc/rc.d/rc.6.new > /etc/rc.d/rc.6 && rm -f /etc/rc.d/rc.6.new
     fi
 
     if [ "$( grep -ic "/etc/rc.d/rc.nut shutdown" /etc/rc.d/rc.6 )" -eq 0 ]; then
         echo "Adding UPS shutdown lines to rc.6 for NUT..."
-         sed -i '/# Now halt /a [ -x /etc/rc.d/rc.nut ] && /etc/rc.d/rc.nut shutdown' /etc/rc.d/rc.6
+        awk '
+        /# Now halt/ { last=NR }
+        { lines[NR]=$0 }
+        END {
+            for (i=1; i<=NR; i++) {
+                print lines[i]
+                if (i==last) print "[ -x /etc/rc.d/rc.nut ] && /etc/rc.d/rc.nut shutdown"
+            }
+        }' /etc/rc.d/rc.6 > /etc/rc.d/rc.6.new && cat /etc/rc.d/rc.6.new > /etc/rc.d/rc.6 && rm -f /etc/rc.d/rc.6.new
     fi
 
     RESTARTSYSLOG="NO"
