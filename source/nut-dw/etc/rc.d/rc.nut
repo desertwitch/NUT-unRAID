@@ -272,8 +272,10 @@ write_config() {
             var22="password = ${SLAVEPASS}"
             sed -i "6 s,.*,$var18," /etc/nut/upsd.users
             sed -i "7 s,.*,$var19," /etc/nut/upsd.users
+            sed -i "8 s,.*,upsmon master," /etc/nut/upsd.users
             sed -i "9 s,.*,$var21," /etc/nut/upsd.users
             sed -i "10 s,.*,$var22," /etc/nut/upsd.users
+            sed -i "11 s,.*,upsmon slave," /etc/nut/upsd.users
         fi
     fi
 
