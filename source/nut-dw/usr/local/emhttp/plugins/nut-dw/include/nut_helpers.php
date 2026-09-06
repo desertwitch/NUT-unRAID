@@ -18,6 +18,10 @@
  *
  */
 
+function nut_dev_message_text($message) {
+    return trim(html_entity_decode(strip_tags((string)$message), ENT_QUOTES | ENT_HTML5, 'UTF-8'));
+}
+
 function nut_status_rows($name, $ip) {
     $rows = [];
     $status = 1;

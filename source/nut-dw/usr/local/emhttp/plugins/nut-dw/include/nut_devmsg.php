@@ -23,7 +23,7 @@ $devmsg = nut_get_dev_message() ?? false;
 $devret = [];
 
 if($devmsg) {
-    $devret["html"] = $devmsg;
+    $devret["text"] = nut_dev_message_text($devmsg);
     $devret["md5"] = md5($devmsg);
     echo(json_encode($devret));
 }

@@ -1258,8 +1258,8 @@ function USBDiagnostics() {
 
 function loadDevMessage() {
     $.get('/plugins/nut-dw/include/nut_devmsg.php', function (data) {
-        if(data && data.html && data.md5) {
-            $('#nutdevmsg0').html(data.html);
+        if(data && data.text && data.md5) {
+            $('#nutdevmsg0').text(data.text);
             $('#nutdevmsg0').attr("data-md5", data.md5);
             if ($.cookie('nutdevmsg')!==undefined) {
                 var msgMD5 = data.md5;
