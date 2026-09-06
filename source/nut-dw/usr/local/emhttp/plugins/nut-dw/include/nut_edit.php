@@ -17,11 +17,12 @@
  * included in all copies or substantial portions of the Software.
  *
  */
-$base = '/etc/nut/';
-$file = realpath($_GET['editfile']);
+require_once __DIR__ . '/nut_paths.php';
+
+$file = nut_resolve_config_file($_GET['editfile'] ?? null);
 $editfile = 'Invalid File';
 
-if(file_exists($file)) {
+if($file !== false) {
     $editfile = file_get_contents($file);
 }
 echo json_encode($editfile);

@@ -17,36 +17,34 @@
  * included in all copies or substantial portions of the Software.
  *
  */
-$base     = '/etc/nut/';
-$plgpath  = '/boot/config/plugins/nut-dw/ups/';
-$editfile = realpath($_POST['editfile']);
-$plgfile  = $plgpath.basename($editfile);
+require_once __DIR__ . '/nut_paths.php';
 
-if (file_exists($editfile) && array_key_exists('editdata', $_POST)) {
+$plgpath  = '/boot/config/plugins/nut-dw/ups/';
+$editfile = nut_resolve_config_file($_POST['editfile'] ?? null);
+$return_var = false;
+
+if ($editfile !== false && array_key_exists('editdata', $_POST)) {
     // remove carriage returns
     $editdata = str_replace("\r", '', $_POST['editdata']);
+    $plgfile = $plgpath . basename($editfile);
 
     // create directory on flash drive if missing (shouldn't happen)
     if (!is_dir($plgpath)) {
-        mkdir($plgpath);
+        mkdir($plgpath, 0755, true);
     }
 
     // save conf file to flash drive regardless of mode
-    file_put_contents($plgfile, $editdata);
+    $flash_saved = file_put_contents($plgfile, $editdata);
 
     // save conf file to local system as well
-    file_put_contents($editfile, $editdata);
-
-    // save file contents
-    $return_var = file_put_contents($editfile, $editdata);
-} else {
-    $return_var = false;
+    $config_saved = file_put_contents($editfile, $editdata);
+    $return_var = $flash_saved !== false && $config_saved !== false;
 }
 
-if($return_var) {
+if($return_var !== false) {
     $return = ['success' => true, 'saved' => $editfile];
 } else {
-    $return = ['error' => $editfile];
+    $return = ['error' => $editfile ?: 'Invalid File'];
 }
 
 echo json_encode($return);
