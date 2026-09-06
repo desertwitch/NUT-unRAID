@@ -168,6 +168,25 @@ backup_logs() {
     fi
 }
 
+set_upsd_listener() {
+    local mode="$1"
+    local config="${2:-/etc/nut/upsd.conf}"
+    local listener
+
+    if [ "$mode" == "netserver" ]; then
+        listener="LISTEN 0.0.0.0 3493"
+    else
+        listener="LISTEN 127.0.0.1 3493"
+    fi
+
+    sed -i '/^[[:space:]]*LISTEN[[:space:]]/Id' "$config"
+    if [ -s "$config" ]; then
+        sed -i "1i ${listener}" "$config"
+    else
+        printf '%s\n' "$listener" > "$config"
+    fi
+}
+
 write_config() {
     echo "Writing NUT configuration..."
 
@@ -229,6 +248,8 @@ write_config() {
 
         # add mode standalone/netserver
         sed -i "1 s/.*/MODE = ${MODE}/" /etc/nut/nut.conf
+
+        set_upsd_listener "$MODE"
 
         # Set monitor ip address, user, password and mode
         if [ "$MODE" == "slave" ]; then
@@ -472,6 +493,10 @@ write_config() {
     # NUT Runtime Statistics Module
     /etc/rc.d/rc.nutstats check
 }
+
+if [[ "${BASH_SOURCE[0]}" != "$0" ]]; then
+    return 0
+fi
 
 case "$1" in
     shutdown) # shuts down the UPS driver
