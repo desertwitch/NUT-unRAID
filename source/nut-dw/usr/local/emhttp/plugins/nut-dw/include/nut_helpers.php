@@ -18,6 +18,14 @@
  *
  */
 
+function nut_html($value) {
+    return htmlspecialchars((string)$value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+}
+
+function nut_tooltip_html($value) {
+    return nut_html(nut_html($value));
+}
+
 function nut_status_rows($name, $ip) {
     $rows = [];
     $status = 1;

@@ -98,7 +98,7 @@ try {
         if (count($ups_alarm)) {
             $alarms = "<b>NUT Active UPS Alarm(s):</b>";
             foreach ($ups_alarm as $al) {
-                $alarms .= "<br>- ".$ups_status[$al];
+                $alarms .= "<br>- " . nut_tooltip_html($ups_status[$al]);
             }
             $status[0] = "<span id='nut_alarm' class='tooltip-nut $red' data=\"$alarms\"><i class='fa fa-bell faa-ring animated'></i></span>";
         }
@@ -136,7 +136,7 @@ try {
             $online['fulltext'][] = 'Battery status unknown';
         }
 
-        $statusTooltipData = ' data="<b>NUT Device Status:</b><br>[' . $nut_name . '] ' . implode(' - ', $online['fulltext']) . '"';
+        $statusTooltipData = ' data="<b>NUT Device Status:</b><br>[' . nut_html($nut_name) . '] ' . implode(' - ', array_map('nut_tooltip_html', $online['fulltext'])) . '"';
 
         $status[1] = "<span id='" . ($nut_footer_style == 0 ? "nut_battery" : "") . "' class='".($nut_footer_style == 0 || $online['severity'] > 0 ? "tooltip-nut" : "")." " . $css_class . "'" . $statusTooltipData . "><i class='fa " . $fa_icon . "' style='vertical-align: baseline;'></i>&thinsp;" . $batteryText . "</span>";
 
@@ -177,7 +177,7 @@ try {
             $powerTooltipData = "Load: $load&thinsp;%";
         }
 
-        $powerTooltipData = " data='<b>NUT Power Metrics:</b><br>[{$nut_name}] " . $powerTooltipData . "'";
+        $powerTooltipData = " data='<b>NUT Power Metrics:</b><br>[" . nut_html($nut_name) . "] " . $powerTooltipData . "'";
 
         # show connected clients in netserver mode
         if ($nut_mode == "netserver" && $nut_footer_conns !== "disable") {
@@ -187,7 +187,7 @@ try {
                     $nutc_rows = array_diff($nutc_rows, [explode(":", $nut_ip)[0]]);
                     $nutc_count = count($nutc_rows);
                     if(!empty($nutc_rows)) {
-                        $status[3] = "<span id='nut_clients' class='tooltip-nut ".($nut_footer_style == 0 ? "$green" : "$black")."' data=\"<b>NUT Connected Slaves:</b><br>- ".implode("<br>- ",array_map('htmlspecialchars', $nutc_rows))."\"><i class='fa fa-user-circle'></i>&thinsp;$nutc_count</span>";
+                        $status[3] = "<span id='nut_clients' class='tooltip-nut ".($nut_footer_style == 0 ? "$green" : "$black")."' data=\"<b>NUT Connected Slaves:</b><br>- ".implode("<br>- ",array_map('nut_tooltip_html', $nutc_rows))."\"><i class='fa fa-user-circle'></i>&thinsp;$nutc_count</span>";
                     } else {
                         $status[3] = "<span id='nut_clients' class='tooltip-nut ".($nut_footer_style == 0 ? "$green" : "$black")."' data=\"<b>NUT Connected Slaves:</b><br>(No Active Connections)\"><i class='fa fa-user-circle'></i>&thinsp;$nutc_count</span>";
                     }
@@ -214,7 +214,7 @@ try {
 
         $nutf_response["success"]["response"] = "<span style='margin:0 6px 0 6px'><span>".implode('</span><span style="margin:0 0 0 6px">', $status)."</span></span>";
     } else {
-        $nutf_response["success"]["response"] =  "<span style='margin:0 0px 0 6px' id='nut_power' class='".($nut_footer_style == 0 ? "tooltip-nut" : "")."' data='$nut_name: UPS info not availabe, check your settings'><i class='fa fa-battery-empty'></i>&nbsp;n/a</span>";
+        $nutf_response["success"]["response"] =  "<span style='margin:0 0px 0 6px' id='nut_power' class='".($nut_footer_style == 0 ? "tooltip-nut" : "")."' data='" . nut_html($nut_name) . ": UPS info not availabe, check your settings'><i class='fa fa-battery-empty'></i>&nbsp;n/a</span>";
     }
 }
 catch (\Throwable $t) {

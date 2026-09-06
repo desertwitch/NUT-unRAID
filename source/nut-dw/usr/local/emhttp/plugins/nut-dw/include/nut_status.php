@@ -55,7 +55,7 @@ try {
             $arow = array_map('trim', explode(':', $rows[$z], 2));
             $aprop = $arow[0];
             if (stripos($aprop, "ups.alarm")!== false) {
-                $nuts_response["success"]["alarms"][] = htmlspecialchars($arow[1]);
+                $nuts_response["success"]["alarms"][] = nut_html($arow[1]);
             }
         }
 
@@ -74,7 +74,7 @@ try {
             if (file_exists($descriptorFilePath) && $descriptorFileHandle = fopen($descriptorFilePath, 'r')) {
                 while (($descriptorFileLine = fgets($descriptorFileHandle)) !== false) {
                     if (preg_match('/^VARDESC\s+([a-zA-Z0-9_.]+)\s+"([^"]+)"$/', trim($descriptorFileLine), $descriptorRegexMatches)) {
-                        $descriptorMapping[$descriptorRegexMatches[1]] = htmlspecialchars($descriptorRegexMatches[2]);
+                        $descriptorMapping[$descriptorRegexMatches[1]] = nut_html($descriptorRegexMatches[2]);
                     }
                 }
                 fclose($descriptorFileHandle);
@@ -93,7 +93,7 @@ try {
             switch ($key) {
                 case 'ups.status':
                     if ($upsStatus['fulltext']) {
-                        $status[0] = '<td' . (isset($nut_msgSeverity[$upsStatus['severity']]) ? ' class="' . $nut_msgSeverity[$upsStatus['severity']]['css_class'] . '"' : '') . '>' . implode(' - ', $upsStatus['fulltext']) . '</td>';
+                        $status[0] = '<td' . (isset($nut_msgSeverity[$upsStatus['severity']]) ? ' class="' . $nut_msgSeverity[$upsStatus['severity']]['css_class'] . '"' : '') . '>' . implode(' - ', array_map('nut_html', $upsStatus['fulltext'])) . '</td>';
                     } else {
                         $status[0] = '<td class="' . $nut_msgSeverity[1]['css_class'] . '">Refreshing...</td>';
                     }
@@ -133,9 +133,9 @@ try {
                 if ($i%2==0) $result[] = "<tr>";
 
                 if(isset($descriptorMapping[$key])) {
-                    $result[]= "<td><span class='tooltip-nutvar' style='cursor:help;' title='$descriptorMapping[$key]'><strong>$key</strong></span></td><td>$val</td>";
+                    $result[]= "<td><span class='tooltip-nutvar' style='cursor:help;' title='$descriptorMapping[$key]'><strong>" . nut_html($key) . "</strong></span></td><td>" . nut_html($val) . "</td>";
                 } else {
-                    $result[]= "<td><strong>$key</strong></td><td>$val</td>";
+                    $result[]= "<td><strong>" . nut_html($key) . "</strong></td><td>" . nut_html($val) . "</td>";
                 }
 
                 if ($i%2==1) $result[] = "</tr>";
