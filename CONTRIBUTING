@@ -1,0 +1,29 @@
+Contributions directly through GitHub are turned off for this repository. This
+is necessary due to an increasing number of AI-driven issues and pull requests.
+Please understand that as a human with limited time, I simply cannot be expected
+to wade through these walls of text for what turned out to be mostly non-issues.
+
+If you are a human and want to invest your valuable time reporting issues, or
+even contributing code, I would be delighted to hear from you over e-mail at:
+
+  dezertwitsh@gmail.com
+
+If you would like to submit a patch right away, do use the same e-mail address.
+
+Patches should be based on the "main" or "master" branch of this repository and
+formatted with "git format-patch". Send them either with "git send-email" or as
+a plain .patch file attachment - please do not paste the patch into a webmail
+composer as it will be corrupted.
+
+If you have never formatted or sent a patch before, this guide can help you:
+
+  https://git-scm.com/book/en/v2/Distributed-Git-Contributing-to-a-Project#_project_over_email
+
+While this process may seem archaic to you, it is the only way that is
+respectful towards all of the time invested from both the contributor's and
+maintainer's perspective.
+
+If you need support in using the provided software, you are also invited to
+write to me over e-mail or use any other provided channels of communication.
+
+Thank you for your understanding, I am looking forward to hearing from you.
