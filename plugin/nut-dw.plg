@@ -3,7 +3,7 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "nut-dw">
 <!ENTITY author    "desertwitch">
-<!ENTITY version   "2026.06.18">
+<!ENTITY version   "2026.10.06">
 <!ENTITY launch    "Settings/NUTsettings">
 <!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/NUT-unRAID/master">
 <!ENTITY pluginURL "&gitURL;/plugin/&name;.plg">
@@ -18,6 +18,9 @@
 
 <CHANGES>
 ## Network UPS Tools (NUT) for UNRAID
+MAINTENANCE MODE: With Unraid approaching its transition to Fedora, this package is now moving into maintenance mode. Existing installs will continue to work as they do today, and fixes will be provided on a best-effort basis to keep core functionality running. New features aren't planned, and the UI may not always display perfectly if future Unraid versions should change their layout. If a future Unraid release introduces a breaking change, the maximum supported version will be set at that point to help avoid broken installs, which would likely mark the end of support for this plugin. Thank you for your understanding and continued support.
+###2026.10.06
+- announce maintenance mode (no functional changes)
 ###2026.06.18
 - fix: UPS not turning off in newer OS versions
 ###2026.04.13
