@@ -92,7 +92,7 @@ require_once '/usr/local/emhttp/plugins/nut-dw/include/nut_config.php';
                 $nut_cmds_retarr = [];
                 $nut_cmds_retval = -1;
 
-                exec("upscmd -l " . escapeshellarg($nut_name) . "@" . escapeshellarg($nut_ip) . " 2>/dev/null", $nut_cmds_retarr, $nut_cmds_retval);
+                exec(NUT_CLIENT_TIMEOUT . "/usr/bin/upscmd -l " . escapeshellarg($nut_name) . "@" . escapeshellarg($nut_ip) . " 2>/dev/null", $nut_cmds_retarr, $nut_cmds_retval);
 
                 if($nut_cmds_retval === 0 && !empty($nut_cmds_retarr)) {
                     $nut_cmds_matches = [];

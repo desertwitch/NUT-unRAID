@@ -18,17 +18,50 @@
  *
  */
 
+/* Hard upper bound for upsc/upscmd calls, as a backstop in case a call
+ * stalls past the client library's own connect timeout. */
+const NUT_CLIENT_TIMEOUT = '/usr/bin/timeout -k 2 15 ';
+
+/* Run upsc with the given (already escaped) arguments. Returns the exit
+ * code, fills $out with the stdout lines and tells whether upsd itself
+ * could not be reached (as opposed to it answering with an error). */
+function nut_upsc($args, &$out, &$unreachable) {
+    $out = [];
+    $unreachable = false;
+
+    $proc = proc_open(NUT_CLIENT_TIMEOUT . '/usr/bin/upsc ' . $args, [1 => ['pipe', 'w'], 2 => ['pipe', 'w']], $pipes);
+    if (!is_resource($proc)) {
+        return 1;
+    }
+
+    $stdout = stream_get_contents($pipes[1]);
+    $stderr = stream_get_contents($pipes[2]);
+    fclose($pipes[1]);
+    fclose($pipes[2]);
+    $code = proc_close($proc);
+
+    if ($stdout !== false && $stdout !== '') {
+        $out = explode("\n", rtrim($stdout, "\n"));
+    }
+    $unreachable = ($code === 124 || $code === 137 || stripos((string) $stderr, 'Connection failure') !== false);
+
+    return $code;
+}
+
 function nut_status_rows($name, $ip) {
-    $rows = [];
-    $status = 1;
+    $ups = escapeshellarg($name) . '@' . escapeshellarg($ip);
 
-    $cmd = '/usr/bin/upsc '
-        . escapeshellarg($name) . '@' . escapeshellarg($ip) . ' 2>/dev/null';
-
-    exec($cmd, $rows, $status);
+    $status = nut_upsc($ups, $rows, $unreachable);
 
     if ($status === 0 && !empty($rows)) {
         return $rows;
+    }
+
+    // The fallback below is for an upsd that answers but cannot list all
+    // variables. If upsd is not reachable at all, every one of those queries
+    // would wait for the same connect timeout, so give up right away.
+    if ($unreachable) {
+        return [];
     }
 
     // Fallback for broken NUT protocol implementations
@@ -65,14 +98,11 @@ function nut_status_rows($name, $ip) {
 
     $rows = [];
     foreach ($vars as $var) {
-        $out = [];
-        $code = 1;
+        $code = nut_upsc($ups . ' ' . escapeshellarg($var), $out, $unreachable);
 
-        $cmd = '/usr/bin/upsc '
-             . escapeshellarg($name) . '@' . escapeshellarg($ip) . ' '
-             . escapeshellarg($var) . ' 2>/dev/null';
-
-        exec($cmd, $out, $code);
+        if ($unreachable) {
+            break;
+        }
 
         if ($code === 0 && isset($out[0]) && $out[0] !== '') {
             $rows[] = $var . ': ' . $out[0];

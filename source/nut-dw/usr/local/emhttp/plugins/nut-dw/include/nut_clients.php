@@ -23,7 +23,7 @@ $nutc_response = [];
 
 try {
     if($nut_running && $nut_mode == "netserver") {
-        exec("/usr/bin/upsc -c ".escapeshellarg($nut_name)."@".escapeshellarg($nut_ip)." 2>/dev/null", $nutc_rows);
+        exec(NUT_CLIENT_TIMEOUT . "/usr/bin/upsc -c ".escapeshellarg($nut_name)."@".escapeshellarg($nut_ip)." 2>/dev/null", $nutc_rows);
         if(!empty($nutc_rows)) {
             $nutc_rows = array_diff($nutc_rows, [explode(":", $nut_ip)[0]]);
             if(!empty($nutc_rows)) {
